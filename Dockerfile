@@ -1,7 +1,4 @@
 FROM ruby:2.7.6-bullseye
-WORKDIR /wan_family
-COPY Gemfile /wan_family/Gemfile
-COPY Gemfile.lock /wan_family/Gemfile.lock
 
 RUN apt-get update -qq \
   && apt-get install -y \
@@ -15,17 +12,23 @@ RUN apt-get update -qq \
   && apt-get remove -y \
     libmariadb3 \
     mariadb-common \
-  && apt-get install -y --allow-unauthenticated \
+  && apt-get install -y --no-install-recommends \
     libmysqlclient-dev \
     mysql-client \
     nodejs \
     yarn \
     zip \
-  && apt-get clean
+  && apt-get clean \
 
-RUN gem install rails -v 6.1.6
+RUN mkdir /wan_family
+WORKDIR /wan_family
+COPY Gemfile /wan_family/Gemfile
+COPY Gemfile.lock /wan_family/Gemfile.lock
+
 COPY docker-entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
+COPY . /wan_family
+EXPOSE 3000
 
-# COPY . /wan_family
+CMD ["rails", "server", "-b", "0.0.0.0"]

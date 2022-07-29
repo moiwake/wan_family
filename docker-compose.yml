@@ -32,18 +32,10 @@ services:
       - .:/wan_family
       - /wan_family/log
       - /wan_family/tmp
+      - /wan_family/.git
       - vendor_bundle:/wan_family/vendor/bundle
       - node_modules:/wan_family/node_modules
       - storage:/wan_family/storage
     tty: true
     stdin_open: true
     command: bundle exec rails server -b 0.0.0.0
-
-    # volumes:
-    #   - .:/wan_family
-      # https://qiita.com/shotat/items/57d049793605ffc20135
-      # ホストからマウントする必要のないディレクトリを別のvolumeでマウントを上書き
-
-    # networksを設定してネットワークを共有することで、複数のdocker-compose間での接続が可能になる
-    # networks:
-    #   - default
