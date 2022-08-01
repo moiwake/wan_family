@@ -1,0 +1,23 @@
+inherit_from:
+  - .rubocop_airbnb.yml
+  - .rubocop_todo.yml
+
+require:
+  - rubocop-rails
+
+LineLength:
+  Max: 180
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - "node_modules/**/*"
+    - "vendor/**/*"
+    - "db/samples/**/*"
+    - "db/schema.rb"
+    - "db/migrate/*"
+    - "bin/*"
+
+# 日本語のコメントOK
+Style/AsciiComments:
+  Enabled: false
