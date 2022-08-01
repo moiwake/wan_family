@@ -33,5 +33,4 @@ module WanFamily
     config.generators.javascripts    = false
     config.generators.helper         = false
   end
-  end
 end
