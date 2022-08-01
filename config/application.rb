@@ -16,7 +16,22 @@ module WanFamily
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    # config.time_zone = "Central Time (US & Canada)"
+    config.time_zone = "Tokyo"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.generators do |g|
+      g.test_framework :rspec,
+        fixtures: true,
+        view_specs: false,
+        helper_specs: false,
+        routing_specs: false,
+        request_specs: false
+    end
+
+    config.generators.system_tests   = false
+    config.generators.stylesheets    = false
+    config.generators.javascripts    = false
+    config.generators.helper         = false
+  end
   end
 end
