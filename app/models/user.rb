@@ -9,6 +9,4 @@ class User < ApplicationRecord
                                  message: 'パスワードには英字と数字の両方を含めて設定してください', if: :password_required?
 
   validates :user_name, presence: true, uniqueness: true
-  validates :email, presence: true, uniqueness: true
-  validates :password, presence: true, length: { minimum: 6 }
 end
