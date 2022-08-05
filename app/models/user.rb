@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i.freeze
   validates_format_of :password, with: PASSWORD_REGEX,
-                                 message: 'パスワードには英字と数字の両方を含めて設定してください', if: :password_required?
+                                 message: 'は英字と数字の両方を含めて設定してください', if: :password_required?
 
   validates :user_name, presence: true, uniqueness: true
 end

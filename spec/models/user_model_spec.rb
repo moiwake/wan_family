@@ -99,14 +99,14 @@ RSpec.describe User, type: :model do
 
     context "英字のみのとき" do
       let(:invalid_user) { build(:user, password: "abcdef") }
-      let(:message) { "パスワードには英字と数字の両方を含めて設定してください" }
+      let(:message) { "には英字と数字の両方を含めて設定してください" }
 
       it_behaves_like "validation error message"
     end
 
     context "数字のみのとき" do
       let(:invalid_user) { build(:user, password: "012345") }
-      let(:message) { "パスワードには英字と数字の両方を含めて設定してください" }
+      let(:message) { "は英字と数字の両方を含めて設定してください" }
 
       it_behaves_like "validation error message"
     end
