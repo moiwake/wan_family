@@ -3,6 +3,7 @@ FactoryBot.define do
     user_name { "pochi" }
     email { "pochi@email.com" }
     password { "abc012" }
+    password_confirmation { "abc012" }
 
     trait :duplicate_user_name do
       user_name { "pochi" }
