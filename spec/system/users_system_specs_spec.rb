@@ -36,5 +36,23 @@ RSpec.describe "UsersSystemSpecs", type: :system do
         end.to change { User.count }.by(0)
       end
     end
+
+    describe "プロフィール情報の変更" do
+      context "ログインユーザー" do
+        it "プロフィール情報を変更できる" do
+          
+        end
+
+        it "他のユーザーのプロフィール情報は変更できない" do
+
+        end
+      end
+
+      context "ログインしていないユーザー" do
+        it "プロフィール画面へのリンクが表示されない" do
+          
+        end
+      end
+    end
   end
 end

@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users, path_names: {
+    users: "account",
     sign_in: "login",
     sign_out: "logout",
   }
 
   root 'pages#index'
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  get   "profile/edit", to: "users#edit"  , as: "profile_edit"
+  patch "profile"     , to: "users#update", as: "profile"
 end
