@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_one_attached :avator
+
   validates :user_name, presence: true, uniqueness: true
 
   # Include default devise modules. Others available are:
