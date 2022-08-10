@@ -4,7 +4,7 @@
     <%= flash[:alert] %>
 <% end %>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+<%= form_for(resource, as: resource_name, url: create_login_path) do |f| %>
   <div class="field">
     <%= f.text_field :email, placeholder: "ご登録のメールアドレス", autofocus: true, autocomplete: "on" %>
   </div>
@@ -21,10 +21,9 @@
   <% end %>
 
   <div class="actions">
-    <%= f.submit "ログイン" %>
+    <input type="button" onclick="submit();" value= "ログイン" />
   </div>
 <% end %>
 
 <%= render "devise/shared/links" %>
-<%= link_to "ホームへ戻る", root_path %>
 

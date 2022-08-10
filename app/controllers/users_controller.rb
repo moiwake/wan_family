@@ -1,4 +1,10 @@
 class UsersController < ApplicationController
+  # mypage
+  def index
+    @user = current_user
+  end
+
+  # profile
   def edit
     @user = current_user
   end

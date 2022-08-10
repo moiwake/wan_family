@@ -1,0 +1,11 @@
+<h1>マイページ</h1>
+
+<% if flash[:notice] %>
+    <%= flash[:notice] %>
+<% end %>
+
+<%= image_tag @user.avator, size: "100x100" if @user.avator.attached? %>
+<%= @user.user_name %>
+
+<%= link_to "プロフィール編集", edit_profile_path %>
+<%= link_to "アカウント設定", edit_account_path %>

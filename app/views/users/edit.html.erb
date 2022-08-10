@@ -1,4 +1,4 @@
-<h1>アカウント情報</h1>
+<h1>プロフィールの編集</h1>
 <% if flash[:notice] %>
     <%= flash[:notice] %>
 <% end %>
@@ -12,6 +12,6 @@
   <input type="button" onclick="submit();" value= "保存" />
 <% end %>
 
-<%= link_to "ホームへ戻る", root_path %>
+<%= link_to "マイページへ戻る", mypage_path %>
 
 
