@@ -3,10 +3,15 @@
     <%= flash[:notice] %>
 <% end %>
 
-<%= image_tag @user.avator, size: "100x100" if @user.avator.attached? %>
+<% if @user.avatar.attached? %>
+  <%= image_tag @user.avatar, size: "100x100" %>
+<% else %>
+  <%= image_tag("noavatar.png", size: "100x100") %>
+<% end %>
+
 
 <%= form_with(model: @user, url: profile_path) do |f| %>
-  <%= f.file_field :avator %>
+  <%= f.file_field :avatar %>
   <%= @user.user_name %> (変更できません)
   <%= f.text_area :user_introduction, placeholder: "自己紹介をご記入ください。" %>
   <input type="button" onclick="submit();" value= "保存" />

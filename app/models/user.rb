@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_one_attached :avator
+  has_one_attached :avatar
 
   validates :user_name, presence: true, uniqueness: true
 

@@ -4,7 +4,11 @@
     <%= flash[:notice] %>
 <% end %>
 
-<%= image_tag @user.avator, size: "100x100" if @user.avator.attached? %>
+<% if @user.avatar.attached? %>
+  <%= image_tag @user.avatar, size: "100x100" %>
+<% else %>
+  <%= image_tag("noavatar.png", size: "100x100") %>
+<% end %>
 <%= @user.user_name %>
 
 <%= link_to "プロフィール編集", edit_profile_path %>
