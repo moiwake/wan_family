@@ -13,8 +13,8 @@ class UsersController < ApplicationController
     @user = current_user
 
     if @user.update(user_params)
-      flash[:notice] = "プロフィール情報を変更しました。"
-      redirect_to profile_edit_path
+      flash[:notice] = "プロフィールを変更しました。"
+      redirect_to edit_profile_path
     else
       render "edit"
     end
@@ -23,6 +23,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:user_introduction, :avator)
+    params.require(:user).permit(:user_introduction, :avatar)
   end
 end
