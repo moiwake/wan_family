@@ -39,3 +39,7 @@ services:
     tty: true
     stdin_open: true
     command: bundle exec rails server -b 0.0.0.0
+  chrome:
+    image: selenium/standalone-chrome
+    ports:
+      - "4444:4444"
