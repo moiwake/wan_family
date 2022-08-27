@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   end
 
   root  "pages#index"
-  get   "mypage",              to: "users#index" , as: "mypage"
-  get   "mypage/profile/edit", to: "users#edit"  , as: "edit_profile"
-  patch "mypage/profile"     , to: "users#update", as: "profile"
+  get   "mypage",              to: "users#index",  as: "mypage"
+  get   "mypage/profile/edit", to: "users#edit",   as: "edit_profile"
+  patch "mypage/profile",      to: "users#update", as: "profile"
 end
