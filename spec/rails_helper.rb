@@ -72,7 +72,7 @@ RSpec.configure do |config|
 
   config.before(:each, type: :system, js: true) do
     driven_by Capybara.javascript_driver
-    Capybara.app_host="http://#{Capybara.server_host}"
+    Capybara.app_host = "http://#{Capybara.server_host}"
   end
 
   config.include Devise::Test::IntegrationHelpers, type: :system
