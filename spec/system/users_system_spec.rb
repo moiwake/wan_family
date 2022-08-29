@@ -37,108 +37,156 @@ RSpec.describe "UsersSystemSpecs", type: :system, js: true do
     end
   end
 
-  context "ログインユーザー" do
-    let!(:user) { create(:user) }
-    let!(:another_user) { create(:another_user) }
-    let(:avatar_url) do
-      user.avatar.url.split('/').last
+  describe "ユーザーのログイン" do
+    let(:user) { create(:user) }
+
+    it "ログイン情報が正しければ、ログインできて、ホーム画面に遷移する。" do
+      visit root_path
+      click_link "ログイン"
+      fill_in "user[email]", with: user.email
+      fill_in "user[password]", with: user.password
+      click_button "ログイン"
+      expect(current_path).to eq(root_path)
+      expect(page).to have_content("ログインしました。")
     end
 
-    before do
+    it "ログイン情報が間違っているとログインできない" do
+      visit root_path
+      click_link "ログイン"
+      fill_in "user[email]", with: "incorrect_email"
+      fill_in "user[password]", with: "incorrect_password"
+      click_button "ログイン"
+      expect(page).to have_content("ログインに失敗しました。メールアドレスまたはパスワードが違います。")
+    end
+
+    it "ログイン後に新規登録しようとすると、ホーム画面へリダイレクトする" do
       sign_in user
       visit root_path
-      click_link "会員情報"
-      ActiveStorage::Current.host = Capybara.app_host
+      click_link "新規登録"
+      visit current_path
+      expect(current_path).to eq(root_path)
     end
 
-    describe "プロフィールの編集" do
-      before do
-        click_link "プロフィール編集"
-        attach_file "#{Rails.root}/spec/fixtures/images/test.jpeg"
-        fill_in "user[user_introduction]", with: "自己紹介を更新"
-        click_button "保存"
-      end
-
-      it "自分のプロフィールは編集できる" do
-        expect(page).to have_content("プロフィールを変更しました。")
-        expect(user.avatar.url).to have_content(avatar_url)
-        expect(user.reload.user_introduction).to eq("自己紹介を更新")
-      end
-
-      it "他のユーザーのプロフィールは編集できない" do
-        expect(another_user.avatar.attached?).to be(false)
-        expect(another_user.reload.user_introduction).to eq("更新されてません")
-      end
+    it "ログイン後に再ログインしようとすると、ホーム画面にリダイレクトする" do
+      sign_in user
+      visit root_path
+      click_link "ログイン"
+      visit current_path
+      expect(current_path).to eq(root_path)
     end
 
-    describe "アカウント設定の変更" do
-      before do
-        click_link "アカウント設定"
-        fill_in "user[email]", with: "updated@email.com"
-        fill_in "user[password]", with: "updatedpass01"
-        fill_in "user[password_confirmation]", with: "updatedpass01"
-      end
-
-      context "現在のパスワードの入力が正しいとき" do
-        before do
-          fill_in "user[current_password]", with: user.password
-          click_button "更新"
-        end
-
-        it "自分のアカウント設定を変更でき、ホーム画面に遷移する" do
-          expect(user.reload.email).to eq("updated@email.com")
-          expect(user.valid_password?("updatedpass01")).to eq(true)
-          expect(current_path).to eq(root_path)
-          expect(page).to have_content("アカウント情報を変更しました。")
-        end
-
-        it "他のユーザーのアカウント設定は変更できない" do
-          expect(another_user.reload.email).to eq("another@email.com")
-          expect(another_user.reload.password).to eq("anotherpass01")
-        end
-      end
-
-      context "現在のパスワードの入力が間違っているとき" do
-        it "アカウント設定を変更できない" do
-          fill_in "user[current_password]", with: "incorrect_pass"
-          click_button "更新"
-
-          expect(user.reload.email).to eq("user01@email.com")
-          expect(user.valid_password?("updatedpass01")).to eq(false)
-        end
-      end
-    end
-
-    describe "アカウントの削除" do
-      before do
-        click_link "アカウント設定"
-        click_button "アカウントの削除"
-      end
-
-      context "confirmダイアログでOKをクリックすると" do
-        it "アカウントを削除できて、ホーム画面に遷移する" do
-          expect do
-            expect(page.accept_confirm).to eq("本当に削除しますか？")
-            expect(current_path).to eq(root_path)
-            expect(page).to have_content("アカウントを削除しました。またのご利用をお待ちしております。")
-          end.to change { User.count }.by(-1)
-        end
-      end
-
-      context "confirmダイアログでキャンセルをクリックすると" do
-        it "アカウントは削除されない" do
-          expect do
-            expect(page.dismiss_confirm).to eq("本当に削除しますか？")
-          end.to change { User.count }.by(0)
-        end
-      end
+    it "ログアウトできる" do
+      sign_in user
+      visit root_path
+      click_button "ログアウト"
+      expect(page).to have_content("ログアウトしました。")
     end
   end
 
-  context "ログインしていないユーザー" do
-    it "会員情報のリンクが表示されない" do
-      visit root_path
-      expect(page).not_to have_link("会員情報", href: mypage_path)
+  describe "会員情報の編集" do
+    context "ログインユーザー" do
+      let!(:user) { create(:user) }
+      let!(:another_user) { create(:another_user) }
+      let(:avatar_url) do
+        user.avatar.url.split('/').last
+      end
+
+      before do
+        sign_in user
+        visit root_path
+        click_link "会員情報"
+        ActiveStorage::Current.host = Capybara.app_host
+      end
+
+      describe "プロフィールの編集" do
+        before do
+          click_link "プロフィール編集"
+          attach_file "#{Rails.root}/spec/fixtures/images/test.jpeg"
+          fill_in "user[user_introduction]", with: "自己紹介を更新"
+          click_button "保存"
+        end
+
+        it "自分のプロフィールは編集できる" do
+          expect(page).to have_content("プロフィールを変更しました。")
+          expect(user.avatar.url).to have_content(avatar_url)
+          expect(user.reload.user_introduction).to eq("自己紹介を更新")
+        end
+
+        it "他のユーザーのプロフィールは編集できない" do
+          expect(another_user.avatar.attached?).to be(false)
+          expect(another_user.reload.user_introduction).to eq("更新されてません")
+        end
+      end
+
+      describe "アカウント設定の変更" do
+        before do
+          click_link "アカウント設定"
+          fill_in "user[email]", with: "updated@email.com"
+          fill_in "user[password]", with: "updatedpass01"
+          fill_in "user[password_confirmation]", with: "updatedpass01"
+        end
+
+        context "現在のパスワードの入力が正しいとき" do
+          before do
+            fill_in "user[current_password]", with: user.password
+            click_button "更新"
+          end
+
+          it "自分のアカウント設定を変更でき、ホーム画面に遷移する" do
+            expect(user.reload.email).to eq("updated@email.com")
+            expect(user.valid_password?("updatedpass01")).to eq(true)
+            expect(current_path).to eq(root_path)
+            expect(page).to have_content("アカウント情報を変更しました。")
+          end
+
+          it "他のユーザーのアカウント設定は変更できない" do
+            expect(another_user.reload.email).to eq("another@email.com")
+            expect(another_user.reload.password).to eq("anotherpass01")
+          end
+        end
+
+        context "現在のパスワードの入力が間違っているとき" do
+          it "アカウント設定を変更できない" do
+            fill_in "user[current_password]", with: "incorrect_pass"
+            click_button "更新"
+
+            expect(user.reload.email).to eq("user01@email.com")
+            expect(user.valid_password?("updatedpass01")).to eq(false)
+          end
+        end
+      end
+
+      describe "アカウントの削除" do
+        before do
+          click_link "アカウント設定"
+          click_button "アカウントの削除"
+        end
+
+        context "confirmダイアログでOKをクリックすると" do
+          it "アカウントを削除できて、ホーム画面に遷移する" do
+            expect do
+              expect(page.accept_confirm).to eq("本当に削除しますか？")
+              expect(current_path).to eq(root_path)
+              expect(page).to have_content("アカウントを削除しました。またのご利用をお待ちしております。")
+            end.to change { User.count }.by(-1)
+          end
+        end
+
+        context "confirmダイアログでキャンセルをクリックすると" do
+          it "アカウントは削除されない" do
+            expect do
+              expect(page.dismiss_confirm).to eq("本当に削除しますか？")
+            end.to change { User.count }.by(0)
+          end
+        end
+      end
+    end
+
+    context "ログインしていないユーザー" do
+      it "会員情報のリンクが表示されない" do
+        visit root_path
+        expect(page).not_to have_link("会員情報", href: mypage_path)
+      end
     end
   end
 end
