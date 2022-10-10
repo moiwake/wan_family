@@ -4,7 +4,7 @@
     <%= flash[:alert] %>
 <% end %>
 
-<%= form_for(resource, as: resource_name, url: create_login_path) do |f| %>
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">
     <%= f.text_field :email, placeholder: "ご登録のメールアドレス", autofocus: true, autocomplete: "on" %>
   </div>
