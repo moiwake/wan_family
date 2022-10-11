@@ -26,8 +26,9 @@ ja:
         unlock_token: ロック解除用トークン
         updated_at: 更新日
     models:
-      user: ユーザ
-  devise:
+      user: ユーザー
+      admin: 管理者
+  devise: &devise
     confirmations:
       confirmed: メールアドレスが確認できました。
       new:
@@ -140,3 +141,5 @@ ja:
       not_saved:
         one: エラーが発生したため %{resource} は保存されませんでした。
         other: "%{count} 件のエラーが発生したため %{resource} は保存されませんでした。"
+  users: *devise
+  admins: *devise
