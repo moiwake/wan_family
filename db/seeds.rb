@@ -8,4 +8,4 @@
 Admin.find_or_create_by(id: 1) do |admin|
   admin.email = "example@email.com"
   admin.password = "example"
- end
+end

@@ -14,7 +14,7 @@ RSpec.describe "Users", type: :request do
         expect(response).to have_http_status(:success)
       end
 
-      it "@userには、ログインユーザーのusersテーブルのデータが入る"do
+      it "@userには、ログインユーザーのusersテーブルのデータが入る" do
         expect(controller.instance_variable_get("@user")).to eq(user)
       end
     end
@@ -38,7 +38,7 @@ RSpec.describe "Users", type: :request do
         expect(response).to have_http_status(:success)
       end
 
-      it "@userには、ログインユーザーのusersテーブルのデータが入る"do
+      it "@userには、ログインユーザーのusersテーブルのデータが入る" do
         expect(controller.instance_variable_get("@user")).to eq(user)
       end
     end
@@ -60,7 +60,7 @@ RSpec.describe "Users", type: :request do
       let(:update_attributes) do
         {
           introduction: "更新しました。",
-          avatar: update_avatar
+          avatar: update_avatar,
         }
       end
       let(:update_avatar) do
@@ -70,7 +70,7 @@ RSpec.describe "Users", type: :request do
         user.avatar.url.split('/').last
       end
 
-      it "usersテーブルのintroductionカラム、avatarカラムを更新できる"do
+      it "usersテーブルのintroductionカラム、avatarカラムを更新できる" do
         patch profile_path, params: { user: update_attributes }
         ActiveStorage::Current.host = "http://www.example.com"
 
@@ -87,4 +87,3 @@ RSpec.describe "Users", type: :request do
     end
   end
 end
-
