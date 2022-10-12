@@ -75,5 +75,6 @@ RSpec.configure do |config|
     Capybara.app_host = "http://#{Capybara.server_host}"
   end
 
+  config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Devise::Test::IntegrationHelpers, type: :system
 end
