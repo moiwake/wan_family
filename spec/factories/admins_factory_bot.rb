@@ -9,7 +9,6 @@ FactoryBot.define do
     email { "another@email.com" }
     password { "anotherpass01" }
     password_confirmation { "anotherpass01" }
-    user_introduction { "更新されてません" }
   end
 end
 

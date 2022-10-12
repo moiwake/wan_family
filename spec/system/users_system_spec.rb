@@ -12,7 +12,7 @@ RSpec.describe "UsersSystemSpecs", type: :system, js: true do
     context "入力内容が有効なとき" do
       it "新規ユーザーが登録できて、ホーム画面に戻る" do
         expect do
-          fill_in "user[user_name]", with: user.user_name
+          fill_in "user[name]", with: user.name
           fill_in "user[email]", with: user.email
           fill_in "user[password]", with: user.password
           fill_in "user[password_confirmation]", with: user.password_confirmation
@@ -27,7 +27,7 @@ RSpec.describe "UsersSystemSpecs", type: :system, js: true do
     context "入力内容が有効ではないとき" do
       it "新規登録できない" do
         expect do
-          fill_in "user[user_name]", with: nil
+          fill_in "user[name]", with: nil
           fill_in "user[email]", with: nil
           fill_in "user[password]", with: nil
           fill_in "user[password_confirmation]", with: nil
@@ -102,19 +102,19 @@ RSpec.describe "UsersSystemSpecs", type: :system, js: true do
         before do
           click_link "プロフィール編集"
           attach_file "#{Rails.root}/spec/fixtures/images/test.jpeg"
-          fill_in "user[user_introduction]", with: "自己紹介を更新"
+          fill_in "user[introduction]", with: "自己紹介を更新"
           click_button "保存"
         end
 
         it "自分のプロフィールは編集できる" do
           expect(page).to have_content("プロフィールを変更しました。")
           expect(user.avatar.url).to have_content(avatar_url)
-          expect(user.reload.user_introduction).to eq("自己紹介を更新")
+          expect(user.reload.introduction).to eq("自己紹介を更新")
         end
 
         it "他のユーザーのプロフィールは編集できない" do
           expect(another_user.avatar.attached?).to be(false)
-          expect(another_user.reload.user_introduction).to eq("更新されてません")
+          expect(another_user.reload.introduction).to eq("更新されてません")
         end
       end
 

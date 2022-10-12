@@ -20,8 +20,8 @@ RSpec.describe User, type: :model do
     let(:invalid_user) { build(:user, attribute => (type == :nil ? nil : "")) }
     let(:message) { "を入力してください" }
 
-    context "user_nameカラム" do
-      let(:attribute) { :user_name }
+    context "nameカラム" do
+      let(:attribute) { :name }
 
       context "nilのとき" do
         let(:type) { :nil }
@@ -72,16 +72,16 @@ RSpec.describe User, type: :model do
   describe "uniquenessのバリデーション" do
     let(:message) { "はすでに存在します" }
 
-    context "user_nameカラムのデータが重複しているとき" do
-      let(:attribute) { :user_name }
-      let(:invalid_user) { build(:user, :duplicate_user_name) }
+    context "nameカラムのデータが重複しているとき" do
+      let(:attribute) { :name }
+      let(:invalid_user) { build(:user, :duplicated_name) }
 
       it_behaves_like "validation error message"
     end
 
     context "emailカラムが重複しているとき" do
       let(:attribute) { :email }
-      let(:invalid_user) { build(:user, :duplicate_email) }
+      let(:invalid_user) { build(:user, :duplicated_email) }
 
       it_behaves_like "validation error message"
     end

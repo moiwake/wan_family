@@ -9,7 +9,7 @@
 <% else %>
   <%= image_tag("noavatar.png", size: "100x100") %>
 <% end %>
-<%= @user.user_name %>
+<%= @user.name %>
 
 <%= link_to "プロフィール編集", edit_profile_path %>
 <%= link_to "アカウント設定", edit_user_registration_path %>
