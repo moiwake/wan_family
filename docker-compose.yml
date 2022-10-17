@@ -33,6 +33,7 @@ services:
       - /wan_family/log
       - /wan_family/tmp
       - /wan_family/.git
+      - ./tmp/screenshots:/wan_family/tmp/screenshots
       - vendor_bundle:/wan_family/vendor/bundle
       - node_modules:/wan_family/node_modules
       - storage:/wan_family/storage
@@ -40,6 +41,6 @@ services:
     stdin_open: true
     command: bundle exec rails server -b 0.0.0.0
   chrome:
-    image: selenium/standalone-chrome
+    image: selenium/standalone-chrome:102.0.5005.61-chromedriver-102.0.5005.61
     ports:
       - "4444:4444"
