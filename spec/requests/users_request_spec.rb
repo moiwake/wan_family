@@ -1,21 +1,26 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
-  let(:user) { create(:user) }
+  let!(:user) { create(:user, :updated_profile_user) }
+  let(:avatar_url) do
+    user.avatar.url.split('/').last
+  end
 
   describe "GET /index" do
     context "ログインしているとき" do
       before do
         sign_in user
         get mypage_path
+        ActiveStorage::Current.host = "http://www.example.com"
       end
 
       it "HTTPリクエストが成功する" do
         expect(response).to have_http_status(:success)
       end
 
-      it "@userには、ログインユーザーのusersテーブルのデータが入る" do
-        expect(controller.instance_variable_get("@user")).to eq(user)
+      it "ユーザー情報が表示される" do
+        expect(response.body).to include(user.name)
+        expect(response.body).to include(avatar_url)
       end
     end
 
@@ -32,14 +37,17 @@ RSpec.describe "Users", type: :request do
       before do
         sign_in user
         get edit_profile_path
+        ActiveStorage::Current.host = "http://www.example.com"
       end
 
       it "HTTPリクエストが成功する" do
         expect(response).to have_http_status(:success)
       end
 
-      it "@userには、ログインユーザーのusersテーブルのデータが入る" do
-        expect(controller.instance_variable_get("@user")).to eq(user)
+      it "ユーザー情報が表示される" do
+        expect(response.body).to include(user.name)
+        expect(response.body).to include(avatar_url)
+        expect(response.body).to include(user.introduction)
       end
     end
 
