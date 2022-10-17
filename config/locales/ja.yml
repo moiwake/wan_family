@@ -1,9 +1,14 @@
 ja:
- activerecord:
-  models:
-    user: ユーザー
+  activerecord:
+    models:
+      user: ユーザー
+      admin: 管理者
   attributes:
     user:
-       name: ユーザーネーム
-       email: メールアドレス
-       password: パスワード
+      name: ユーザーネーム
+      email: メールアドレス
+      password: パスワード
+    admin:
+      email: メールアドレス
+      password: パスワード
+

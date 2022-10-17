@@ -1,8 +1,6 @@
 <h2>ログイン</h2>
 
-<% if flash[:alert] %>
-    <%= flash[:alert] %>
-<% end %>
+<%= render "shared/flash_message" %>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">

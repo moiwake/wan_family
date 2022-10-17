@@ -1,5 +1,7 @@
 <h2>＜管理者用＞ログイン</h2>
 
+<%= render "shared/flash_message" %>
+
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">
     <%= f.label :email, "メールアドレス" %><br />
@@ -12,7 +14,7 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "管理者としてログイン" %>
+    <input type="button" onclick="submit();" value= "ログイン" />
   </div>
 <% end %>
 
