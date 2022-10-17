@@ -1,21 +1,25 @@
 require 'rails_helper'
 
-RSpec.describe "UsersSystemSpecs", type: :system, js: true do
-  describe "ユーザーの新規登録" do
-    let(:user) { build(:user) }
+RSpec.describe "UsersSystemSpecs", type: :system do
+  let!(:user) { create(:user) }
 
-    before do
-      visit root_path
-      click_link "新規登録"
+  describe "ユーザーの新規登録" do
+    let(:new_user) { build(:user) }
+
+    before do |example|
+      unless example.metadata[:skip_before]
+        visit root_path
+        click_link "新規登録"
+      end
     end
 
     context "入力内容が有効なとき" do
-      it "新規ユーザーが登録できて、ホーム画面に戻る" do
+      it "新規ユーザーが登録できて、ホーム画面に戻る", js: true do
         expect do
-          fill_in "user[name]", with: user.name
-          fill_in "user[email]", with: user.email
-          fill_in "user[password]", with: user.password
-          fill_in "user[password_confirmation]", with: user.password_confirmation
+          fill_in "user[name]", with: new_user.name
+          fill_in "user[email]", with: new_user.email
+          fill_in "user[password]", with: new_user.password
+          fill_in "user[password_confirmation]", with: new_user.password_confirmation
           click_button "新しいアカウントを登録する"
           expect(page).to have_content("アカウント登録が完了しました。")
         end.to change { User.count }.by(1)
@@ -25,7 +29,7 @@ RSpec.describe "UsersSystemSpecs", type: :system, js: true do
     end
 
     context "入力内容が有効ではないとき" do
-      it "新規登録できない" do
+      it "新規登録できない", js: true do
         expect do
           fill_in "user[name]", with: nil
           fill_in "user[email]", with: nil
@@ -35,47 +39,54 @@ RSpec.describe "UsersSystemSpecs", type: :system, js: true do
         end.to change { User.count }.by(0)
       end
     end
+
+    context "すでにログインしているとき" do
+      it "新規登録ページへアクセスすると、ホーム画面へリダイレクトする", :skip_before do
+        sign_in user
+        visit new_user_registration_path
+        expect(current_path).to eq(root_path)
+        expect(page).to have_content("すでにログインしています。")
+      end
+    end
   end
 
-  describe "ユーザーのログイン" do
-    let(:user) { create(:user) }
-
-    it "ログイン情報が正しければ、ログインできて、ホーム画面に遷移する。" do
-      visit root_path
-      click_link "ログイン"
-      fill_in "user[email]", with: user.email
-      fill_in "user[password]", with: user.password
-      click_button "ログイン"
-      expect(current_path).to eq(root_path)
-      expect(page).to have_content("ログインしました。")
+  describe "ユーザーのログイン・ログアウト" do
+    before do |example|
+      unless example.metadata[:skip_before]
+        visit root_path
+        click_link "ログイン"
+      end
     end
 
-    it "ログイン情報が間違っているとログインできない" do
-      visit root_path
-      click_link "ログイン"
-      fill_in "user[email]", with: "incorrect_email"
-      fill_in "user[password]", with: "incorrect_password"
-      click_button "ログイン"
-      expect(page).to have_content("ログインに失敗しました。メールアドレスまたはパスワードが違います。")
+    context "ログイン情報が正しいとき" do
+      it "ログインできて、ホーム画面に遷移する", js: true do
+        fill_in "user[email]", with: user.email
+        fill_in "user[password]", with: user.password
+        click_button "ログイン"
+        expect(current_path).to eq(root_path)
+        expect(page).to have_content("ログインしました。")
+      end
     end
 
-    it "ログイン後に新規登録しようとすると、ホーム画面へリダイレクトする" do
-      sign_in user
-      visit root_path
-      click_link "新規登録"
-      visit current_path
-      expect(current_path).to eq(root_path)
+    context "ログイン情報が間違っているとき" do
+      it "ログインできない", js: true do
+        fill_in "user[email]", with: "incorrect_email"
+        fill_in "user[password]", with: "incorrect_password"
+        click_button "ログイン"
+        expect(page).to have_content("ログインに失敗しました。メールアドレスまたはパスワードが違います。")
+      end
     end
 
-    it "ログイン後に再ログインしようとすると、ホーム画面にリダイレクトする" do
-      sign_in user
-      visit root_path
-      click_link "ログイン"
-      visit current_path
-      expect(current_path).to eq(root_path)
+    context "すでにログインしているとき" do
+      it "ログインページへアクセスすると、ホーム画面にリダイレクトする", :skip_before do
+        sign_in user
+        visit new_user_session_path
+        expect(current_path).to eq(root_path)
+        expect(page).to have_content("すでにログインしています。")
+      end
     end
 
-    it "ログアウトできる" do
+    it "ログアウトできる", :skip_before do
       sign_in user
       visit root_path
       click_button "ログアウト"
@@ -83,7 +94,7 @@ RSpec.describe "UsersSystemSpecs", type: :system, js: true do
     end
   end
 
-  describe "会員情報の編集" do
+  describe "マイページ" do
     context "ログインユーザー" do
       let!(:user) { create(:user) }
       let!(:another_user) { create(:another_user) }
@@ -94,11 +105,27 @@ RSpec.describe "UsersSystemSpecs", type: :system, js: true do
       before do
         sign_in user
         visit root_path
-        click_link "会員情報"
+        click_link "マイページ"
         ActiveStorage::Current.host = Capybara.app_host
       end
 
-      describe "プロフィールの編集" do
+      describe "マイページの表示" do
+        context "ユーザー画像が登録されていないとき" do
+          it "未登録用の画像が表示される" do
+            expect(page).to have_selector("img[src*='noavatar']")
+          end
+        end
+      end
+
+      describe "プロフィール編集ページの表示" do
+        context "ユーザー画像が登録されていないとき" do
+          it "未登録用の画像が表示される" do
+            expect(page).to have_selector("img[src*='noavatar']")
+          end
+        end
+      end
+
+      describe "プロフィールの編集", js: true do
         before do
           click_link "プロフィール編集"
           attach_file "#{Rails.root}/spec/fixtures/images/test.jpeg"
@@ -118,7 +145,7 @@ RSpec.describe "UsersSystemSpecs", type: :system, js: true do
         end
       end
 
-      describe "アカウント設定の変更" do
+      describe "アカウント設定の変更", js: true do
         before do
           click_link "アカウント設定"
           fill_in "user[email]", with: "updated@email.com"
@@ -149,14 +176,13 @@ RSpec.describe "UsersSystemSpecs", type: :system, js: true do
           it "アカウント設定を変更できない" do
             fill_in "user[current_password]", with: "incorrect_pass"
             click_button "更新"
-
-            expect(user.reload.email).to eq("user01@email.com")
+            expect(user.reload.email).not_to eq("updated@email.com")
             expect(user.valid_password?("updatedpass01")).to eq(false)
           end
         end
       end
 
-      describe "アカウントの削除" do
+      describe "アカウントの削除", js: true do
         before do
           click_link "アカウント設定"
           click_button "アカウントの削除"
@@ -183,9 +209,29 @@ RSpec.describe "UsersSystemSpecs", type: :system, js: true do
     end
 
     context "ログインしていないユーザー" do
-      it "会員情報のリンクが表示されない" do
+      it "マイページのリンクが表示されない" do
         visit root_path
-        expect(page).not_to have_link("会員情報", href: mypage_path)
+        expect(page).not_to have_link("マイページ", href: mypage_path)
+      end
+    end
+  end
+
+  describe "トップページの表示" do
+    context "ユーザーがログインしているとき" do
+      before do
+        sign_in user
+        visit root_path
+      end
+
+      it "ユーザーに権限があるページのリンクのみ表示される" do
+        expect(page).to have_link("マイページ", href: mypage_path)
+        expect(page).to have_button("ログアウト")
+        expect(page).not_to have_link("サイト管理ページへ", href: rails_admin_path)
+      end
+
+      it "新規登録とログインのリンクは表示されない" do
+        expect(page).not_to have_link("新規登録", href: new_user_registration_path)
+        expect(page).not_to have_link("ログイン", href: new_user_session_path)
       end
     end
   end
