@@ -58,7 +58,7 @@ RSpec.describe Admin, type: :model do
 
     context "emailカラムが重複しているとき" do
       let(:attribute) { :email }
-      let(:invalid_admin) { build(:admin) }
+      let(:invalid_admin) { build(:admin, email: admin.email) }
 
       it_behaves_like "validation error message"
     end

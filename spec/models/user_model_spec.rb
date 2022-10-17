@@ -74,14 +74,14 @@ RSpec.describe User, type: :model do
 
     context "nameカラムのデータが重複しているとき" do
       let(:attribute) { :name }
-      let(:invalid_user) { build(:user, :duplicated_name) }
+      let(:invalid_user) { build(:user, name: user.name) }
 
       it_behaves_like "validation error message"
     end
 
     context "emailカラムが重複しているとき" do
       let(:attribute) { :email }
-      let(:invalid_user) { build(:user, :duplicated_email) }
+      let(:invalid_user) { build(:user, email: user.email) }
 
       it_behaves_like "validation error message"
     end

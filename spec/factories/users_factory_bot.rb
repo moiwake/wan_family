@@ -1,18 +1,16 @@
 FactoryBot.define do
   factory :user do
-    name { "user01" }
-    email { "user01@email.com" }
-    password { "userpass01" }
-    password_confirmation { "userpass01" }
+    sequence(:name) { |n| "user#{n}" }
+    sequence(:email) { |n| "user#{n}@email.com" }
+    password { "pass00" }
+    password_confirmation { "pass00" }
 
-    trait :duplicated_name do
-      name { "user01" }
-      email { "uniqe@email.com" }
-    end
 
-    trait :duplicated_email do
-      name { "uniqe_name" }
-      email { "user01@email.com" }
+    trait :updated_profile_user do
+      introduction { "自己紹介" }
+      after(:create) do |user|
+        user.avatar.attach(io: File.open('spec/fixtures/images/test.jpeg'), filename: 'test.jpeg', content_type: 'image/jpeg')
+      end
     end
   end
 
