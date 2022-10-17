@@ -1,10 +1,13 @@
 <h1>Pages#index</h1>
-<% if flash[:notice] %>
-    <%= flash[:notice] %>
+
+<%= render "shared/flash_message" %>
+
+<%if who_signed_in? == "user" %>
+  <%= link_to "マイページ", mypage_path %>
+  <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
+<% elsif who_signed_in? == "admin" %>
+  <%= link_to "サイト管理ページへ", rails_admin_path %>
+<% else %>
+  <%= link_to "新規登録", new_user_registration_path %>
+  <%= link_to "ログイン", new_user_session_path %>
 <% end %>
-
-<%= link_to "ログイン", new_user_session_path %>
-<%= link_to "新規登録", new_user_registration_path %>
-<%= button_to "ログアウト", destroy_user_session_path, method: :delete if signed_in? %>
-
-<%= link_to "会員情報", mypage_path if signed_in? %>
