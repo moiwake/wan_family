@@ -14,7 +14,9 @@
 
   <div class="field">
     <%= f.label :password, "新しいパスワード" %> <i>(パスワードを変更しない場合は、空欄のままにしてください。)</i><br />
-    <%= f.password_field :password, placeholder: "半角英数字で#{@minimum_password_length}文字以上", autocomplete: "new-password" %>
+    <%= f.password_field :password, placeholder: "#{@minimum_password_length}文字以上", autocomplete: "new-password" %>
+    <p>半角の英字・数字、両方を含めて下さい。</p>
+    <p>記号はご使用できません。</p>
   </div>
 
   <div class="field">

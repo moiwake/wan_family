@@ -40,6 +40,8 @@ services:
     tty: true
     stdin_open: true
     command: bundle exec rails server -b 0.0.0.0
+    env_file:
+      - devise.env
   chrome:
     image: selenium/standalone-chrome:102.0.5005.61-chromedriver-102.0.5005.61
     ports:
