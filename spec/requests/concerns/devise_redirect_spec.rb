@@ -5,8 +5,6 @@ class DummyController < DeviseController
 
   attr_accessor :resource
   def initialize(resource: nil)
-    @params = {}.with_indifferent_access
-    @session = {}.with_indifferent_access
     @resource = resource
   end
 end
