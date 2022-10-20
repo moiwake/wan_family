@@ -97,7 +97,6 @@ RSpec.describe "UsersSystemSpecs", type: :system do
   describe "マイページ" do
     context "ログインユーザー" do
       let!(:user) { create(:user) }
-      let!(:another_user) { create(:another_user) }
       let(:avatar_url) do
         user.avatar.url.split('/').last
       end
@@ -128,7 +127,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
       describe "プロフィールの編集", js: true do
         before do
           click_link "プロフィール編集"
-          attach_file "#{Rails.root}/spec/fixtures/images/test.jpeg"
+          attach_file "#{Rails.root}/spec/fixtures/images/test1.png"
           fill_in "user[introduction]", with: "自己紹介を更新"
           click_button "保存"
         end
@@ -137,11 +136,6 @@ RSpec.describe "UsersSystemSpecs", type: :system do
           expect(page).to have_content("プロフィールを変更しました。")
           expect(user.avatar.url).to have_content(avatar_url)
           expect(user.reload.introduction).to eq("自己紹介を更新")
-        end
-
-        it "他のユーザーのプロフィールは編集できない" do
-          expect(another_user.avatar.attached?).to be(false)
-          expect(another_user.reload.introduction).to eq("更新されてません")
         end
       end
 
@@ -164,11 +158,6 @@ RSpec.describe "UsersSystemSpecs", type: :system do
             expect(user.valid_password?("updatedpass01")).to eq(true)
             expect(current_path).to eq(root_path)
             expect(page).to have_content("アカウント情報を変更しました。")
-          end
-
-          it "他のユーザーのアカウント設定は変更できない" do
-            expect(another_user.reload.email).to eq("another@email.com")
-            expect(another_user.reload.password).to eq("anotherpass01")
           end
         end
 

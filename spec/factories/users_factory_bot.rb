@@ -9,16 +9,8 @@ FactoryBot.define do
     trait :updated_profile_user do
       introduction { "自己紹介" }
       after(:create) do |user|
-        user.avatar.attach(io: File.open('spec/fixtures/images/test.jpeg'), filename: 'test.jpeg', content_type: 'image/jpeg')
+        user.avatar.attach(io: File.open('spec/fixtures/images/test1.png'), filename: 'test1.jpeg', content_type: 'image/png')
       end
     end
-  end
-
-  factory :another_user, class: "User" do
-    name { "another_user" }
-    email { "another@email.com" }
-    password { "anotherpass01" }
-    password_confirmation { "anotherpass01" }
-    introduction { "更新されてません" }
   end
 end
