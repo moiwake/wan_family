@@ -12,8 +12,8 @@ end
 RSpec.describe "DeviseRedirect", :type => :request do
   let(:admin) { create(:admin) }
   let(:admin_controller) { DummyController.new(resource: admin) }
-  let(:user) { create(:user) }
-  let(:user_controller) { DummyController.new(resource: user) }
+  let(:other) { double("other") }
+  let(:other_controller) { DummyController.new(resource: other) }
 
   before do
     def return_path(path)
@@ -24,7 +24,7 @@ RSpec.describe "DeviseRedirect", :type => :request do
       return_path("rails_admin_path")
     end
 
-    allow(user_controller).to receive(:root_path) do
+    allow(other_controller).to receive(:root_path) do
       return_path("root_path")
     end
   end
@@ -38,7 +38,7 @@ RSpec.describe "DeviseRedirect", :type => :request do
 
     context "引数のオブジェクトがAdminクラスのインスタンスではないとき" do
       it "root_pathを返す" do
-        expect(user_controller.after_sign_in_path_for(user_controller.resource)).to eq(root_path)
+        expect(other_controller.after_sign_in_path_for(other_controller.resource)).to eq(root_path)
       end
     end
   end
@@ -52,7 +52,7 @@ RSpec.describe "DeviseRedirect", :type => :request do
 
     context "引数が':admin'ではないとき" do
       it "root_pathを返す" do
-        expect(user_controller.after_sign_in_path_for(user_controller.resource)).to eq(root_path)
+        expect(other_controller.after_sign_in_path_for(other_controller.resource)).to eq(root_path)
       end
     end
   end
