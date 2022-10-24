@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'spots/index'
+  get 'spots/new'
+  get 'spots/create'
+  get 'spots/edit'
+  get 'spots/update'
+  get 'spots/destroy'
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
   devise_for :admins, controllers: {
@@ -16,4 +22,6 @@ Rails.application.routes.draw do
   get   "mypage",              to: "users#index",  as: "mypage"
   get   "mypage/profile/edit", to: "users#edit",   as: "edit_profile"
   patch "mypage/profile",      to: "users#update", as: "profile"
+
+  resources :spots
 end
