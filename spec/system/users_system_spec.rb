@@ -59,7 +59,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
     end
 
     context "ログイン情報が正しいとき" do
-      it "ログインできて、ホーム画面に遷移する", js: true do
+      it "ログインできて、ホーム画面に遷移する" do
         fill_in "user[email]", with: user.email
         fill_in "user[password]", with: user.password
         click_button "ログイン"
@@ -201,6 +201,50 @@ RSpec.describe "UsersSystemSpecs", type: :system do
       it "マイページのリンクが表示されない" do
         visit root_path
         expect(page).not_to have_link("マイページ", href: mypage_path)
+      end
+    end
+  end
+
+  describe "パスワードの再設定" do
+    let(:delivered_mail) { ActionMailer::Base.deliveries.last }
+    let(:password_reset_url) { URI.extract(delivered_mail.body.encoded)[0] }
+
+    before do
+      visit new_user_session_path
+      click_link "パスワードをお忘れですか？"
+    end
+
+    context "usersテーブルに登録されているメールアドレスを入力したとき" do
+      it "入力したアドレスにメールが送信され、パスワードを変更できる" do
+        fill_in "user[email]", with: user.email
+        expect{
+          click_button "パスワード再設定のメールを送信"
+        }.to change { ActionMailer::Base.deliveries.size }.by(1)
+        expect(page).to have_content("パスワードの再設定について数分以内にメールでご連絡いたします。")
+
+        expect(delivered_mail.from.first).to eq("wanfamily.test@gmail.com")
+        expect(delivered_mail.to.first).to eq(user.email)
+        expect(delivered_mail.subject).to eq("パスワードの再設定について")
+        expect(delivered_mail.body).to have_link("パスワードの変更",href: password_reset_url)
+
+        visit password_reset_url
+        fill_in "user[password]", with: "resetpass00"
+        fill_in "user[password_confirmation]", with: "resetpass00"
+        click_button "パスワードを変更する"
+
+        expect(page).to have_content("パスワードが正しく変更されました。")
+        expect(current_path).to eq(root_path)
+        expect(user.reload.valid_password?("resetpass00")).to eq(true)
+      end
+    end
+
+    context "usersテーブルに登録されていないメールアドレスを入力したとき" do
+      it "メールは送信されない" do
+        fill_in "user[email]", with: "unsaved@email.com"
+        expect{
+          click_button "パスワード再設定のメールを送信"
+        }.to change { ActionMailer::Base.deliveries.size }.by(0)
+        expect(page).to have_content("メールアドレスは見つかりませんでした。")
       end
     end
   end

@@ -5,7 +5,6 @@ FactoryBot.define do
     password { "pass00" }
     password_confirmation { "pass00" }
 
-
     trait :updated_profile_user do
       introduction { "自己紹介" }
       after(:create) do |user|
