@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_24_083443) do
+ActiveRecord::Schema.define(version: 2022_10_25_070747) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -49,6 +49,16 @@ ActiveRecord::Schema.define(version: 2022_10_24_083443) do
     t.index ["email"], name: "index_admins_on_email", unique: true
   end
 
+  create_table "spot_histories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "spot_id", null: false
+    t.bigint "user_id", null: false
+    t.string "history", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["spot_id"], name: "index_spot_histories_on_spot_id"
+    t.index ["user_id"], name: "index_spot_histories_on_user_id"
+  end
+
   create_table "spots", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.float "latitude", limit: 53, null: false
@@ -80,4 +90,6 @@ ActiveRecord::Schema.define(version: 2022_10_24_083443) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "spot_histories", "spots"
+  add_foreign_key "spot_histories", "users"
 end
