@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_25_070747) do
+ActiveRecord::Schema.define(version: 2022_10_25_091134) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -49,6 +49,22 @@ ActiveRecord::Schema.define(version: 2022_10_25_070747) do
     t.index ["email"], name: "index_admins_on_email", unique: true
   end
 
+  create_table "allowed_areas", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "area", null: false
+    t.bigint "category_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["area"], name: "index_allowed_areas_on_area", unique: true
+    t.index ["category_id"], name: "index_allowed_areas_on_category_id"
+  end
+
+  create_table "categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_categories_on_name", unique: true
+  end
+
   create_table "spot_histories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "spot_id", null: false
     t.bigint "user_id", null: false
@@ -64,12 +80,12 @@ ActiveRecord::Schema.define(version: 2022_10_25_070747) do
     t.float "latitude", limit: 53, null: false
     t.float "longitude", limit: 53, null: false
     t.string "address", null: false
-    t.string "category", null: false
-    t.string "allowed_area", null: false
     t.text "official_site"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "allowed_area_id", null: false
     t.index ["address"], name: "index_spots_on_address", unique: true
+    t.index ["allowed_area_id"], name: "index_spots_on_allowed_area_id"
     t.index ["latitude", "longitude"], name: "index_spots_on_latitude_and_longitude", unique: true
   end
 
@@ -90,6 +106,8 @@ ActiveRecord::Schema.define(version: 2022_10_25_070747) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "allowed_areas", "categories"
   add_foreign_key "spot_histories", "spots"
   add_foreign_key "spot_histories", "users"
+  add_foreign_key "spots", "allowed_areas"
 end
