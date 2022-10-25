@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_25_091134) do
+ActiveRecord::Schema.define(version: 2022_10_25_091946) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -65,6 +65,32 @@ ActiveRecord::Schema.define(version: 2022_10_25_091134) do
     t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
+  create_table "option_titles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_option_titles_on_name", unique: true
+  end
+
+  create_table "rule_options", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "option_title_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_rule_options_on_name", unique: true
+    t.index ["option_title_id"], name: "index_rule_options_on_option_title_id"
+  end
+
+  create_table "rules", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "spot_id", null: false
+    t.bigint "rule_option_id", null: false
+    t.string "answer", default: "0", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["rule_option_id"], name: "index_rules_on_rule_option_id"
+    t.index ["spot_id"], name: "index_rules_on_spot_id"
+  end
+
   create_table "spot_histories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "spot_id", null: false
     t.bigint "user_id", null: false
@@ -107,6 +133,9 @@ ActiveRecord::Schema.define(version: 2022_10_25_091134) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "allowed_areas", "categories"
+  add_foreign_key "rule_options", "option_titles"
+  add_foreign_key "rules", "rule_options"
+  add_foreign_key "rules", "spots"
   add_foreign_key "spot_histories", "spots"
   add_foreign_key "spot_histories", "users"
   add_foreign_key "spots", "allowed_areas"
