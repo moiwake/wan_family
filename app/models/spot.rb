@@ -12,5 +12,6 @@ class Spot < ApplicationRecord
     validates :longitude
     validates :address, uniqueness: true
     validates :allowed_area
+    validates :category
   end
 end

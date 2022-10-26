@@ -1,7 +1,8 @@
 FactoryBot.define do
   factory :spot_history do
-    spot { nil }
-    user { nil }
     history { "MyString" }
+
+    association :user
+    association :spot
   end
 end
