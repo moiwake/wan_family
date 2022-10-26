@@ -1,3 +1,3 @@
 class Category < ApplicationRecord
-  has_many :allowed_areas
+  has_many :spots
 end

@@ -1,4 +1,3 @@
 class AllowedArea < ApplicationRecord
-  belongs_to :category
-  belongs_to :spot
+  has_many :spots
 end
