@@ -7,5 +7,5 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 Admin.find_or_create_by(id: 1) do |admin|
   admin.email = "example@email.com"
-  admin.password = "example"
+  admin.password = "example00"
 end
