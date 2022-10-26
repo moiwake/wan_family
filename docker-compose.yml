@@ -26,6 +26,10 @@ services:
       MYSQL_USERNAME: root
       MYSQL_PASSWORD: password
       MYSQL_HOST: mysql
+      EDITOR: vim
+      APP_NAME: Wan Family
+      WEB_PROTOCOL: http
+      WEB_HOST: localhost:3000
     depends_on:
       - mysql
     volumes:
@@ -40,8 +44,6 @@ services:
     tty: true
     stdin_open: true
     command: bundle exec rails server -b 0.0.0.0
-    env_file:
-      - .env.development
   chrome:
     image: selenium/standalone-chrome:102.0.5005.61-chromedriver-102.0.5005.61
     ports:
