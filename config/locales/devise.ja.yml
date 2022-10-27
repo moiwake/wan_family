@@ -2,56 +2,59 @@ ja:
   activerecord:
     attributes:
       user:
-        confirmation_sent_at: パスワード確認送信時刻
-        confirmation_token: パスワード確認用トークン
-        confirmed_at: パスワード確認時刻
-        created_at: 作成日
-        current_password: 現在のパスワード
-        current_sign_in_at: 現在のログイン時刻
-        current_sign_in_ip: 現在のログインIPアドレス
+        name: ユーザーネーム
         email: メールアドレス
-        encrypted_password: 暗号化パスワード
-        failed_attempts: 失敗したログイン試行回数
-        last_sign_in_at: 最終ログイン時刻
-        last_sign_in_ip: 最終ログインIPアドレス
-        locked_at: ロック時刻
         password: パスワード
-        password_confirmation: パスワード（確認用）
-        remember_created_at: ログイン記憶時刻
-        remember_me: ログインを記憶する
-        reset_password_sent_at: パスワードリセット送信時刻
-        reset_password_token: パスワードリセット用トークン
-        sign_in_count: ログイン回数
-        unconfirmed_email: 未確認Eメール
-        unlock_token: ロック解除用トークン
-        updated_at: 更新日
+        introduction: 自己紹介
+        avatar: ユーザー画像
+        spots: 登録スポットID
+        spot_histories: スポットの登録履歴ID
       admin:
-        confirmation_sent_at: パスワード確認送信時刻
-        confirmation_token: パスワード確認用トークン
-        confirmed_at: パスワード確認時刻
-        created_at: 作成日
-        current_password: 現在のパスワード
-        current_sign_in_at: 現在のログイン時刻
-        current_sign_in_ip: 現在のログインIPアドレス
         email: メールアドレス
-        encrypted_password: 暗号化パスワード
-        failed_attempts: 失敗したログイン試行回数
-        last_sign_in_at: 最終ログイン時刻
-        last_sign_in_ip: 最終ログインIPアドレス
-        locked_at: ロック時刻
         password: パスワード
-        password_confirmation: パスワード（確認用）
-        remember_created_at: ログイン記憶時刻
-        remember_me: ログインを記憶する
-        reset_password_sent_at: パスワードリセット送信時刻
-        reset_password_token: パスワードリセット用トークン
-        sign_in_count: ログイン回数
-        unconfirmed_email: 未確認Eメール
-        unlock_token: ロック解除用トークン
-        updated_at: 更新日
+      spot:
+        name: スポットの名前
+        latitude: 緯度
+        longitude: 経度
+        address: 所在地
+        official_site: 公式サイト
+        allowed_area: ワンちゃん同伴可能エリアID
+        category: カテゴリーID
+        rule: ワンちゃん同伴ルールID
+        spot_histories: スポットの登録履歴ID
+        users: 登録ユーザーID
+        image: スポットイメージ
+      spot_history:
+        user: 登録ユーザーID
+        spot: 登録スポットID
+        history: 履歴
+      rule:
+        spot: 登録スポットID
+        rule_option: ルール選択肢ID
+        answer: 回答
+      rule_option:
+        name: 選択肢の項目
+        option_title: 選択肢タイトルID
+        rule: 登録スポットのルールID
+      option_title:
+        name: タイトル名
+        rule_option: 所属ルール選択肢ID
+      category:
+        name: カテゴリー名
+        spots: 所属スポットID
+      allowed_area:
+        area: エリア
+        spots: 所属スポットID
     models:
       user: ユーザー
       admin: 管理者
+      spot: スポット
+      spot_history: スポットの登録履歴
+      rule: ワンちゃん同伴ルール
+      rule_option: ルールの選択肢
+      option_title: 選択肢タイトル
+      category: カテゴリー
+      allowed_area: ワンちゃん同伴可能エリア
   devise: &devise
     confirmations:
       confirmed: メールアドレスが確認できました。
