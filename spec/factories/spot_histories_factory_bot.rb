@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :spot_history do
-    history { "MyString" }
+    history { "更新" }
 
     association :user
     association :spot
