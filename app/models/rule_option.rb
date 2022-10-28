@@ -4,6 +4,5 @@ class RuleOption < ApplicationRecord
 
   with_options presence: true do
     validates :name, uniqueness: true
-    validates :option_title
   end
 end
