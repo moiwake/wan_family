@@ -1,2 +1,5 @@
-<h1>Spots#new</h1>
-<p>Find me in app/views/spots/new.html.erb</p>
+<h1>新しいお出かけスポットを登録</h1>
+
+<%= render "shared/error_messages", resource: @spot_register_form %>
+<%= render "shared/form", url: spots_path %>
+<%= render "shared/map_display" %>

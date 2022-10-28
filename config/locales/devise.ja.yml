@@ -18,9 +18,9 @@ ja:
         longitude: 経度
         address: 所在地
         official_site: 公式サイト
-        allowed_area: ワンちゃん同伴可能エリアID
-        category: カテゴリーID
-        rule: ワンちゃん同伴ルールID
+        allowed_area: 同伴可能エリア
+        category: スポットカテゴリー
+        rule: 同伴ルールID
         spot_histories: スポットの登録履歴ID
         users: 登録ユーザーID
         image: スポットイメージ
@@ -50,11 +50,11 @@ ja:
       admin: 管理者
       spot: スポット
       spot_history: スポットの登録履歴
-      rule: ワンちゃん同伴ルール
+      rule: 同伴ルール
       rule_option: ルールの選択肢
       option_title: 選択肢タイトル
       category: カテゴリー
-      allowed_area: ワンちゃん同伴可能エリア
+      allowed_area: 同伴可能エリア
   devise: &devise
     confirmations:
       confirmed: メールアドレスが確認できました。
