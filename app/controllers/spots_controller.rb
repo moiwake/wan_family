@@ -1,6 +1,6 @@
 class SpotsController < ApplicationController
   before_action :authenticate_user!, except: :index
-  before_action :set_categories, :set_allowed_areas, :set_option_titles, only: [:new, :create, :edit, :update]
+  before_action :set_categories, :set_allowed_areas, :set_option_titles, only: [:new, :confirm, :edit]
 
   def index
     @spots = Spot.all
@@ -14,8 +14,7 @@ class SpotsController < ApplicationController
     @spot_register_form = SpotRegisterForm.new(attributes: form_params)
 
     if @spot_register_form.save
-      @spot_register_form.spot_histories.build(user_id: current_user.id, history: "新規登録")
-
+      create_spot_histories("新規登録")
       flash[:notice] = "新しいお出かけスポットを登録しました。"
       redirect_to spots_path
     else
@@ -24,15 +23,33 @@ class SpotsController < ApplicationController
   end
 
   def show
+    @spot = Spot.find(params[:id])
   end
 
   def edit
+    @spot = Spot.find(params[:id])
+    @checked_rules = @spot.rule.pluck(:rule_option_id)
+    @spot_register_form = SpotRegisterForm.new(spot: @spot)
   end
 
   def update
+    @spot = Spot.find(params[:id])
+    @rules = @spot.rule.where.not(id: nil)
+    @spot_register_form = SpotRegisterForm.new(attributes: form_params, spot: @spot, rules: @rules)
+
+    if @spot_register_form.save
+      create_spot_histories("更新")
+      flash[:notice] = "#{@spot.name}の登録内容を変更しました。"
+      redirect_to spot_path(@spot)
+    else
+      render "edit"
+    end
   end
 
   def destroy
+    @spot = Spot.find(params[:id])
+    @spot.destroy
+    redirect_to spots_path
   end
 
   private
@@ -58,5 +75,9 @@ class SpotsController < ApplicationController
 
   def set_option_titles
     @titles = OptionTitle.order(:id).includes(:rule_option)
+  end
+
+  def create_spot_histories(history)
+    @spot_register_form.spot_histories.create(user_id: current_user.id, history: history)
   end
 end

@@ -1,2 +1,5 @@
-<h1>Spots#edit</h1>
-<p>Find me in app/views/spots/edit.html.erb</p>
+<h2>スポット登録内容の変更</h2>
+
+<%= render "shared/error_messages", resource: @spot_register_form %>
+<%= render "shared/form", url: spot_path(@spot), method: :patch %>
+<%= render "shared/map_display" %>

@@ -1,4 +1,4 @@
-<%= form_with model: @spot_register_form, url: url do |f| %>
+<%= form_with model: @spot_register_form, url: url, method: method do |f| %>
   <%= f.fields_for(:spot_attributes, @spot_register_form.spot) do |sf| %>
     <div>
       <%= sf.label :name, "スポット名" %>
@@ -36,8 +36,10 @@
       <% @titles.each_with_index do |title, i| %>
         <p><%= title.name %></p>
         <% title.rule_option.each do |opt| %>
-
-          <label><%= af.check_box "#{opt.id}".to_sym, {}, "1", false %><%= opt.name %></label>
+          <label>
+            <%= af.check_box "#{opt.id}".to_sym, @checked_rules.present? ? { checked: @checked_rules.include?(opt.id) } : {}, "1", false %>
+            <%= opt.name %>
+          </label>
         <% end %>
       <% end %>
     </div>

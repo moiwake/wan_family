@@ -1,5 +1,5 @@
 <h1>新しいお出かけスポットを登録</h1>
 
 <%= render "shared/error_messages", resource: @spot_register_form %>
-<%= render "shared/form", url: spots_path %>
+<%= render "shared/form", url: spots_path, method: :post %>
 <%= render "shared/map_display" %>
