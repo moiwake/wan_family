@@ -6,4 +6,6 @@ class Rule < ApplicationRecord
     validates :answer
     validates :spot
   end
+
+  validates :rule_option, uniqueness: { scope: :spot }
 end
