@@ -1,2 +1,49 @@
-<h1>Spots#index</h1>
-<p>Find me in app/views/spots/index.html.erb</p>
+<%= render "shared/flash_messages", obj: @spot_register_form %>
+
+<div class="registrated-spots">
+  <h2>登録スポットの一覧</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>スポット名</th>
+        <th>住所</th>
+        <th>スポットカテゴリー</th>
+        <th>詳細</th>
+        <th>削除</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @spots.each do |spot| %>
+      <tr>
+        <td><%= spot.name %></td>
+        <td><%= spot.address %></td>
+        <td><%= spot.category.name %></td>
+        <td><%= link_to "詳細", spot_path(spot.id) %></td>
+        <td><%= button_to "削除", spot_path(spot.id), method: :delete %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<input type="button" id="hokkaido" value="北海道">
+<input type="button" id="tohoku" value="東北">
+<input type="button" id="kanto" value="関東">
+<input type="button" id="chubu" value="中部">
+<input type="button" id="kinki" value="近畿">
+<input type="button" id="chugoku" value="中国">
+<input type="button" id="shikoku" value="四国">
+<input type="button" id="kyushu" value="九州">
+<input type="button" id="okinawa" value="沖縄">
+
+<div id='map_index'></div>
+
+<!-- javascriptで緯度経度を参照するため -->
+<input type="hidden" id="spot_counts" value=<%= @spots.size %>>
+<% @spots.each_with_index do |spot, i|%>
+  <input type="hidden" id="spot_latitude_<%= i %>" value=<%= spot.latitude %>>
+  <input type="hidden" id="spot_longitude_<%= i %>" value=<%= spot.longitude %>>
+  <input type="hidden" id="spot_id_<%= i %>" value=<%= spot.id %>>
+<% end %>
+
+<%#= render "shared/form_javascript" %>
