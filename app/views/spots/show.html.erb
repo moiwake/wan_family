@@ -1,0 +1,31 @@
+<%= render "shared/flash_messages" %>
+
+<div class="spot">
+  <h2><%= @spot.name %></h2>
+  <table>
+    <thead>
+      <tr>
+        <th>住所</th>
+        <th>スポットカテゴリー</th>
+        <th>同伴可能エリア</th>
+        <th>同伴条件</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= @spot.address %></td>
+        <td><%= @spot.category.name %></td>
+        <td><%= @spot.allowed_area.area %></td>
+        <td>
+          <ul>
+          <% @spot.rule.order(:rule_option_id).includes(:rule_option).each do |rule| %>
+            <li><%= rule.rule_option.name %></li>
+          <% end %>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<%= link_to "スポットの登録内容を更新する", edit_spot_path(@spot), "data-turbolinks": false %>
