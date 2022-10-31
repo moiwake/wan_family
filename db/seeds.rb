@@ -26,7 +26,7 @@ allowed_areas.each_with_index do |c, i|
   AllowedArea.find_or_create_by(id: i + 1, area: c)
 end
 
-option_titles = ["訪問施設の利用について", "訪問時の過ごし方", "ワンちゃんの制限", "ワンちゃんの体調・健康", "ワンちゃんのしつけ"]
+option_titles = ["訪問施設の利用について", "訪問時の過ごし方", "ワンちゃんの制限", "ワンちゃんの体調・健康", "ワンちゃんのしつけ", "その他のルール"]
 rule_options = {
   "0" => ["事前に連絡・予約が必要", "会員登録が必要", "同伴可能な日時が決まっている", "ワンちゃんの利用料金あり"],
   "1" => ["マナーバンド・マナーパンツ着用", "衣服の着用", "リードの使用", "ゲージに入れる", "ペットカート・キャリーバッグ内に入れる",
@@ -34,12 +34,13 @@ rule_options = {
   "2" => ["小型犬のみ", "犬以外のペット不可・要相談", "同伴する頭数に制限あり"],
   "3" => ["避妊済み", "ヒート中は利用不可", "ワクチン接種や狂犬病接種が済んでいる"],
   "4" => ["無駄吠え・トイレなどのしつけがされている", "マーキング癖がない", "不用意に噛み付く恐れがない"],
+  "5" => ["その他のルールあり"]
 }
 
 option_titles.each_with_index do |title, title_i|
   OptionTitle.find_or_create_by(id: title_i + 1, name: title)
 
   rule_options[title_i.to_s].each_with_index do |opt, opt_i|
-    OptionTitle.find(title_i + 1).rule_option.find_or_create_by(name: opt)
+    OptionTitle.find(title_i + 1).rule_option.find_or_create_by(id: 1 + RuleOption.count, name: opt)
   end
 end
