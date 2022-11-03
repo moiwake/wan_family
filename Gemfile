@@ -6,6 +6,7 @@ ruby '2.7.6'
 gem 'devise'
 gem 'rails-i18n'
 gem 'rails_admin', '~> 3.0.0'
+gem 'draper'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.6'
