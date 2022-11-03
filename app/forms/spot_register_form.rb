@@ -1,7 +1,5 @@
 class SpotRegisterForm < FormBase
-  attr_accessor :spot, :rules
-
-  delegate :spot_histories, to: :spot
+  attr_accessor :spot, :rules, :updated_rules
 
   def initialize(attributes: nil, spot: Spot.new, rules: nil)
     @spot = spot
@@ -14,33 +12,29 @@ class SpotRegisterForm < FormBase
   end
 
   def rule_attributes= (attributes)
-    @recent_rules = []
+    @updated_rules = []
     attributes["answer"].each do |key, value|
-      @recent_rules << spot.rule.build(rule_option_id: key, answer: value)
+      unless rules.nil?
+        rules.each do |r|
+          if r.rule_option_id.to_s == key
+            r.attributes = { answer: value }
+            updated_rules << r
+          end
+        end
+      else
+        spot.rule.build(rule_option_id: key, answer: value)
+      end
     end
   end
 
   private
 
   def persist
-    raise ActiveRecord::RecordInvalid unless spot.valid? || @recent_rules.each { |r| r.valid? }
+    raise ActiveRecord::RecordInvalid if spot.invalid? || updated_rules.map(&:invalid?).include?(true)
 
     ActiveRecord::Base.transaction do
-      spot.save
-
-      set_rule_option_to_create
-      set_rule_option_to_delete
-
-      if @recent_rules.present?
-        @recent_rules.each do |r|
-          r.save if @added_rule_opt.include?(r.rule_option_id)
-        end
-      end
-
-      if rules.present?
-        removed_rules = rules.where(rule_option_id: [@removed_rule_opt])
-        removed_rules.each(&:destroy)
-      end
+      spot.save!
+      updated_rules.each(&:save!)
     end
 
     true
@@ -54,22 +48,6 @@ class SpotRegisterForm < FormBase
       spot: spot,
       rules: rules,
     }
-  end
-
-  def old_rule_option_ids
-    rules.present? ? rules.pluck(:rule_option_id) : []
-  end
-
-  def recent_rule_option_ids
-    @recent_rules.present? ? @recent_rules.pluck(:rule_option_id) : []
-  end
-
-  def set_rule_option_to_create
-    @added_rule_opt = recent_rule_option_ids.difference(old_rule_option_ids)
-  end
-
-  def set_rule_option_to_delete
-    @removed_rule_opt = old_rule_option_ids.difference(recent_rule_option_ids)
   end
 
   def add_spot_errors_spot
@@ -86,4 +64,3 @@ class SpotRegisterForm < FormBase
     end
   end
 end
-

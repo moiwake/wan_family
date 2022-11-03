@@ -4,7 +4,6 @@ class Rule < ApplicationRecord
 
   with_options presence: true do
     validates :answer
-    validates :spot
   end
 
   validates :rule_option, uniqueness: { scope: :spot }
