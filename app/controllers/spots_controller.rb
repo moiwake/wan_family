@@ -1,6 +1,7 @@
 class SpotsController < ApplicationController
   before_action :authenticate_user!, except: :index
-  before_action :set_categories, :set_allowed_areas, :set_option_titles, only: [:new, :confirm, :edit]
+  before_action :set_checked_rule_opt_ids, only: [:edit, :update]
+  before_action :set_categories, :set_allowed_areas, :set_option_titles, only: [:new, :create, :edit, :update]
 
   def index
     @spots = Spot.all
@@ -14,9 +15,9 @@ class SpotsController < ApplicationController
     @spot_register_form = SpotRegisterForm.new(attributes: form_params)
 
     if @spot_register_form.save
-      create_spot_histories("新規登録")
-      flash[:notice] = "新しいお出かけスポットを登録しました。"
-      redirect_to spots_path
+      call_spot_history_creator
+      flash[:notice] = "#{@spot_register_form.spot.name}を登録しました。"
+      redirect_to spot_path(@spot_register_form.spot)
     else
       render "new"
     end
@@ -28,28 +29,20 @@ class SpotsController < ApplicationController
 
   def edit
     @spot = Spot.find(params[:id])
-    @checked_rules = @spot.rule.pluck(:rule_option_id)
     @spot_register_form = SpotRegisterForm.new(spot: @spot)
   end
 
   def update
     @spot = Spot.find(params[:id])
-    @rules = @spot.rule.where.not(id: nil)
-    @spot_register_form = SpotRegisterForm.new(attributes: form_params, spot: @spot, rules: @rules)
+    @spot_register_form = SpotRegisterForm.new(attributes: form_params, spot: @spot, rules: @spot.rule)
 
     if @spot_register_form.save
-      create_spot_histories("更新")
-      flash[:notice] = "#{@spot.name}の登録内容を変更しました。"
+      call_spot_history_creator
+      flash[:notice] = "#{@spot_register_form.spot.name}の登録内容を変更しました。"
       redirect_to spot_path(@spot)
     else
       render "edit"
     end
-  end
-
-  def destroy
-    @spot = Spot.find(params[:id])
-    @spot.destroy
-    redirect_to spots_path
   end
 
   private
@@ -58,11 +51,9 @@ class SpotsController < ApplicationController
     spot_params = [:name, :latitude, :longitude, :address, :official_site, :image, :allowed_area_id, :category_id]
 
     @rule_params = []
-    RuleOption.pluck(:id).each do |i|
-      @rule_params << "#{i}".to_sym
-    end
+    RuleOption.pluck(:id).each { |i| @rule_params << "#{i}" }
 
-    params.require(:spot_register_form).permit(spot_attributes: spot_params, rule_attributes: [answer: [@rule_params]])
+    params.require(:spot_register_form).permit(spot_attributes: spot_params, rule_attributes: [answer: @rule_params])
   end
 
   def set_categories
@@ -77,7 +68,11 @@ class SpotsController < ApplicationController
     @titles = OptionTitle.order(:id).includes(:rule_option)
   end
 
-  def create_spot_histories(history)
-    @spot_register_form.spot_histories.create(user_id: current_user.id, history: history)
+  def set_checked_rule_opt_ids
+    @checked_rule_opt_ids = @spot.decorate.find_checked_rules.pluck(:rule_option_id)
+  end
+
+  def call_spot_history_creator
+    SpotHistoryCreator.call(spot: @spot_register_form.spot, user: current_user)
   end
 end
