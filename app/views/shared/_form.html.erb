@@ -29,21 +29,21 @@
       <%= sf.text_field :official_site, placeholder: "リンクを貼ってください。" %>
     </div>
   <% end %>
-  <%= f.fields_for(:rule_attributes, @spot_register_form.rules) do |rf| %>
-    <%= rf.fields_for :answer do |af| %>
+  <%= f.fields_for(:rule_attributes, @spot_register_form.rules, index: :answer) do |rf| %>
     <div id="pets_allowed_rule">
       <p>同伴のルール（複数選択可能。ご存知の範囲でチェックをお願いいたします。）</p>
-      <% @titles.each_with_index do |title, i| %>
+      <% @titles.each do |title| %>
         <p><%= title.name %></p>
-        <% title.rule_option.each do |opt| %>
+        <% title.rule_option.each do |rule_opt| %>
           <label>
-            <%= af.check_box "#{opt.id}".to_sym, @checked_rules.present? ? { checked: @checked_rules.include?(opt.id) } : {}, "1", false %>
-            <%= opt.name %>
+            <%= rf.check_box "#{rule_opt.id}".to_sym, {
+              checked: rule_opt_is_checked?(spot: @spot, checked_rule_opt_ids: @checked_rule_opt_ids, rule_opt_id: rule_opt.id)
+            }, "1", "0" %>
+            <%= rule_opt.name %>
           </label>
         <% end %>
       <% end %>
     </div>
-    <% end %>
   <% end %>
   <input type="button" onclick=submit(); value="登録">
 <% end %>
