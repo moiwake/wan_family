@@ -1,0 +1,32 @@
+<div class="spot">
+  <table>
+    <tr>
+      <th>スポット名</th>
+      <td><%= spot.name %></td>
+    </tr>
+    <tr>
+      <th>所在地</th>
+      <td><%= spot.address %></td>
+    </tr>
+    <tr>
+      <th>スポットカテゴリー</th>
+      <td><%= spot.category.name %></td>
+    </tr>
+    <tr>
+      <th>同伴可能エリア</th>
+      <td><%= spot.allowed_area.area %></td>
+    </tr>
+    <tr>
+      <th>同伴のルール</th>
+      <td>
+        <ul>
+        <% spot.rule.each do |rule| %>
+          <% if rule.answer == "1" %>
+            <li><%= rule.rule_option.name %></li>
+          <% end %>
+        <% end %>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>

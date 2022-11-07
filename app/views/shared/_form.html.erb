@@ -37,7 +37,7 @@
         <% title.rule_option.each do |rule_opt| %>
           <label>
             <%= rf.check_box "#{rule_opt.id}".to_sym, {
-              checked: rule_opt_is_checked?(spot: @spot, checked_rule_opt_ids: @checked_rule_opt_ids, rule_opt_id: rule_opt.id)
+              checked: rule_opt_is_checked?(checked_rule_opt_ids: @checked_rule_opt_ids, rule_opt_id: rule_opt.id)
             }, "1", "0" %>
             <%= rule_opt.name %>
           </label>

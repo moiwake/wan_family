@@ -1,10 +1,4 @@
 Rails.application.routes.draw do
-  get 'spots/index'
-  get 'spots/new'
-  get 'spots/create'
-  get 'spots/edit'
-  get 'spots/update'
-  get 'spots/destroy'
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
   devise_for :admins, controllers: {
@@ -12,8 +6,8 @@ Rails.application.routes.draw do
   }
 
   devise_for :users, controllers: {
-    sessions: 'users/sessions',
-    passwords: 'users/passwords',
+    sessions:      'users/sessions',
+    passwords:     'users/passwords',
     registrations: 'users/registrations',
   }
 
@@ -23,5 +17,15 @@ Rails.application.routes.draw do
   get   "mypage/profile/edit", to: "users#edit",   as: "edit_profile"
   patch "mypage/profile",      to: "users#update", as: "profile"
 
-  resources :spots
+  resources :spots do
+    collection do
+      post "new_confirm", action: "new_confirm"
+      post "back_new",    action: "back_new"
+    end
+
+    member do
+      patch "edit_confirm", action: "edit_confirm"
+      patch "back_edit",    action: "back_edit"
+    end
+  end
 end

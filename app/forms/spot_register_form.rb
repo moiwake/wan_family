@@ -12,13 +12,11 @@ class SpotRegisterForm < FormBase
   end
 
   def rule_attributes= (attributes)
-    @updated_rules = []
     attributes["answer"].each do |key, value|
       unless rules.nil?
         rules.each do |r|
           if r.rule_option_id.to_s == key
             r.attributes = { answer: value }
-            updated_rules << r
           end
         end
       else
@@ -27,19 +25,27 @@ class SpotRegisterForm < FormBase
     end
   end
 
+  def invalid?
+    spot.invalid? || spot.rule.map(&:invalid?).include?(true)
+  end
+
+  def add_spot_errors_spot
+    delete_errors_not_to_display
+    spot.errors.each do |error|
+      errors.add(:base, error.full_message)
+    end
+  end
+
   private
 
   def persist
-    raise ActiveRecord::RecordInvalid if spot.invalid? || updated_rules.map(&:invalid?).include?(true)
-
     ActiveRecord::Base.transaction do
       spot.save!
-      updated_rules.each(&:save!)
+      spot.rule.each(&:save!)
     end
 
     true
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
-    add_spot_errors_spot
     false
   end
 
@@ -48,13 +54,6 @@ class SpotRegisterForm < FormBase
       spot: spot,
       rules: rules,
     }
-  end
-
-  def add_spot_errors_spot
-    delete_errors_not_to_display
-    spot.errors.each do |error|
-      errors.add(:base, error.full_message)
-    end
   end
 
   def delete_errors_not_to_display
