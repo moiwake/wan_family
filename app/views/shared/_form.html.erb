@@ -17,8 +17,6 @@
         <%= sf.hidden_field :longitude, id: :lng %>
         <div id="map_display"></div>
       </div>
-      <%= sf.label :image, "スポットの写真" %>
-      <%= sf.file_field :image %>
       <%= sf.label :category_id, "スポットカテゴリー" %>
       <%= sf.collection_select :category_id, @categories, :id, :name, include_blank: "選択して下さい" %>
       <div id="allowed_area">
