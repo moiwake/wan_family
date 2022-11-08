@@ -9,7 +9,6 @@
         <th>住所</th>
         <th>スポットカテゴリー</th>
         <th>詳細</th>
-        <th>削除</th>
       </tr>
     </thead>
     <tbody>
@@ -19,7 +18,6 @@
         <td><%= spot.address %></td>
         <td><%= spot.category.name %></td>
         <td><%= link_to "詳細", spot_path(spot.id) %></td>
-        <td><%= button_to "削除", spot_path(spot.id), method: :delete %></td>
       </tr>
       <% end %>
     </tbody>
