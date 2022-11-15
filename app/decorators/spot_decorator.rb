@@ -6,8 +6,6 @@ class SpotDecorator < Draper::Decorator
   end
 
   def get_checked_rule_opt
-    rule.select do |r|
-      r.answer == "1"
-    end
+    rule.select { |r| r.answer == "1" }
   end
 end
