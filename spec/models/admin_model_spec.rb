@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 shared_examples "validation error message" do
-  it "エラーになる" do
+  it "errorsコレクションにエラーメッセージが追加される" do
     invalid_admin.valid?
     expect(invalid_admin.errors[attribute]).to include(message)
   end
@@ -36,7 +36,7 @@ RSpec.describe Admin, type: :model do
       end
     end
 
-    context "pasawordカラム" do
+    context "passwordカラム" do
       let(:attribute) { :password }
 
       context "nilのとき" do

@@ -1,7 +1,7 @@
 require "rails_helper"
 
 shared_examples "validation error message" do
-  it "エラーになる" do
+  it "errorsコレクションにエラーメッセージが追加される" do
     invalid_spot.valid?
     expect(invalid_spot.errors[attribute]).to include(message)
   end
@@ -107,6 +107,13 @@ RSpec.describe Spot, type: :model do
 
   describe "uniquenessのバリデーション" do
     let(:message) { "はすでに存在します" }
+
+    context "nameカラムが重複しているとき" do
+      let(:attribute) { :name }
+      let(:invalid_spot) { build(:spot, :duplicated_name) }
+
+      it_behaves_like "validation error message"
+    end
 
     context "latitudeカラムとlongitudeカラムの両データが重複しているとき" do
       let(:attribute) { :latitude }

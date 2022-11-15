@@ -1,7 +1,7 @@
 require "rails_helper"
 
 shared_examples "validation error message" do
-  it "エラーになる" do
+  it "errorsコレクションにエラーメッセージが追加される" do
     invalid_option_title.valid?
     expect(invalid_option_title.errors[attribute]).to include(message)
   end
@@ -25,6 +25,12 @@ RSpec.describe OptionTitle, type: :model do
 
       context "nilのとき" do
         let(:type) { :nil }
+
+        it_behaves_like "validation error message"
+      end
+
+      context "空文字のとき" do
+        let(:type) { :empty }
 
         it_behaves_like "validation error message"
       end

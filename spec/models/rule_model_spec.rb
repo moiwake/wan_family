@@ -1,7 +1,7 @@
 require "rails_helper"
 
 shared_examples "validation error message" do
-  it "エラーになる" do
+  it "errorsコレクションにエラーメッセージが追加される" do
     invalid_rule.valid?
     expect(invalid_rule.errors[attribute]).to include(message)
   end
@@ -47,6 +47,41 @@ RSpec.describe Rule, type: :model do
         let(:type) { :nil }
 
         it_behaves_like "validation error message"
+      end
+
+      context "空文字のとき" do
+        let(:type) { :empty }
+
+        it_behaves_like "validation error message"
+      end
+    end
+  end
+
+  describe "uniquenessのバリデーション" do
+    let(:message) { "はすでに存在します" }
+
+    context "spotカラムとrule_optionカラムの両データが重複しているとき" do
+      let(:attribute) { :spot }
+      let(:invalid_rule) { build(:rule, spot: rule.spot, rule_option: rule.rule_option) }
+
+      it_behaves_like "validation error message"
+    end
+
+    context "spotカラムのデータのみが重複しているとき" do
+      let(:attribute) { :spot }
+      let(:valid_rule) { build(:rule, spot: rule.spot) }
+
+      it "そのスポットデータは有効" do
+        expect(valid_rule).to be_valid
+      end
+    end
+
+    context "rule_optionカラムがのみ重複しているとき" do
+      let(:attribute) { :rule_option }
+      let(:valid_rule) { build(:rule, rule_option: rule.rule_option) }
+
+      it "そのスポットデータは有効" do
+        expect(valid_rule).to be_valid
       end
     end
   end

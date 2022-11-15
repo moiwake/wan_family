@@ -1,7 +1,7 @@
 require "rails_helper"
 
 shared_examples "validation error message" do
-  it "エラーになる" do
+  it "errorsコレクションにエラーメッセージが追加される" do
     invalid_user.valid?
     expect(invalid_user.errors[attribute]).to include(message)
   end

@@ -1,7 +1,7 @@
 require "rails_helper"
 
 shared_examples "validation error message" do
-  it "エラーになる" do
+  it "errorsコレクションにエラーメッセージが追加される" do
     invalid_spot_history.valid?
     expect(invalid_spot_history.errors[attribute]).to include(message)
   end
@@ -45,6 +45,12 @@ RSpec.describe SpotHistory, type: :model do
 
       context "nilのとき" do
         let(:type) { :nil }
+
+        it_behaves_like "validation error message"
+      end
+
+      context "空文字のとき" do
+        let(:type) { :empty }
 
         it_behaves_like "validation error message"
       end
