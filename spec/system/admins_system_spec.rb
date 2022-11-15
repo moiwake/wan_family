@@ -9,7 +9,7 @@ RSpec.describe "AdminsSystemSpecs", type: :system do
       visit new_admin_session_path
     end
 
-    it "ログイン情報が正しければ、ログインできて、サイト管理ページのトップに遷移する。", js: true do
+    it "ログインデータが正しければ、ログインできて、サイト管理ページのトップに遷移する。", js: true do
       fill_in "admin[email]", with: admin.email
       fill_in "admin[password]", with: admin.password
       click_button "ログイン"
@@ -17,7 +17,7 @@ RSpec.describe "AdminsSystemSpecs", type: :system do
       expect(page).to have_content("ログインしました。")
     end
 
-    it "ログイン情報が間違っているとログインできない", js: true do
+    it "ログインデータが間違っているとログインできない", js: true do
       fill_in "admin[email]", with: "incorrect_email"
       fill_in "admin[password]", with: "incorrect_password"
       click_button "ログイン"
