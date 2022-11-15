@@ -7,7 +7,7 @@ class Spot < ApplicationRecord
   has_one_attached :image
 
   with_options presence: true do
-    validates :name
+    validates :name, uniqueness: true
     validates :latitude, uniqueness: { scope: :longitude }
     validates :longitude
     validates :address, uniqueness: true

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_26_054622) do
+ActiveRecord::Schema.define(version: 2022_11_08_070620) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 2022_10_26_054622) do
     t.string "area", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["area"], name: "index_allowed_areas_on_area", unique: true
   end
 
   create_table "categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -84,6 +85,7 @@ ActiveRecord::Schema.define(version: 2022_10_26_054622) do
     t.string "answer", default: "0", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["rule_option_id", "spot_id"], name: "index_rules_on_rule_option_id_and_spot_id", unique: true
     t.index ["rule_option_id"], name: "index_rules_on_rule_option_id"
     t.index ["spot_id"], name: "index_rules_on_spot_id"
   end
@@ -112,6 +114,7 @@ ActiveRecord::Schema.define(version: 2022_10_26_054622) do
     t.index ["allowed_area_id"], name: "index_spots_on_allowed_area_id"
     t.index ["category_id"], name: "index_spots_on_category_id"
     t.index ["latitude", "longitude"], name: "index_spots_on_latitude_and_longitude", unique: true
+    t.index ["name"], name: "index_spots_on_name", unique: true
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
