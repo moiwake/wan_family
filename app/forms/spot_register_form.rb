@@ -1,5 +1,5 @@
 class SpotRegisterForm < FormBase
-  attr_accessor :spot, :rules, :updated_rules
+  attr_accessor :spot, :rules
 
   def initialize(attributes: nil, spot: Spot.new, rules: nil)
     @spot = spot
