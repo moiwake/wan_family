@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :allowed_area do
-    area { "MyString" }
+    sequence(:area) { |n| "area#{n}" }
   end
 end
