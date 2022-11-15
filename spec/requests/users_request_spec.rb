@@ -23,12 +23,12 @@ RSpec.describe "Users", type: :request do
         expect(response).to have_http_status(:success)
       end
 
-      it "ログインユーザー情報が表示される" do
+      it "ログインユーザーデータが表示される" do
         expect(response.body).to include(user.name)
         expect(response.body).to include(avatar_url)
       end
 
-      it "ログインユーザー以外の情報は表示されない" do
+      it "ログインユーザー以外のデータは表示されない" do
         expect(response.body).not_to include(another_user.name)
         expect(response.body).not_to include(another_avatar_url)
       end
@@ -54,13 +54,13 @@ RSpec.describe "Users", type: :request do
         expect(response).to have_http_status(:success)
       end
 
-      it "ログインユーザー情報が表示される" do
+      it "ログインユーザーデータが表示される" do
         expect(response.body).to include(user.name)
         expect(response.body).to include(avatar_url)
         expect(response.body).to include(user.introduction)
       end
 
-      it "ログインユーザー以外の情報は表示されない" do
+      it "ログインユーザー以外のデータは表示されない" do
         expect(response.body).not_to include(another_user.name)
         expect(response.body).not_to include(another_avatar_url)
         expect(response.body).not_to include(another_user.introduction)
