@@ -15,9 +15,9 @@ window.onload = function() {
 
 function docInit(){
   if (aft == true){
-    document.getElementById("lat").value = "";
-    document.getElementById("lng").value = "";
-    document.getElementById("spot_register_form_spot_attributes_address").value = "";
+    document.getElementById("form_lat").value = "";
+    document.getElementById("form_lng").value = "";
+    document.getElementById("form_spot_address").value = "";
     marker.setMap(null);
   }
 }
@@ -25,7 +25,7 @@ function docInit(){
 let aft
 let marker
 function codeAddress(){
-  let inputAddress = document.getElementById("search_spot").value;
+  let inputAddress = document.getElementById("form_search_spot").value;
   geocoder.geocode( { "address": inputAddress }, function(results, status) {
     if (status == "OK") {
       let addressArray = results[0].formatted_address.split(" ");
@@ -40,9 +40,9 @@ function codeAddress(){
           position: results[0].geometry.location,
         });
 
-        document.getElementById("lat").value = results[0].geometry.location.lat();
-        document.getElementById("lng").value = results[0].geometry.location.lng();
-        document.getElementById("spot_register_form_spot_attributes_address").value = addressArray[1];
+        document.getElementById("form_lat").value = results[0].geometry.location.lat();
+        document.getElementById("form_lng").value = results[0].geometry.location.lng();
+        document.getElementById("form_spot_address").value = addressArray[1];
 
         aft = true;
       } else{
@@ -60,7 +60,7 @@ function codeAddress(){
   });
 }
 
-let search_button = document.getElementById("search_button");
+let search_button = document.getElementById("form_search_button");
 if( search_button !== null ) {
   search_button.addEventListener("click", codeAddress);
 }
