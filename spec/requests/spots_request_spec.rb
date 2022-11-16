@@ -81,7 +81,7 @@ RSpec.describe "Spots", type: :request do
           expect(response.body).to include(spot.allowed_area.area)
         end
 
-        context "スポットに適用される同伴条件の場合" do
+        context "スポットに適用される同伴ルールの場合" do
           it "該当のルールが表示される" do
             attached_rules.each do |attached_rule|
               expect(response.body).to include(attached_rule.rule_option.name)
@@ -89,7 +89,7 @@ RSpec.describe "Spots", type: :request do
           end
         end
 
-        context "スポットに適用されない同伴条件の場合" do
+        context "スポットに適用されない同伴ルールの場合" do
           it "該当のルールは表示されない" do
             not_attached_rules.each do |not_attached_rule|
               expect(response.body).not_to include(not_attached_rule.rule_option.name)
@@ -139,20 +139,20 @@ RSpec.describe "Spots", type: :request do
           expect(find_css_value("#form_official_site")).to eq(spot.official_site)
         end
 
-        context "登録スポットに適用される同伴条件として保存されているルール" do
+        context "登録スポットに適用される同伴ルールとして保存されているルールの選択肢" do
           let(:attached_rule_opt_ids) { attached_rules.pluck(:rule_option_id) }
 
-          it "該当のルールにはすべてにチェックが入っている" do
+          it "該当の選択肢にはすべてにチェックが入っている" do
             attached_rule_opt_ids.each do |attached_rule_opt_id|
               expect(css_select("##{attached_rule_opt_id}").first.attributes["checked"].present?).to be(true)
             end
           end
         end
 
-        context "登録スポットに適用されない同伴条件として保存されているルール" do
+        context "登録スポットに適用されない同伴ルールとして保存されているルールの選択肢" do
           let(:not_attached_rule_opt_ids) { not_attached_rules.pluck(:rule_option_id) }
 
-          it "該当のルールにはチェックが入っていない" do
+          it "該当の選択肢にはチェックが入っていない" do
             not_attached_rule_opt_ids.each do |not_attached_rule_opt_id|
               expect(css_select("##{not_attached_rule_opt_id}").first.attributes["checked"].present?).to be(false)
             end
@@ -230,8 +230,8 @@ RSpec.describe "Spots", type: :request do
           expect(response.body).to include(allowed_area.area)
         end
 
-        context "パラメータに、登録スポットに適用される同伴条件として保存されているルール" do
-          it "該当のルールが表示される" do
+        context "パラメータに、登録スポットに適用される同伴ルールとして保存されているルールの選択肢" do
+          it "該当の選択肢が表示される" do
             answer_params.keys.each do |key|
               if answer_params[key] == "1"
                 expect(response.body).to include(RuleOption.find(key).name)
@@ -240,8 +240,8 @@ RSpec.describe "Spots", type: :request do
           end
         end
 
-        context "パラメータに、登録スポットに適用される同伴条件として保存されているルール" do
-          it "該当のルールは表示されない" do
+        context "パラメータに、登録スポットに適用される同伴ルールとして保存されているルールの選択肢" do
+          it "該当の選択肢は表示されない" do
             answer_params.keys.each do |key|
               if answer_params[key] == "0"
                 expect(response.body).not_to include(RuleOption.find(key).name)
@@ -309,28 +309,28 @@ RSpec.describe "Spots", type: :request do
         expect(find_css_value("#form_official_site")).to eq(session_spot_params["official_site"])
       end
 
-      context "セッションに、登録スポットに適用される同伴条件として保存されているルール" do
+      context "セッションに、登録スポットに適用される同伴ルールとして保存されているルールの選択肢" do
         let(:checked_rule_opt_ids_in_session) do
           session_rule_params.keys.select do |key|
             session_rule_params[key] == "1"
           end
         end
 
-        it "該当のルールにはすべてにチェックが入っている" do
+        it "該当の選択肢にはすべてにチェックが入っている" do
           checked_rule_opt_ids_in_session.each do |checked_rule_opt_id|
             expect(css_select("##{checked_rule_opt_id}").first.attributes["checked"].present?).to be(true)
           end
         end
       end
 
-      context "セッションに、登録スポットに適用されない同伴条件として保存されているルール" do
+      context "セッションに、登録スポットに適用されない同伴ルールとして保存されているルールの選択肢" do
         let(:unchecked_rule_opt_ids_in_session) do
           session_rule_params.keys.select do |key|
             session_rule_params[key] == "0"
           end
         end
 
-        it "該当のルールにはチェックが入っていない" do
+        it "該当の選択肢にはチェックが入っていない" do
           unchecked_rule_opt_ids_in_session.each do |unchecked_rule_opt_id|
             expect(css_select("##{unchecked_rule_opt_id}").first.attributes["checked"].present?).to be(false)
           end
@@ -360,7 +360,7 @@ RSpec.describe "Spots", type: :request do
           end.to change { Spot.count }.by(1)
         end
 
-        it "スポットの同伴ルールが、ルールの選択肢分だけ登録される" do
+        it "スポットの同伴ルールが、選択肢分だけ登録される" do
           post spots_path
           expect(Spot.last.rule.count).to eq(RuleOption.count)
         end
@@ -467,8 +467,8 @@ RSpec.describe "Spots", type: :request do
           expect(response.body).to include(updated_allowed_area.area)
         end
 
-        context "パラメータに、登録スポットに適用される同伴条件として保存されているルール" do
-          it "該当のルールが表示される" do
+        context "パラメータに、登録スポットに適用される同伴ルールとして保存されているルールの選択肢" do
+          it "該当の選択肢が表示される" do
             updated_answer_params.keys.each do |key|
               if updated_answer_params[key] == "1"
                 expect(response.body).to include(RuleOption.find(key).name)
@@ -477,8 +477,8 @@ RSpec.describe "Spots", type: :request do
           end
         end
 
-        context "パラメータに、登録スポットに適用される同伴条件として保存されているルール" do
-          it "該当のルールは表示されない" do
+        context "パラメータに、登録スポットに適用される同伴ルールとして保存されているルールの選択肢" do
+          it "該当の選択肢は表示されない" do
             updated_answer_params.keys.each do |key|
               if updated_answer_params[key] == "0"
                 expect(response.body).not_to include(RuleOption.find(key).name)
@@ -546,28 +546,28 @@ RSpec.describe "Spots", type: :request do
         expect(find_css_value("#form_official_site")).to eq(session_updated_spot_params["official_site"])
       end
 
-      context "セッションに、登録スポットに適用される同伴条件として保存されているルール" do
+      context "セッションに、登録スポットに適用される同伴ルールとして保存されているルールの選択肢" do
         let(:checked_rule_opt_ids_in_session) do
           session_updated_rule_params.keys.select do |key|
             session_updated_rule_params[key] == "1"
           end
         end
 
-        it "該当のルールにはすべてにチェックが入っている" do
+        it "該当の選択肢にはすべてにチェックが入っている" do
           checked_rule_opt_ids_in_session.each do |checked_rule_opt_id|
             expect(css_select("##{checked_rule_opt_id}").first.attributes["checked"].present?).to be(true)
           end
         end
       end
 
-      context "セッションに、登録スポットに適用されない同伴条件として保存されているルール" do
+      context "セッションに、登録スポットに適用されない同伴ルールとして保存されているルールの選択肢" do
         let(:unchecked_rule_opt_ids_in_session) do
           session_updated_rule_params.keys.select do |key|
             session_updated_rule_params[key] == "0"
           end
         end
 
-        it "該当のルールにはチェックが入っていない" do
+        it "該当の選択肢にはチェックが入っていない" do
           unchecked_rule_opt_ids_in_session.each do |unchecked_rule_opt_id|
             expect(css_select("##{unchecked_rule_opt_id}").first.attributes["checked"].present?).to be(false)
           end

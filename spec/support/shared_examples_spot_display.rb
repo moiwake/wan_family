@@ -15,7 +15,7 @@ shared_examples "display_all_allowed_areas" do
 end
 
 shared_examples "display_all_option_titles" do
-  it "すべての同伴条件の選択肢のタイトルが表示される" do
+  it "すべての同伴ルールの選択肢のタイトルが表示される" do
     option_titles.each do |option_title|
       expect(response.body).to include(option_title.name)
     end
