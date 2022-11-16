@@ -33,7 +33,7 @@
         <% title.rule_option.each do |rule_opt| %>
           <label>
             <%= rf.check_box "#{rule_opt.id}".to_sym, {
-              checked: rule_opt_is_attached?(attached_rule_opt_ids: @attached_rule_opt_ids, rule_opt_id: rule_opt.id),
+              checked: ary_present_and_include_ele?(ary: @attached_rule_opt_ids, ele: rule_opt.id),
               class: :form_rule_check_box,
               id: rule_opt.id.to_s
             }, "1", "0" %>
