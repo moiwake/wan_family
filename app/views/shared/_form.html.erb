@@ -25,23 +25,24 @@
       <%= sf.text_field :official_site, placeholder: "リンクを貼ってください。", id: :form_official_site %>
     </div>
   <% end %>
-  <%= f.fields_for(:rule_attributes, @spot_register_form.rules, index: :answer) do |rf| %>
-    <div id="form_pets_allowed_rule">
-      <p>同伴のルール（複数選択可能。ご存知の範囲でチェックをお願いいたします。）</p>
-      <% @titles.each do |title| %>
-        <p><%= title.name %></p>
-        <% title.rule_option.each do |rule_opt| %>
+  <div id="form_pets_allowed_rule">
+    <p>同伴のルール（複数選択可能。ご存知の範囲でチェックをお願いいたします。）</p>
+    <% @titles.each do |title| %>
+      <p><%= title.name %></p>
+      <% title.rule_option.each do |rule_opt| %>
+        <%= f.fields_for(:rules_attributes, @spot_register_form.rules, index: rule_opt.id) do |rf| %>
           <label>
-            <%= rf.check_box "#{rule_opt.id}".to_sym, {
+            <%= rf.check_box :answer, {
               checked: ary_present_and_include_ele?(ary: @attached_rule_opt_ids, ele: rule_opt.id),
               class: :form_rule_check_box,
               id: rule_opt.id.to_s
             }, "1", "0" %>
             <%= rule_opt.name %>
           </label>
+          <%= rf.hidden_field :rule_option_id, value: rule_opt.id %>
         <% end %>
       <% end %>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
   <input type="button" onclick=submit(); value="登録">
 <% end %>
