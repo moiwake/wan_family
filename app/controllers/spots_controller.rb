@@ -1,13 +1,14 @@
 class SpotsController < ApplicationController
   before_action :authenticate_user!, except: :index
   before_action :set_categories, :set_allowed_areas, :set_option_titles, except: [:index, :show]
+  before_action :delete_session, only: [:new, :edit]
+  after_action  :delete_session, only: [:create, :update]
 
   def index
     @spots = Spot.all
   end
 
   def new
-    session.delete(:params)
     @spot_register_form = SpotRegisterForm.new
   end
 
@@ -16,10 +17,12 @@ class SpotsController < ApplicationController
     session[:params] = form_params
 
     if @spot_register_form.invalid?
-      @spot_register_form.add_spot_errors_spot
       set_attached_rule_opt_ids(@spot_register_form.spot)
       render "new"
     end
+
+  rescue ActionController::ParameterMissing
+    redirect_to back_new_spots_path
   end
 
   def back_new
@@ -30,7 +33,6 @@ class SpotsController < ApplicationController
 
   def create
     @spot_register_form = SpotRegisterForm.new(attributes: session[:params])
-    session.delete(:params)
 
     if @spot_register_form.save
       SpotHistoryCreator.call(spot: @spot_register_form.spot, user: current_user, history: "新規登録")
@@ -46,7 +48,6 @@ class SpotsController < ApplicationController
   end
 
   def edit
-    session.delete(:params)
     @spot = Spot.find(params[:id])
     set_attached_rule_opt_ids(@spot)
     @spot_register_form = SpotRegisterForm.new(spot: @spot)
@@ -58,10 +59,12 @@ class SpotsController < ApplicationController
     session[:params] = form_params
 
     if @spot_register_form.invalid?
-      @spot_register_form.add_spot_errors_spot
       set_attached_rule_opt_ids(@spot_register_form.spot)
       render "edit"
     end
+
+  rescue ActionController::ParameterMissing
+    redirect_to back_edit_spot_path(@spot)
   end
 
   def back_edit
@@ -74,7 +77,6 @@ class SpotsController < ApplicationController
   def update
     @spot = Spot.find(params[:id])
     @spot_register_form = SpotRegisterForm.new(attributes: session[:params], spot: @spot, rules: @spot.rule)
-    session.delete(:params)
 
     if @spot_register_form.save
       SpotHistoryCreator.call(spot: @spot, user: current_user, history: "更新")
@@ -99,9 +101,7 @@ class SpotsController < ApplicationController
       :image,
     ]
 
-    rule_params = RuleOption.pluck(:id).map  { |i| "#{i}" }
-
-    params.require(:spot_register_form).permit(spot_attributes: spot_params, rule_attributes: [answer: rule_params])
+    params.require(:spot_register_form).permit(spot_attributes: spot_params, rules_attributes: [[:"answer", :"rule_option_id"]])
   end
 
   def set_categories
@@ -119,5 +119,9 @@ class SpotsController < ApplicationController
   def set_attached_rule_opt_ids(spot)
     attached_rule_opt_ary = spot.decorate.get_checked_rule_opt
     @attached_rule_opt_ids = attached_rule_opt_ary.pluck(:rule_option_id)
+  end
+
+  def delete_session
+    session.delete(:params)
   end
 end

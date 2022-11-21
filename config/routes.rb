@@ -19,12 +19,16 @@ Rails.application.routes.draw do
 
   resources :spots do
     collection do
+      get  "new_confirm", action: "new_confirm"
       post "new_confirm", action: "new_confirm"
+      get  "back_new",    action: "back_new"
       post "back_new",    action: "back_new"
     end
 
     member do
+      get   "edit_confirm", action: "edit_confirm"
       patch "edit_confirm", action: "edit_confirm"
+      get   "back_edit",    action: "back_edit"
       patch "back_edit",    action: "back_edit"
     end
   end
