@@ -8,19 +8,22 @@ class FormBase
     super(attributes)
   end
 
-  def save
-    valid? ? persist : false
-  rescue ActiveRecord::ActiveRecordError => e
-    Rails.logger.error([e.message, *e.backtrace].join($/))
-    errors.add(:base, e.message)
+  def invalid?
+    check_and_add_error
+  end
 
-    false
+  def save
+    persist
   end
 
   private
 
   def default_attributes
     {}
+  end
+
+  def check_and_add_error
+    !valid?
   end
 
   def persist
