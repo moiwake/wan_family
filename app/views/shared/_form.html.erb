@@ -17,9 +17,9 @@
         <%= sf.hidden_field :longitude, id: :form_lng %>
         <div id="map_display"></div>
       </div>
-      <%= sf.label :category_id, "スポットカテゴリー" %>
+      <%= sf.label :category_id, "スポットカテゴリー", for: "form_spot_category" %>
       <%= sf.collection_select :category_id, @categories, :id, :name, { prompt: "選択してください" }, { id: :form_spot_category } %>
-      <%= sf.label :allowed_area_id, "同伴可能エリア" %>
+      <%= sf.label :allowed_area_id, "同伴可能エリア", for: "form_allowed_area" %>
       <%= sf.collection_select :allowed_area_id, @allowed_areas, :id, :area, { prompt: "選択してください" }, { id: :form_allowed_area } %>
       <%= sf.label :official_site, "スポットのオフィシャルサイト" %>
       <%= sf.text_field :official_site, placeholder: "リンクを貼ってください。", id: :form_official_site %>
@@ -31,7 +31,7 @@
       <p><%= title.name %></p>
       <% title.rule_option.each do |rule_opt| %>
         <%= f.fields_for(:rules_attributes, @spot_register_form.rules, index: rule_opt.id) do |rf| %>
-          <label>
+          <label for="<%= rule_opt.id %>">
             <%= rf.check_box :answer, {
               checked: ary_present_and_include_ele?(ary: @attached_rule_opt_ids, ele: rule_opt.id),
               class: :form_rule_check_box,

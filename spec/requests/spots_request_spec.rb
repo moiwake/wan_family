@@ -245,6 +245,7 @@ RSpec.describe "Spots", type: :request do
           expect(response.body).to include(spot_params[:address])
           expect(response.body).to include(Category.find(spot_params[:category_id]).name)
           expect(response.body).to include(AllowedArea.find(spot_params[:allowed_area_id]).area)
+          expect(response.body).to include(spot_params[:official_site])
         end
 
         context "パラメータに、登録スポットに適用される同伴ルールとして保存されているルールの選択肢" do
@@ -384,7 +385,7 @@ RSpec.describe "Spots", type: :request do
 
         it "HTTPリクエストが成功する" do
           post spots_path
-          expect(response.status).to eq(302)
+          expect(response.status).to have_http_status(302)
         end
 
         it "スポットを登録できる" do
@@ -520,6 +521,7 @@ RSpec.describe "Spots", type: :request do
           expect(response.body).to include(updated_spot_params[:address])
           expect(response.body).to include(Category.find(updated_spot_params[:category_id]).name)
           expect(response.body).to include(AllowedArea.find(updated_spot_params[:allowed_area_id]).area)
+          expect(response.body).to include(updated_spot_params[:official_site])
         end
 
         context "パラメータに、登録スポットに適用される同伴ルールとして保存されているルールの選択肢" do
@@ -659,7 +661,7 @@ RSpec.describe "Spots", type: :request do
 
         it "HTTPリクエストが成功する" do
           patch spot_path(spot.id)
-          expect(response.status).to eq(302)
+          expect(response.status).to have_http_status(302)
         end
 
         it "スポットを更新できる" do
