@@ -4,7 +4,16 @@ module ApplicationHelper
       return "user"
     elsif current_admin.present?
       return "admin"
+    else
+      return "others"
     end
-    return nil
+  end
+
+  def ary_present_and_include_ele?(ary: nil, ele: nil)
+    if ary.present?
+      ary.include?(ele)
+    else
+      false
+    end
   end
 end
