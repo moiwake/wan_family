@@ -30,6 +30,7 @@ services:
       APP_NAME: Wan Family
       WEB_PROTOCOL: http
       WEB_HOST: localhost:3000
+      CAPYBARA_SERVER_HOST: web
     depends_on:
       - mysql
     volumes:
