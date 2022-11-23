@@ -1,15 +1,9 @@
 <h1>プロフィールの編集</h1>
 
 <%= render "shared/flash_messages" %>
+<%= image_tag @user.decorate.display_avatar, size: "100x100" %>
 
-<% if @user.avatar.attached? %>
-  <%= image_tag @user.avatar, size: "100x100" %>
-<% else %>
-  <%= image_tag("noavatar.png", size: "100x100") %>
-<% end %>
-
-
-<%= form_with(model: @user, url: profile_path) do |f| %>
+<%= form_with model: @user, url: profile_path do |f| %>
   <%= f.file_field :avatar %>
   <%= @user.name %> (変更できません)
   <%= f.text_area :introduction, placeholder: "自己紹介をご記入ください。" %>
