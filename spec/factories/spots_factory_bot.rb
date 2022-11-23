@@ -20,6 +20,14 @@ FactoryBot.define do
       address { "東京都港区芝公園４丁目２−８" }
     end
 
+    trait :another_real_spot do
+      name { "スカイツリー" }
+      latitude { 35.7100627 }
+      longitude { 139.8107004 }
+      address { "東京都墨田区押上１丁目１−２" }
+      official_site { "http://anothr_official_site" }
+    end
+
     trait :duplicated_name do
       name { "東京タワー" }
       latitude { 1.0 }
