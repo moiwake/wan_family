@@ -34,14 +34,15 @@
 <input type="button" id="kyushu" value="九州">
 <input type="button" id="okinawa" value="沖縄">
 
-<div id='map_index'></div>
+<div id='map_search_spot'></div>
 
 <!-- javascriptで緯度経度を参照するため -->
 <input type="hidden" id="spot_counts" value=<%= @spots.size %>>
 <% @spots.each_with_index do |spot, i|%>
   <input type="hidden" id="spot_latitude_<%= i %>" value=<%= spot.latitude %>>
   <input type="hidden" id="spot_longitude_<%= i %>" value=<%= spot.longitude %>>
-  <input type="hidden" id="spot_id_<%= i %>" value=<%= spot.id %>>
+  <input type="hidden" id="spot_path_<%= i %>" value=<%= spot_path(spot.id) %>>
+  <input type="hidden" id="spot_name_<%= i %>" value=<%= spot.name %>>
 <% end %>
 
-<%#= render "shared/form_javascript" %>
+<%= render "shared/map_display", file: "spot/map_search_spot" %>
