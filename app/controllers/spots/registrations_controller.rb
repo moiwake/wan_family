@@ -22,7 +22,7 @@ class Spots::RegistrationsController < ApplicationController
     end
 
   rescue ActionController::ParameterMissing
-    redirect_to back_new_spots_path
+    redirect_to back_new_spots_registrations_path
   end
 
   def back_new
@@ -101,7 +101,7 @@ class Spots::RegistrationsController < ApplicationController
       :image,
     ]
 
-    params.require(:spot_register_form).permit(spot_attributes: spot_params, rules_attributes: [[:"answer", :"rule_option_id"]])
+    params.require(:spot_register_form).permit(spot_attributes: spot_params, rules_attributes: [["answer", "rule_option_id"]])
   end
 
   def set_categories

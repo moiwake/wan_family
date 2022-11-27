@@ -34,7 +34,7 @@ RSpec.describe "AdminsSystemSpecs", type: :system do
 
       it "管理者に権限があるページのリンクのみ表示される" do
         expect(page).to have_link("サイト管理ページへ", href: rails_admin_path)
-        expect(page).not_to have_link("マイページ", href: mypage_path)
+        expect(page).not_to have_link("マイページ", href: users_mypage_path)
       end
 
       it "管理者が利用しないページのリンクは表示されない" do

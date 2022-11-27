@@ -8,7 +8,7 @@ shared_examples "validation error message" do
 end
 
 RSpec.describe Spot, type: :model do
-  let!(:spot) { create(:spot) }
+  let!(:spot) { create(:spot, :real_spot) }
 
   context "全カラムのデータが有効なとき" do
     it "そのスポットのデータは有効" do

@@ -28,24 +28,26 @@ RSpec.describe SpotRegisterForm, type: :model do
         it "パラメータの値を属性値に設定して、スポットのレコードが保存される" do
           expect do
             subject
-            expect(new_spot.name).to eq(spot_attributes[:name])
-            expect(new_spot.latitude).to eq(spot_attributes[:latitude])
-            expect(new_spot.longitude).to eq(spot_attributes[:longitude])
-            expect(new_spot.address).to eq(spot_attributes[:address])
-            expect(new_spot.official_site).to eq(spot_attributes[:official_site])
-            expect(new_spot.allowed_area_id).to eq(spot_attributes[:allowed_area_id])
-            expect(new_spot.category_id).to eq(spot_attributes[:category_id])
           end.to change { Spot.count }.by(1)
+
+          expect(new_spot.name).to eq(spot_attributes[:name])
+          expect(new_spot.latitude).to eq(spot_attributes[:latitude])
+          expect(new_spot.longitude).to eq(spot_attributes[:longitude])
+          expect(new_spot.address).to eq(spot_attributes[:address])
+          expect(new_spot.official_site).to eq(spot_attributes[:official_site])
+          expect(new_spot.allowed_area_id).to eq(spot_attributes[:allowed_area_id])
+          expect(new_spot.category_id).to eq(spot_attributes[:category_id])
         end
 
         it "パラメータの値を属性値に設定して、同伴ルールのすべてのレコードが保存される" do
           expect do
             subject
-            new_spot.rule.each do |new_rule|
-              expect(new_rule.answer).to eq(rules_attributes[new_rule.rule_option_id.to_s][:answer])
-              expect(new_rule.rule_option_id).to eq(rules_attributes[new_rule.rule_option_id.to_s][:rule_option_id])
-            end
           end.to change { Rule.count }.by(spot_register_form_instance.spot.rule.length)
+
+          new_spot.rule.each do |new_rule|
+            expect(new_rule.answer).to eq(rules_attributes[new_rule.rule_option_id.to_s][:answer])
+            expect(new_rule.rule_option_id).to eq(rules_attributes[new_rule.rule_option_id.to_s][:rule_option_id])
+          end
         end
 
         it "trueを返す" do
