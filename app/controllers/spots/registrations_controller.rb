@@ -1,5 +1,5 @@
-class SpotsController < ApplicationController
-  before_action :authenticate_user!, except: :index
+class Spots::RegistrationsController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_categories, :set_allowed_areas, :set_option_titles, except: [:index, :show]
   before_action :delete_session, only: [:new, :edit]
   after_action  :delete_session, only: [:create, :update]
@@ -37,7 +37,7 @@ class SpotsController < ApplicationController
     if @spot_register_form.save
       SpotHistoryCreator.call(spot: @spot_register_form.spot, user: current_user, history: "新規登録")
       flash[:notice] = "#{@spot_register_form.spot.name}を登録しました。"
-      redirect_to spot_path(@spot_register_form.spot)
+      redirect_to spots_registration_path(@spot_register_form.spot)
     else
       render "new"
     end
@@ -64,7 +64,7 @@ class SpotsController < ApplicationController
     end
 
   rescue ActionController::ParameterMissing
-    redirect_to back_edit_spot_path(@spot)
+    redirect_to back_edit_spots_registration_path(@spot)
   end
 
   def back_edit
@@ -81,7 +81,7 @@ class SpotsController < ApplicationController
     if @spot_register_form.save
       SpotHistoryCreator.call(spot: @spot, user: current_user, history: "更新")
       flash[:notice] = "#{@spot_register_form.spot.name}の登録内容を変更しました。"
-      redirect_to spot_path(@spot)
+      redirect_to spots_registration_path(@spot)
     else
       render "edit"
     end

@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+class Users::ProfilesController < ApplicationController
   before_action :authenticate_user!
 
   # mypage
@@ -16,7 +16,7 @@ class UsersController < ApplicationController
 
     if @user.update(user_params)
       flash[:notice] = "プロフィールを変更しました。"
-      redirect_to edit_profile_path
+      redirect_to users_edit_profile_path
     else
       render "edit"
     end

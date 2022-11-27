@@ -14,7 +14,7 @@ function initMap() {
       let spotLatitude = Number(document.getElementById("spot_latitude_" + i).value);
       let spotLongitude = Number(document.getElementById("spot_longitude_" + i).value);
       let spotName = document.getElementById("spot_name_" + i).value;
-      let spotPath = document.getElementById("spot_path_" + i).value;
+      let spotPath = document.getElementById("spots_registration_path_" + i).value;
 
       (function() {
         let markerLatLng = new google.maps.LatLng({lat: spotLatitude, lng: spotLongitude});
