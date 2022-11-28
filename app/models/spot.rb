@@ -6,6 +6,9 @@ class Spot < ApplicationRecord
   has_many         :rule, dependent: :destroy
   has_one_attached :image
 
+  extend ActiveHash::Associations::ActiveRecordExtensions
+  belongs_to :prefecture
+
   with_options presence: true do
     validates :name, uniqueness: true
     validates :latitude, uniqueness: { scope: :longitude }
