@@ -2,17 +2,7 @@
   <h2>検索結果</h2>
 
   <h3>条件を変更して検索</h3>
-  <%= search_form_for @q, url: spots_searchs_path do |sf| %>
-    <%= sf.label :name_or_address_cont, "施設の名前・住所で検索" %>
-    <br>
-    <%= sf.search_field :name_or_address_cont %>
-    <br>
-    <%= sf.collection_check_boxes :category_id_matches_any, @categories, :id, :name, { id: :search_spot_category } %>
-    <br>
-    <%= sf.collection_check_boxes :allowed_area_id_matches_any, @allowed_areas, :id, :area, { id: :search_allowed_area } %>
-    <br>
-    <%= sf.submit "検索" %>
-  <% end %>
+  <%= render "spots/shared/search_form", q: @q, categories: @categories, allowed_areas: @allowed_areas %>
 
   <table>
     <thead>

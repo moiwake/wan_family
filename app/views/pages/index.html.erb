@@ -1,21 +1,10 @@
-<h1>Pages#index</h1>
-
 <%= render "shared/flash_messages" %>
-<%= render "shared/top_page_display/#{who_signed_in?}_display" %>
+<%= render "shared/top_page_display/#{ who_signed_in? }_display" %>
 
 <h3>お出かけスポットの検索</h3>
-<%= search_form_for @q, url: spots_searchs_path do |sf| %>
-  <%= sf.label :name_or_address_cont, "施設の名前・住所で探す" %>
-  <br>
-  <%= sf.search_field :name_or_address_cont %>
-  <br>
-  <%= sf.label :category_id_matches_any, "カテゴリーで絞る" %>
-  <%= sf.collection_check_boxes :category_id_matches_any, @categories, :id, :name, { id: :search_spot_category } %>
-  <br>
-  <%= sf.label :allowed_area_id_matches_any, "同伴が可能なエリアで絞る" %>
-  <%= sf.collection_check_boxes :allowed_area_id_matches_any, @allowed_areas, :id, :area, { id: :search_allowed_area } %>
-  <br>
-  <%= sf.submit "検索" %>
+<%= render "spots/shared/search_form", q: @q, categories: @categories, allowed_areas: @allowed_areas %>
+
+<h3>エリア一覧</h3>
+<% @regions.each do |region| %>
+  <%= link_to region, controller: "spots/searchs", action: "index", q: {or: { address_cont: set_prefecture_name(region) }} %>
 <% end %>
-
-

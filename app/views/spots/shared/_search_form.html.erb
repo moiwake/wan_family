@@ -1,0 +1,16 @@
+<%= search_form_for q, url: spots_searchs_path do |sf| %>
+  <%= sf.fields_for :and, q do |f| %>
+    <%= f.label :name_or_address_cont, "施設の名前・住所で探す" %>
+    <br>
+    <%= f.search_field :name_or_address_cont %>
+    <br>
+    <%= f.label :category_id_matches_any, "カテゴリーで絞る" %>
+    <%= f.collection_check_boxes :category_id_matches_any, categories, :id, :name, { id: :search_spot_category } %>
+    <br>
+    <%= f.label :allowed_area_id_matches_any, "同伴が可能なエリアで絞る" %>
+    <%= f.collection_check_boxes :allowed_area_id_matches_any, allowed_areas, :id, :area, { id: :search_allowed_area } %>
+    <br>
+    <%= display_area_search_form(f) %>
+  <% end %>
+  <%= sf.submit "検索" %>
+<% end %>

@@ -1,16 +1,11 @@
 class PagesController < ApplicationController
-  before_action :set_q, only: [:index]
-  before_action :set_categories, :set_allowed_areas, only: [:index, :show]
+  before_action :set_categories, :set_allowed_areas, :set_regions, only: [:index, :show]
 
   def index
-    @rule_options = RuleOption.all
+    @q = Spot.ransack(params[:q])
   end
 
   private
-
-  def set_q
-    @q = Spot.ransack(params[:q])
-  end
 
   def set_categories
     @categories = Category.order(:id)
@@ -18,5 +13,9 @@ class PagesController < ApplicationController
 
   def set_allowed_areas
     @allowed_areas = AllowedArea.order(:id)
+  end
+
+  def set_regions
+    @regions = Prefecture.pluck(:region).uniq
   end
 end
