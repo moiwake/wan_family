@@ -38,4 +38,6 @@ Rails.application.routes.draw do
 
     resources :searchs
   end
+
+  resources :reviews
 end
