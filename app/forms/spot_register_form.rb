@@ -14,7 +14,7 @@ class SpotRegisterForm < FormBase
   def rules_attributes= (attributes)
     attributes.each do |key, value|
       if rules.nil?
-        build_rule_records(rule_option_id: key, answer: value["answer"])
+        build_rule_records(rule_option_id: key, answer: value["answer"] || value[:answer])
       else
         update_rules_attributes(rule_option_id: key, attributes: value)
       end
