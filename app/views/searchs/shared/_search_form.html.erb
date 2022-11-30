@@ -1,4 +1,4 @@
-<%= search_form_for q, url: spots_searchs_path do |sf| %>
+<%= search_form_for q, url: searchs_path do |sf| %>
   <%= sf.fields_for :and, q do |f| %>
     <%= f.label :name_or_address_cont, "施設の名前・住所で探す" %>
     <br>

@@ -17,7 +17,7 @@
         <td><%= spot.name %></td>
         <td><%= spot.address %></td>
         <td><%= spot.category.name %></td>
-        <td><%= link_to "詳細", spots_registration_path(spot.id), class: "spot_detail" %></td>
+        <td><%= link_to "詳細", spot_path(spot.id), class: "spot_detail" %></td>
       </tr>
       <% end %>
     </tbody>
@@ -41,7 +41,7 @@
 <% @spots.each_with_index do |spot, i|%>
   <input type="hidden" id="spot_latitude_<%= i %>" value=<%= spot.latitude %>>
   <input type="hidden" id="spot_longitude_<%= i %>" value=<%= spot.longitude %>>
-  <input type="hidden" id="spots_registration_path_<%= i %>" value=<%= spots_registration_path(spot.id) %>>
+  <input type="hidden" id="spot_path_<%= i %>" value=<%= spot_path(spot.id) %>>
   <input type="hidden" id="spot_name_<%= i %>" value=<%= spot.name %>>
 <% end %>
 

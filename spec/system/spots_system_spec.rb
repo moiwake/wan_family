@@ -135,7 +135,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system, js: true do
 
     context "登録内容の入力画面" do
       it "入力内容の確認画面へ遷移する" do
-        expect(current_path).to eq(new_confirm_spots_registrations_path)
+        expect(current_path).to eq(new_confirm_spots_path)
       end
     end
 
@@ -154,7 +154,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system, js: true do
 
       it "入力画面に遷移できる" do
         click_button "入力画面に戻る"
-        expect(current_path).to eq(back_new_spots_registrations_path)
+        expect(current_path).to eq(back_new_spots_path)
       end
     end
 
@@ -176,7 +176,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system, js: true do
       end
 
       it "再び入力内容確認画面へ遷移できる" do
-        expect(current_path).to eq(new_confirm_spots_registrations_path)
+        expect(current_path).to eq(new_confirm_spots_path)
       end
 
       it "入力内容を変更できる" do
@@ -205,7 +205,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system, js: true do
 
     before do
       sign_in user
-      visit spots_registration_path(spot.id)
+      visit spot_path(spot.id)
       click_link "スポットの登録内容を更新する"
       fill_in "form_spot_name", with: updated_spot.name
       fill_in "form_search_spot", with: updated_spot.name
@@ -220,7 +220,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system, js: true do
 
     context "更新内容の入力画面" do
       it "入力内容の確認画面へ遷移する" do
-        expect(current_path).to eq(edit_confirm_spots_registration_path(spot.id))
+        expect(current_path).to eq(edit_confirm_spot_path(spot.id))
       end
     end
 
@@ -253,7 +253,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system, js: true do
 
       it "入力画面に遷移できる" do
         click_button "入力画面に戻る"
-        expect(current_path).to eq(back_edit_spots_registration_path(spot.id))
+        expect(current_path).to eq(back_edit_spot_path(spot.id))
       end
     end
 
@@ -264,7 +264,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system, js: true do
       end
 
       it "再び入力内容確認画面へ遷移できる" do
-        expect(current_path).to eq(edit_confirm_spots_registration_path(spot.id))
+        expect(current_path).to eq(edit_confirm_spot_path(spot.id))
       end
     end
   end

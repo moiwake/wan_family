@@ -1,4 +1,4 @@
-class Spots::RegistrationsController < ApplicationController
+class SpotsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_categories, :set_allowed_areas, :set_option_titles, except: [:index, :show]
   before_action :delete_session, only: [:new, :edit]
@@ -22,7 +22,7 @@ class Spots::RegistrationsController < ApplicationController
     end
 
   rescue ActionController::ParameterMissing
-    redirect_to back_new_spots_registrations_path
+    redirect_to back_new_spots_path
   end
 
   def back_new
@@ -37,7 +37,7 @@ class Spots::RegistrationsController < ApplicationController
     if @spot_register_form.save
       SpotHistoryCreator.call(spot: @spot_register_form.spot, user: current_user, history: "新規登録")
       flash[:notice] = "#{@spot_register_form.spot.name}を登録しました。"
-      redirect_to spots_registration_path(@spot_register_form.spot)
+      redirect_to spot_path(@spot_register_form.spot)
     else
       render "new"
     end
@@ -45,6 +45,7 @@ class Spots::RegistrationsController < ApplicationController
 
   def show
     @spot = Spot.find(params[:id])
+    @review_poster_form = ReviewPosterForm.new
   end
 
   def edit
@@ -64,7 +65,7 @@ class Spots::RegistrationsController < ApplicationController
     end
 
   rescue ActionController::ParameterMissing
-    redirect_to back_edit_spots_registration_path(@spot)
+    redirect_to back_edit_spot_path(@spot)
   end
 
   def back_edit
@@ -81,7 +82,7 @@ class Spots::RegistrationsController < ApplicationController
     if @spot_register_form.save
       SpotHistoryCreator.call(spot: @spot, user: current_user, history: "更新")
       flash[:notice] = "#{@spot_register_form.spot.name}の登録内容を変更しました。"
-      redirect_to spots_registration_path(@spot)
+      redirect_to spot_path(@spot)
     else
       render "edit"
     end
@@ -101,7 +102,7 @@ class Spots::RegistrationsController < ApplicationController
       :image,
     ]
 
-    params.require(:spot_register_form).permit(spot_attributes: spot_params, rules_attributes: [["answer", "rule_option_id"]])
+    params.require(:spot_register_form).permit(spot_attributes: spot_params, rules_attributes: [[:answer, :rule_option_id]])
   end
 
   def set_categories

@@ -2,7 +2,7 @@
   <h2>検索結果</h2>
 
   <h3>条件を変更して検索</h3>
-  <%= render "spots/shared/search_form", q: @q, categories: @categories, allowed_areas: @allowed_areas %>
+  <%= render "shared/search_form", q: @q, categories: @categories, allowed_areas: @allowed_areas %>
 
   <table>
     <thead>
@@ -19,7 +19,7 @@
         <td><%= spot.name %></td>
         <td><%= spot.address %></td>
         <td><%= spot.category.name %></td>
-        <td><%= link_to "詳細", spots_registration_path(spot.id), class: "spot_detail" %></td>
+        <td><%= link_to "詳細", spot_path(spot.id), class: "spot_detail" %></td>
       </tr>
       <% end %>
     </tbody>

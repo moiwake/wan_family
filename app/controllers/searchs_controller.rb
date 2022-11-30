@@ -1,4 +1,4 @@
-class Spots::SearchsController < ApplicationController
+class SearchsController < ApplicationController
   before_action :set_categories, :set_allowed_areas, :set_regions, :set_prefecture_hash
 
   def index

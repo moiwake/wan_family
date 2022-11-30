@@ -16,7 +16,7 @@ RSpec.describe "Spots", type: :request do
   describe "GET" do
     describe "GET /index" do
       before do
-        get spots_registrations_path
+        get spots_path
       end
 
       it "HTTPリクエストが成功する" do
@@ -34,8 +34,8 @@ RSpec.describe "Spots", type: :request do
       end
 
       it "各スポットの詳細ページへのリンクがある" do
-        expect(css_select(".spot_detail").first.attributes["href"].value).to include(spots_registration_path(spot.id))
-        expect(css_select(".spot_detail").last.attributes["href"].value).to include(spots_registration_path(another_spot.id))
+        expect(css_select(".spot_detail").first.attributes["href"].value).to include(spot_path(spot.id))
+        expect(css_select(".spot_detail").last.attributes["href"].value).to include(spot_path(another_spot.id))
       end
     end
 
@@ -43,7 +43,7 @@ RSpec.describe "Spots", type: :request do
       context "ログインしているとき" do
         before do
           sign_in user
-          get new_spots_registration_path
+          get new_spot_path
         end
 
         it "HTTPリクエストが成功する" do
@@ -61,7 +61,7 @@ RSpec.describe "Spots", type: :request do
 
       context "ログインしていないとき" do
         it "ログインページへリダイレクトする" do
-          get new_spots_registration_path
+          get new_spot_path
           expect(response).to redirect_to(new_user_session_path)
         end
       end
@@ -71,7 +71,7 @@ RSpec.describe "Spots", type: :request do
       context "ログインしているとき" do
         before do
           sign_in user
-          get spots_registration_path(spot.id)
+          get spot_path(spot.id)
         end
 
         it "HTTPリクエストが成功する" do
@@ -104,7 +104,7 @@ RSpec.describe "Spots", type: :request do
 
       context "ログインしていないとき" do
         it "ログインページへリダイレクトする" do
-          get new_spots_registration_path
+          get new_spot_path
           expect(response).to redirect_to(new_user_session_path)
         end
       end
@@ -114,7 +114,7 @@ RSpec.describe "Spots", type: :request do
       context "ログインしているとき" do
         before do
           sign_in user
-          get edit_spots_registration_path(spot.id)
+          get edit_spot_path(spot.id)
         end
 
         it "HTTPリクエストが成功する" do
@@ -174,7 +174,7 @@ RSpec.describe "Spots", type: :request do
 
       context "ログインしていないとき" do
         it "ログイン画面にリダイレクトされる" do
-          get edit_spots_registration_path(spot.id)
+          get edit_spot_path(spot.id)
           expect(response).to redirect_to(new_user_session_path)
         end
       end
@@ -228,7 +228,7 @@ RSpec.describe "Spots", type: :request do
 
         before do
           sign_in user
-          post new_confirm_spots_registrations_path, params: { spot_register_form: params }
+          post new_confirm_spots_path, params: { spot_register_form: params }
         end
 
         it "HTTPリクエストが成功する" do
@@ -272,7 +272,7 @@ RSpec.describe "Spots", type: :request do
       context "送信されたデータが不正なとき" do
         before do
           sign_in user
-          post new_confirm_spots_registrations_path, params: { spot_register_form: invalid_params }
+          post new_confirm_spots_path, params: { spot_register_form: invalid_params }
         end
 
         it "HTTPリクエストが成功する" do
@@ -297,15 +297,15 @@ RSpec.describe "Spots", type: :request do
         before do
           sign_in user
 
-          allow_any_instance_of(Spots::RegistrationsController)
+          allow_any_instance_of(SpotsController)
           .to receive(:form_params)
           .and_raise(ActionController::ParameterMissing, :spot_register_form)
 
-          get new_confirm_spots_registrations_path
+          get new_confirm_spots_path
         end
 
         it "back_newへリダイレクトする" do
-          expect(response).to redirect_to(back_new_spots_registrations_path)
+          expect(response).to redirect_to(back_new_spots_path)
         end
       end
     end
@@ -313,8 +313,8 @@ RSpec.describe "Spots", type: :request do
     describe "POST /back_new" do
       before do
         sign_in user
-        post new_confirm_spots_registrations_path, params: { spot_register_form: params }
-        post back_new_spots_registrations_path
+        post new_confirm_spots_path, params: { spot_register_form: params }
+        post back_new_spots_path
       end
 
       it "HTTPリクエストが成功する" do
@@ -380,43 +380,43 @@ RSpec.describe "Spots", type: :request do
       context "セッションに保存されたデータが妥当な場合" do
         before do
           sign_in user
-          post new_confirm_spots_registrations_path, params: { spot_register_form: params }
+          post new_confirm_spots_path, params: { spot_register_form: params }
         end
 
         it "HTTPリクエストが成功する" do
-          post spots_registrations_path
+          post spots_path
           expect(response.status).to eq(302)
         end
 
         it "スポットを登録できる" do
           expect do
-            post spots_registrations_path
+            post spots_path
           end.to change { Spot.count }.by(1)
         end
 
         it "スポットの同伴ルールが、選択肢分だけ登録される" do
-          post spots_registrations_path
+          post spots_path
           expect(Spot.last.rule.count).to eq(RuleOption.count)
         end
 
         it "スポットの登録履歴が保存される" do
           expect do
-            post spots_registrations_path
+            post spots_path
           end.to change { SpotHistory.count }.by(1)
 
           expect(SpotHistory.last.history).to eq("新規登録")
         end
 
         it "登録後、登録したスポットの詳細ページにリダイレクトする" do
-          post spots_registrations_path
-          expect(response).to redirect_to(spots_registration_path(Spot.last))
+          post spots_path
+          expect(response).to redirect_to(spot_path(Spot.last))
         end
       end
 
       context "セッションに保存されたデータが不正な場合" do
         before do
           sign_in user
-          post new_confirm_spots_registrations_path, params: { spot_register_form: invalid_params }
+          post new_confirm_spots_path, params: { spot_register_form: invalid_params }
         end
 
         it "HTTPリクエストが成功する" do
@@ -425,19 +425,19 @@ RSpec.describe "Spots", type: :request do
 
         it "スポットを登録できない" do
           expect do
-            post spots_registrations_path
+            post spots_path
           end.to change { Spot.count }.by(0)
         end
 
         it "スポットの同伴ルールは登録されない" do
           expect do
-            post spots_registrations_path
+            post spots_path
           end.to change { Rule.count }.by(0)
         end
 
         it "スポットの登録履歴は保存されない" do
           expect do
-            post spots_registrations_path
+            post spots_path
           end.to change { SpotHistory.count }.by(0)
         end
       end
@@ -445,8 +445,8 @@ RSpec.describe "Spots", type: :request do
       context "create処理がすべて終わったとき" do
         before do
           sign_in user
-          post new_confirm_spots_registrations_path, params: { spot_register_form: params }
-          post spots_registrations_path
+          post new_confirm_spots_path, params: { spot_register_form: params }
+          post spots_path
         end
 
         it "セッションにパラメータのデータが保存されてない" do
@@ -496,7 +496,7 @@ RSpec.describe "Spots", type: :request do
     describe "PATCH /edit_confirm" do
       before do
         sign_in user
-        patch edit_confirm_spots_registration_path(spot.id), params: { spot_register_form: updated_params }
+        patch edit_confirm_spot_path(spot.id), params: { spot_register_form: updated_params }
       end
 
       context "送信されたデータが妥当なとき" do
@@ -548,7 +548,7 @@ RSpec.describe "Spots", type: :request do
       context "送信されたデータが不正なとき" do
         before do
           sign_in user
-          patch edit_confirm_spots_registration_path(spot.id), params: { spot_register_form: invalid_params }
+          patch edit_confirm_spot_path(spot.id), params: { spot_register_form: invalid_params }
         end
 
         it "HTTPリクエストが成功する" do
@@ -573,15 +573,15 @@ RSpec.describe "Spots", type: :request do
         before do
           sign_in user
 
-          allow_any_instance_of(Spots::RegistrationsController)
+          allow_any_instance_of(SpotsController)
           .to receive(:form_params)
           .and_raise(ActionController::ParameterMissing, :spot_register_form)
 
-          get edit_confirm_spots_registration_path(spot.id)
+          get edit_confirm_spot_path(spot.id)
         end
 
         it "back_editへリダイレクトする" do
-          expect(response).to redirect_to(back_edit_spots_registration_path(spot.id))
+          expect(response).to redirect_to(back_edit_spot_path(spot.id))
         end
       end
     end
@@ -589,8 +589,8 @@ RSpec.describe "Spots", type: :request do
     describe "PATCH /back_edit" do
       before do
         sign_in user
-        patch edit_confirm_spots_registration_path(spot.id), params: { spot_register_form: updated_params }
-        patch back_edit_spots_registration_path(spot.id)
+        patch edit_confirm_spot_path(spot.id), params: { spot_register_form: updated_params }
+        patch back_edit_spot_path(spot.id)
       end
 
       it "HTTPリクエストが成功する" do
@@ -656,17 +656,17 @@ RSpec.describe "Spots", type: :request do
       context "セッションに保存されたデータが妥当な場合" do
         before do
           sign_in user
-          patch edit_confirm_spots_registration_path(spot.id), params: { spot_register_form: updated_params }
+          patch edit_confirm_spot_path(spot.id), params: { spot_register_form: updated_params }
         end
 
         it "HTTPリクエストが成功する" do
-          patch spots_registration_path(spot.id)
+          patch spot_path(spot.id)
           expect(response.status).to eq(302)
         end
 
         it "スポットを更新できる" do
           expect do
-            patch spots_registration_path(spot.id)
+            patch spot_path(spot.id)
 
             expect(spot.reload.name).to eq(updated_spot_params[:name])
             expect(spot.reload.address).to eq(updated_spot_params[:address])
@@ -679,7 +679,7 @@ RSpec.describe "Spots", type: :request do
         end
 
         it "スポットの同伴ルールを変更できる" do
-          patch spots_registration_path(spot.id)
+          patch spot_path(spot.id)
 
           updated_rules_params.keys.each do |key|
             expect(spot.rule.find_by(rule_option_id: key).answer).to eq(updated_rules_params["#{key}"][:answer])
@@ -688,22 +688,22 @@ RSpec.describe "Spots", type: :request do
 
         it "スポットの変更履歴が保存される" do
           expect do
-            patch spots_registration_path(spot.id)
+            patch spot_path(spot.id)
           end.to change { SpotHistory.count }.by(1)
 
           expect(SpotHistory.last.history).to eq("更新")
         end
 
         it "更新後、更新したスポットの詳細ページにリダイレクトする" do
-          patch spots_registration_path(spot.id)
-          expect(response).to redirect_to(spots_registration_path(spot.id))
+          patch spot_path(spot.id)
+          expect(response).to redirect_to(spot_path(spot.id))
         end
       end
 
       context "セッションに保存されたデータが不正な場合" do
         before do
           sign_in user
-          post new_confirm_spots_registrations_path, params: { spot_register_form: invalid_params }
+          post new_confirm_spots_path, params: { spot_register_form: invalid_params }
         end
 
         it "HTTPリクエストが成功する" do
@@ -712,7 +712,7 @@ RSpec.describe "Spots", type: :request do
 
         it "スポットを変更できない" do
           expect do
-            patch spots_registration_path(spot.id)
+            patch spot_path(spot.id)
 
             expect(spot.name_changed?).to eq(false)
             expect(spot.address_changed?).to eq(false)
@@ -726,7 +726,7 @@ RSpec.describe "Spots", type: :request do
 
         it "スポットの同伴ルールは変更されない" do
           expect do
-            patch spots_registration_path(spot.id)
+            patch spot_path(spot.id)
 
             spot.rule.each do |rule|
               expect(rule.answer_changed?).to eq(false)
@@ -736,7 +736,7 @@ RSpec.describe "Spots", type: :request do
 
         it "スポットの登録履歴は保存されない" do
           expect do
-            patch spots_registration_path(spot.id)
+            patch spot_path(spot.id)
           end.to change { SpotHistory.count }.by(0)
         end
       end
@@ -744,8 +744,8 @@ RSpec.describe "Spots", type: :request do
       context "update処理がすべて終わったとき" do
         before do
           sign_in user
-          post new_confirm_spots_registrations_path, params: { spot_register_form: invalid_params }
-          patch spots_registration_path(spot.id)
+          post new_confirm_spots_path, params: { spot_register_form: invalid_params }
+          patch spot_path(spot.id)
         end
 
         it "セッションにパラメータのデータが保存されてない" do
