@@ -5,6 +5,7 @@ class Spot < ApplicationRecord
   belongs_to :allowed_area
   has_many   :rule, dependent: :destroy
   has_many   :reviews, dependent: :destroy
+  has_many   :images, dependent: :destroy
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :prefecture

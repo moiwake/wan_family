@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_28_133237) do
+ActiveRecord::Schema.define(version: 2022_12_01_142128) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -67,7 +67,11 @@ ActiveRecord::Schema.define(version: 2022_11_28_133237) do
     t.bigint "review_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
+    t.bigint "spot_id", null: false
     t.index ["review_id"], name: "index_images_on_review_id"
+    t.index ["spot_id"], name: "index_images_on_spot_id"
+    t.index ["user_id"], name: "index_images_on_user_id"
   end
 
   create_table "option_titles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -81,9 +85,11 @@ ActiveRecord::Schema.define(version: 2022_11_28_133237) do
     t.bigint "user_id", null: false
     t.bigint "spot_id", null: false
     t.text "comment"
-    t.integer "score", null: false
+    t.integer "human_score", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "dog_score", null: false
+    t.string "title", null: false
     t.index ["spot_id"], name: "index_reviews_on_spot_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
@@ -153,6 +159,8 @@ ActiveRecord::Schema.define(version: 2022_11_28_133237) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "images", "reviews"
+  add_foreign_key "images", "spots"
+  add_foreign_key "images", "users"
   add_foreign_key "reviews", "spots"
   add_foreign_key "reviews", "users"
   add_foreign_key "rule_options", "option_titles"
