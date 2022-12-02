@@ -1,0 +1,10 @@
+<div style="display: flex; flex-wrap: wrap; width: 750px;">
+  <% image.files.each do |file| %>
+    <div style="display: flex; margin:5px 5px 5px 0;">
+      <%= form.check_box :files_blob_ids, { multiple: true, checked: false, id: "form_files_blob_ids_#{file.id}"}, file.id, false %>
+      <label for="form_files_blob_ids_<%= file.id %>">
+        <%= image_tag file, size: '150x150' %>
+      </label>
+    </div>
+  <% end %>
+</div>

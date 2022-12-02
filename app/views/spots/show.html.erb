@@ -45,40 +45,8 @@
   </table>
 </div>
 
-<%= link_to "他のレビューを見る", spot_reviews_path(@spot), class: "button light ml-3 mt-3" %>
+<%= link_to "すべてのレビューを見る", spot_reviews_path(@spot), class: "button light ml-3 mt-3" %>
 <br>
 <%= link_to "スポットの登録内容を更新する", edit_spot_path(@spot), "data-turbolinks": false %>
-
-<h2>レビューを投稿する</h2>
-
-<%= render "shared/error_messages", resource: @review_poster_form %>
-
-<div class="rating-box mt-3">
-  <%= form_with model: @review_poster_form, url: spot_reviews_path(@spot), method: :post do |f| %>
-    <div class="main-rating">
-      <div class="ratings mb-3">
-        <span class="fa fa-star-o" id="star"></span>
-        <span class="fa fa-star-o" id="star"></span>
-        <span class="fa fa-star-o" id="star"></span>
-        <span class="fa fa-star-o" id="star"></span>
-        <span class="fa fa-star-o" id="star"></span>
-      </div>
-      <div class="ml-3 rating-value-display"><span id="rating-value-display">0</span>/5</div>
-    </div>
-    <%= f.fields_for :review_attributes, @review_poster_form.review do |rf| %>
-      <%= rf.hidden_field :user_id, value: current_user.id if signed_in? %>
-      <%= rf.hidden_field :spot_id, value: @spot.id %>
-      <%= rf.hidden_field :score, id: "rating-value" %>
-      <%= rf.text_field :comment, class: "textarea" %>
-    <% end %>
-    <br>
-    <%= f.fields_for :image_attributes, @review_poster_form.image do |imf| %>
-      <%= imf.label :files, "画像をアップロードする" %>
-      <%= imf.file_field :files, multiple: true %>
-    <% end %>
-    <br>
-    <%= f.submit "投稿する", class: "button mt-3" %>
-  <% end %>
-</div>
-
-<%= javascript_pack_tag "spot/review" %>
+<br>
+<%= link_to "レビューを投稿する", new_spot_review_path(@spot) %>

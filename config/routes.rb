@@ -14,9 +14,12 @@ Rails.application.routes.draw do
   root  "pages#index"
 
   namespace :users do
-    get   "mypage",              to: "profiles#index",  as: "mypage"
-    get   "mypage/profile/edit", to: "profiles#edit",   as: "edit_profile"
-    patch "mypage/profile",      to: "profiles#update", as: "profile"
+    get   "mypage",       to: "profiles#index",  as: "mypage"
+    get   "profile/edit", to: "profiles#edit",   as: "edit_profile"
+    patch "profile",      to: "profiles#update", as: "profile"
+    get   "spot_index",   to: "profiles#spot_index"
+    get   "review_index", to: "profiles#review_index"
+    get   "image_index",  to: "profiles#image_index"
   end
 
   resources :spots, except: :destroy do
@@ -35,8 +38,9 @@ Rails.application.routes.draw do
     end
 
     resources :reviews
-    resources :images
+    resources :images, only: [:index]
   end
 
-  resources :searchs, only: [:index]
+  get "map_search",  to: "searchs#map_search"
+  get "word_search", to: "searchs#word_search"
 end

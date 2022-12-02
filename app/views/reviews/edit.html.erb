@@ -1,2 +1,2 @@
-<h1>Reviews#edit</h1>
-<p>Find me in app/views/reviews/edit.html.erb</p>
+<h2>レビューを編集する</h2>
+<%= render "reviews/shared/poster_form", resource: @review_poster_form, spot: @review.spot, url: spot_review_path(@review.spot, @review), method: :patch %>

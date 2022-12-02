@@ -1,0 +1,34 @@
+.rating-box .main-rating .fa{
+  font-size: 20px;
+  color:rgba(128, 128, 128, 0.553);
+  cursor: pointer;
+}
+
+.rating-box .dog-ratings .colored{
+  color:#ff008487;
+}
+
+.rating-box .human-ratings .colored{
+  color:#ffee05fe;
+}
+
+.rating-box .non-colored{
+  color:rgba(128, 128, 128, 0.553);
+}
+
+.main-rating {
+  display: flex;
+}
+
+.dog-rating-value-display .human-rating-value-display {
+  font-size: 20px;
+}
+
+.preview-lists-display {
+  display: none;
+}
+
+#preview {
+  width: 100px;
+  height: 100px;
+}

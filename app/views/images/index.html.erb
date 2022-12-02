@@ -1,0 +1,9 @@
+<h3><%= link_to "#{@spot.name}の写真一覧", spot_path(@spot) %></h3>
+
+<% @images.each do |image| %>
+  <% if image.files.attached? %>
+    <% image.files.each do |file| %>
+      <%= image_tag file, width: 200, height: 200 %>
+    <% end %>
+  <% end %>
+<% end %>

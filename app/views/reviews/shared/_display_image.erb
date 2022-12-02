@@ -1,0 +1,6 @@
+<% if present_and_attached?(image) %>
+  <% image.files.each_with_index do |file, i| %>
+    <% break if i == limit %>
+    <%= image_tag file, width: 100, height: 100 %>
+  <% end %>
+<% end %>

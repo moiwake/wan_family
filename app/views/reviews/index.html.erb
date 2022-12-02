@@ -1,2 +1,9 @@
-<h1>Reviews#index</h1>
-<p>Find me in app/views/reviews/index.html.erb</p>
+<h3><%= link_to "#{@spot.name}のすべてのレビュー", spot_path(@spot) %></h3>
+
+<% @reviews.each do |review| %>
+  <p><%= link_to "#{review.user.name}さんのレビュー", spot_review_path(@spot.id, review.id) %></p>
+  <p>☆<%= review.dog_score %></p>
+  <p>☆<%= review.human_score %></p>
+  <p><%= review.comment %></p>
+  <%= render "reviews/shared/display_image", image: review.image, limit: 5 %>
+<% end %>

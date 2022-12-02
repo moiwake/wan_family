@@ -45,6 +45,19 @@ ja:
       allowed_area:
         area: エリア
         spots: 所属スポットID
+      review:
+        title: タイトル
+        comment: コメント
+        dog_score: ワンちゃんたちの満足度
+        human_score: ユーザーさんの満足度
+        user: ユーザーID
+        spot: スポットID
+        images: 写真ID
+      image:
+        user: ユーザーID
+        spot: スポットID
+        review: レビューID
+        file: 写真ファイル
     models:
       user: ユーザー
       admin: 管理者
@@ -55,6 +68,8 @@ ja:
       option_title: 選択肢タイトル
       category: カテゴリー
       allowed_area: 同伴可能エリア
+      review: レビュー
+      image: 写真
   devise: &devise
     confirmations:
       confirmed: メールアドレスが確認できました。
