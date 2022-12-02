@@ -3,13 +3,13 @@
 <%= render "shared/flash_messages" %>
 <%= image_tag @user.decorate.display_avatar, size: "100x100" %>
 
-<%= form_with model: @user, url: users_profile_path do |f| %>
+<%= form_with model: @user, url: profile_path do |f| %>
   <%= f.file_field :avatar %>
   <%= @user.name %> (変更できません)
   <%= f.text_area :introduction, placeholder: "自己紹介をご記入ください。" %>
   <input type="button" onclick="submit();" value= "保存" />
 <% end %>
 
-<%= link_to "マイページへ戻る", users_mypage_path %>
+<%= link_to "マイページへ戻る", mypage_path %>
 
 

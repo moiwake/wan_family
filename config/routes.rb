@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
+  root "top#index"
+  get  "map_search",  to: "top#map_search"
+  get  "word_search", to: "top#word_search"
+
   devise_for :admins, controllers: {
     sessions: 'admins/sessions',
   }
@@ -11,16 +15,12 @@ Rails.application.routes.draw do
     registrations: 'users/registrations',
   }
 
-  root  "pages#index"
-
-  namespace :users do
-    get   "mypage",       to: "profiles#index",  as: "mypage"
-    get   "profile/edit", to: "profiles#edit",   as: "edit_profile"
-    patch "profile",      to: "profiles#update", as: "profile"
-    get   "spot_index",   to: "profiles#spot_index"
-    get   "review_index", to: "profiles#review_index"
-    get   "image_index",  to: "profiles#image_index"
-  end
+  get   "mypage",       to: "users#index",  as: "mypage"
+  get   "profile/edit", to: "users#edit",   as: "edit_profile"
+  patch "profile",      to: "users#update", as: "profile"
+  get   "users_spot_index",   to: "users#spot_index"
+  get   "users_review_index", to: "users#review_index"
+  get   "users_image_index",  to: "users#image_index"
 
   resources :spots, except: :destroy do
     collection do
@@ -40,7 +40,4 @@ Rails.application.routes.draw do
     resources :reviews
     resources :images, only: [:index]
   end
-
-  get "map_search",  to: "searchs#map_search"
-  get "word_search", to: "searchs#word_search"
 end

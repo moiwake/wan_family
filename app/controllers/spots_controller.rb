@@ -4,10 +4,6 @@ class SpotsController < ApplicationController
   before_action :delete_session, only: [:new, :edit]
   after_action  :delete_session, only: [:create, :update]
 
-  def index
-    @spots = Spot.all
-  end
-
   def new
     @spot_register_form = SpotRegisterForm.new
   end
@@ -45,7 +41,6 @@ class SpotsController < ApplicationController
 
   def show
     @spot = Spot.find(params[:id])
-    @review_poster_form = ReviewPosterForm.new
   end
 
   def edit

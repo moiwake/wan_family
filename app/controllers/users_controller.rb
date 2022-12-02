@@ -1,9 +1,21 @@
-class Users::ProfilesController < ApplicationController
+class UsersController < ApplicationController
   before_action :authenticate_user!
 
   # mypage
   def index
     @user = current_user
+  end
+
+  def spot_index
+    @spots = current_user.spots
+  end
+
+  def review_index
+    @reviews = current_user.reviews
+  end
+
+  def image_index
+    @images = current_user.images
   end
 
   # profile
@@ -16,7 +28,7 @@ class Users::ProfilesController < ApplicationController
 
     if @user.update(user_params)
       flash[:notice] = "プロフィールを変更しました。"
-      redirect_to users_edit_profile_path
+      redirect_to edit_profile_path
     else
       render "edit"
     end

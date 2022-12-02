@@ -10,7 +10,7 @@ RSpec.describe "Users", type: :request do
     context "ログインしているとき" do
       before do
         sign_in user
-        get users_mypage_path
+        get mypage_path
         ActiveStorage::Current.host = "http://www.example.com"
       end
 
@@ -26,7 +26,7 @@ RSpec.describe "Users", type: :request do
 
     context "ログインしていないとき" do
       before do
-        get users_mypage_path
+        get mypage_path
       end
 
       it "ログイン画面にリダイレクトされる" do
@@ -39,7 +39,7 @@ RSpec.describe "Users", type: :request do
     context "ログインしているとき" do
       before do
         sign_in user
-        get users_edit_profile_path
+        get edit_profile_path
         ActiveStorage::Current.host = "http://www.example.com"
       end
 
@@ -56,7 +56,7 @@ RSpec.describe "Users", type: :request do
 
     context "ログインしていないとき" do
       before do
-        get users_edit_profile_path
+        get edit_profile_path
       end
 
       it "ログイン画面にリダイレクトされる" do
@@ -71,7 +71,7 @@ RSpec.describe "Users", type: :request do
     let(:updated_avatar_url) { user.avatar.url.split('/').last }
 
     subject {
-      patch users_profile_path, params: { user: updated_attributes }
+      patch profile_path, params: { user: updated_attributes }
       ActiveStorage::Current.host = "http://www.example.com"
     }
 
@@ -95,7 +95,7 @@ RSpec.describe "Users", type: :request do
 
     it "更新後にリダイレクトする" do
       subject
-      expect(response).to redirect_to(users_edit_profile_path)
+      expect(response).to redirect_to(edit_profile_path)
     end
   end
 end

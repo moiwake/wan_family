@@ -1,0 +1,7 @@
+<% @images.each do |image| %>
+  <% if image.files.attached? %>
+    <% image.files.each do |file| %>
+      <%= image_tag file, width: 200, height: 200 %>
+    <% end %>
+  <% end %>
+<% end %>

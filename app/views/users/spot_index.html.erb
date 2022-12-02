@@ -1,0 +1,23 @@
+<div class="registrated-spots">
+  <h2>登録スポットの一覧</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>スポット名</th>
+        <th>住所</th>
+        <th>スポットカテゴリー</th>
+        <th>詳細</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @spots.each do |spot| %>
+      <tr>
+        <td><%= spot.name %></td>
+        <td><%= spot.address %></td>
+        <td><%= spot.category.name %></td>
+        <td><%= link_to "詳細", spot_path(spot.id), class: "spot_detail" %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

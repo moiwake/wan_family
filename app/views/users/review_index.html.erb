@@ -1,0 +1,14 @@
+<% @reviews.each do |review| %>
+  <%= link_to edit_spot_review_path(review.spot, review) do %>
+    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+  <% end %>
+  <%= link_to spot_review_path(review.spot, review), method: :delete, data: { confirm: "#{review.spot.name}のレビューを削除しますか？" } do %>
+    <i class="fa fa-trash" aria-hidden="true"></i>
+  <% end %>
+  <p><%= review.spot.name %>のレビュー</p>
+  <p><%= link_to review.title, spot_review_path(review.spot.id, review.id) %></p>
+  <p>☆<%= review.dog_score %></p>
+  <p>☆<%= review.human_score %></p>
+  <p><%= review.comment %></p>
+  <%= render "reviews/shared/display_image", image: review.image, limit: 5 %>
+<% end %>
