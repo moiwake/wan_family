@@ -15,7 +15,6 @@
         <%= sf.text_field :address, placeholder: "例）東京都〇〇区〇〇１丁目１", id: :form_spot_address %>
         <%= sf.hidden_field :latitude, id: :form_lat %>
         <%= sf.hidden_field :longitude, id: :form_lng %>
-        <div id="map_search_address"></div>
       </div>
       <%= sf.label :category_id, "スポットカテゴリー", for: "form_spot_category" %>
       <%= sf.collection_select :category_id, @categories, :id, :name, { prompt: "選択してください" }, { id: :form_spot_category } %>

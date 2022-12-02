@@ -1,18 +1,3 @@
-let geocoder
-let map
-function initMap(){
-  geocoder = new google.maps.Geocoder()
-
-  map = new google.maps.Map(document.getElementById("map_search_address"), {
-    center:  {lat: 35.6803997, lng:139.7690174},
-    zoom: 17,
-  });
-}
-
-window.onload = function() {
-  initMap();
-}
-
 function docInit(){
   if (aft == true){
     document.getElementById("form_lat").value = "";
@@ -23,22 +8,15 @@ function docInit(){
 }
 
 let aft
-let marker
 function codeAddress(){
   let inputAddress = document.getElementById("form_search_spot").value;
+
+  geocoder = new google.maps.Geocoder()
   geocoder.geocode( { "address": inputAddress }, function(results, status) {
     if (status == "OK") {
       let addressArray = results[0].formatted_address.split(" ");
-      if (addressArray[1]){
-        if (aft == true) {
-          marker.setMap(null);
-        }
 
-        map.setCenter(results[0].geometry.location);
-        marker = new google.maps.Marker({
-          map: map,
-          position: results[0].geometry.location,
-        });
+      if (addressArray[1]){
 
         document.getElementById("form_lat").value = results[0].geometry.location.lat();
         document.getElementById("form_lng").value = results[0].geometry.location.lng();
