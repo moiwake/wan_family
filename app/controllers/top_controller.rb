@@ -1,7 +1,15 @@
-class SearchsController < ApplicationController
-  before_action :set_categories, :set_allowed_areas, :set_regions, :set_prefecture_hash
+class TopController < ApplicationController
+  before_action :set_categories, :set_allowed_areas, :set_regions, :set_prefecture_hash, only: [:index, :word_search]
 
   def index
+    @q = Spot.ransack(params[:q])
+  end
+
+  def map_search
+    @spots = Spot.all
+  end
+
+  def word_search
     if params[:q]["and"]
       @q = Spot.ransack({ combinator: 'and', groupings: set_search_groupings("and") })
     elsif params[:q]["or"]

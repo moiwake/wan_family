@@ -1,0 +1,10 @@
+<%= render "shared/flash_messages" %>
+<%= render "top/shared/display_links/#{ who_signed_in? }_display" %>
+
+<h3>お出かけスポットの検索</h3>
+<%= render "top/shared/search_form", q: @q, categories: @categories, allowed_areas: @allowed_areas %>
+
+<h3>エリア一覧</h3>
+<% @regions.each do |region| %>
+  <%= link_to region, controller: "top", action: "word_search", q: {or: { address_cont: set_prefecture_name(region) }} %>
+<% end %>
