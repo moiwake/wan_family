@@ -8,3 +8,7 @@
 <% @regions.each do |region| %>
   <%= link_to region, controller: "top", action: "word_search", q: {or: { address_cont: set_prefecture_name(region) }} %>
 <% end %>
+
+<h3>地図で探す</h3>
+<%= link_to "お出かけスポット一覧", map_search_path, "data-turbolinks": false %>
+
