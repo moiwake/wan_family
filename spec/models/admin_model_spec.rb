@@ -1,11 +1,5 @@
 require 'rails_helper'
-
-shared_examples "validation error message" do
-  it "errorsコレクションにエラーメッセージが追加される" do
-    invalid_admin.valid?
-    expect(invalid_admin.errors[attribute]).to include(message)
-  end
-end
+require 'support/shared_examples'
 
 RSpec.describe Admin, type: :model do
   let!(:admin) { create(:admin) }
@@ -17,7 +11,7 @@ RSpec.describe Admin, type: :model do
   end
 
   describe "presenceのバリデーション" do
-    let(:invalid_admin) { build(:admin, attribute => (type == :nil ? nil : "")) }
+    let(:invalid_object) { build(:admin, attribute => (type == :nil ? nil : "")) }
     let(:message) { "を入力してください" }
 
     context "emailカラム" do
@@ -26,13 +20,13 @@ RSpec.describe Admin, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
     end
 
@@ -42,13 +36,13 @@ RSpec.describe Admin, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
     end
   end
@@ -58,9 +52,9 @@ RSpec.describe Admin, type: :model do
 
     context "emailカラムが重複しているとき" do
       let(:attribute) { :email }
-      let(:invalid_admin) { build(:admin, email: admin.email) }
+      let(:invalid_object) { build(:admin, email: admin.email) }
 
-      it_behaves_like "validation error message"
+      it_behaves_like "adds validation error messages"
     end
   end
 
@@ -68,24 +62,24 @@ RSpec.describe Admin, type: :model do
     let(:attribute) { :password }
 
     context "６文字未満のとき" do
-      let(:invalid_admin) { build(:admin, password: "ab012") }
+      let(:invalid_object) { build(:admin, password: "ab012") }
       let(:message) { "は6文字以上で入力してください" }
 
-      it_behaves_like "validation error message"
+      it_behaves_like "adds validation error messages"
     end
 
     context "英字のみのとき" do
-      let(:invalid_admin) { build(:admin, password: "abcdef") }
+      let(:invalid_object) { build(:admin, password: "abcdef") }
       let(:message) { "は英字と数字の両方を含めて設定してください" }
 
-      it_behaves_like "validation error message"
+      it_behaves_like "adds validation error messages"
     end
 
     context "数字のみのとき" do
-      let(:invalid_admin) { build(:admin, password: "012345") }
+      let(:invalid_object) { build(:admin, password: "012345") }
       let(:message) { "は英字と数字の両方を含めて設定してください" }
 
-      it_behaves_like "validation error message"
+      it_behaves_like "adds validation error messages"
     end
   end
 end

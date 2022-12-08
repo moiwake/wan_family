@@ -1,11 +1,5 @@
 require "rails_helper"
-
-shared_examples "validation error message" do
-  it "errorsコレクションにエラーメッセージが追加される" do
-    invalid_spot_history.valid?
-    expect(invalid_spot_history.errors[attribute]).to include(message)
-  end
-end
+require 'support/shared_examples'
 
 RSpec.describe SpotHistory, type: :model do
   let!(:spot_history) { create(:spot_history) }
@@ -17,7 +11,7 @@ RSpec.describe SpotHistory, type: :model do
   end
 
   describe "presenceのバリデーション" do
-    let(:invalid_spot_history) { build(:spot_history, attribute => (type == :nil ? nil : "")) }
+    let(:invalid_object) { build(:spot_history, attribute => (type == :nil ? nil : "")) }
     let(:message) { "を入力してください" }
 
     context "spotカラム" do
@@ -26,7 +20,7 @@ RSpec.describe SpotHistory, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
     end
 
@@ -36,7 +30,7 @@ RSpec.describe SpotHistory, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
     end
 
@@ -46,13 +40,13 @@ RSpec.describe SpotHistory, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
     end
   end

@@ -1,11 +1,5 @@
 require "rails_helper"
-
-shared_examples "validation error message" do
-  it "errorsコレクションにエラーメッセージが追加される" do
-    invalid_option_title.valid?
-    expect(invalid_option_title.errors[attribute]).to include(message)
-  end
-end
+require 'support/shared_examples'
 
 RSpec.describe OptionTitle, type: :model do
   let!(:option_title) { create(:option_title) }
@@ -17,7 +11,7 @@ RSpec.describe OptionTitle, type: :model do
   end
 
   describe "presenceのバリデーション" do
-    let(:invalid_option_title) { build(:option_title, attribute => (type == :nil ? nil : "")) }
+    let(:invalid_object) { build(:option_title, attribute => (type == :nil ? nil : "")) }
     let(:message) { "を入力してください" }
 
     context "nameカラム" do
@@ -26,13 +20,13 @@ RSpec.describe OptionTitle, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
     end
   end
@@ -42,9 +36,9 @@ RSpec.describe OptionTitle, type: :model do
 
     context "nameカラムが重複しているとき" do
       let(:attribute) { :name }
-      let(:invalid_option_title) { build(:option_title, name: option_title.name) }
+      let(:invalid_object) { build(:option_title, name: option_title.name) }
 
-      it_behaves_like "validation error message"
+      it_behaves_like "adds validation error messages"
     end
   end
 end

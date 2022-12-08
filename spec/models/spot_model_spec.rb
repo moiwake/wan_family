@@ -1,11 +1,5 @@
 require "rails_helper"
-
-shared_examples "validation error message" do
-  it "errorsコレクションにエラーメッセージが追加される" do
-    invalid_spot.valid?
-    expect(invalid_spot.errors[attribute]).to include(message)
-  end
-end
+require 'support/shared_examples'
 
 RSpec.describe Spot, type: :model do
   let!(:spot) { create(:spot, :real_spot) }
@@ -17,7 +11,7 @@ RSpec.describe Spot, type: :model do
   end
 
   describe "presenceのバリデーション" do
-    let(:invalid_spot) { build(:spot, attribute => (type == :nil ? nil : "")) }
+    let(:invalid_object) { build(:spot, attribute => (type == :nil ? nil : "")) }
     let(:message) { "を入力してください" }
 
     context "nameカラム" do
@@ -26,13 +20,13 @@ RSpec.describe Spot, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
     end
 
@@ -42,13 +36,13 @@ RSpec.describe Spot, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
     end
 
@@ -58,13 +52,13 @@ RSpec.describe Spot, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
     end
 
@@ -74,13 +68,13 @@ RSpec.describe Spot, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
     end
 
@@ -90,7 +84,7 @@ RSpec.describe Spot, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
     end
 
@@ -100,7 +94,7 @@ RSpec.describe Spot, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
     end
   end
@@ -110,16 +104,16 @@ RSpec.describe Spot, type: :model do
 
     context "nameカラムが重複しているとき" do
       let(:attribute) { :name }
-      let(:invalid_spot) { build(:spot, :duplicated_name) }
+      let(:invalid_object) { build(:spot, :duplicated_name) }
 
-      it_behaves_like "validation error message"
+      it_behaves_like "adds validation error messages"
     end
 
     context "latitudeカラムとlongitudeカラムの両データが重複しているとき" do
       let(:attribute) { :latitude }
-      let(:invalid_spot) { build(:spot, :duplicated_latlng) }
+      let(:invalid_object) { build(:spot, :duplicated_latlng) }
 
-      it_behaves_like "validation error message"
+      it_behaves_like "adds validation error messages"
     end
 
     context "latitudeカラムのデータのみが重複しているとき" do
@@ -142,9 +136,9 @@ RSpec.describe Spot, type: :model do
 
     context "addressカラムが重複しているとき" do
       let(:attribute) { :address }
-      let(:invalid_spot) { build(:spot, :duplicated_address) }
+      let(:invalid_object) { build(:spot, :duplicated_address) }
 
-      it_behaves_like "validation error message"
+      it_behaves_like "adds validation error messages"
     end
   end
 end

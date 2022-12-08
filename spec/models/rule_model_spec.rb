@@ -1,11 +1,5 @@
 require "rails_helper"
-
-shared_examples "validation error message" do
-  it "errorsコレクションにエラーメッセージが追加される" do
-    invalid_rule.valid?
-    expect(invalid_rule.errors[attribute]).to include(message)
-  end
-end
+require 'support/shared_examples'
 
 RSpec.describe Rule, type: :model do
   let!(:rule) { create(:rule) }
@@ -17,7 +11,7 @@ RSpec.describe Rule, type: :model do
   end
 
   describe "presenceのバリデーション" do
-    let(:invalid_rule) { build(:rule, attribute => (type == :nil ? nil : "")) }
+    let(:invalid_object) { build(:rule, attribute => (type == :nil ? nil : "")) }
     let(:message) { "を入力してください" }
 
     context "spotカラム" do
@@ -26,7 +20,7 @@ RSpec.describe Rule, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
     end
 
@@ -36,7 +30,7 @@ RSpec.describe Rule, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
     end
 
@@ -46,13 +40,13 @@ RSpec.describe Rule, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "validation error message"
+        it_behaves_like "adds validation error messages"
       end
     end
   end
@@ -62,9 +56,9 @@ RSpec.describe Rule, type: :model do
 
     context "spotカラムとrule_optionカラムの両データが重複しているとき" do
       let(:attribute) { :spot }
-      let(:invalid_rule) { build(:rule, spot: rule.spot, rule_option: rule.rule_option) }
+      let(:invalid_object) { build(:rule, spot: rule.spot, rule_option: rule.rule_option) }
 
-      it_behaves_like "validation error message"
+      it_behaves_like "adds validation error messages"
     end
 
     context "spotカラムのデータのみが重複しているとき" do
