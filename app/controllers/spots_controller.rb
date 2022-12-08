@@ -97,7 +97,7 @@ class SpotsController < ApplicationController
       :image,
     ]
 
-    params.require(:spot_register_form).permit(spot_attributes: spot_params, rules_attributes: [[:answer, :rule_option_id]])
+    params.require(:spot_register_form).permit(spot_attributes: spot_params, rules_attributes: [[:answer]])
   end
 
   def set_categories
