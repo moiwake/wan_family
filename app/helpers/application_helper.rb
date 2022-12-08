@@ -17,7 +17,7 @@ module ApplicationHelper
     end
   end
 
-  def set_prefecture_name(region)
+  def get_prefecture_name(region)
     Prefecture.find_prefecture_name(region)
   end
 end

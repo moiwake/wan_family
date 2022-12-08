@@ -54,4 +54,14 @@ RSpec.describe ApplicationHelper, type: :helper do
       end
     end
   end
+
+  describe "#get_prefecture_name" do
+    let(:prefectures) { create_list(:prefecture, 5) }
+    let(:region) { prefectures.first.region }
+    let(:names_ary) { prefectures.pluck(:name) }
+
+    it "引数に渡した地方に属する、県名の配列を取得する" do
+      expect(helper.get_prefecture_name(region)).to eq(names_ary)
+    end
+  end
 end
