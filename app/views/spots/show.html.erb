@@ -3,21 +3,12 @@
 <div class="spot">
   <h2><%= @spot.name %></h2>
 
-  <%# if @spot.image.attached? %>
-    <%#= image_tag @spot.image, size: "100x100" %>
-  <%# end %>
-
 <% @spot.images.each_with_index do |image, i| %>
   <% break if i == 5 %>
-  <% if image.files.attached? %>
-    <% image.files.each_with_index do |file, i| %>
-      <% break if i == 1 %>
-      <%= image_tag file, width: 200, height: 200 %>
-    <% end %>
-  <% end %>
+  <%= render "reviews/shared/display_image", image: image, limit: 1 %>
 <% end %>
 
-<%= link_to "すべての写真を見る", spot_images_path(@spot) %>
+<%= link_to "すべての画像を見る", spot_images_path(@spot) %>
 
   <table>
     <thead>

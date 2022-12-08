@@ -1,7 +1,3 @@
 <% @images.each do |image| %>
-  <% if image.files.attached? %>
-    <% image.files.each do |file| %>
-      <%= image_tag file, width: 200, height: 200 %>
-    <% end %>
-  <% end %>
+  <%= render "reviews/shared/display_image", image: image, limit: nil %>
 <% end %>
