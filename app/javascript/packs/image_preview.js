@@ -1,4 +1,4 @@
-let inputFile = document.getElementById("review_image_form")
+let inputFile = document.getElementById("form_review_image")
 
 inputFile.addEventListener("change", function (e) {
   let previewLists = document.getElementById("preview_lists");

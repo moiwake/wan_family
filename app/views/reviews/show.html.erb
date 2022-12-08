@@ -1,3 +1,5 @@
+<%= render "shared/flash_messages" %>
+
 <%= link_to "すべてのレビュー", spot_reviews_path(@review.spot), class: "button light ml-3 mt-3" %>
 
 <h3><%= @review.user.name %>さん</h3>
@@ -22,4 +24,4 @@
   </tbody>
 </table>
 
-<%= render "reviews/shared/display_image.erb", image: @review.image, limit: nil %>
+<%= render "reviews/shared/display_image", image: @review.image, limit: nil %>
