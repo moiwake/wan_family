@@ -5,7 +5,8 @@ class Image < ApplicationRecord
 
   has_many_attached :files
 
-  with_options presence: true do
-    validates :files
-  end
+  validates :files, presence: true, blob: {
+    content_type: ['image/png', 'image/jpg', 'image/jpeg'],
+    size_range: 1..(5.megabytes)
+  }
 end

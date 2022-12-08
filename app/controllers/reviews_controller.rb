@@ -1,5 +1,5 @@
 class ReviewsController < ApplicationController
-  before_action :authenticate_user!, except: [:index]
+  before_action :authenticate_user!, except: [:index, :show]
 
   def index
     @spot = Spot.find(params[:spot_id])
@@ -62,7 +62,7 @@ class ReviewsController < ApplicationController
     files_blob_ids_params = params[:review_poster_form][:image_attributes][:files_blob_ids]
     if files_blob_ids_params
       files_blob_ids_params.each do |file_id|
-        delete_file = @review.image.files.find(file_id)
+        delete_file = @review.image.files.find { |file| file.id == file_id.to_i }
         delete_file.purge
       end
     end

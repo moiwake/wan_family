@@ -29,15 +29,15 @@ class ReviewPosterForm < FormBase
       image.save! unless image.nil?
     end
 
-    true
+    return true
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
-    false
+    return false
   end
 
   def build_image_record(attributes: nil, user_id: nil, spot_id: nil)
     attributes = attributes.merge({ user_id: user_id, spot_id: spot_id })
-    new_image = review.build_image
-    new_image.assign_attributes(attributes)
+    review.image = review.build_image
+    review.image.assign_attributes(attributes)
   end
 
   def update_iamge_attributes(attributes: nil)
@@ -47,6 +47,7 @@ class ReviewPosterForm < FormBase
   def check_and_add_error
     if review_and_image_invalid?
       add_review_errors
+      add_image_errors
       return true
     else
       return false
@@ -54,12 +55,20 @@ class ReviewPosterForm < FormBase
   end
 
   def review_and_image_invalid?
-    review.invalid? || (image.nil? ? false : image.invalid?)
+    review.invalid? || (review.image.present? ? review.image.invalid? : false)
   end
 
   def add_review_errors
     review.errors.each do |error|
       errors.add(:base, error.full_message)
+    end
+  end
+
+  def add_image_errors
+    if review.image.present?
+      review.image.errors.each do |error|
+        errors.add(:base, error.full_message)
+      end
     end
   end
 
