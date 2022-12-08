@@ -52,12 +52,12 @@ ja:
         human_score: ユーザーさんの満足度
         user: ユーザーID
         spot: スポットID
-        images: 写真ID
+        images: 画像ID
       image:
         user: ユーザーID
         spot: スポットID
         review: レビューID
-        file: 写真ファイル
+        files: 画像
     models:
       user: ユーザー
       admin: 管理者
@@ -69,7 +69,7 @@ ja:
       category: カテゴリー
       allowed_area: 同伴可能エリア
       review: レビュー
-      image: 写真
+      image: 画像
   devise: &devise
     confirmations:
       confirmed: メールアドレスが確認できました。

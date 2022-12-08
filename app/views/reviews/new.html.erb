@@ -1,2 +1,2 @@
-<h2>レビューを投稿する</h2>
+<h2><%= @spot.name %>のレビューを投稿する</h2>
 <%= render "reviews/shared/poster_form", resource: @review_poster_form, spot: @spot, url: spot_reviews_path(@spot), method: :post %>

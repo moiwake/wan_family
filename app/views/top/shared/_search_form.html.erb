@@ -10,7 +10,10 @@
     <%= f.label :allowed_area_id_matches_any, "同伴が可能なエリアで絞る" %>
     <%= f.collection_check_boxes :allowed_area_id_matches_any, allowed_areas, :id, :area, { id: :search_allowed_area } %>
     <br>
-    <%= display_area_search_form(f) %>
+    <% if @prefecture_hash.present? %>
+      <%= f.label  :address_cont, "都道府県で絞る" %>
+      <%= f.select  :address_cont, @prefecture_hash, include_blank: "選択してください" %>
+    <% end %>
   <% end %>
   <%= sf.submit "検索" %>
 <% end %>
