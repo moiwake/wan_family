@@ -2,4 +2,4 @@
 
 <%= render "shared/error_messages", resource: @spot_register_form %>
 <%= render "spots/shared/register_form", url: edit_confirm_spot_path(@spot), method: :patch %>
-<%= render "spots/shared/map_display", file: "spot/map_search_address" %>
+<%= render "shared/include_map", file: "spot/search_spot_address" %>

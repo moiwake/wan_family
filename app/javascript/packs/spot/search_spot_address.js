@@ -1,7 +1,7 @@
 function docInit(){
   if (aft == true){
-    document.getElementById("form_lat").value = "";
-    document.getElementById("form_lng").value = "";
+    document.getElementById("form_spot_lat").value = "";
+    document.getElementById("form_spot_lng").value = "";
     document.getElementById("form_spot_address").value = "";
     marker.setMap(null);
   }
@@ -18,8 +18,8 @@ function codeAddress(){
 
       if (addressArray[1]){
 
-        document.getElementById("form_lat").value = results[0].geometry.location.lat();
-        document.getElementById("form_lng").value = results[0].geometry.location.lng();
+        document.getElementById("form_spot_lat").value = results[0].geometry.location.lat();
+        document.getElementById("form_spot_lng").value = results[0].geometry.location.lng();
         document.getElementById("form_spot_address").value = addressArray[1];
 
         aft = true;
