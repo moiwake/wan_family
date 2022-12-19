@@ -2,37 +2,37 @@
 
 <div class="spot-review-list">
   <% @reviews.each_with_index do |review, i| %>
-  <section class="review-grid-list">
-    <p><%= link_to "#{review.user.name}さんのレビュー", spot_review_path(@spot.id, review.id) %></p>
-    <p><%= review.title %></p>
-    <div class="rating-box mt-3">
-      <input type="hidden" id="review-id<%= i %>" value=<%= review.id %>>
-      <div class="main-rating">
-        <div id= dog-ratings<%= review.id %> class="dog-ratings mb-3">
-          <span class="fa fa-paw non-colored"></span>
-          <span class="fa fa-paw non-colored"></span>
-          <span class="fa fa-paw non-colored"></span>
-          <span class="fa fa-paw non-colored"></span>
-          <span class="fa fa-paw non-colored"></span>
+    <section class="review-grid-list">
+      <p><%= link_to "#{review.user.name}さんのレビュー", spot_review_path(@spot.id, review.id) %></p>
+      <p><%= review.title %></p>
+      <div class="rating-box mt-3">
+        <input type="hidden" id="review-id<%= i %>" value=<%= review.id %>>
+        <div class="main-rating">
+          <div id= dog-ratings<%= review.id %> class="dog-ratings mb-3">
+            <span class="fa fa-paw non-colored"></span>
+            <span class="fa fa-paw non-colored"></span>
+            <span class="fa fa-paw non-colored"></span>
+            <span class="fa fa-paw non-colored"></span>
+            <span class="fa fa-paw non-colored"></span>
+          </div>
+          <input type="hidden" id="dog-rating-value<%= review.id %>" value=<%= review.dog_score %>>
         </div>
-        <input type="hidden" id="dog-rating-value<%= review.id %>" value=<%= review.dog_score %>>
-      </div>
-      <div class="main-rating">
-        <div id= human-ratings<%= review.id %> class="human-ratings mb-3">
-          <span class="fa fa-star non-colored"></span>
-          <span class="fa fa-star non-colored"></span>
-          <span class="fa fa-star non-colored"></span>
-          <span class="fa fa-star non-colored"></span>
-          <span class="fa fa-star non-colored"></span>
+        <div class="main-rating">
+          <div id= human-ratings<%= review.id %> class="human-ratings mb-3">
+            <span class="fa fa-star non-colored"></span>
+            <span class="fa fa-star non-colored"></span>
+            <span class="fa fa-star non-colored"></span>
+            <span class="fa fa-star non-colored"></span>
+            <span class="fa fa-star non-colored"></span>
+          </div>
+          <input type="hidden" id="human-rating-value<%= review.id %>" value=<%= review.human_score %>>
         </div>
-        <input type="hidden" id="human-rating-value<%= review.id %>" value=<%= review.human_score %>>
       </div>
-    </div>
-    <p><%= review.comment %></p>
-    <%= render "reviews/shared/display_image", image: review.image, limit: 5 %>
-  </section>
+      <p><%= review.comment %></p>
+      <%= render "reviews/shared/display_image", image: review.image, limit: Image::MAX_IMAGE_DISPLAY_NUMBER %>
+    </section>
   <% end %>
 </div>
 
-<input type="hidden" id="reviews-count" value=<%= @reviews.count %>>
+<input type="hidden" id="reviews-count" value=<%= @reviews.size %>>
 <%= javascript_pack_tag "display_rating" %>

@@ -1,9 +1,9 @@
 <%= render "shared/flash_messages" %>
 
-<%= link_to "すべてのレビュー", spot_reviews_path(@review.spot), class: "button light ml-3 mt-3" %>
+<%= link_to "すべてのレビュー", spot_reviews_path(@spot), class: "button light ml-3 mt-3" %>
 
 <h3><%= @review.user.name %>さん</h3>
-<h2><%= link_to "#{@review.spot.name}のレビュー", spot_path(@review.spot) %></h2>
+<h2><%= link_to "#{@spot.name}", spot_path(@spot) %></h2>
 
 <h1><%= @review.title %></h1>
 
@@ -17,11 +17,37 @@
   </thead>
   <tbody>
     <tr>
-      <td><%= @review.dog_score %></td>
-      <td><%= @review.human_score %></td>
+      <div class="rating-box mt-3">
+        <td>
+          <div class="main-rating">
+            <div class="dog-ratings mb-3">
+              <span class="fa fa-paw non-colored"></span>
+              <span class="fa fa-paw non-colored"></span>
+              <span class="fa fa-paw non-colored"></span>
+              <span class="fa fa-paw non-colored"></span>
+              <span class="fa fa-paw non-colored"></span>
+            </div>
+            <input type="hidden" id="dog-rating-value" value=<%= @review.dog_score %>>
+          </div>
+        </td>
+        <td>
+          <div class="main-rating">
+            <div class="human-ratings mb-3">
+              <span class="fa fa-star non-colored"></span>
+              <span class="fa fa-star non-colored"></span>
+              <span class="fa fa-star non-colored"></span>
+              <span class="fa fa-star non-colored"></span>
+              <span class="fa fa-star non-colored"></span>
+            </div>
+            <input type="hidden" id="human-rating-value" value=<%= @review.human_score %>>
+          </div>
+        </td>
+      </div>
       <td><%= @review.comment %></td>
     </tr>
   </tbody>
 </table>
 
 <%= render "reviews/shared/display_image", image: @review.image, limit: nil %>
+
+<%= javascript_pack_tag "display_rating" %>

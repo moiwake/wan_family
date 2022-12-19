@@ -1,14 +1,48 @@
-<% @reviews.each do |review| %>
-  <%= link_to edit_spot_review_path(review.spot, review) do %>
-    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-  <% end %>
-  <%= link_to spot_review_path(review.spot, review), method: :delete, data: { confirm: "#{review.spot.name}のレビューを削除しますか？" } do %>
-    <i class="fa fa-trash" aria-hidden="true"></i>
-  <% end %>
-  <p><%= review.spot.name %>のレビュー</p>
-  <p><%= link_to review.title, spot_review_path(review.spot.id, review.id) %></p>
-  <p>☆<%= review.dog_score %></p>
-  <p>☆<%= review.human_score %></p>
-  <p><%= review.comment %></p>
-  <%= render "reviews/shared/display_image", image: review.image, limit: 5 %>
+<%= render "shared/flash_messages" %>
+
+<%= link_to "マイページへ戻る", mypage_path %>
+
+<% if @reviews.present?  %>
+  <div class="spot-review-list">
+    <% @reviews.each_with_index do |review, i| %>
+      <section class="review-grid-list">
+        <%= link_to edit_spot_review_path(review.spot, review) do %>
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+        <% end %>
+        <%= link_to spot_review_path(review.spot, review), method: :delete, data: { confirm: "#{review.spot.name}のレビュー「#{review.title}」を削除しますか？" } do %>
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        <% end %>
+        <p><%= link_to "#{review.spot.name}のレビュー", spot_path(review.spot.id) %></p>
+        <p><%= link_to review.title, spot_review_path(review.spot.id, review.id) %></p>
+        <div class="rating-box mt-3">
+          <input type="hidden" id="review-id<%= i %>" value=<%= review.id %>>
+          <div class="main-rating">
+            <div id= dog-ratings<%= review.id %> class="dog-ratings mb-3">
+              <span class="fa fa-paw non-colored"></span>
+              <span class="fa fa-paw non-colored"></span>
+              <span class="fa fa-paw non-colored"></span>
+              <span class="fa fa-paw non-colored"></span>
+              <span class="fa fa-paw non-colored"></span>
+            </div>
+            <input type="hidden" id="dog-rating-value<%= review.id %>" value=<%= review.dog_score %>>
+          </div>
+          <div class="main-rating">
+            <div id= human-ratings<%= review.id %> class="human-ratings mb-3">
+              <span class="fa fa-star non-colored"></span>
+              <span class="fa fa-star non-colored"></span>
+              <span class="fa fa-star non-colored"></span>
+              <span class="fa fa-star non-colored"></span>
+              <span class="fa fa-star non-colored"></span>
+            </div>
+            <input type="hidden" id="human-rating-value<%= review.id %>" value=<%= review.human_score %>>
+          </div>
+        </div>
+        <p><%= review.comment %></p>
+        <%= render "reviews/shared/display_image", image: review.image, limit: Image::MAX_IMAGE_DISPLAY_NUMBER %>
+      </section>
+    <% end %>
+  </div>
+
+  <input type="hidden" id="reviews-count" value=<%= @reviews.size %>>
+  <%= javascript_pack_tag "display_rating" %>
 <% end %>
