@@ -56,12 +56,8 @@ RSpec.describe ApplicationHelper, type: :helper do
   end
 
   describe "#get_prefecture_name" do
-    let(:prefectures) { create_list(:prefecture, 5) }
-    let(:region) { prefectures.first.region }
-    let(:names_ary) { prefectures.pluck(:name) }
-
-    it "引数に渡した地方に属する、県名の配列を取得する" do
-      expect(helper.get_prefecture_name(region)).to eq(names_ary)
+    it "地方名が引数の値と一致するデータの県名を、配列で取得する" do
+      expect(helper.get_prefecture_name("東北")).to eq(["青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県"])
     end
   end
 end
