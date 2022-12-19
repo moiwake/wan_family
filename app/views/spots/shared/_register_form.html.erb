@@ -13,15 +13,15 @@
         <input id="form_search_button" type="button" value="検索">
         <%= sf.label :address, "所在地" %>
         <%= sf.text_field :address, placeholder: "例）東京都〇〇区〇〇１丁目１", id: :form_spot_address %>
-        <%= sf.hidden_field :latitude, id: :form_lat %>
-        <%= sf.hidden_field :longitude, id: :form_lng %>
+        <%= sf.hidden_field :latitude, id: :form_spot_lat %>
+        <%= sf.hidden_field :longitude, id: :form_spot_lng %>
       </div>
       <%= sf.label :category_id, "スポットカテゴリー", for: "form_spot_category" %>
       <%= sf.collection_select :category_id, @categories, :id, :name, { prompt: "選択してください" }, { id: :form_spot_category } %>
       <%= sf.label :allowed_area_id, "同伴可能エリア", for: "form_allowed_area" %>
       <%= sf.collection_select :allowed_area_id, @allowed_areas, :id, :area, { prompt: "選択してください" }, { id: :form_allowed_area } %>
       <%= sf.label :official_site, "スポットのオフィシャルサイト" %>
-      <%= sf.text_field :official_site, placeholder: "リンクを貼ってください。", id: :form_official_site %>
+      <%= sf.text_field :official_site, placeholder: "リンクを貼ってください。", id: :form_spot_official_site %>
     </div>
   <% end %>
   <div id="form_pets_allowed_rule">
@@ -30,11 +30,11 @@
       <p><%= title.name %></p>
       <% title.rule_option.each do |rule_opt| %>
         <%= f.fields_for(:rules_attributes, @spot_register_form.rules, index: rule_opt.id) do |rf| %>
-          <label for="<%= rule_opt.id %>">
+          <label for="check_box_<%= rule_opt.id %>">
             <%= rf.check_box :answer, {
               checked: ary_present_and_include_ele?(ary: @attached_rule_opt_ids, ele: rule_opt.id),
               class: :form_rule_check_box,
-              id: rule_opt.id.to_s
+              id: "check_box_#{rule_opt.id}"
             }, "1", "0" %>
             <%= rule_opt.name %>
           </label>
@@ -42,5 +42,5 @@
       <% end %>
     <% end %>
   </div>
-  <input type="button" onclick=submit(); value="登録">
+  <input type="button" onclick=submit(); value="入力内容の確認へ">
 <% end %>
