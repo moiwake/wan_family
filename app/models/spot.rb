@@ -1,4 +1,6 @@
 class Spot < ApplicationRecord
+  extend ActiveHash::Associations::ActiveRecordExtensions
+
   has_many   :spot_histories, dependent: :destroy
   has_many   :users, through: :spot_histories
   belongs_to :category
@@ -6,8 +8,6 @@ class Spot < ApplicationRecord
   has_many   :rule, dependent: :destroy
   has_many   :reviews, dependent: :destroy
   has_many   :images, dependent: :destroy
-
-  extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :prefecture
 
   with_options presence: true do
@@ -16,4 +16,6 @@ class Spot < ApplicationRecord
     validates :longitude
     validates :address, uniqueness: true
   end
+
+  scope :"includes_images", -> { includes(images: { files_attachments: :blob }) }
 end

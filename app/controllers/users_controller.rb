@@ -7,15 +7,15 @@ class UsersController < ApplicationController
   end
 
   def spot_index
-    @spots = current_user.spots
+    @spots = current_user.spots.includes(:category)
   end
 
   def review_index
-    @reviews = current_user.reviews
+    @reviews = current_user.reviews.includes_image.includes(:spot)
   end
 
   def image_index
-    @images = current_user.images
+    @images = current_user.images.with_attached_files
   end
 
   # profile

@@ -1,6 +1,6 @@
 class SpotsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_categories, :set_allowed_areas, :set_option_titles, except: [:index, :show]
+  before_action :authenticate_user!, except: [:show]
+  before_action :set_categories, :set_allowed_areas, :set_option_titles, except: [:show]
   before_action :delete_session, only: [:new, :edit]
   after_action  :delete_session, only: [:create, :update]
 
@@ -40,7 +40,7 @@ class SpotsController < ApplicationController
   end
 
   def show
-    @spot = Spot.find(params[:id])
+    @spot = Spot.includes_images.find(params[:id])
   end
 
   def edit
@@ -94,7 +94,6 @@ class SpotsController < ApplicationController
       :official_site,
       :allowed_area_id,
       :category_id,
-      :image,
     ]
 
     params.require(:spot_register_form).permit(spot_attributes: spot_params, rules_attributes: [[:answer]])

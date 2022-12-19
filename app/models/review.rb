@@ -9,4 +9,6 @@ class Review < ApplicationRecord
     validates :dog_score
     validates :human_score
   end
+
+  scope :includes_image, -> { includes(image: { files_attachments: :blob }) }
 end
