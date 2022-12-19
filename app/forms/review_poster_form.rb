@@ -35,9 +35,8 @@ class ReviewPosterForm < FormBase
   end
 
   def build_image_record(attributes: nil, user_id: nil, spot_id: nil)
-    attributes = attributes.merge({ user_id: user_id, spot_id: spot_id })
-    review.image = review.build_image
-    review.image.assign_attributes(attributes)
+    attributes = attributes.merge({ user_id: review.user_id, spot_id: review.spot_id })
+    review.image = review.build_image(attributes)
   end
 
   def update_iamge_attributes(attributes: nil)
