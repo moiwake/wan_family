@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'support/shared_examples/request_spec'
 
 RSpec.describe "Reviews", type: :request do
   let!(:user) { create(:user) }
@@ -7,9 +8,7 @@ RSpec.describe "Reviews", type: :request do
   let!(:image) { create(:image, :attached, review_id: review.id) }
 
   describe "GET /index" do
-    before do
-      get spot_reviews_path(spot.id)
-    end
+    before { get spot_reviews_path(spot.id) }
 
     it_behaves_like "returns http success"
   end
@@ -25,18 +24,14 @@ RSpec.describe "Reviews", type: :request do
     end
 
     context "ログインしていないとき" do
-      before do
-        get new_spot_review_path(spot.id)
-      end
+      before { get new_spot_review_path(spot.id) }
 
       it_behaves_like "redirects to login page"
     end
   end
 
   describe "GET /show" do
-    before do
-      get spot_review_path(spot.id, review.id)
-    end
+    before { get spot_review_path(spot.id, review.id) }
 
     it_behaves_like "returns http success"
   end
@@ -52,9 +47,7 @@ RSpec.describe "Reviews", type: :request do
     end
 
     context "ログインしていないとき" do
-      before do
-        get edit_spot_review_path(spot.id, review.id)
-      end
+      before { get edit_spot_review_path(spot.id, review.id) }
 
       it_behaves_like "redirects to login page"
     end
@@ -63,18 +56,16 @@ RSpec.describe "Reviews", type: :request do
   describe "POST /create" do
     let(:params) { { review_attributes: review_params, image_attributes: image_params } }
     let(:review_params) { FactoryBot.attributes_for(:review, user_id: user.id, spot_id: spot.id) }
-    let(:image_params) do
-      FactoryBot.attributes_for(:image, files: [
-        fixture_file_upload(new_file_paths[0], 'image/png'),
-        fixture_file_upload(new_file_paths[1], 'image/png'),
-      ])
+    let(:image_params) { FactoryBot.attributes_for(:image, files: new_files) }
+    let(:new_files) do
+      [
+        fixture_file_upload(Rails.root.join('spec', 'fixtures', 'images', 'test1.png'), 'image/png'),
+        fixture_file_upload(Rails.root.join('spec', 'fixtures', 'images', 'test2.png'), 'image/png'),
+      ]
     end
-    let(:new_file_paths) { [Rails.root.join('spec', 'fixtures', 'images', 'test1.png'), Rails.root.join('spec', 'fixtures', 'images', 'test2.png')] }
-    let(:new_filenames) { new_file_paths.map { |new_file_path| new_file_path.split.last.to_s } }
+    let(:new_filenames) { new_files.map { |new_file| new_file.original_filename } }
 
-    before do
-      sign_in user
-    end
+    before { sign_in user }
 
     context "送信されたパラメータが妥当なとき" do
       subject { post spot_reviews_path(spot.id), params: { review_poster_form: params } }
@@ -94,7 +85,7 @@ RSpec.describe "Reviews", type: :request do
       it "イメージのレコードに複数のファイルデータを保存できる" do
         subject
         new_filenames.each do |new_filename|
-          expect(image.reload.files.blobs.pluck(:filename).include?(new_filename)).to eq(true)
+          expect(Image.last.files.blobs.pluck(:filename).include?(new_filename)).to eq(true)
         end
       end
 
@@ -103,7 +94,7 @@ RSpec.describe "Reviews", type: :request do
         expect(response).to redirect_to(spot_review_path(spot.id, Review.last.id))
       end
 
-      it_behaves_like "returns 302 HTTP Status Code"
+      it_behaves_like "returns 302 http status code"
     end
 
     context "送信されたレビューのパラメータが不正なとき" do
@@ -134,9 +125,9 @@ RSpec.describe "Reviews", type: :request do
     context "送信されたイメージのパラメータが不正なとき" do
       let(:params) { { review_attributes: review_params, image_attributes: invalid_image_params } }
       let(:invalid_image_params) do
-        FactoryBot.attributes_for(:image, files: [
-          fixture_file_upload(Rails.root.join('spec', 'fixtures', 'test.txt'), 'text/txt'),
-        ])
+        FactoryBot.attributes_for(:image, files:
+          [fixture_file_upload(Rails.root.join('spec', 'fixtures', 'test.txt'), 'text/txt')]
+        )
       end
 
       subject { post spot_reviews_path(spot.id), params: { review_poster_form: params } }
@@ -161,21 +152,17 @@ RSpec.describe "Reviews", type: :request do
   describe "PATCH /update" do
     let(:updated_params) { { review_attributes: updated_review_params, image_attributes: updated_image_params } }
     let(:updated_review_params) { FactoryBot.attributes_for(:review, user_id: review.user.id, spot_id: review.spot.id) }
-    let(:updated_image_params) do
-      FactoryBot.attributes_for(:image,
-        files: [fixture_file_upload(added_file_path, 'image/png'), saved_files].flatten,
-        files_blob_ids: [deleted_image_file_id.to_s]
-      )
-    end
-    let(:saved_files) { image.files.map { |file| file.signed_id } }
-    let(:saved_filenames) { image.files.blobs.map { |blob| blob.filename.to_s } }
-    let(:added_file_path) { Rails.root.join('spec', 'fixtures', 'images', 'test3.png') }
-    let(:added_filename) { added_file_path.split.last.to_s }
-    let(:deleted_image_file_id) { image.files.first.id }
+    let(:updated_image_params) { FactoryBot.attributes_for(:image, files: [added_file], files_blob_ids: [removed_file_id.to_s]) }
 
-    before do
-      sign_in user
+    let(:added_file) { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'images', 'test3.png'), 'image/png') }
+    let(:added_filename) { added_file.original_filename }
+    let(:removed_file_id) { image.files.first.id }
+    let!(:remained_filenames) do
+      remained_files = image.reload.files.reject { |file| file.id == removed_file_id }
+      remained_files.map { |file| file.blob.filename.to_s }
     end
+
+    before { sign_in user }
 
     context "送信されたパラメータが妥当なとき" do
       subject { patch spot_review_path(review.spot.id, review.id), params: { review_poster_form: updated_params } }
@@ -191,8 +178,8 @@ RSpec.describe "Reviews", type: :request do
       it "イメージのレコードにファイルデータを追加できる" do
         subject
 
-        saved_filenames.each do |saved_filename|
-          expect(image.reload.files.blobs.pluck(:filename).include?(saved_filename)).to eq(true)
+        remained_filenames.each do |remained_filename|
+          expect(image.reload.files.blobs.pluck(:filename).include?(remained_filename)).to eq(true)
         end
 
         expect(image.reload.files.blobs.pluck(:filename).include?(added_filename)).to eq(true)
@@ -200,7 +187,7 @@ RSpec.describe "Reviews", type: :request do
 
       it "イメージのレコードから指定したファイルデータを削除できる" do
         subject
-        expect(image.reload.files.pluck(:id).include?(deleted_image_file_id)).to eq(false)
+        expect(image.reload.files.pluck(:id).include?(removed_file_id)).to eq(false)
       end
 
       it "更新の後、更新したレビューの詳細ページにリダイレクトする" do
@@ -208,7 +195,7 @@ RSpec.describe "Reviews", type: :request do
         expect(response).to redirect_to(spot_review_path(review.spot.id, Review.last.id))
       end
 
-      it_behaves_like "returns 302 HTTP Status Code"
+      it_behaves_like "returns 302 http status code"
     end
 
     context "送信されたレビューのパラメータが不正なとき" do
@@ -233,7 +220,7 @@ RSpec.describe "Reviews", type: :request do
 
       it "イメージのレコードのファイルデータを削除できない" do
         subject
-        expect(image.reload.files.pluck(:id).include?(deleted_image_file_id)).to eq(true)
+        expect(image.reload.files.pluck(:id).include?(removed_file_id)).to eq(true)
       end
 
       it "バリデーションエラーが表示される" do
@@ -249,13 +236,9 @@ RSpec.describe "Reviews", type: :request do
 
     context "送信されたイメージのパラメータが不正なとき" do
       let(:updated_params) { { review_attributes: updated_review_params, image_attributes: invalid_image_params } }
-      let(:invalid_image_params) do
-        FactoryBot.attributes_for(:image,
-          files: [fixture_file_upload(added_file_path, 'text/txt'), saved_files].flatten,
-          files_blob_ids: [deleted_image_file_id.to_s],
-        )
-      end
-      let(:added_file_path) { Rails.root.join('spec', 'fixtures', 'test.txt') }
+      let(:invalid_image_params) { FactoryBot.attributes_for(:image, files: [added_invalid_file], files_blob_ids: [removed_file_id.to_s]) }
+      let(:added_invalid_file) { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'test.txt'), 'text/txt') }
+      let(:added_invalid_filename) { added_invalid_file.original_filename }
 
       subject { patch spot_review_path(review.spot.id, review.id), params: { review_poster_form: updated_params } }
 
@@ -270,12 +253,12 @@ RSpec.describe "Reviews", type: :request do
 
       it "イメージのレコードにファイルデータを追加できない" do
         subject
-        expect(image.reload.files.blobs.pluck(:filename).include?(added_filename)).to eq(false)
+        expect(image.reload.files.blobs.pluck(:filename).include?(added_invalid_filename)).to eq(false)
       end
 
       it "イメージのレコードから指定したファイルデータを削除できない" do
         subject
-        expect(image.reload.files.pluck(:id).include?(deleted_image_file_id)).to eq(true)
+        expect(image.reload.files.pluck(:id).include?(removed_file_id)).to eq(true)
       end
 
       it "バリデーションエラーが表示される" do
@@ -290,9 +273,7 @@ RSpec.describe "Reviews", type: :request do
   describe "DELETE /destroy" do
     subject { delete spot_review_path(review.spot.id, review.id) }
 
-    before do
-      sign_in user
-    end
+    before { sign_in user }
 
     it "レビューのレコードを削除できる" do
       expect { subject }.to change { Review.count }.by(-1)
@@ -307,7 +288,7 @@ RSpec.describe "Reviews", type: :request do
       expect(response).to redirect_to(users_review_index_path)
     end
 
-    it_behaves_like "returns 302 HTTP Status Code"
+    it_behaves_like "returns 302 http status code"
   end
 end
 
