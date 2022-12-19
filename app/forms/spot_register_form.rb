@@ -14,10 +14,9 @@ class SpotRegisterForm < FormBase
   def rules_attributes= (attributes)
     attributes.each do |key, value|
       if rules.nil?
-        value.transform_keys(&:to_sym)
-        build_rule_records(rule_option_id: key, answer: value[:answer])
+        build_rule_records(rule_option_id: key, answer: value["answer"])
       else
-        update_rules_attributes(rule_option_id: key, attributes: value)
+        update_rules_attributes(rule_option_id: key, answer: value["answer"])
       end
     end
   end
@@ -39,10 +38,10 @@ class SpotRegisterForm < FormBase
     spot.rule.build(rule_option_id: rule_option_id, answer: answer)
   end
 
-  def update_rules_attributes(rule_option_id: nil, attributes: nil)
+  def update_rules_attributes(rule_option_id: nil, answer: nil)
     rules.each do |r|
       if r.rule_option_id.to_s == rule_option_id
-        r.assign_attributes(attributes)
+        r.attributes = { answer: answer }
       end
     end
   end
