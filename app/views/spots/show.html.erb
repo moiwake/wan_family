@@ -4,8 +4,8 @@
   <h2><%= @spot.name %></h2>
 
 <% @spot.images.each_with_index do |image, i| %>
-  <% break if i == 5 %>
-  <%= render "reviews/shared/display_image", image: image, limit: 1 %>
+  <% break if i == Image::MAX_IMAGE_DISPLAY_NUMBER %>
+  <%= render "reviews/shared/display_image", image: image, limit: Image::MAX_IMAGE_DISPLAY_NUMBER_PER_1_REVIEW %>
 <% end %>
 
 <%= link_to "すべての画像を見る", spot_images_path(@spot) %>
