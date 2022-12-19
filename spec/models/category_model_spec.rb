@@ -1,13 +1,13 @@
 require "rails_helper"
-require 'support/shared_examples'
+require 'support/shared_examples/model_spec'
 
 RSpec.describe Category, type: :model do
   let!(:category) { create(:category) }
 
   context "全カラムのデータが有効なとき" do
-    it "そのスポットのデータは有効" do
-      expect(category).to be_valid
-    end
+    let(:valid_object) { category }
+
+    it_behaves_like "the object is valid"
   end
 
   describe "presenceのバリデーション" do

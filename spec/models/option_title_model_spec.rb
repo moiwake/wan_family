@@ -1,13 +1,13 @@
 require "rails_helper"
-require 'support/shared_examples'
+require 'support/shared_examples/model_spec'
 
 RSpec.describe OptionTitle, type: :model do
   let!(:option_title) { create(:option_title) }
 
   context "全カラムのデータが有効なとき" do
-    it "そのスポットのデータは有効" do
-      expect(option_title).to be_valid
-    end
+    let(:valid_object) { option_title }
+
+    it_behaves_like "the object is valid"
   end
 
   describe "presenceのバリデーション" do

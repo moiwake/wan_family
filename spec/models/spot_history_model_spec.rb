@@ -1,13 +1,13 @@
 require "rails_helper"
-require 'support/shared_examples'
+require 'support/shared_examples/model_spec'
 
 RSpec.describe SpotHistory, type: :model do
   let!(:spot_history) { create(:spot_history) }
 
   context "全カラムのデータが有効なとき" do
-    it "そのスポットのデータは有効" do
-      expect(spot_history).to be_valid
-    end
+    let(:valid_object) { spot_history }
+
+    it_behaves_like "the object is valid"
   end
 
   describe "presenceのバリデーション" do

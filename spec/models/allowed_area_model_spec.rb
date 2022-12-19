@@ -1,13 +1,13 @@
 require "rails_helper"
-require 'support/shared_examples'
+require 'support/shared_examples/model_spec'
 
 RSpec.describe AllowedArea, type: :model do
   let!(:allowed_area) { create(:allowed_area) }
 
   context "全カラムのデータが有効なとき" do
-    it "そのスポットのデータは有効" do
-      expect(allowed_area).to be_valid
-    end
+    let(:valid_object) { allowed_area }
+
+    it_behaves_like "the object is valid"
   end
 
   describe "presenceのバリデーション" do

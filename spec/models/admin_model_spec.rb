@@ -1,13 +1,13 @@
 require 'rails_helper'
-require 'support/shared_examples'
+require 'support/shared_examples/model_spec'
 
 RSpec.describe Admin, type: :model do
   let!(:admin) { create(:admin) }
 
   context "全カラムのデータが有効なとき" do
-    it "そのユーザーデータは有効" do
-      expect(admin).to be_valid
-    end
+    let(:valid_object) { admin }
+
+    it_behaves_like "the object is valid"
   end
 
   describe "presenceのバリデーション" do

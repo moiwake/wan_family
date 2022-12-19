@@ -1,13 +1,13 @@
 require 'rails_helper'
-require 'support/shared_examples'
+require 'support/shared_examples/model_spec'
 
 RSpec.describe Review, type: :model do
   let!(:review) { create(:review) }
 
   context "全カラムのデータが有効なとき" do
-    it "そのユーザーデータは有効" do
-      expect(review).to be_valid
-    end
+    let(:valid_object) { review }
+
+    it_behaves_like "the object is valid"
   end
 
   describe "presenceのバリデーション" do

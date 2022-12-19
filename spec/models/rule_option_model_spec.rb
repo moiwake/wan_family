@@ -1,13 +1,13 @@
 require "rails_helper"
-require 'support/shared_examples'
+require 'support/shared_examples/model_spec'
 
 RSpec.describe RuleOption, type: :model do
   let!(:rule_option) { create(:rule_option) }
 
   context "全カラムのデータが有効なとき" do
-    it "そのスポットのデータは有効" do
-      expect(rule_option).to be_valid
-    end
+    let(:valid_object) { rule_option }
+
+    it_behaves_like "the object is valid"
   end
 
   describe "presenceのバリデーション" do

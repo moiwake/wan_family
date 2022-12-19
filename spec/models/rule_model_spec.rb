@@ -1,13 +1,13 @@
 require "rails_helper"
-require 'support/shared_examples'
+require 'support/shared_examples/model_spec'
 
 RSpec.describe Rule, type: :model do
   let!(:rule) { create(:rule) }
 
   context "全カラムのデータが有効なとき" do
-    it "そのスポットのデータは有効" do
-      expect(rule).to be_valid
-    end
+    let(:valid_object) { rule }
+
+    it_behaves_like "the object is valid"
   end
 
   describe "presenceのバリデーション" do
@@ -63,20 +63,16 @@ RSpec.describe Rule, type: :model do
 
     context "spotカラムのデータのみが重複しているとき" do
       let(:attribute) { :spot }
-      let(:valid_rule) { build(:rule, spot: rule.spot) }
+      let(:valid_object) { build(:rule, spot: rule.spot) }
 
-      it "そのスポットデータは有効" do
-        expect(valid_rule).to be_valid
-      end
+      it_behaves_like "the object is valid"
     end
 
     context "rule_optionカラムがのみ重複しているとき" do
       let(:attribute) { :rule_option }
-      let(:valid_rule) { build(:rule, rule_option: rule.rule_option) }
+      let(:valid_object) { build(:rule, rule_option: rule.rule_option) }
 
-      it "そのスポットデータは有効" do
-        expect(valid_rule).to be_valid
-      end
+      it_behaves_like "the object is valid"
     end
   end
 end
