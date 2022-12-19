@@ -48,9 +48,6 @@
         <li>ファイルサイズ: 5メガバイトまで</li>
       </ul>
       <% if resource.image.present? %>
-        <% resource.image.files.each do |file| %>
-          <%= imf.hidden_field :files, multiple: true, value: file.signed_id %>
-        <% end %>
         <%= render "reviews/shared/edit_image_form", image: resource.image, form: imf %>
       <% end %>
     <% end %>
@@ -66,4 +63,4 @@
 <%= link_to "戻る", spot_path(spot.id) %>
 
 <%= javascript_pack_tag "set_rating" %>
-<%= javascript_pack_tag "image_preview" %>
+<%= javascript_pack_tag "preview_image" %>

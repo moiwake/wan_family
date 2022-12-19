@@ -21,6 +21,8 @@ module WanFamily
 
     config.i18n.default_locale = :ja
 
+    config.active_storage.replace_on_assign_to_many = false
+
     config.generators do |g|
       g.test_framework :rspec,
         view_specs: false,
@@ -28,7 +30,6 @@ module WanFamily
         routing_specs: false
     end
 
-    config.generators.system_tests   = false
     config.generators.stylesheets    = false
     config.generators.javascripts    = false
     config.generators.helper         = false
