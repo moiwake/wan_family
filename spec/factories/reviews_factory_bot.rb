@@ -2,10 +2,10 @@ FactoryBot.define do
   factory :review do
     sequence(:title) { |n| "review_title#{n}" }
     sequence(:comment) { |n| "review_comment#{n}" }
-    sequence(:dog_score) { |n| n }
-    sequence(:human_score) { |n| n }
+    sequence(:dog_score) { rand(1..5) }
+    sequence(:human_score) { rand(1..5) }
 
-    trait :image do
+    trait :with_image do
       after(:create) do |review|
         image = review.build_image(user_id: review.user.id, spot_id: review.spot.id)
         image.files.attach(
