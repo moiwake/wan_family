@@ -1,3 +1,7 @@
-<% @images.each do |image| %>
-  <%= render "reviews/shared/display_image", image: image, limit: nil %>
+<%= link_to "マイページへ戻る", mypage_path %>
+
+<% if @images.present? %>
+  <% @images.each do |image| %>
+    <%= render "reviews/shared/display_image", image: image, limit: nil %>
+  <% end %>
 <% end %>
