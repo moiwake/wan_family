@@ -1,5 +1,6 @@
 <h1>プロフィールの編集</h1>
 
+<%= render "shared/error_messages", resource: @user %>
 <%= render "shared/flash_messages" %>
 <%= image_tag @user.decorate.display_avatar, size: "100x100" %>
 
@@ -11,5 +12,3 @@
 <% end %>
 
 <%= link_to "マイページへ戻る", mypage_path %>
-
-
