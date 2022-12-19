@@ -6,7 +6,8 @@ class TopController < ApplicationController
   end
 
   def map_search
-    @spots = Spot.all
+    @spots = Spot.includes(:category)
+    @regions = Prefecture.pluck(:region, :region_roma).uniq
   end
 
   def word_search
@@ -26,20 +27,19 @@ class TopController < ApplicationController
   private
 
   def set_search_groupings(search_method)
-    params_search = params[:q][search_method]
+    search_params = params[:q][search_method]
     grouping_ary = []
 
-    params_search.keys.each do |key|
-      if params_search[key].kind_of?(String)
-        keywords = params_search[key].split(/[\p{blank}\s]+/)
+    search_params.keys.each do |key|
+      if search_params["name_or_address_cont"]
+        keywords = search_params[key].split(/[\p{blank}\s]+/)
+        keywords.reduce(grouping_ary){ |ary, word| ary.push({ key => word }) }
       else
-        keywords = params_search[key]
+        grouping_ary.push({ key => search_params[key] })
       end
-
-      keywords.reduce(grouping_ary){ |ary, word| ary.push({ key => word }) }
     end
 
-    return @search_groupings = grouping_ary.flatten
+    return @search_groupings = grouping_ary.uniq
   end
 
   def set_categories

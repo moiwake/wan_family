@@ -8,31 +8,23 @@
         <th>スポット名</th>
         <th>住所</th>
         <th>スポットカテゴリー</th>
-        <th>詳細</th>
       </tr>
     </thead>
     <tbody>
       <% @spots.each do |spot| %>
       <tr>
-        <td><%= spot.name %></td>
+        <td><%= link_to spot.name, spot_path(spot.id), class: "spot_detail" %></td>
         <td><%= spot.address %></td>
         <td><%= spot.category.name %></td>
-        <td><%= link_to "詳細", spot_path(spot.id), class: "spot_detail" %></td>
       </tr>
       <% end %>
     </tbody>
   </table>
 </div>
 
-<input type="button" id="hokkaido" value="北海道">
-<input type="button" id="tohoku" value="東北">
-<input type="button" id="kanto" value="関東">
-<input type="button" id="chubu" value="中部">
-<input type="button" id="kinki" value="近畿">
-<input type="button" id="chugoku" value="中国">
-<input type="button" id="shikoku" value="四国">
-<input type="button" id="kyushu" value="九州">
-<input type="button" id="okinawa" value="沖縄">
+<% @regions.each do |region| %>
+  <input type="button" id=<%= region[1] %> value=<%= region[0] %> >
+<% end %>
 
 <div id='map_search_spot'></div>
 
@@ -45,4 +37,4 @@
   <input type="hidden" id="spot_name_<%= i %>" value=<%= spot.name %>>
 <% end %>
 
-<%= render "top/shared/map_display", file: "spot/map_search_spot" %>
+<%= render "shared/include_map", file: "spot/search_spot_on_map" %>

@@ -6,7 +6,7 @@
 
 <h3>エリア一覧</h3>
 <% @regions.each do |region| %>
-  <%= link_to region, controller: "top", action: "word_search", q: {or: { address_cont: get_prefecture_name(region) }} %>
+  <%= link_to region, controller: "top", action: "word_search", q: {or: { address_cont_any: get_prefecture_name(region) }} %>
 <% end %>
 
 <h3>地図で探す</h3>
