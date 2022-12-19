@@ -17,5 +17,10 @@ class Spot < ApplicationRecord
     validates :address, uniqueness: true
   end
 
+  validates :official_site, format: {
+    with:    /\A#{URI::regexp(%w(http https))}\z/,
+    message: "URLは「http:」もしくは「https:」から始めてください"
+  }
+
   scope :"includes_images", -> { includes(images: { files_attachments: :blob }) }
 end
