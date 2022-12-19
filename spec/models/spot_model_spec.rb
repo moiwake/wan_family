@@ -1,13 +1,13 @@
 require "rails_helper"
-require 'support/shared_examples'
+require 'support/shared_examples/model_spec'
 
 RSpec.describe Spot, type: :model do
-  let!(:spot) { create(:spot, :real_spot) }
+  let!(:spot) { create(:spot) }
 
   context "全カラムのデータが有効なとき" do
-    it "そのスポットのデータは有効" do
-      expect(spot).to be_valid
-    end
+    let(:valid_object) { spot }
+
+    it_behaves_like "the object is valid"
   end
 
   describe "presenceのバリデーション" do
@@ -104,39 +104,45 @@ RSpec.describe Spot, type: :model do
 
     context "nameカラムが重複しているとき" do
       let(:attribute) { :name }
-      let(:invalid_object) { build(:spot, :duplicated_name) }
+      let(:invalid_object) { build(:spot, name: spot.name) }
 
       it_behaves_like "adds validation error messages"
     end
 
     context "latitudeカラムとlongitudeカラムの両データが重複しているとき" do
       let(:attribute) { :latitude }
-      let(:invalid_object) { build(:spot, :duplicated_latlng) }
+      let(:invalid_object) { build(:spot, latitude: spot.latitude, longitude: spot.longitude) }
 
       it_behaves_like "adds validation error messages"
     end
 
     context "latitudeカラムのデータのみが重複しているとき" do
       let(:attribute) { :latitude }
-      let(:valid_spot) { build(:spot, :duplicated_latitude) }
+      let(:valid_object) { build(:spot, latitude: spot.latitude) }
 
-      it "そのスポットデータは有効" do
-        expect(valid_spot).to be_valid
-      end
+      it_behaves_like "the object is valid"
     end
 
     context "longitudeカラムがのみ重複しているとき" do
       let(:attribute) { :longitude }
-      let(:valid_spot) { build(:spot, :duplicated_longitude) }
+      let(:valid_object) { build(:spot, longitude: spot.longitude) }
 
-      it "そのスポットデータは有効" do
-        expect(valid_spot).to be_valid
-      end
+      it_behaves_like "the object is valid"
     end
 
     context "addressカラムが重複しているとき" do
       let(:attribute) { :address }
-      let(:invalid_object) { build(:spot, :duplicated_address) }
+      let(:invalid_object) { build(:spot, address: spot.address) }
+
+      it_behaves_like "adds validation error messages"
+    end
+  end
+
+  describe "formatのバリデーション" do
+    context "official_siteカラムのパターンが不正なとき" do
+      let(:message) { "URLは「http:」もしくは「https:」から始めてください" }
+      let(:attribute) { :official_site }
+      let(:invalid_object) { build(:spot, official_site: "invalid/url") }
 
       it_behaves_like "adds validation error messages"
     end

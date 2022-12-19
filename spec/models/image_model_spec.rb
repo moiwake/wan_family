@@ -1,30 +1,23 @@
 require 'rails_helper'
-require 'support/shared_examples'
+require 'support/shared_examples/model_spec'
 
 RSpec.describe Image, type: :model do
   let!(:image) { create(:image, :attached) }
+  let!(:attribute) { :files }
 
   context "全カラムのデータが有効なとき" do
-    it "そのユーザーデータは有効" do
-      expect(image).to be_valid
-    end
+    let!(:valid_object) { image }
+
+    it_behaves_like "the object is valid"
   end
 
   describe "presenceのバリデーション" do
-    let(:invalid_object) { build(:image) }
+    let(:invalid_object) { build(:image, attribute => nil) }
     let(:message) { "を入力してください" }
 
     context "filesカラム" do
-      let(:attribute) { :files }
-
       context "nilのとき" do
         let(:type) { :nil }
-
-        it_behaves_like "adds validation error messages"
-      end
-
-      context "空文字のとき" do
-        let(:type) { :empty }
 
         it_behaves_like "adds validation error messages"
       end
@@ -35,9 +28,7 @@ RSpec.describe Image, type: :model do
     let(:invalid_object) { build(:image) }
     let(:message) { "のファイル形式が不正です。" }
 
-    context "filesカラムにテキストファイルを添付したとき" do
-      let(:attribute) { :files }
-
+    context "filesカラムに不正な形式のファイルを添付したとき" do
       before do
         invalid_object.files.attach({ io: File.open('spec/fixtures/test.txt'), filename: 'test.txt' })
       end
@@ -50,7 +41,6 @@ RSpec.describe Image, type: :model do
     let(:invalid_object) { build(:image) }
 
     context "filesカラムに1バイト以下のファイルを添付したとき" do
-      let(:attribute) { :files }
       let(:message) { "を1バイト以上のサイズにしてください。" }
 
       before do
@@ -61,7 +51,6 @@ RSpec.describe Image, type: :model do
     end
 
     context "filesカラムに5メガバイト以上のファイルを添付したとき" do
-      let(:attribute) { :files }
       let(:message) { "を5MB以下のサイズにしてください。" }
 
       before do
