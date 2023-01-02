@@ -342,11 +342,13 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
     end
 
     context "マップに存在する特定の場所を検索したとき" do
-      it "所在地・緯度経度が自動で入力される" do
+      before do
         fill_in "form_search_spot", with: spot.name
         click_button "検索"
         sleep 0.1
+      end
 
+      it "所在地・緯度経度が自動で入力される" do
         expect(find("#form_spot_address").value).to eq(spot.address)
         expect(find("#form_spot_lat", visible: false).value).to eq(spot.latitude.to_s)
         expect(find("#form_spot_lng", visible: false).value).to eq(spot.longitude.to_s)
@@ -382,6 +384,23 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
         let(:alert_message) { "スポットを特定できませんでした。検索ワードを変更してください。" }
 
         it_behaves_like "display_alert"
+      end
+
+      context "2度目の検索で検索結果が出ない場合" do
+        before do
+          fill_in "form_search_spot", with: spot.name
+          click_button "検索"
+          sleep 0.1
+          fill_in "form_search_spot", with: ""
+          page.accept_confirm { click_button "検索" }
+          sleep 0.1
+        end
+
+        it "住所、緯度、経度の値がクリアされる" do
+          expect(find("#form_spot_address").value).to eq("")
+          expect(find("#form_spot_lat", visible: false).value).to eq("")
+          expect(find("#form_spot_lng", visible: false).value).to eq("")
+        end
       end
     end
   end
