@@ -51,66 +51,83 @@ RSpec.describe "TopSystemSpecs", type: :system do
   end
 
   describe "スポットの検索" do
-    let!(:spot) do
-      create(:spot, name: "東京ドッグパーク", address: "東京都新宿区", category_id: categories[0].id, allowed_area_id: allowed_areas[0].id)
-    end
-
     before { visit root_path }
 
-    describe "詳細検索" do
-      before do
-        fill_in "q_and_name_or_address_cont", with: "ドッグパーク"
-        check categories[0].name
-        check allowed_areas[0].area
-        select "東京都", from: "都道府県で絞る"
-        click_button "検索"
+    describe "条件検索" do
+      let!(:spot) do
+        create(:spot, name: "東京ドッグパーク", address: "東京都新宿区", category_id: categories[0].id, allowed_area_id: allowed_areas[0].id)
       end
 
-      it "検索条件に合ったスポットを検索できる" do
-        expect(page).to have_link(spot.name, href: spot_path(spot.id))
-        expect(page).to have_content(spot.address)
-        expect(page).to have_content(spot.category.name)
+      describe "詳細検索" do
+        before do
+          fill_in "q_and_name_or_address_cont", with: "ドッグパーク"
+          check categories[0].name
+          check allowed_areas[0].area
+          select "東京都", from: "都道府県で絞る"
+          click_button "検索"
+        end
+
+        it "検索条件に合ったスポットを検索できる" do
+          expect(page).to have_link(spot.name, href: spot_path(spot.id))
+          expect(page).to have_content(spot.address)
+          expect(page).to have_content(spot.category.name)
+        end
+
+        it "検索した条件が検索欄に入力されている" do
+          expect(find("#q_and_name_or_address_cont").value).to eq("ドッグパーク")
+          expect(page).to have_checked_field(categories[0].name)
+          expect(page).to have_checked_field(allowed_areas[0].area)
+          expect(page).to have_select("都道府県で絞る", selected: "東京都")
+        end
       end
 
-      it "検索した条件が検索欄に入力されている" do
-        expect(find("#q_and_name_or_address_cont").value).to eq("ドッグパーク")
-        expect(page).to have_checked_field(categories[0].name)
-        expect(page).to have_checked_field(allowed_areas[0].area)
-        expect(page).to have_select("都道府県で絞る", selected: "東京都")
+      describe "エリア検索" do
+        before { click_link "関東" }
+
+        it "選択したエリアに属するスポットを検索できる" do
+          expect(page).to have_link(spot.name, href: spot_path(spot.id))
+          expect(page).to have_content(spot.address)
+          expect(page).to have_content(spot.category.name)
+        end
+      end
+
+      describe "検索結果ページからの検索" do
+        before do
+          click_button "検索"
+          fill_in "q_and_name_or_address_cont", with: "ドッグパーク"
+          check categories[0].name
+          check allowed_areas[0].area
+          select "東京都", from: "都道府県で絞る"
+          click_button "検索"
+        end
+
+        it "検索条件に合ったスポットを検索できる" do
+          expect(page).to have_link(spot.name, href: spot_path(spot.id))
+          expect(page).to have_content(spot.address)
+          expect(page).to have_content(spot.category.name)
+        end
       end
     end
 
-    describe "エリア検索" do
-      before { click_link "関東" }
+    describe "マップ検索", js: true do
+      let!(:spots) { create_list(:spot, 3) }
+      let(:markers) { page.all("area", visible: false) }
 
-      it "選択したエリアに属するスポットを検索できる" do
-        expect(page).to have_link(spot.name, href: spot_path(spot.id))
-        expect(page).to have_content(spot.address)
-        expect(page).to have_content(spot.category.name)
-      end
-    end
-
-    describe "検索結果ページからの検索" do
       before do
-        click_button "検索"
-        fill_in "q_and_name_or_address_cont", with: "ドッグパーク"
-        check categories[0].name
-        check allowed_areas[0].area
-        select "東京都", from: "都道府県で絞る"
-        click_button "検索"
+        click_link "お出かけスポット一覧"
       end
 
-      it "検索条件に合ったスポットを検索できる" do
-        expect(page).to have_link(spot.name, href: spot_path(spot.id))
-        expect(page).to have_content(spot.address)
-        expect(page).to have_content(spot.category.name)
+      it "マップに登録したスポットの数だけマーカーが表示される" do
+        expect(markers.length).to eq(3)
+      end
+
+      it "マーカーをクリックすると、スポット詳細ページのリンクがある情報ウィンドウが表示される" do
+        expect do
+          page.execute_script("document.getElementsByTagName('area')[0].click();")
+        end.to change { page.all(".gm-style-iw-t").length }.by(1)
+
+        expect(page.all(".gm-style-iw-t")[0]).to have_link(spots[0].name, href: spot_path(spots[0]))
       end
     end
   end
-
-
-  # ヘッダーのバーからの検索
-  # it "スポットを名前・住所で検索できる" do
-
-  # end
 end
