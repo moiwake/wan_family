@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_many :spots, through: :spot_histories
   has_many :reviews, dependent: :destroy
   has_many :images, dependent: :destroy
+  has_many :likes, dependent: :destroy
 
   has_one_attached :avatar
 

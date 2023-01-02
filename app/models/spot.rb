@@ -3,11 +3,12 @@ class Spot < ApplicationRecord
 
   has_many   :spot_histories, dependent: :destroy
   has_many   :users, through: :spot_histories
-  belongs_to :category
-  belongs_to :allowed_area
   has_many   :rule, dependent: :destroy
   has_many   :reviews, dependent: :destroy
   has_many   :images, dependent: :destroy
+
+  belongs_to :category
+  belongs_to :allowed_area
   belongs_to :prefecture
 
   with_options presence: true do
