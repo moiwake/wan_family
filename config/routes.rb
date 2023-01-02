@@ -15,9 +15,9 @@ Rails.application.routes.draw do
     registrations: 'users/registrations',
   }
 
-  get   "mypage",       to: "users#index",  as: "mypage"
-  get   "profile/edit", to: "users#edit",   as: "edit_profile"
-  patch "profile",      to: "users#update", as: "profile"
+  get   "mypage",             to: "users#index",  as: "mypage"
+  get   "profile/edit",       to: "users#edit",   as: "edit_profile"
+  patch "profile",            to: "users#update", as: "profile"
   get   "users_spot_index",   to: "users#spot_index"
   get   "users_review_index", to: "users#review_index"
   get   "users_image_index",  to: "users#image_index"
@@ -37,7 +37,10 @@ Rails.application.routes.draw do
       patch "back_edit",    action: "back_edit"
     end
 
-    resources :reviews
+    resources :reviews do
+      resources :likes, only: [:create, :destroy]
+    end
+
     resources :images, only: [:index]
   end
 end

@@ -20,4 +20,8 @@ module ApplicationHelper
   def get_prefecture_name(region)
     Prefecture.find_prefecture_name(region)
   end
+
+  def liked?(review)
+    current_user.likes.exists?(review_id: review.id) if current_user.present?
+  end
 end

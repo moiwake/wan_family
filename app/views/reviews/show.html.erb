@@ -46,6 +46,9 @@
       <td><%= @review.comment %></td>
     </tr>
   </tbody>
+  <tfoot>
+    <%= render "reviews/shared/like_review", review: @review, spot: @spot %>
+  </tfoot>
 </table>
 
 <%= render "reviews/shared/display_image", image: @review.image, limit: nil %>
