@@ -10,7 +10,7 @@
   <p><%= @review.comment %></p>
 </div>
 <div class="review-reaction">
-  <%= render "reviews/shared/like_review", review: @review, spot: @spot %>
+  <%= render "reviews/shared/add_or_remove_like", review: @review, spot: @spot %>
 </div>
 <div class="image-display">
   <%= render "reviews/shared/display_image", image: @review.image, limit: nil %>

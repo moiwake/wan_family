@@ -38,7 +38,7 @@ Rails.application.routes.draw do
     end
 
     resources :reviews do
-      resources :likes, only: [:create, :destroy]
+      resources :like_reviews, only: [:create, :destroy]
     end
 
     resources :images, only: [:index]

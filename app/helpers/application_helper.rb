@@ -22,6 +22,6 @@ module ApplicationHelper
   end
 
   def liked?(review)
-    current_user.likes.exists?(review_id: review.id) if current_user.present?
+    current_user.like_reviews.exists?(review_id: review.id) if current_user.present?
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_02_044238) do
+ActiveRecord::Schema.define(version: 2023_01_04_075317) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -74,13 +74,13 @@ ActiveRecord::Schema.define(version: 2023_01_02_044238) do
     t.index ["user_id"], name: "index_images_on_user_id"
   end
 
-  create_table "likes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "like_reviews", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "review_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["review_id"], name: "index_likes_on_review_id"
-    t.index ["user_id"], name: "index_likes_on_user_id"
+    t.index ["review_id"], name: "index_like_reviews_on_review_id"
+    t.index ["user_id"], name: "index_like_reviews_on_user_id"
   end
 
   create_table "option_titles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -170,8 +170,8 @@ ActiveRecord::Schema.define(version: 2023_01_02_044238) do
   add_foreign_key "images", "reviews"
   add_foreign_key "images", "spots"
   add_foreign_key "images", "users"
-  add_foreign_key "likes", "reviews"
-  add_foreign_key "likes", "users"
+  add_foreign_key "like_reviews", "reviews"
+  add_foreign_key "like_reviews", "users"
   add_foreign_key "reviews", "spots"
   add_foreign_key "reviews", "users"
   add_foreign_key "rule_options", "option_titles"

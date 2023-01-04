@@ -2,7 +2,7 @@
   <div class="review-sort">
     <%= link_to "新しい順", { column: "created_at", direction: "desc" } %>
     <%= link_to "古い順", { column: "created_at", direction: "asc" } %>
-    <%= link_to "役に立った順", { sort: "likes_count" } %>
+    <%= link_to "役に立った順", { sort: "like_reviews_count" } %>
   </div>
   <div class="spot-review-list">
     <% reviews.each_with_index do |review, i| %>
@@ -48,7 +48,7 @@
         <p><%= review.comment %></p>
         <%= render "reviews/shared/display_image", image: review.image, limit: Image::MAX_IMAGE_DISPLAY_NUMBER %>
         <div class="review-reaction-count">
-          <p style="color: red;">役に立った<%= review.likes.size %></p>
+          <p style="color: red;">役に立った<%= review.like_reviews.size %></p>
         </div>
       </section>
     <% end %>
