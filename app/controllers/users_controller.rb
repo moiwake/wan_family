@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   end
 
   def review_index
-    @reviews = current_user.reviews.includes_image.includes(:spot)
+    @reviews = ReviewsForSpotQuery.new(reviews: current_user.reviews).call(params: params)
   end
 
   def image_index

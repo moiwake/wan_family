@@ -3,7 +3,7 @@ class ReviewsController < ApplicationController
   before_action :set_spot
 
   def index
-    @reviews = Review.where(spot_id: params[:spot_id]).includes_image.includes(:user)
+    @reviews = ReviewsForSpotQuery.new(search_condition_hash: { spot_id: params[:spot_id] }).call(params: params)
   end
 
   def new
