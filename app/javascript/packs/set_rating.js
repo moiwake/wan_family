@@ -1,10 +1,9 @@
-setRating(".dog-ratings", "dog-rating-value", "dog-rating-value-display");
-setRating(".human-ratings", "human-rating-value", "human-rating-value-display");
+setRating(".dog-ratings", "dog-rating-value");
+setRating(".human-ratings", "human-rating-value");
 
-function setRating(ratingClass, ratingValueClass, ratingValueDisplayClass) {
+function setRating(ratingClass, ratingValueClass) {
   const rating = document.querySelector(ratingClass).children;
   const ratingValue = document.getElementById(ratingValueClass);
-  const ratingValueDisplay = document.getElementById(ratingValueDisplayClass);
   let index;
 
   for (let i = 0; i < rating.length; i++){
@@ -24,7 +23,6 @@ function setRating(ratingClass, ratingValueClass, ratingValueDisplayClass) {
 
     rating[i].addEventListener("click", function(){
       ratingValue.value = i + 1;
-      ratingValueDisplay.textContent = ratingValue.value;
       index = i;
     })
 

@@ -1,64 +1,35 @@
 <%= render "shared/flash_messages" %>
 <%= render "shared/error_messages", resource: resource %>
 
-<div class="rating-box mt-3">
-  <%= form_with model: resource, url: url, method: method do |f| %>
-    <p>ワンちゃんたちの満足度</p>
-    <div class="main-rating">
-      <div class="dog-ratings mb-3">
-        <span class="fa fa-paw non-colored"></span>
-        <span class="fa fa-paw non-colored"></span>
-        <span class="fa fa-paw non-colored"></span>
-        <span class="fa fa-paw non-colored"></span>
-        <span class="fa fa-paw non-colored"></span>
-      </div>
-      <div class="ml-3 dog-rating-value-display">
-        <span id="dog-rating-value-display"><%= resource.review.dog_score || 0 %></span>/5
-      </div>
-    </div>
-    <p><%= current_user.name %>さんの満足度</p>
-    <div class="main-rating">
-      <div class="human-ratings mb-3">
-        <span class="fa fa-star non-colored"></span>
-        <span class="fa fa-star non-colored"></span>
-        <span class="fa fa-star non-colored"></span>
-        <span class="fa fa-star non-colored"></span>
-        <span class="fa fa-star non-colored"></span>
-      </div>
-      <div class="ml-3 human-rating-value-display">
-        <span id="human-rating-value-display"><%= resource.review.human_score || 0 %></span>/5
-      </div>
-    </div>
-    <%= f.fields_for :review_attributes, resource.review do |rf| %>
-      <%= rf.hidden_field :user_id, value: current_user.id if signed_in? %>
-      <%= rf.hidden_field :spot_id, value: spot.id %>
-      <%= rf.hidden_field :dog_score, id: "dog-rating-value" %>
-      <%= rf.hidden_field :human_score, id: "human-rating-value" %>
-      <%= rf.label :title, "レビュータイトル" %>
-      <%= rf.text_field :title, id: :form_review_title %>
-      <%= rf.text_field :comment, id: :form_review_comment, class: "textarea", placeholder: "行ってみた感想、ワンちゃんたちの様子、ワンちゃんたちを連れて行くときの注意点などをご記入ください。" %>
-    <% end %>
-    <br>
-    <%= f.fields_for :image_attributes, resource.image do |imf| %>
-      <%= imf.label :files, "画像をアップロードする" %>
-      <%= imf.file_field :files, multiple: true, id: :form_review_image %>
-      <p>アップロードできる画像</p>
-      <ul>
-        <li>ファイル形式 : png, jpg, jpeg</li>
-        <li>ファイルサイズ: 5メガバイトまで</li>
-      </ul>
-      <% if resource.image.present? %>
-        <%= render "reviews/shared/edit_image_form", image: resource.image, form: imf %>
-      <% end %>
-    <% end %>
-    <br>
-    <input type="button" onclick=submit(); value="投稿する", class="button mt-3">
+<%= form_with model: resource, url: url, method: method do |f| %>
+  <%= render "reviews/shared/display_personal_rating" %>
+  <%= f.fields_for :review_attributes, resource.review do |rf| %>
+    <%= rf.hidden_field :user_id, value: current_user.id if signed_in? %>
+    <%= rf.hidden_field :spot_id, value: spot.id %>
+    <%= rf.hidden_field :dog_score, id: "dog-rating-value" %>
+    <%= rf.hidden_field :human_score, id: "human-rating-value" %>
+    <%= rf.label :title, "レビュータイトル" %>
+    <%= rf.text_field :title, id: :form_review_title %>
+    <%= rf.text_field :comment, id: :form_review_comment, class: "textarea", placeholder: "行ってみた感想、ワンちゃんたちの様子、ワンちゃんたちを連れて行くときの注意点などをご記入ください。" %>
   <% end %>
-</div>
-
-<ul id="preview_lists" class="preview-lists-display">
-  <li id="preview" class="preview-display" ></li>
-</ul>
+  <br>
+  <%= f.fields_for :image_attributes, resource.image do |imf| %>
+    <%= imf.label :files, "画像をアップロードする" %>
+    <%= imf.file_field :files, multiple: true, id: :form_review_image %>
+    <p>アップロードできる画像</p>
+    <ul>
+      <li>ファイル形式 : png, jpg, jpeg</li>
+      <li>ファイルサイズ: 5メガバイトまで</li>
+    </ul>
+    <% if resource.image.present? %>
+      <%= render "reviews/shared/edit_image_form", image: resource.image, form: imf %>
+    <% end %>
+  <% end %>
+  <ul id="preview_lists" class="preview-lists-display">
+    <li id="preview" class="preview-display" ></li>
+  </ul>
+  <input type="button" onclick=submit(); value="投稿する", class="button mt-3">
+<% end %>
 
 <%= link_to "戻る", spot_path(spot.id) %>
 

@@ -2,55 +2,20 @@
 
 <%= link_to "すべてのレビュー", spot_reviews_path(@spot), class: "button light ml-3 mt-3" %>
 
-<h3><%= @review.user.name %>さん</h3>
-<h2><%= link_to "#{@spot.name}", spot_path(@spot) %></h2>
+<div class="spot-review-detail">
+  <h2><%= @review.user.name %>さん</h2>
+  <div class="spot-name"><%= link_to "#{@spot.name}", spot_path(@spot) %></div>
+  <div><%= @review.title %></div>
+  <%= render "reviews/shared/display_personal_rating" %>
+  <p><%= @review.comment %></p>
+</div>
+<div class="review-reaction">
+  <%= render "reviews/shared/like_review", review: @review, spot: @spot %>
+</div>
+<div class="image-display">
+  <%= render "reviews/shared/display_image", image: @review.image, limit: nil %>
+</div>
 
-<h1><%= @review.title %></h1>
-
-<table class="table is-fullwidth has-text-centered">
-  <thead>
-    <tr>
-      <th>ワンちゃんたちの満足度</th>
-      <th><%= @review.user.name %>さんの満足度</th>
-      <th>コメント</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <div class="rating-box mt-3">
-        <td>
-          <div class="main-rating">
-            <div class="dog-ratings mb-3">
-              <span class="fa fa-paw non-colored"></span>
-              <span class="fa fa-paw non-colored"></span>
-              <span class="fa fa-paw non-colored"></span>
-              <span class="fa fa-paw non-colored"></span>
-              <span class="fa fa-paw non-colored"></span>
-            </div>
-            <input type="hidden" id="dog-rating-value" value=<%= @review.dog_score %>>
-          </div>
-        </td>
-        <td>
-          <div class="main-rating">
-            <div class="human-ratings mb-3">
-              <span class="fa fa-star non-colored"></span>
-              <span class="fa fa-star non-colored"></span>
-              <span class="fa fa-star non-colored"></span>
-              <span class="fa fa-star non-colored"></span>
-              <span class="fa fa-star non-colored"></span>
-            </div>
-            <input type="hidden" id="human-rating-value" value=<%= @review.human_score %>>
-          </div>
-        </td>
-      </div>
-      <td><%= @review.comment %></td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <%= render "reviews/shared/like_review", review: @review, spot: @spot %>
-  </tfoot>
-</table>
-
-<%= render "reviews/shared/display_image", image: @review.image, limit: nil %>
-
+<input type="hidden" id="dog-rating-value" value=<%= @review.dog_score %>>
+<input type="hidden" id="human-rating-value" value=<%= @review.human_score %>>
 <%= javascript_pack_tag "display_rating" %>

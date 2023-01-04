@@ -1,0 +1,61 @@
+<% if reviews.present?  %>
+  <div class="review-sort">
+    <%= link_to "新しい順", { column: "created_at", direction: "desc" } %>
+    <%= link_to "古い順", { column: "created_at", direction: "asc" } %>
+    <%= link_to "役に立った順", { sort: "likes_count" } %>
+  </div>
+  <div class="spot-review-list">
+    <% reviews.each_with_index do |review, i| %>
+      <section class="review-grid-list">
+        <% if controller_name == "users" %>
+          <%= link_to edit_spot_review_path(review.spot, review) do %>
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          <% end %>
+          <%= link_to spot_review_path(review.spot, review), method: :delete, data: { confirm: "#{review.spot.name}のレビュー「#{review.title}」を削除しますか？" } do %>
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          <% end %>
+          <p><%= link_to review.spot.name, spot_path(review.spot.id) %>のレビュー</p>
+        <% end %>
+        <% if controller_name == "reviews" %>
+          <p><%= review.user.name %>さん</p>
+        <% end %>
+        <p><%= link_to review.title, spot_review_path(review.spot, review) %></p>
+        <div class="rating-box mt-3">
+          <input type="hidden" id="review-id<%= i %>" value=<%= review.id %>>
+          <div class="main-rating">
+            <p><span>ワンちゃんの満足度</span></p>
+            <div id= dog-ratings<%= review.id %> class="dog-ratings mb-3">
+              <span class="fa fa-paw non-colored"></span>
+              <span class="fa fa-paw non-colored"></span>
+              <span class="fa fa-paw non-colored"></span>
+              <span class="fa fa-paw non-colored"></span>
+              <span class="fa fa-paw non-colored"></span>
+            </div>
+            <input type="hidden" id="dog-rating-value<%= review.id %>" value=<%= review.dog_score %>>
+          </div>
+          <div class="main-rating">
+            <p><span>ユーザーさんの満足度</span></p>
+            <div id= human-ratings<%= review.id %> class="human-ratings mb-3">
+              <span class="fa fa-star non-colored"></span>
+              <span class="fa fa-star non-colored"></span>
+              <span class="fa fa-star non-colored"></span>
+              <span class="fa fa-star non-colored"></span>
+              <span class="fa fa-star non-colored"></span>
+            </div>
+            <input type="hidden" id="human-rating-value<%= review.id %>" value=<%= review.human_score %>>
+          </div>
+        </div>
+        <p><%= review.comment %></p>
+        <%= render "reviews/shared/display_image", image: review.image, limit: Image::MAX_IMAGE_DISPLAY_NUMBER %>
+        <div class="review-reaction-count">
+          <p style="color: red;">役に立った<%= review.likes.size %></p>
+        </div>
+      </section>
+    <% end %>
+  </div>
+
+  <input type="hidden" id="reviews-count" value=<%= reviews.size %>>
+  <%= javascript_pack_tag "display_rating" %>
+<% else %>
+  <p>まだレビューは投稿されてません。</p>
+<% end %>
