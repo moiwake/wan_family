@@ -1,6 +1,6 @@
 <h1>マイページ</h1>
 
-<%= image_tag @user.decorate.display_avatar, size: "100x100" %>
+<%= image_tag @user.decorate.display_human_avatar, size: "100x100" %>
 <%= @user.name %>
 
 <%= link_to "プロフィール編集", edit_profile_path %>

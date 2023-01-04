@@ -3,9 +3,10 @@ class User < ApplicationRecord
   has_many :spots, through: :spot_histories
   has_many :reviews, dependent: :destroy
   has_many :images, dependent: :destroy
-  has_many :likes, dependent: :destroy
+  has_many :like_reviews, dependent: :destroy
 
-  has_one_attached :avatar
+  has_one_attached :human_avatar
+  has_one_attached :dog_avatar
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -13,7 +14,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :name, presence: true, uniqueness: true
-  validates :avatar, blob: {
+  validates :human_avatar, :dog_avatar, blob: {
     content_type: ['image/png', 'image/jpg', 'image/jpeg'],
     size_range: 1..(5.megabytes),
   }, on: :update

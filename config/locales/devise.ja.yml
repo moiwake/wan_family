@@ -6,7 +6,8 @@ ja:
         email: メールアドレス
         password: パスワード
         introduction: 自己紹介
-        avatar: ユーザー画像
+        human_avatar: ユーザー画像
+        dog_avatar: ワンちゃんの画像
         spots: 登録スポットID
         spot_histories: スポットの登録履歴ID
       admin:

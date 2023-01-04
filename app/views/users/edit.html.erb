@@ -2,12 +2,20 @@
 
 <%= render "shared/error_messages", resource: @user %>
 <%= render "shared/flash_messages" %>
-<%= image_tag @user.decorate.display_avatar, size: "100x100" %>
+<%= image_tag @user.decorate.display_human_avatar, size: "100x100" %>
+<%= image_tag @user.decorate.display_dog_avatar, size: "100x100" %>
 
 <%= form_with model: @user, url: profile_path do |f| %>
-  <%= f.file_field :avatar %>
+  <%= f.label :human_avatar %>
+  <%= f.file_field :human_avatar %>
+  <br>
+  <%= f.label :dog_avatar %>
+  <%= f.file_field :dog_avatar %>
+  <br>
   <%= @user.name %> (変更できません)
+  <br>
   <%= f.text_area :introduction, placeholder: "自己紹介をご記入ください。" %>
+  <br>
   <input type="button" onclick="submit();" value= "保存" />
 <% end %>
 

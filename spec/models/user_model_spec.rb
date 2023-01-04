@@ -109,11 +109,11 @@ RSpec.describe User, type: :model do
   describe "content_typeのバリデーション" do
     let(:invalid_object) { create(:user) }
     let(:message) { "のファイル形式が不正です。" }
-    let(:attribute) { :avatar }
+    let(:attribute) { :human_avatar }
 
     context "filesカラムに不正な形式のファイルを添付したとき" do
       before do
-        invalid_object.avatar.attach({ io: File.open('spec/fixtures/test.txt'), filename: 'test.txt' })
+        invalid_object.human_avatar.attach({ io: File.open('spec/fixtures/test.txt'), filename: 'test.txt' })
       end
 
       it_behaves_like "adds validation error messages"
@@ -122,13 +122,13 @@ RSpec.describe User, type: :model do
 
   describe "size_rangeのバリデーション" do
     let(:invalid_object) { create(:user) }
-    let(:attribute) { :avatar }
+    let(:attribute) { :human_avatar }
 
     context "filesカラムに1バイト以下のファイルを添付したとき" do
       let(:message) { "を1バイト以上のサイズにしてください。" }
 
       before do
-        invalid_object.avatar.attach({ io: File.open('spec/fixtures/images/0byte.png'), filename: '0byte.png' })
+        invalid_object.human_avatar.attach({ io: File.open('spec/fixtures/images/0byte.png'), filename: '0byte.png' })
       end
 
       it_behaves_like "adds validation error messages"
@@ -138,8 +138,8 @@ RSpec.describe User, type: :model do
       let(:message) { "を5MB以下のサイズにしてください。" }
 
       before do
-        invalid_object.avatar.attach({ io: File.open('spec/fixtures/images/0byte.png'), filename: '0byte.png' })
-        invalid_object.avatar.blob.assign_attributes({byte_size: 6.megabytes})
+        invalid_object.human_avatar.attach({ io: File.open('spec/fixtures/images/0byte.png'), filename: '0byte.png' })
+        invalid_object.human_avatar.blob.assign_attributes({byte_size: 6.megabytes})
       end
 
       it_behaves_like "adds validation error messages"

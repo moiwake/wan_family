@@ -35,16 +35,16 @@ RSpec.describe "UsersSystemSpecs", type: :system do
 
     context "ユーザー画像を登録しているとき" do
       let!(:user) { create(:user, :updated_profile_user) }
-      let!(:avatar_filename) { user.avatar.filename.to_s }
+      let!(:human_avatar_filename) { user.human_avatar.filename.to_s }
 
       it "ユーザー画像が表示される" do
-        expect(find("img")[:src]).to include(avatar_filename)
+        expect(find("img")[:src]).to include(human_avatar_filename)
       end
     end
 
     context "ユーザー画像を登録していないとき" do
       it "未登録用の画像が表示される" do
-        expect(find("img")[:src]).to include("noavatar")
+        expect(find("img")[:src]).to include("nohuman_avatar")
       end
     end
   end
@@ -178,22 +178,22 @@ RSpec.describe "UsersSystemSpecs", type: :system do
 
       context "ユーザー画像を登録しているとき" do
         let!(:user) { create(:user, :updated_profile_user) }
-        let!(:avatar_filename) { user.avatar.filename.to_s }
+        let!(:human_avatar_filename) { user.human_avatar.filename.to_s }
 
         it "ユーザー画像が表示される" do
-          expect(find("img")[:src]).to include(avatar_filename)
+          expect(find("img")[:src]).to include(human_avatar_filename)
         end
       end
 
       context "ユーザー画像を登録していないとき" do
         it "未登録用の画像が表示される" do
-          expect(find("img")[:src]).to include("noavatar")
+          expect(find("img")[:src]).to include("nohuman_avatar")
         end
       end
     end
 
     describe "プロフィールの編集", js: true do
-      let!(:avatar_filename) { user.avatar.filename.to_s }
+      let!(:human_avatar_filename) { user.human_avatar.filename.to_s }
 
       before do
         attach_file "#{Rails.root}/spec/fixtures/images/test1.png"
@@ -204,7 +204,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
       it "プロフィールを編集できる" do
         expect(page).to have_content("プロフィールを変更しました。")
         expect(user.reload.introduction).to eq("updated introduction")
-        expect(find("img")[:src]).to include(avatar_filename)
+        expect(find("img")[:src]).to include(human_avatar_filename)
       end
     end
   end

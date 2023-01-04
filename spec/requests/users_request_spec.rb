@@ -90,9 +90,9 @@ RSpec.describe "Users", type: :request do
   end
 
   describe "PATCH /update" do
-    let(:updated_params) { { introduction: "updated introduction", avatar: updated_avatar } }
-    let(:updated_avatar) { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'images', 'test2.png'), 'image/png') }
-    let(:updated_avatar_filename) { updated_avatar.original_filename }
+    let(:updated_params) { { introduction: "updated introduction", human_avatar: updated_human_avatar } }
+    let(:updated_human_avatar) { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'images', 'test2.png'), 'image/png') }
+    let(:updated_human_avatar_filename) { updated_human_avatar.original_filename }
 
     subject { patch profile_path, params: { user: updated_params } }
 
@@ -101,7 +101,7 @@ RSpec.describe "Users", type: :request do
     it "ログインユーザーのレコードを更新できる" do
       expect { subject }.to change { User.count }.by(0)
       expect(user.introduction).to eq(updated_params[:introduction])
-      expect(user.avatar.filename.to_s).to eq(updated_avatar_filename)
+      expect(user.human_avatar.filename.to_s).to eq(updated_human_avatar_filename)
     end
 
     it "更新後にリダイレクトする" do
