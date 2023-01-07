@@ -5,7 +5,7 @@ inputFile.addEventListener("change", function (e) {
   let newPreview = document.createElement("li");
 
   previewLists.querySelector("li").remove();
-  newPreview.setAttribute("id","preview");
+  newPreview.setAttribute("id", "preview");
   previewLists.insertBefore(newPreview, previewLists.firstChild);
 
   previewLists.classList.remove("preview-lists-display");
