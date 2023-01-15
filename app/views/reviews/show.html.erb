@@ -1,21 +1,10 @@
 <%= render "shared/flash_messages" %>
-
-<%= link_to "すべてのレビュー", spot_reviews_path(@spot), class: "button light ml-3 mt-3" %>
-
-<div class="spot-review-detail">
-  <h2><%= @review.user.name %>さん</h2>
-  <div class="spot-name"><%= link_to "#{@spot.name}", spot_path(@spot) %></div>
-  <div><%= @review.title %></div>
-  <%= render "reviews/shared/display_personal_rating" %>
-  <p><%= @review.comment %></p>
-</div>
+<%= link_to "#{@spot.name}のすべてのレビュー", spot_reviews_path(@spot), class: "button light ml-3 mt-3" %>
+<%= render "reviews/shared/review_contents", review: @review, i: nil %>
 <div class="review-reaction">
   <%= render "reviews/shared/add_or_remove_like", review: @review, spot: @spot %>
 </div>
-<div class="image-display">
-  <%= render "reviews/shared/display_image", image: @review.image, limit: nil %>
+<div class="review-image-list">
+  <%= render "shared/display_review_images", image: @review.image, limit: nil %>
 </div>
-
-<input type="hidden" id="dog-rating-value" value=<%= @review.dog_score %>>
-<input type="hidden" id="human-rating-value" value=<%= @review.human_score %>>
 <%= javascript_pack_tag "review/display_rating" %>

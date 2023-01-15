@@ -1,32 +1,29 @@
-let reviewsLength = document.getElementById("reviews-count");
+let reviewCount = document.getElementById("review-grid-list")
+let rating
 
-if (reviewsLength) {
-  displayRating("#dog-ratings", "dog-rating-value");
-  displayRating("#human-ratings", "human-rating-value");
+if (reviewCount) {
+  displayAllRatings("dog-rating");
+  displayAllRatings("human-rating");
+} else if (!reviewCount) {
+  rating = document.getElementById("dog-rating")
+  displayRating(rating);
+  rating = document.getElementById("human-rating")
+  displayRating(rating);
+}
 
-  function displayRating(ratingClass, ratingValueClass) {
-    for (let i = 0; i < reviewsLength.value; i++) {
-      let reviewId = document.getElementById("review-id" + i).value
-      let rating = document.querySelector(ratingClass + reviewId).children;
-      let ratingValue = document.getElementById(ratingValueClass + reviewId);
+function displayAllRatings(ratingElementId) {
+  for (let i = 0; i < reviewCount.dataset.reviewCount; i++) {
+    rating = document.getElementById(ratingElementId + i)
+    displayRating(rating);
+  }
+};
 
-      for (let j = 0; j < ratingValue.value; j++){
-        rating[j].classList.remove("non-colored");
-        rating[j].classList.add("colored");
-      }
-    }
-  };
-} else if (!reviewsLength) {
-  displayRating(".dog-ratings", "dog-rating-value");
-  displayRating(".human-ratings", "human-rating-value");
+function displayRating(rating) {
+  let ratingIcon = rating.children;
+  let ratingValue = rating.dataset.reviewScore
 
-  function displayRating(ratingClass, ratingValueClass) {
-    let rating = document.querySelector(ratingClass).children;
-    let ratingValue = document.getElementById(ratingValueClass);
-
-    for (let j = 0; j < ratingValue.value; j++){
-      rating[j].classList.remove("non-colored");
-      rating[j].classList.add("colored");
-    }
-  };
+  for (let j = 0; j < ratingValue; j++){
+    ratingIcon[j].classList.remove("non-colored");
+    ratingIcon[j].classList.add("colored");
+  }
 }

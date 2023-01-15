@@ -1,0 +1,21 @@
+<% if reviews.present?  %>
+  <div class="review-sort">
+    <%= render "shared/display_sort_link", likes_count_title: "役立ったが多い順" %>
+  </div>
+  <div id="review-grid-list" data-review-count=<%= reviews.size %>>
+    <% reviews.each_with_index do |review, i| %>
+      <section class="review-list-item">
+        <%= render "reviews/shared/review_contents", review: review, i: i %>
+        <div class="review-image-thumbnail">
+          <%= render "shared/display_review_images", image: review.image, limit: Image::MAX_IMAGE_DISPLAY_NUMBER %>
+        </div>
+        <div class="review-reaction-count">
+          <p style="color: red;">役立った<%= review.like_reviews.size %></p>
+        </div>
+      </section>
+    <% end %>
+  </div>
+  <%= javascript_pack_tag "review/display_rating" %>
+<% else %>
+  <p>レビューの投稿はありません。</p>
+<% end %>
