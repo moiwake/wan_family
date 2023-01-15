@@ -1,13 +1,13 @@
 class QueryBase
   class << self
     def call(scope: nil, params: {})
-      set_default_scope
-      order_scope(params)
+      set_default_scope(scope)
+      order_scope(scope, params)
     end
 
     private
 
-    def set_default_scope
+    def set_default_scope(scope)
       scope.all
     end
 
@@ -30,14 +30,14 @@ class QueryBase
     end
 
     def order_likes_count(scope)
-      ids_in_order_likes = set_ids_in_order_likes
+      liked_ids = set_ids_in_order_likes
 
-      liked_scope = scope.find(ids_in_order_likes)
-
-      not_liked_ids = scope.pluck(:id).difference(ids_in_order_likes)
+      not_liked_ids = scope.pluck(:id).difference(liked_ids).reverse.uniq
       not_liked_scope = order_default(scope.where(id: not_liked_ids))
 
-      return liked_scope.push(not_liked_scope).flatten
+      scope_ids = liked_ids.push(not_liked_ids).flatten
+
+      return scope.where(id: scope_ids).order([Arel.sql('field(id, ?)'), scope_ids])
     end
 
     def set_ids_in_order_likes
