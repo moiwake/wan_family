@@ -3,7 +3,7 @@ class ReviewsController < ApplicationController
   before_action :set_spot
 
   def index
-    @reviews = ReviewsForSpotQuery.new(search_condition_hash: { spot_id: params[:spot_id] }).call(params: params)
+    @reviews = ReviewsForSpotQuery.call(search_condition_hash: { spot_id: params[:spot_id] }, params: params)
   end
 
   def new
