@@ -1,0 +1,32 @@
+var imageList = document.getElementById("image-list");
+
+imageList.insertAdjacentHTML('beforebegin',
+  '<%= j(render "images/shared/display_enlarged_image",
+    blob: @blob,
+    previous_blob: @previous_blob,
+    next_blob: @next_blob
+  )%>'
+);
+
+var imageOverlay = document.getElementById("image-overlay");
+var enlargerImage = document.getElementById("enlarged-image");
+var iClose = document.getElementsByClassName("fa-solid fa-xmark")[0];
+var listItems = imageList.querySelectorAll("li");
+var firstBlob = listItems[0].querySelector("img");
+var lastBlob = listItems[listItems.length - 1].querySelector("img");
+
+iClose.addEventListener("click", closeImage);
+
+if (`blob_${enlargerImage.dataset.blobId}` !== firstBlob.id) {
+  var iPrevious = document.getElementsByClassName("fa-solid fa-chevron-left")[0];
+  iPrevious.addEventListener("click", closeImage);
+}
+
+if (`blob_${enlargerImage.dataset.blobId}` !== lastBlob.id) {
+  var iNext = document.getElementsByClassName("fa-solid fa-chevron-right")[0];
+  iNext.addEventListener("click", closeImage);
+}
+
+function closeImage () {
+  imageOverlay.remove();
+}

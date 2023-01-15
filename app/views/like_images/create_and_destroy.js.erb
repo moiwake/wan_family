@@ -1,0 +1,9 @@
+var postLikeImage = document.getElementById("post-like-image")
+
+while (postLikeImage.firstElementChild) {
+  postLikeImage.removeChild(postLikeImage.firstElementChild);
+}
+
+postLikeImage.insertAdjacentHTML('afterbegin',
+  '<%= j(render "images/shared/add_or_remove_like_image", blob: @blob) %>'
+);

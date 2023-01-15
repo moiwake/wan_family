@@ -1,0 +1,22 @@
+<% if @blobs.present? %>
+  <div class="image-sort">
+    <%= link_to "新しい順", { column: "created_at", direction: "desc" } %>
+    <%= link_to "古い順", { column: "created_at", direction: "asc" } %>
+    <%= link_to "Cute順", { sort: "likes_count" } %>
+  </div>
+  <div id="image-list">
+    <ul>
+      <% blobs.each_with_index do |blob, i| %>
+        <li>
+          <%= link_to spot_image_path(image_link_params_hash(blob)), remote: true do %>
+            <%= image_tag blob.representation(resize_to_limit: [150, 150]), { id: "blob_#{blob.id}", class: "review-image" } %>
+          <% end %>
+          <div class="image-reaction-count">
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% else %>
+  画像の投稿はありません。
+<% end %>

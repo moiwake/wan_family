@@ -1,0 +1,82 @@
+#image-list ul {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#image-list ul li {
+  margin: 3px;
+}
+
+#image-overlay {
+  background-color: #3f3e3edd;
+  width: 100%;
+  height: 100%;
+  padding: 15%;
+}
+
+.hidden-display-image {
+  display: none;
+}
+
+.open-display-image {
+  display: flex;
+  justify-content: center;
+}
+
+#display-enlarged-image {
+  display: flex;
+  min-width: max-content;
+}
+
+#image-overlay:nth-child(n) {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
+
+#enlarged-image {
+  min-width: max-content;
+  height: auto;
+  margin: 10px;
+}
+
+.fa-xmark {
+  position: absolute;
+  top: 8%;
+  right: 8%;
+  transform: scale(3, 3);
+}
+
+.fa-chevron-left, .fa-chevron-right {
+  position: absolute;
+  top: 50%;
+  transform: scale(3, 3);
+}
+
+.fa-chevron-left {
+  left: 8%;
+}
+
+.fa-chevron-right {
+  right: 8%;
+}
+
+#post-like-image {
+  position: absolute;
+  bottom: 15%;
+  right: 15%;
+  transform: scale(1.3, 1.3);
+  background-image: linear-gradient();
+}
+
+#remove-image-like-btn {
+  color: #ded9d994;
+}
+
+#add-image-like-btn {
+  // color: (-225deg, #f5059186 0%, #ffea0191 100%);
+  color: #e896c9cb;
+}
