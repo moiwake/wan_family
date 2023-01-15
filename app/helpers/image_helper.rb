@@ -6,12 +6,12 @@ module ImageHelper
       blob_id: blob.id,
     }
 
-    if params[:column] == "created_at" && params[:direction] == "desc"
-      return params_hash.merge({ column: "created_at", direction: "desc" })
-    elsif params[:column] == "created_at" && params[:direction] == "asc"
-      return params_hash.merge({ column: "created_at", direction: "asc" })
-    elsif params[:sort]
-      return params_hash.merge({ sort: "likes_count" })
+    if params[:by] == "created_at" && params[:direction] == "desc"
+      return params_hash.merge({ by: "created_at", direction: "desc" })
+    elsif params[:by] == "created_at" && params[:direction] == "asc"
+      return params_hash.merge({ by: "created_at", direction: "asc" })
+    elsif params[:by] == "likes_count" && params[:direction] == "desc"
+      return params_hash.merge({ by: "likes_count", direction: "desc" })
     else
       return params_hash
     end

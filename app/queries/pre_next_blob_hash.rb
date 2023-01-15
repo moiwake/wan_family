@@ -3,11 +3,11 @@ class PreNextBlobHash
     attr_reader :previous_blob, :next_blob
 
     def call(base_blob: nil, blobs:, params: {})
-      if params[:column] == "created_at" && params[:direction] == "desc"
+      if params[:by] == "created_at" && params[:direction] == "desc"
         when_desc_oder(blobs, base_blob)
-      elsif params[:column] == "created_at" && params[:direction] == "asc"
+      elsif params[:by] == "created_at" && params[:direction] == "asc"
         when_asc_oder(blobs, base_blob)
-      elsif params[:sort]
+      elsif params[:by] == "likes_count" && params[:direction] == "desc"
         when_likes_order(blobs, base_blob)
       else
         when_desc_oder(blobs, base_blob)

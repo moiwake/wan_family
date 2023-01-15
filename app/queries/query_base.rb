@@ -12,9 +12,9 @@ class QueryBase
     end
 
     def order_scope(scope, params)
-      if params[:column] == "created_at"
-        return scope = order_asc_or_desc(scope, params[:column], params[:direction])
-      elsif params[:sort] == "likes_count"
+      if params[:by] == "created_at"
+        return scope = order_asc_or_desc(scope, params[:by], params[:direction])
+      elsif params[:by] == "likes_count"
         return scope = order_likes_count(scope)
       else
         return scope = order_default(scope)
