@@ -11,7 +11,7 @@
       <i class="fa-solid fa-chevron-right"></i>
     <% end %>
   <% end %>
-  <div id="post-like-image">
-    <%= render "images/shared/add_or_remove_like_image", blob: blob %>
+  <div id="image-reaction">
+    <%= render "like_images/shared/add_or_remove_image_like", blob: blob, like_image: like_image %>
   </div>
 </div>

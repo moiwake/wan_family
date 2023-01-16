@@ -1,9 +1,9 @@
-var postLikeImage = document.getElementById("post-like-image")
+var imgReaction = document.getElementById("image-reaction");
 
-while (postLikeImage.firstElementChild) {
-  postLikeImage.removeChild(postLikeImage.firstElementChild);
+while (imgReaction.firstElementChild) {
+  imgReaction.removeChild(imgReaction.firstElementChild);
 }
 
-postLikeImage.insertAdjacentHTML('afterbegin',
-  '<%= j(render "images/shared/add_or_remove_like_image", blob: @blob) %>'
+imgReaction.insertAdjacentHTML('afterbegin',
+  '<%= j(render "like_images/shared/add_or_remove_image_like", blob: @blob, like_image: @like_image) %>'
 );
