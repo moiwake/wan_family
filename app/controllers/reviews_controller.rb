@@ -24,6 +24,7 @@ class ReviewsController < ApplicationController
   def show
     @review = Review.find(params[:id])
     @blobs = ImageBlobsQuery.call(blobs: @review.image.files.blobs, variant: true)
+    @like_review = LikeReview.find_by(user_id: current_user.id, review_id: @review.id)
   end
 
   def edit

@@ -1,14 +1,21 @@
 class LikeReviewsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_review
 
   def create
     @like_review = current_user.like_reviews.create(review_id: params[:review_id])
-    redirect_to spot_review_path(params[:spot_id], params[:review_id])
+    render "create_and_destroy"
   end
 
   def destroy
-    @like_review = LikeReview.find_by(user_id: current_user.id, review_id: params[:review_id])
+    @like_review = LikeReview.find(params[:id])
     @like_review.destroy
-    redirect_to spot_review_path(params[:spot_id], params[:review_id])
+    render "create_and_destroy"
+  end
+
+  private
+
+  def set_review
+    @review = Review.find(params[:review_id])
   end
 end
