@@ -26,7 +26,7 @@ class QueryBase
     end
 
     def order_asc_or_desc(scope, column, direction)
-      scope.order({ column => direction })
+      scope.order({ column => direction, "id" => direction})
     end
 
     def order_likes_count(scope)
