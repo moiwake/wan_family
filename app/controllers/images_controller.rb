@@ -13,8 +13,8 @@ class ImagesController < ApplicationController
     end
 
     @blob = @blobs.find(params[:blob_id])
-    @pre_next_blob_hash = PreNextBlobHash.call(base_blob: @blob, blobs: @blobs, params: params)
-    @previous_blob = @pre_next_blob_hash[:previous_blob]
-    @next_blob = @pre_next_blob_hash[:next_blob]
+    @prev_next_blob_hash = PrevNextBlobHash.call(base_blob: @blob, blobs: @blobs, params: params)
+    @prev_blob = @prev_next_blob_hash[:prev_blob]
+    @next_blob = @prev_next_blob_hash[:next_blob]
   end
 end

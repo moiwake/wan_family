@@ -3,7 +3,7 @@ var imageList = document.getElementById("image-list");
 imageList.insertAdjacentHTML('beforebegin',
   '<%= j(render "images/shared/display_enlarged_image",
     blob: @blob,
-    previous_blob: @previous_blob,
+    prev_blob: @prev_blob,
     next_blob: @next_blob,
     review_image_only: @review_image_only
   )%>'
@@ -19,8 +19,8 @@ var lastBlob = listItems[listItems.length - 1].querySelector("img");
 iClose.addEventListener("click", closeImage);
 
 if (`blob_${enlargerImage.dataset.blobId}` !== firstBlob.id) {
-  var iPrevious = document.getElementsByClassName("fa-solid fa-chevron-left")[0];
-  iPrevious.addEventListener("click", closeImage);
+  var iprev = document.getElementsByClassName("fa-solid fa-chevron-left")[0];
+  iprev.addEventListener("click", closeImage);
 }
 
 if (`blob_${enlargerImage.dataset.blobId}` !== lastBlob.id) {
