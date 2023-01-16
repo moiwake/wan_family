@@ -16,5 +16,6 @@ class ImagesController < ApplicationController
     @prev_next_blob_hash = PrevNextBlobHash.call(base_blob: @blob, blobs: @blobs, params: params)
     @prev_blob = @prev_next_blob_hash[:prev_blob]
     @next_blob = @prev_next_blob_hash[:next_blob]
+    @like_image = LikeImage.find_by(user_id: current_user.id, blob_id: params[:blob_id])
   end
 end
