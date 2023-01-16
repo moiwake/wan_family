@@ -1,13 +1,9 @@
 class ImageBlobsQuery < QueryBase
   class << self
-    def call(blobs: ActiveStorage::Blob.all, file_search_condition_hash: {}, blob_search_condition_hash: {}, variant: false, params: {})
+    def call(blobs: ActiveStorage::Blob.all, file_search_condition_hash: {}, variant: false, params: {})
       files = set_default_files.where(file_search_condition_hash)
-      scope = set_default_scope(blobs, files).where(blob_search_condition_hash)
-
-      if variant
-        scope = scope.includes(:variant_records)
-      end
-
+      scope = set_default_scope(blobs, files)
+      scope = scope.includes(:variant_records) if variant
       order_scope(scope, params)
     end
 

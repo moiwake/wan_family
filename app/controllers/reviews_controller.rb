@@ -1,6 +1,6 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_spot
+  before_action :set_spot, except: [:show]
 
   def index
     @reviews = ReviewsForSpotQuery.call(search_condition_hash: { spot_id: params[:spot_id] }, params: params)
@@ -22,7 +22,8 @@ class ReviewsController < ApplicationController
   end
 
   def show
-    @review = Review.includes_image.find(params[:id])
+    @review = Review.find(params[:id])
+    @blobs = ImageBlobsQuery.call(blobs: @review.image.files.blobs, variant: true)
   end
 
   def edit

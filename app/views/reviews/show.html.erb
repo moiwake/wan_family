@@ -1,10 +1,8 @@
 <%= render "shared/flash_messages" %>
-<%= link_to "#{@spot.name}のすべてのレビュー", spot_reviews_path(@spot), class: "button light ml-3 mt-3" %>
+<%= link_to "#{@review.spot.name}のすべてのレビュー", spot_reviews_path(@review.spot), class: "button light ml-3 mt-3" %>
 <%= render "reviews/shared/review_contents", review: @review, i: nil %>
 <div class="review-reaction">
-  <%= render "reviews/shared/add_or_remove_like", review: @review, spot: @spot %>
+  <%= render "reviews/shared/add_or_remove_like", review: @review, spot: @review.spot %>
 </div>
-<div class="review-image-list">
-  <%= render "shared/display_review_images", image: @review.image, limit: nil %>
-</div>
+<%= render "shared/display_image_list", blobs: @blobs, review_image_only: true %>
 <%= javascript_pack_tag "review/display_rating" %>
