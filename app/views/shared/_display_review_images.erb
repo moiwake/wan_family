@@ -1,0 +1,11 @@
+<% if image.present? && image.files.attached? %>
+  <div class="review-image-thumbnail">
+    <% image.files.blobs.order(created_at: :desc, id: :desc).each_with_index do |blob, i| %>
+      <% break if i == limit %>
+      <%= image_tag blob.representation(resize_to_limit: [150, 150]), id: blob.id, class: "review-image" %>
+      <% if limit && i > 5 %>
+        <span>.....</span>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
