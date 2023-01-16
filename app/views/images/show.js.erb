@@ -4,7 +4,8 @@ imageList.insertAdjacentHTML('beforebegin',
   '<%= j(render "images/shared/display_enlarged_image",
     blob: @blob,
     previous_blob: @previous_blob,
-    next_blob: @next_blob
+    next_blob: @next_blob,
+    review_image_only: @review_image_only
   )%>'
 );
 

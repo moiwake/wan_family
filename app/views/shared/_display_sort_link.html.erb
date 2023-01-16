@@ -1,3 +1,5 @@
-<%= link_to "新しい順", { by: "created_at", direction: "desc" } %>
-<%= link_to "古い順", { by: "created_at", direction: "asc" } %>
-<%= link_to likes_count_title, { by: "likes_count", direction: "desc" } %>
+<div class="sort-link">
+  <%= link_to "新しい順", { by: "created_at", direction: "desc" } %>
+  <%= link_to "古い順", { by: "created_at", direction: "asc" } %>
+  <%= link_to likes_count_title, { by: "likes_count", direction: "desc" } %>
+</div>

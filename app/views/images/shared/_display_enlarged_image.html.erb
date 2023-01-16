@@ -2,12 +2,12 @@
   <%= image_tag blob, { id: "enlarged-image", alt: "拡大した画像", data: { blob_id: blob.id } } %>
   <i id="colse-enlarged-image" class="fa-solid fa-xmark"></i>
   <% if previous_blob %>
-    <%= link_to spot_image_path(image_link_params_hash(previous_blob)), remote: true do %>
+    <%= link_to spot_image_path(image_link_params_hash(blob: previous_blob, review_image_only: review_image_only)), remote: true do %>
       <i class="fa-solid fa-chevron-left"></i>
     <% end %>
   <% end %>
   <% if next_blob %>
-    <%= link_to spot_image_path(image_link_params_hash(next_blob)), remote: true do %>
+    <%= link_to spot_image_path(image_link_params_hash(blob: next_blob, review_image_only: review_image_only)), remote: true do %>
       <i class="fa-solid fa-chevron-right"></i>
     <% end %>
   <% end %>
