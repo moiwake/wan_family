@@ -1,6 +1,6 @@
 class LikeImagesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_spot, :set_blob
+  before_action :set_blob
 
   def create
     @like_image = current_user.like_images.create(image_id: params[:image_id], blob_id: params[:blob_id])
@@ -14,10 +14,6 @@ class LikeImagesController < ApplicationController
   end
 
   private
-
-  def set_spot
-    @spot = Spot.find(params[:spot_id])
-  end
 
   def set_blob
     @blob = Image.find(params[:image_id]).files.blobs.find(params[:blob_id])
