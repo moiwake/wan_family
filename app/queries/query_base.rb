@@ -1,8 +1,8 @@
 class QueryBase
   class << self
-    def call(scope: nil, params: {})
+    def call(scope: nil, order_params: {})
       set_default_scope(scope)
-      order_scope(scope, params)
+      order_scope(scope, order_params)
     end
 
     private
@@ -11,10 +11,10 @@ class QueryBase
       scope.all
     end
 
-    def order_scope(scope, params)
-      if params[:by] == "created_at"
-        return scope = order_asc_or_desc(scope, params[:by], params[:direction])
-      elsif params[:by] == "likes_count"
+    def order_scope(scope, order_params)
+      if order_params[:by] == "created_at"
+        return scope = order_asc_or_desc(scope, order_params[:by], order_params[:direction])
+      elsif order_params[:by] == "likes_count"
         return scope = order_likes_count(scope)
       else
         return scope = order_default(scope)
