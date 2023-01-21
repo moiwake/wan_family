@@ -1,10 +1,9 @@
 module ImageHelper
-  def image_link_params_hash(blob:, review_image_only: false)
+  def image_link_params_hash(blob:)
     params_hash = {
       spot_id: get_parent_image(blob).spot_id,
       id: get_parent_image(blob).id,
       blob_id: blob.id,
-      review_image_only: review_image_only
     }
 
     if params[:by] == "created_at" && params[:direction] == "desc"

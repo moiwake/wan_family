@@ -3,16 +3,18 @@ var imageList = document.getElementById("image-list");
 imageList.insertAdjacentHTML('beforebegin',
   '<%= j(render "images/shared/display_enlarged_image",
     blob: @blob,
-    prev_blob: @prev_blob,
-    next_blob: @next_blob,
-    review_image_only: @review_image_only,
     like_image: @like_image
   )%>'
 );
 
 var imageOverlay = document.getElementById("image-overlay");
 var enlargerImage = document.getElementById("enlarged-image");
+var displayedImage = document.getElementById("blob_" + enlargerImage.dataset.blobId);
+
 var iClose = document.getElementsByClassName("fa-solid fa-xmark")[0];
+var iPrev = document.getElementsByClassName("fa-solid fa-chevron-left")[0];
+var iNext = document.getElementsByClassName("fa-solid fa-chevron-right")[0];
+
 var listItems = imageList.querySelectorAll("li");
 var firstBlob = listItems[0].querySelector("img");
 var lastBlob = listItems[listItems.length - 1].querySelector("img");
@@ -20,13 +22,23 @@ var lastBlob = listItems[listItems.length - 1].querySelector("img");
 iClose.addEventListener("click", closeImage);
 
 if (`blob_${enlargerImage.dataset.blobId}` !== firstBlob.id) {
-  var iprev = document.getElementsByClassName("fa-solid fa-chevron-left")[0];
-  iprev.addEventListener("click", closeImage);
+  var prevImage = displayedImage.closest("li").previousElementSibling;
+  var prevImagePath = prevImage.querySelector("a").href;
+  iPrev.parentElement.href = prevImagePath;
+
+  iPrev.addEventListener("click", closeImage);
+} else {
+  iPrev.remove();
 }
 
 if (`blob_${enlargerImage.dataset.blobId}` !== lastBlob.id) {
-  var iNext = document.getElementsByClassName("fa-solid fa-chevron-right")[0];
+  var nextImage = displayedImage.closest("li").nextElementSibling;
+  var nextImagePath = nextImage.querySelector("a").href;
+  iNext.parentElement.href = nextImagePath;
+
   iNext.addEventListener("click", closeImage);
+} else {
+  iNext.remove();
 }
 
 function closeImage () {

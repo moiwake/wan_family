@@ -1,16 +1,16 @@
 <div id= "image-overlay" class="open-display-image">
   <%= image_tag blob, { id: "enlarged-image", alt: "拡大した画像", data: { blob_id: blob.id } } %>
   <i id="colse-enlarged-image" class="fa-solid fa-xmark"></i>
-  <% if prev_blob %>
-    <%= link_to spot_image_path(image_link_params_hash(blob: prev_blob, review_image_only: review_image_only)), remote: true do %>
+  <div class="image-prev-btn">
+    <%= link_to "", remote: true do %>
       <i class="fa-solid fa-chevron-left"></i>
     <% end %>
-  <% end %>
-  <% if next_blob %>
-    <%= link_to spot_image_path(image_link_params_hash(blob: next_blob, review_image_only: review_image_only)), remote: true do %>
+  </div>
+  <div class="image-next-btn">
+    <%= link_to "", remote: true do %>
       <i class="fa-solid fa-chevron-right"></i>
     <% end %>
-  <% end %>
+  </div>
   <div id="image-reaction">
     <%= render "like_images/shared/add_or_remove_image_like", blob: blob, like_image: like_image %>
   </div>
