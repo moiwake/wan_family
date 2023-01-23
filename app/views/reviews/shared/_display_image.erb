@@ -1,6 +1,0 @@
-<% if image.present? && image.files.attached? %>
-  <% image.files.each_with_index do |file, i| %>
-    <% break if i == limit %>
-    <%= image_tag file.variant(resize:'100x100').processed %>
-  <% end %>
-<% end %>
