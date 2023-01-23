@@ -2,14 +2,8 @@
 
 <div class="spot">
   <h2><%= @spot.name %></h2>
-
-<% @spot.images.each_with_index do |image, i| %>
-  <% break if i == Image::MAX_IMAGE_DISPLAY_NUMBER %>
-  <%= render "reviews/shared/display_image", image: image, limit: Image::MAX_IMAGE_DISPLAY_NUMBER_PER_1_REVIEW %>
-<% end %>
-
-<%= link_to "すべての画像を見る", spot_images_path(@spot) %>
-
+  <%= render partial: "shared/display_review_images", collection: @blobs, as: :image_data %>
+  <%= link_to "すべての画像を見る", spot_images_path(@spot) %>
   <table>
     <thead>
       <tr>
@@ -35,9 +29,6 @@
     </tbody>
   </table>
 </div>
-
-<%= link_to "すべてのレビューを見る", spot_reviews_path(@spot), class: "button light ml-3 mt-3" %>
-<br>
-<%= link_to "スポットの登録内容を更新する", edit_spot_path(@spot), "data-turbolinks": false %>
-<br>
+<%= link_to "すべてのレビューを見る", spot_reviews_path(@spot), class: "button light ml-3 mt-3" %><br>
+<%= link_to "スポットの登録内容を更新する", edit_spot_path(@spot), "data-turbolinks": false %><br>
 <%= link_to "レビューを投稿する", new_spot_review_path(@spot) %>

@@ -7,9 +7,11 @@
       <%= link_to spot_review_path(review.spot, review) do %>
         <section class="review-list-item">
           <%= render "reviews/shared/review_contents", review: review, i: i %>
-          <%= render "shared/display_review_images", image: review.image, limit: Image::MAX_IMAGE_DISPLAY_NUMBER %>
+          <div class="review-image-thumbnail">
+            <%= render partial: "shared/display_review_images", collection: review.image.files, as: :image_data if review.image.present? %>
+          </div>
           <div class="review-reaction-count">
-            <p style="color: red;">役立った<%= review.like_reviews.size %></p>
+            <p>役立った<%= review.like_reviews.size %></p>
           </div>
         </section>
       <% end %>
