@@ -1,6 +1,6 @@
 <% if blobs.present? %>
   <%= render "shared/display_sort_link", likes_count_title: "Cuteが多い順" %>
-  <%= render "shared/display_image_list", blobs: blobs %>
+  <%= render "shared/display_image_link_list", blobs: blobs %>
 <% else %>
   画像の投稿はありません。
 <% end %>

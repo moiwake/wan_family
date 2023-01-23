@@ -4,5 +4,5 @@
 <div id="review-reaction">
   <%= render "like_reviews/shared/add_or_remove_review_like", review: @review, spot: @review.spot, like_review: @like_review %>
 </div>
-<%= render "shared/display_image_list", blobs: @blobs, review_image_only: true %>
+<%= render "shared/display_image_link_list", blobs: @blobs %>
 <%= javascript_pack_tag "review/display_rating" %>
