@@ -11,5 +11,5 @@ class Review < ApplicationRecord
     validates :human_score
   end
 
-  scope :includes_image, -> { includes(image: { files_attachments: :blob }) }
+  scope :load_variant_image, -> { eager_load(:image).preload(image: { files_attachments: { blob: :variant_records } }) }
 end
