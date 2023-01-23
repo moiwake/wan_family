@@ -1,0 +1,30 @@
+<% if spots.present? %>
+  <div class="registrated-spots">
+    <h2>登録スポットの一覧</h2>
+    <div class="review-sort">
+      <%= link_to "新しい順", { column: "created_at", direction: "desc" } %>
+      <%= link_to "古い順", { column: "created_at", direction: "asc" } %>
+      <%= link_to "役に立った順", { sort: "like_reviews_count" } %>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>スポット名</th>
+          <th>住所</th>
+          <th>スポットカテゴリー</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% spots.each do |spot| %>
+        <tr>
+          <td><%= link_to spot.name, spot_path(spot.id), class: "spot_detail" %></td>
+          <td><%= spot.address %></td>
+          <td><%= spot.category.name %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p>スポットは登録されておりません。</p>
+<% end %>

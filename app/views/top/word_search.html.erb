@@ -1,25 +1,6 @@
-<div class="">
+<div class="search-result-list">
   <h2>検索結果</h2>
-
   <h3>条件を変更して検索</h3>
   <%= render "top/shared/search_form", q: @q, categories: @categories, allowed_areas: @allowed_areas %>
-
-  <table>
-    <thead>
-      <tr>
-        <th>スポット名</th>
-        <th>住所</th>
-        <th>スポットカテゴリー</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @results.each do |spot| %>
-      <tr>
-        <td><%= link_to spot.name, spot_path(spot.id), class: "spot_detail" %></td>
-        <td><%= spot.address %></td>
-        <td><%= spot.category.name %></td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <%= render "spots/shared/spots_list", spots: @results %>
 </div>
