@@ -1,14 +1,18 @@
 <div id="post-review-like">
-  <% if review_liked?(review) %>
-    <%= link_to spot_review_like_review_path(spot, review, like_review), method: :delete, id: "remove-review-like", remote: true do %>
-      <span>Good!</span>
-      <i id="remove-review-like-btn" class="fa-solid fa-thumbs-up liked"></i>
+  <% unless review.user_id == current_user.id %>
+    <% if review_liked?(review) %>
+      <%= link_to spot_review_like_review_path(review.spot, review, like_review), method: :delete, id: "remove-review-like", remote: true do %>
+        <span>Good!</span>
+        <i id="remove-review-like-btn" class="fa-solid fa-thumbs-up liked"></i>
+      <% end %>
+    <% else %>
+      <%= link_to spot_review_like_reviews_path(review.spot, review), method: :post, id: "add-review-like", remote: true do %>
+        <span>Good!</span>
+        <i id="add-review-like-btn" class="fa-solid fa-thumbs-up"></i>
+      <% end %>
     <% end %>
   <% else %>
-    <%= link_to spot_review_like_reviews_path(spot, review), method: :post, id: "add-review-like", remote: true do %>
-      <span>Good!</span>
-      <i id="add-review-like-btn" class="fa-solid fa-thumbs-up"></i>
-    <% end %>
+    <span>Good!</span>
   <% end %>
   <span><%= review.like_reviews.size %></span>
 </div>

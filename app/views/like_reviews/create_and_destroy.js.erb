@@ -2,5 +2,5 @@ var reviewReaction = document.getElementById("review-reaction");
 reviewReaction.firstElementChild.remove();
 
 reviewReaction.insertAdjacentHTML('afterbegin',
-  '<%= j(render "like_reviews/shared/add_or_remove_review_like", review: @review, spot: @review.spot, like_review: @like_review) %>'
+  '<%= j(render "like_reviews/shared/add_or_remove_review_like", review: @review, like_review: @like_review) %>'
 );
