@@ -27,7 +27,9 @@ class ImageBlobsQuery < QueryBase
     end
 
     def search_by_parent_image(files, parent_image)
-      if parent_image.is_a?(Image)
+      if parent_image.nil?
+        []
+      elsif parent_image.is_a?(Image)
         parent_image_id = parent_image.id
       elsif parent_image[0].is_a?(Image)
         parent_image_id = parent_image.pluck(:id)
