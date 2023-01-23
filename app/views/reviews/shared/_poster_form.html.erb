@@ -2,7 +2,7 @@
 <%= render "shared/error_messages", resource: resource %>
 
 <%= form_with model: resource, url: url, method: method do |f| %>
-  <%= render "reviews/shared/display_personal_rating" %>
+  <%= render "reviews/shared/display_rating", i: nil, review: nil %>
   <%= f.fields_for :review_attributes, resource.review do |rf| %>
     <%= rf.hidden_field :user_id, value: current_user.id if signed_in? %>
     <%= rf.hidden_field :spot_id, value: spot.id %>

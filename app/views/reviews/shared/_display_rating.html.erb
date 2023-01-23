@@ -1,6 +1,6 @@
 <div class="main-rating">
   <p><span>ワンちゃんの満足度</span></p>
-  <div id= dog-rating<%= i %> class="dog-ratings mb-3" data-review-score=<%= review.dog_score %>>
+  <div id= dog-rating<%= i %> class="dog-ratings mb-3" data-review-score=<%= review.dog_score if review.present? %>>
     <% 5.times do %>
       <span class="fa fa-paw non-colored"></span>
     <% end %>
@@ -8,7 +8,7 @@
 </div>
 <div class="main-rating">
   <p><span>ユーザーさんの満足度</span></p>
-  <div id= human-rating<%= i %> class="human-ratings mb-3" data-review-score=<%= review.human_score %>>
+  <div id= human-rating<%= i %> class="human-ratings mb-3" data-review-score=<%= review.human_score if review.present? %>>
     <% 5.times do %>
       <span class="fa fa-star non-colored"></span>
     <% end %>
