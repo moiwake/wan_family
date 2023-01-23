@@ -26,7 +26,7 @@ class ReviewPosterForm < FormBase
 
     ActiveRecord::Base.transaction do
       review.save!
-      image.save! unless image.nil?
+      image.save! if image.present?
     end
 
     return true
@@ -36,7 +36,7 @@ class ReviewPosterForm < FormBase
 
   def build_image_record(attributes: nil, user_id: nil, spot_id: nil)
     attributes = attributes.merge({ user_id: review.user_id, spot_id: review.spot_id })
-    review.image = review.build_image(attributes)
+    self.image = review.build_image(attributes)
   end
 
   def update_iamge_attributes(attributes: nil)
@@ -54,7 +54,9 @@ class ReviewPosterForm < FormBase
   end
 
   def review_and_image_invalid?
-    review.invalid? || (review.image.present? ? review.image.invalid? : false)
+    review_check = review.invalid?
+    image_check = image ? image.invalid? : false
+    return review_check || image_check
   end
 
   def add_review_errors
@@ -64,8 +66,8 @@ class ReviewPosterForm < FormBase
   end
 
   def add_image_errors
-    if review.image.present?
-      review.image.errors.each do |error|
+    if image.present?
+      image.errors.each do |error|
         errors.add(:base, error.full_message)
       end
     end
