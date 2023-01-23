@@ -1,6 +1,5 @@
 <%= render "shared/flash_messages" %>
 <%= render "shared/error_messages", resource: resource %>
-
 <%= form_with model: resource, url: url, method: method do |f| %>
   <%= render "reviews/shared/display_rating", i: nil, review: nil %>
   <%= f.fields_for :review_attributes, resource.review do |rf| %>
@@ -21,17 +20,16 @@
       <li>ファイル形式 : png, jpg, jpeg</li>
       <li>ファイルサイズ: 5メガバイトまで</li>
     </ul>
-    <% if resource.image.present? %>
-      <%= render "reviews/shared/edit_image_form", image: resource.image, form: imf %>
-    <% end %>
+    <div class="check-box-delete-image" style="display: flex; flex-wrap: wrap; width: 750px;">
+      <%= render partial: "reviews/shared/edit_image_form", collection: get_files_for_edit(resource), as: :file, locals: { form: imf } %>
+    </div>
   <% end %>
   <ul id="preview_lists" class="preview-lists-display">
     <li id="preview" class="preview-display" ></li>
   </ul>
   <input type="button" onclick=submit(); value="投稿する", class="button mt-3">
 <% end %>
-
-<%= link_to "戻る", spot_path(spot.id) %>
+<%= link_to "戻る", users_review_index_path %>
 
 <%= javascript_pack_tag "review/set_rating" %>
 <%= javascript_pack_tag "image/preview_image" %>

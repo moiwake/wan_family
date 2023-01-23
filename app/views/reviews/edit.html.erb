@@ -1,2 +1,2 @@
-<h2><%= @review.spot.name %>のレビューを編集する</h2>
+<h2><%= @spot.name %>のレビューを編集する</h2>
 <%= render "reviews/shared/poster_form", resource: @review_poster_form, spot: @spot, url: spot_review_path(@spot, @review), method: :patch %>
