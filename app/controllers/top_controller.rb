@@ -6,7 +6,7 @@ class TopController < ApplicationController
   end
 
   def map_search
-    @spots = Spot.includes(:category)
+    @spots = Spot.eager_load(:category)
     @regions = Prefecture.pluck(:region, :region_roma).uniq
   end
 
@@ -43,11 +43,11 @@ class TopController < ApplicationController
   end
 
   def set_categories
-    @categories = Category.order(:id)
+    @categories = Category.order_default
   end
 
   def set_allowed_areas
-    @allowed_areas = AllowedArea.order(:id)
+    @allowed_areas = AllowedArea.order_default
   end
 
   def set_regions

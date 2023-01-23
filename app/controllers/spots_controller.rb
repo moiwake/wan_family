@@ -40,7 +40,8 @@ class SpotsController < ApplicationController
   end
 
   def show
-    @spot = Spot.includes_images.find(params[:id])
+    @spot = Spot.find(params[:id])
+    @blobs = ImageBlobsQuery.call(parent_image: @spot.images)
   end
 
   def edit
@@ -100,15 +101,15 @@ class SpotsController < ApplicationController
   end
 
   def set_categories
-    @categories = Category.order(:id)
+    @categories = Category.order_default
   end
 
   def set_allowed_areas
-    @allowed_areas = AllowedArea.order(:id)
+    @allowed_areas = AllowedArea.order_default
   end
 
   def set_option_titles
-    @titles = OptionTitle.order(:id).includes(:rule_option)
+    @titles = OptionTitle.order_default.preload(:rule_option)
   end
 
   def set_attached_rule_opt_ids(spot)
