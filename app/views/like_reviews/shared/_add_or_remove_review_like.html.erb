@@ -1,5 +1,5 @@
 <div id="post-review-like">
-  <% unless review.user_id == current_user.id %>
+  <% unless current_user.nil? || review.user_id == current_user.id %>
     <% if review_liked?(review) %>
       <%= link_to spot_review_like_review_path(review.spot, review, like_review), method: :delete, id: "remove-review-like", remote: true do %>
         <span>Good!</span>
