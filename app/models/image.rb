@@ -12,4 +12,8 @@ class Image < ApplicationRecord
 
   MAX_IMAGE_DISPLAY_NUMBER = 5
   MAX_IMAGE_DISPLAY_NUMBER_PER_1_REVIEW = 1
+
+  def default_files
+    files.order(created_at: :desc, id: :desc)
+  end
 end
