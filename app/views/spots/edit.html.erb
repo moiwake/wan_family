@@ -1,5 +1,4 @@
 <h2>スポット登録内容の変更</h2>
-
 <%= render "shared/error_messages", resource: @spot_register_form %>
 <%= render "spots/shared/register_form", url: edit_confirm_spot_path(@spot), method: :patch %>
 <%= render "shared/include_map", file: "spot/search_spot_address" %>

@@ -3,7 +3,7 @@ class Spot < ApplicationRecord
 
   has_many   :spot_histories, dependent: :destroy
   has_many   :users, through: :spot_histories
-  has_many   :rules, dependent: :destroy
+  has_many   :rules, dependent: :destroy, autosave: true
   has_many   :reviews, dependent: :destroy
   has_many   :images, dependent: :destroy
 
@@ -21,5 +21,5 @@ class Spot < ApplicationRecord
   validates :official_site, format: {
     with:    /\A#{URI::regexp(%w(http https))}\z/,
     message: "URLは「http:」もしくは「https:」から始めてください"
-  }
+  }, allow_blank: true
 end

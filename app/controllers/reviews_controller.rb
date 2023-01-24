@@ -29,12 +29,12 @@ class ReviewsController < ApplicationController
 
   def edit
     @review = Review.find(params[:id])
-    @review_poster_form = ReviewPosterForm.new(review: @review, image: @review.image)
+    @review_poster_form = ReviewPosterForm.new(review: @review)
   end
 
   def update
     @review = Review.load_variant_image.find(params[:id])
-    @review_poster_form = ReviewPosterForm.new(attributes: form_params, review: @review, image: @review.image)
+    @review_poster_form = ReviewPosterForm.new(attributes: form_params, review: @review)
 
     if @review_poster_form.save && delete_image_file
       flash[:notice] = "#{@spot.name}のレビューを変更しました。"

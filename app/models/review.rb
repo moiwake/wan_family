@@ -1,7 +1,7 @@
 class Review < ApplicationRecord
   belongs_to :user
   belongs_to :spot
-  has_one    :image, dependent: :destroy
+  has_one    :image, dependent: :destroy, autosave: true
   has_many   :like_reviews, dependent: :destroy
 
   with_options presence: true do

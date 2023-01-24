@@ -52,7 +52,7 @@ class SpotsController < ApplicationController
 
   def edit_confirm
     @spot = Spot.find(params[:id])
-    @spot_register_form = SpotRegisterForm.new(attributes: form_params, spot: @spot, rules: @spot.rule)
+    @spot_register_form = SpotRegisterForm.new(attributes: form_params, spot: @spot)
     session[:params] = form_params
 
     if @spot_register_form.invalid?
@@ -73,7 +73,7 @@ class SpotsController < ApplicationController
 
   def update
     @spot = Spot.find(params[:id])
-    @spot_register_form = SpotRegisterForm.new(attributes: session[:params], spot: @spot, rules: @spot.rule)
+    @spot_register_form = SpotRegisterForm.new(attributes: session[:params], spot: @spot)
 
     if @spot_register_form.save
       SpotHistoryCreator.call(spot: @spot, user: current_user, history: "更新")
@@ -109,7 +109,7 @@ class SpotsController < ApplicationController
   end
 
   def set_option_titles
-    @titles = OptionTitle.order_default.preload(:rule_option)
+    @titles = OptionTitle.order_default.preload(:rule_options)
   end
 
   def set_attached_rule_opt_ids(spot)

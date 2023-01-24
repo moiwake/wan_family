@@ -12,7 +12,7 @@
     <%= rf.text_field :comment, id: :form_review_comment, class: "textarea", placeholder: "行ってみた感想、ワンちゃんたちの様子、ワンちゃんたちを連れて行くときの注意点などをご記入ください。" %>
   <% end %>
   <br>
-  <%= f.fields_for :image_attributes, resource.image do |imf| %>
+  <%= f.fields_for :image_attributes, resource.review.image do |imf| %>
     <%= imf.label :files, "画像をアップロードする" %>
     <%= imf.file_field :files, multiple: true, id: :form_review_image %>
     <p>アップロードできる画像</p>
@@ -21,7 +21,7 @@
       <li>ファイルサイズ: 5メガバイトまで</li>
     </ul>
     <div class="check-box-delete-image" style="display: flex; flex-wrap: wrap; width: 750px;">
-      <%= render partial: "reviews/shared/edit_image_form", collection: get_files_for_edit(resource), as: :file, locals: { form: imf } %>
+      <%= render partial: "reviews/shared/edit_image_form", collection: get_files_for_edit(review: resource.review), as: :file, locals: { form: imf } %>
     </div>
   <% end %>
   <ul id="preview_lists" class="preview-lists-display">

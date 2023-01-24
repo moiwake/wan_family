@@ -1,9 +1,8 @@
 class SpotRegisterForm < FormBase
-  attr_accessor :spot, :rules
+  attr_accessor :spot
 
-  def initialize(attributes: nil, spot: Spot.new, rules: nil)
+  def initialize(attributes: nil, spot: Spot.new)
     @spot = spot
-    @rules = rules
     super(attributes: attributes)
   end
 
@@ -13,7 +12,7 @@ class SpotRegisterForm < FormBase
 
   def rules_attributes= (attributes)
     attributes.each do |key, value|
-      if rules.nil?
+      if spot.new_record?
         build_rule_records(rule_option_id: key, answer: value["answer"])
       else
         update_rules_attributes(rule_option_id: key, answer: value["answer"])
@@ -24,22 +23,18 @@ class SpotRegisterForm < FormBase
   private
 
   def persist
-    ActiveRecord::Base.transaction do
-      spot.save!
-      spot.rule.each(&:save!)
-    end
-
-    true
+    raise ActiveRecord::RecordInvalid if check_and_add_error
+    spot.save!
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
     false
   end
 
   def build_rule_records(rule_option_id: nil, answer: nil)
-    spot.rule.build(rule_option_id: rule_option_id, answer: answer)
+    spot.rules.build(rule_option_id: rule_option_id, answer: answer)
   end
 
   def update_rules_attributes(rule_option_id: nil, answer: nil)
-    rules.each do |r|
+    spot.rules.each do |r|
       if r.rule_option_id.to_s == rule_option_id
         r.attributes = { answer: answer }
       end
@@ -47,11 +42,7 @@ class SpotRegisterForm < FormBase
   end
 
   def check_and_add_error
-    spot_and_rule_invalid? ? add_spot_errors : false
-  end
-
-  def spot_and_rule_invalid?
-    spot.invalid? || spot.rule.map(&:invalid?).include?(true)
+    spot.invalid? ? add_spot_errors : false
   end
 
   def add_spot_errors
@@ -71,7 +62,6 @@ class SpotRegisterForm < FormBase
   def default_attributes
     {
       spot: spot,
-      rules: rules,
     }
   end
 end
