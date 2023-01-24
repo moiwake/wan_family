@@ -3,7 +3,7 @@ class ReviewsForSpotQuery < QueryBase
     def call(reviews: Review.all, parent_record: nil, params: {})
       scope = set_default_scope(reviews)
       scope = search_by_parent_record(scope, parent_record)
-      order_scope(scope, params)
+      order_scope(scope, params).distinct
     end
 
     private
@@ -11,7 +11,6 @@ class ReviewsForSpotQuery < QueryBase
     def set_default_scope(reviews)
       scope = eager_load_in_scope(reviews)
       scope = preload_in_scope(scope)
-      scope = order_blob_record(scope)
     end
 
     def eager_load_in_scope(scope)
@@ -20,10 +19,6 @@ class ReviewsForSpotQuery < QueryBase
 
     def preload_in_scope(scope)
       scope.preload(:like_reviews)
-    end
-
-    def order_blob_record(scope)
-      scope.order("blob.created_at desc, blob.id desc")
     end
 
     def search_by_parent_record(scope, parent_record)
