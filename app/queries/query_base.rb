@@ -37,7 +37,9 @@ class QueryBase
 
       scope_ids = liked_ids.push(not_liked_ids).flatten
 
-      return scope.where(id: scope_ids).order([Arel.sql('field(id, ?)'), scope_ids])
+      scope_table_name = scope.first.class.table_name
+
+      return scope.where(id: scope_ids).order([Arel.sql("field(#{scope_table_name}.id, ?)"), scope_ids])
     end
 
     def set_ids_in_order_likes
