@@ -28,8 +28,8 @@
     <p>同伴のルール（複数選択可能。ご存知の範囲でチェックをお願いいたします。）</p>
     <% @titles.each do |title| %>
       <p><%= title.name %></p>
-      <% title.rule_option.each do |rule_opt| %>
-        <%= f.fields_for(:rules_attributes, @spot_register_form.rules, index: rule_opt.id) do |rf| %>
+      <% title.rule_options.each do |rule_opt| %>
+        <%= f.fields_for(:rules_attributes, @spot_register_form.spot.rules, index: rule_opt.id) do |rf| %>
           <label for="check_box_<%= rule_opt.id %>">
             <%= rf.check_box :answer, {
               checked: ary_present_and_include_ele?(ary: @attached_rule_opt_ids, ele: rule_opt.id),

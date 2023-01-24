@@ -19,8 +19,8 @@ RSpec.describe SpotDecorator, type: :decorator do
   end
 
   describe "#get_checked_rule_opt" do
-    let(:attached_rules) { spot.rule.build([{ answer: "1" }, { answer: "1" }]) }
-    let(:not_attached_rules) { spot.rule.build([{ answer: "0" }, { answer: "0" }]) }
+    let(:attached_rules) { spot.rules.build([{ answer: "1" }, { answer: "1" }]) }
+    let(:not_attached_rules) { spot.rules.build([{ answer: "0" }, { answer: "0" }]) }
 
     it "あるスポットに紐付いた、保存前の同伴ルールのレコードうち、スポットに適用されると回答されたものを配列で取得する"do
       attached_rules.each do |attached_rule|

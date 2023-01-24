@@ -6,7 +6,7 @@ RSpec.describe SpotRegisterForm, type: :model do
   let(:rule_options) { RuleOption.all.limit(4) }
 
   let!(:saved_spot) { create(:spot, :with_rules) }
-  let!(:saved_rules) { saved_spot.rule }
+  let!(:saved_rules) { saved_spot.rules }
 
   let(:params) { { spot_attributes: spot_params, rules_attributes: rules_params } }
   let(:spot_params) { FactoryBot.attributes_for(:spot, allowed_area_id: allowed_areas.first.id, category_id: categories.first.id) }
@@ -51,7 +51,7 @@ RSpec.describe SpotRegisterForm, type: :model do
   describe "#rules_attributes=" do
     context "spot_register_form_instanceのrulesオブジェクトがnilのとき" do
       let(:spot_register_form_instance) { SpotRegisterForm.new(attributes: params) }
-      let(:rules) { spot_register_form_instance.spot.rule }
+      let(:rules) { spot_register_form_instance.spot.rules }
 
       it "パラメータのキーの数だけ、同伴ルールのレコードを作成する" do
         expect(rules.length).to eq(rules_params.keys.length)
@@ -91,7 +91,7 @@ RSpec.describe SpotRegisterForm, type: :model do
         end
 
         it "同伴ルールのすべてのレコードが保存される" do
-          expect { subject }.to change { Rule.count }.by(spot_register_form_instance.spot.rule.length)
+          expect { subject }.to change { Rule.count }.by(spot_register_form_instance.spot.rules.length)
         end
 
         it "trueを返す" do

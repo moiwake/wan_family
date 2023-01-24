@@ -148,8 +148,8 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
 
   describe "スポット詳細ページ" do
     let!(:spot) { create(:spot, :with_rules) }
-    let(:attached_rules) { spot.rule.where(answer: "1") }
-    let(:unattached_rules) { spot.rule.where(answer: "0") }
+    let(:attached_rules) { spot.rules.where(answer: "1") }
+    let(:unattached_rules) { spot.rules.where(answer: "0") }
 
     before { visit spot_path(spot.id) }
 

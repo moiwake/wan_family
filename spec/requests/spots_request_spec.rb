@@ -153,7 +153,7 @@ RSpec.describe "Spots", type: :request do
 
       context "セッションに保存されたデータが妥当な場合" do
         let(:new_spot) { Spot.last }
-        let(:new_rules) { new_spot.rule }
+        let(:new_rules) { new_spot.rules }
 
         before { post new_confirm_spots_path, params: { spot_register_form: params } }
 
@@ -361,7 +361,7 @@ RSpec.describe "Spots", type: :request do
           spot.reload
           subject
 
-          spot.rule.each_with_index do |rule, i|
+          spot.rules.each_with_index do |rule, i|
             expect(rule.saved_change_to_rule_option_id?).to eq(false)
             expect(rule.saved_change_to_answer?).to eq(false)
           end

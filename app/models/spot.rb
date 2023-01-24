@@ -3,7 +3,7 @@ class Spot < ApplicationRecord
 
   has_many   :spot_histories, dependent: :destroy
   has_many   :users, through: :spot_histories
-  has_many   :rule, dependent: :destroy
+  has_many   :rules, dependent: :destroy
   has_many   :reviews, dependent: :destroy
   has_many   :images, dependent: :destroy
 
@@ -22,6 +22,4 @@ class Spot < ApplicationRecord
     with:    /\A#{URI::regexp(%w(http https))}\z/,
     message: "URLは「http:」もしくは「https:」から始めてください"
   }
-
-  scope :"includes_images", -> { includes(images: { files_attachments: :blob }) }
 end
