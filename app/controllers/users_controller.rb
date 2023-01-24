@@ -7,15 +7,15 @@ class UsersController < ApplicationController
   end
 
   def spot_index
-    @spots = current_user.spots.includes(:category)
+    @spots = current_user.spots.preload(:category)
   end
 
   def review_index
-    @reviews = ReviewsForSpotQuery.new(reviews: current_user.reviews).call(params: params)
+    @reviews = ReviewsForSpotQuery.call(parent_record: current_user, params: params)
   end
 
   def image_index
-    @images = current_user.images.with_attached_files
+    @blobs = ImageBlobsQuery.call(parent_image: current_user.images, order_params: params, variant: true)
   end
 
   # profile
