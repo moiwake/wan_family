@@ -27,11 +27,13 @@ module WanFamily
       g.test_framework :rspec,
         view_specs: false,
         helper_specs: false,
-        routing_specs: false
+        routing_specs: false,
+        decorator_specs: false
     end
 
     config.generators.stylesheets    = false
     config.generators.javascripts    = false
     config.generators.helper         = false
+    config.generators.decorator      = false
   end
 end
