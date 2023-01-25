@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_04_091115) do
+ActiveRecord::Schema.define(version: 2023_01_25_021305) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -61,6 +61,15 @@ ActiveRecord::Schema.define(version: 2023_01_04_091115) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_categories_on_name", unique: true
+  end
+
+  create_table "favorite_spots", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "spot_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["spot_id"], name: "index_favorite_spots_on_spot_id"
+    t.index ["user_id"], name: "index_favorite_spots_on_user_id"
   end
 
   create_table "images", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -143,6 +152,17 @@ ActiveRecord::Schema.define(version: 2023_01_04_091115) do
     t.index ["user_id"], name: "index_spot_histories_on_user_id"
   end
 
+  create_table "spot_tags", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", default: "行ってみたい", null: false
+    t.string "memo"
+    t.bigint "user_id", null: false
+    t.bigint "spot_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["spot_id"], name: "index_spot_tags_on_spot_id"
+    t.index ["user_id"], name: "index_spot_tags_on_user_id"
+  end
+
   create_table "spots", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.float "latitude", limit: 53, null: false
@@ -177,6 +197,8 @@ ActiveRecord::Schema.define(version: 2023_01_04_091115) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "favorite_spots", "spots"
+  add_foreign_key "favorite_spots", "users"
   add_foreign_key "images", "reviews"
   add_foreign_key "images", "spots"
   add_foreign_key "images", "users"
@@ -191,6 +213,8 @@ ActiveRecord::Schema.define(version: 2023_01_04_091115) do
   add_foreign_key "rules", "spots"
   add_foreign_key "spot_histories", "spots"
   add_foreign_key "spot_histories", "users"
+  add_foreign_key "spot_tags", "spots"
+  add_foreign_key "spot_tags", "users"
   add_foreign_key "spots", "allowed_areas"
   add_foreign_key "spots", "categories"
 end

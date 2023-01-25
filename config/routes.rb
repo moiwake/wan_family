@@ -44,5 +44,7 @@ Rails.application.routes.draw do
     resources :images, only: [:index, :show] do
       resources :like_images, only: [:create, :destroy]
     end
+
+    resources :favorite_spots, only: [:create, :destroy]
   end
 end

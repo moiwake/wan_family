@@ -1,0 +1,18 @@
+<div id="post-favorite">
+  <% if current_user.present? %>
+    <% if favorite?(spot: spot) %>
+      <%= link_to spot_favorite_spot_path(spot, favorite_spot), method: :delete, id: "remove-favorite", remote: true do %>
+        <span>お気に入り</span>
+        <i class="fa fa-star"></i>
+      <% end %>
+    <% else %>
+      <%= link_to spot_favorite_spots_path(spot), method: :post, id: "add-favorite", remote: true do %>
+        <span>お気に入り</span>
+        <i class="fa-regular fa-star"></i>
+      <% end %>
+    <% end %>
+  <% else %>
+    <span>お気に入り</span>
+  <% end %>
+  <%= spot.favorite_spots.size %>
+</div>

@@ -1,11 +1,12 @@
 class Spot < ApplicationRecord
   extend ActiveHash::Associations::ActiveRecordExtensions
 
-  has_many   :spot_histories, dependent: :destroy
-  has_many   :users, through: :spot_histories
-  has_many   :rules, dependent: :destroy, autosave: true
-  has_many   :reviews, dependent: :destroy
-  has_many   :images, dependent: :destroy
+  has_many :spot_histories, dependent: :destroy
+  has_many :users, through: :spot_histories
+  has_many :rules, dependent: :destroy, autosave: true
+  has_many :reviews, dependent: :destroy
+  has_many :images, dependent: :destroy
+  has_many :favorite_spots, dependent: :destroy
 
   belongs_to :category
   belongs_to :allowed_area
