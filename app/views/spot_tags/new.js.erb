@@ -1,0 +1,30 @@
+var newTagLink = document.getElementById("new-tag-link");
+newTagLink.insertAdjacentHTML('beforebegin',
+  '<%= j(render "spot_tags/shared/new_tag",
+    spot_tag: @spot_tag,
+    spot: @spot
+  )%>'
+);
+
+newTagLink.classList.add("hidden");
+
+var tagForm = document.getElementsByClassName("tag-form");
+if (tagForm.length > 1) {
+  tagForm[0].remove();
+}
+
+var cancelBtn = document.getElementById("cancel-btn");
+cancelBtn.addEventListener("click", function (){
+  tagForm[0].remove();
+  newTagLink.classList.remove("hidden");
+});
+
+var tagBars = document.getElementsByClassName("tag-bar");
+for (var i = 0; i < tagBars.length; i++) {
+  tagBars[i].addEventListener("click", function (e){
+    var parent = e.target.parentElement;
+    var tagNameForm = document.getElementById("tag-name-form");
+    tagNameForm.value = parent.innerText
+  });
+}
+

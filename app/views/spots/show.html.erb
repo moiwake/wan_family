@@ -29,6 +29,7 @@
   </table>
 </div>
 <div id="mark-spot">
+  <%= render "spot_tags/shared/tag_spot", spot: @spot, spot_tags: @spot_tags %>
   <%= render "favorite_spots/shared/add_or_remove_favorite_spot", spot: @spot, favorite_spot: @favorite_spot %>
 </div>
 <%= link_to "すべてのレビューを見る", spot_reviews_path(@spot), class: "button light ml-3 mt-3" %><br>

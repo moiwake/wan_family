@@ -1,7 +1,7 @@
 class SpotsController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :set_categories, :set_allowed_areas, :set_option_titles, except: [:show]
-  before_action :set_favorite_spot, only: [:show]
+  before_action :set_favorite_spot, :set_spot_tags, only: [:show]
   before_action :delete_session, only: [:new, :edit]
   after_action  :delete_session, only: [:create, :update]
 
@@ -115,7 +115,13 @@ class SpotsController < ApplicationController
 
   def set_favorite_spot
     if current_user.present?
-      @favorite_spot = FavoriteSpot.find_by(user_id: current_user.id, spot_id: params[:id])
+      @favorite_spot = current_user.favorite_spots.find_by(spot_id: params[:id])
+    end
+  end
+
+  def set_spot_tags
+    if current_user.present?
+      @spot_tags = current_user.spot_tags.where(spot_id: params[:id])
     end
   end
 

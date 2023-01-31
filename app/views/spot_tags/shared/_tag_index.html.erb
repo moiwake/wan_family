@@ -1,0 +1,35 @@
+<div class="tag-overlay">
+  <div id="tag-list">
+    <h3>保存済みタグ</h3>
+    <ul>
+      <% @spot_tags.each do |tag| %>
+        <li class="tag-list-content">
+          <div class="tag-bar">
+            <div class="tag-name">
+              <i class="fa-solid fa-tag tag-list-icon"></i><%= tag.name %>
+            </div>
+            <div class="tag-btn">
+              <div class="tag-memo">
+                <%= link_to spot_spot_tag_path(spot, tag), remote: true do %>
+                  <i class="fa-regular fa-clipboard tag-list-icon"></i><span>memo</span>
+                <% end %>
+              </div>
+              <div class="delete-tag-btn">
+                <%= link_to spot_spot_tag_path(spot, tag), method: :delete, data: { confirm: "タグを削除しますか？" }, remote: true do %>
+                  <i class="fa-solid fa-circle-xmark"></i>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+    <div id="new-tag-link">
+      <%= link_to new_spot_spot_tag_path(spot), remote: true do %>
+        <i class="fa-solid fa-plus"></i>
+        <span>タグを追加する</span>
+      <% end %>
+    </div>
+  </div>
+  <i id="colse-tag-list" class="fa-solid fa-xmark"></i>
+</div>

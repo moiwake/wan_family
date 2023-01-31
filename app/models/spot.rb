@@ -7,6 +7,7 @@ class Spot < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_many :images, dependent: :destroy
   has_many :favorite_spots, dependent: :destroy
+  has_many :spot_tags, dependent: :destroy
 
   belongs_to :category
   belongs_to :allowed_area

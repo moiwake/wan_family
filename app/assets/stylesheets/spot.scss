@@ -2,3 +2,87 @@
   width: 100%;
   height: 850px;
 }
+
+.tag-overlay {
+  background-color: #3f3e3edd;
+  width: 100%;
+  height: 100%;
+  padding: 15%;
+}
+
+.tag-overlay:nth-child(n) {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  overflow: auto;
+}
+
+#tag-list {
+  max-width: 600px;
+  min-height: 200px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+#tag-list ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.tag-list-content {
+  margin: 10px;
+  height: 30px;
+  align-items: center;
+  background-color: whitesmoke;
+  border-radius: 4px;
+  color: #4a4a4a;
+  display: inline-flex;
+  font-size: 15px;
+  justify-content: flex-start;
+  line-height: 1.5;
+  padding-left: 0.75em;
+  padding-right: 0.75em;
+  white-space: nowrap;
+}
+
+.tag-bar {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+.tag-name {
+  width: max-content;
+}
+
+.tag-btn {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.tag-memo {
+  position: absolute;
+  right: 20%;
+}
+
+.delete-tag-btn {
+  position: absolute;
+  right: 5%;
+}
+
+.tag-list-icon {
+  margin: 10px;
+}
+
+.fa-xmark {
+  position: absolute;
+  top: 8%;
+  right: 8%;
+  transform: scale(3, 3);
+}

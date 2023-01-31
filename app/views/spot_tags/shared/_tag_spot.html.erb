@@ -1,0 +1,13 @@
+<div class="tag-spot">
+  <% if current_user.present? %>
+    <%= link_to spot_spot_tags_path(spot), id: "open-tag-list", remote: true do %>
+      <i class="fa-solid fa-tag"></i>
+    <% end %>
+    <% if tagged?(spot: spot) %>
+      <p>このスポットには<%= spot_tags.size %>個のタグがついています</p>
+    <% else %>
+      <p>このスポットにはタグがついていません</p>
+    <% end %>
+  <% end %>
+</div>
+

@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :like_reviews, dependent: :destroy
   has_many :like_images, dependent: :destroy
   has_many :favorite_spots, dependent: :destroy
+  has_many :spot_tags, dependent: :destroy
 
   has_one_attached :human_avatar
   has_one_attached :dog_avatar

@@ -1,0 +1,29 @@
+var markSpot = document.getElementById("mark-spot");
+markSpot.insertAdjacentHTML('beforeend',
+  '<%= j(render "spot_tags/shared/tag_index",
+    spot_tags: @spot_tags,
+    spot: @spot
+  )%>'
+);
+
+markSpot.insertAdjacentHTML('afterbegin',
+  '<%= j(render "spot_tags/shared/tag_spot",
+    spot_tags: @spot_tags,
+    spot: @spot
+  )%>'
+);
+
+var tagSpot = document.getElementsByClassName("tag-spot");
+tagSpot[1].remove();
+
+var tagOverlay = document.getElementsByClassName("tag-overlay");
+if (tagOverlay.length > 1) {
+  closeTaglist();
+}
+
+var iClose = document.getElementsByClassName("fa-solid fa-xmark")[0];
+iClose.addEventListener("click", closeTaglist);
+
+function closeTaglist () {
+  tagOverlay[0].remove();
+}

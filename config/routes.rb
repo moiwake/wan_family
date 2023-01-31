@@ -46,5 +46,6 @@ Rails.application.routes.draw do
     end
 
     resources :favorite_spots, only: [:create, :destroy]
+    resources :spot_tags
   end
 end
