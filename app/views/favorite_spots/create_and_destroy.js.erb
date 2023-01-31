@@ -1,6 +1,9 @@
-var markSpot = document.getElementById("mark-spot");
-markSpot.firstElementChild.remove();
-
-markSpot.insertAdjacentHTML('afterbegin',
-  '<%= j(render "favorite_spots/shared/add_or_remove_favorite_spot", spot: @spot, favorite_spot: @favorite_spot) %>'
+var postFavorite = document.getElementsByClassName("post-favorite");
+postFavorite[0].insertAdjacentHTML("afterend",
+  "<%= j(
+    render "favorite_spots/shared/add_or_remove_favorite_spot",
+      spot: @spot,
+      favorite_spot: @favorite_spot
+  ) %>"
 );
+postFavorite[0].remove();

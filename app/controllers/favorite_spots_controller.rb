@@ -1,11 +1,12 @@
 class FavoriteSpotsController < ApplicationController
-  before_action :authenticate_user!
-  # before_action :set_spot
-
   def create
-    @favorite_spot = current_user.favorite_spots.create(spot_id: params[:spot_id])
-    set_spot
-    render "create_and_destroy"
+    if current_user.present?
+      @favorite_spot = current_user.favorite_spots.create(spot_id: params[:spot_id])
+      set_spot
+      render "create_and_destroy"
+    else
+      redirect_to new_user_session_path
+    end
   end
 
   def destroy
