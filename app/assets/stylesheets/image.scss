@@ -15,15 +15,6 @@
   padding: 15%;
 }
 
-.hidden-display-image {
-  display: none;
-}
-
-.open-display-image {
-  display: flex;
-  justify-content: center;
-}
-
 #display-enlarged-image {
   display: flex;
   min-width: max-content;
@@ -35,6 +26,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 100;
+  overflow: auto;
 }
 
 #enlarged-image {
