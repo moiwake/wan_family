@@ -4,9 +4,19 @@
       <i class="fa-solid fa-tag"></i>
     <% end %>
     <% if tagged?(spot: spot) %>
-      <p>このスポットには<%= spot_tags.size %>個のタグがついています</p>
+      <% spot_tags.limit(SpotTag::MAX_SPOT_TAG_DISPLAY_NUMBER).each do |tag| %>
+        <span><%= tag.name %></span>
+      <% end %>
+      <% if spot_tags.size > SpotTag::MAX_SPOT_TAG_DISPLAY_NUMBER %>
+        <span>他<%= (spot_tags.size) - SpotTag::MAX_SPOT_TAG_DISPLAY_NUMBER %>個</span>
+      <% end %>
     <% else %>
       <p>このスポットにはタグがついていません</p>
+    <% end %>
+  <% else %>
+    <%= link_to new_user_session_path do %>
+      <i class="fa-solid fa-tag"></i>
+      <span>タグ機能のご利用はログインが必要です</span>
     <% end %>
   <% end %>
 </div>

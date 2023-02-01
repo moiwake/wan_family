@@ -29,6 +29,8 @@ ja:
         user: 登録ユーザーID
         spot: 登録スポットID
         history: 履歴
+      spot_tag:
+        name: タグネーム
       rule:
         spot: 登録スポットID
         rule_option: ルール選択肢ID

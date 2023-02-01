@@ -27,3 +27,27 @@ iClose.addEventListener("click", closeTaglist);
 function closeTaglist () {
   tagOverlay[0].remove();
 }
+
+var tagMemos = document.getElementsByClassName("expand-tag-btn");
+for (var i = 0; i < tagMemos.length; i++) {
+  tagMemos[i].addEventListener("click", function(e) {
+    var index = [].slice.call(tagMemos).indexOf(e.target);
+
+    if (index == -1) {
+      var index = [].slice.call(tagMemos).indexOf(e.target.parentElement);
+    }
+
+    var displayMemo = document.getElementsByClassName("display-memo");
+    if (displayMemo[index].classList.contains("hidden-memo")) {
+      displayMemo[index].classList.remove("hidden-memo");
+      displayMemo[index].classList.add("open-memo");
+      tagMemos[index].children[0].classList.remove("fa-angles-down");
+      tagMemos[index].children[0].classList.add("fa-angles-up");
+    } else {
+      displayMemo[index].classList.remove("open-memo");
+      displayMemo[index].classList.add("hidden-memo");
+      tagMemos[index].children[0].classList.remove("fa-angles-up");
+      tagMemos[index].children[0].classList.add("fa-angles-down");
+    }
+  });
+}

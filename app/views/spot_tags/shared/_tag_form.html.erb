@@ -1,6 +1,6 @@
 <div class="tag-form">
   <%= render "shared/error_messages", resource: spot_tag %>
-  <%= form_with model: spot_tag, url: spot_spot_tags_path(spot), local: false do |f| %>
+  <%= form_with model: spot_tag, url: url, local: false do |f| %>
     <%= f.label :name, "タグネーム" %><br>
     <%= f.search_field :name, id: "tag-name-form" %><br>
     <%= f.label :name, "メモ" %><br>
@@ -8,16 +8,17 @@
     <%= f.hidden_field :user_id, value: current_user.id %>
     <%= f.hidden_field :spot_id, value: spot.id %>
     <%= f.submit "保存", id: "save-btn" %>
-    <span id="cancel-btn">キャンセル</span>
+    <%= link_to "キャンセル", spot_spot_tags_path(spot), id: "cancel-btn", remote: true %>
   <% end %>
   <div>
     <p>過去に作成したタグをつける</p>
     <ul id="created-tag-list">
-      <% @spot_tags.each do |tag| %>
+      <% spot_tags.each do |tag| %>
         <li>
-          <div class="tag-bar">
-            <div class="tag-name">
-              <i class="fa-solid fa-tag tag-list-icon"></i><%= tag.name %>
+          <div class="created-tag">
+            <div class="created-tag-name">
+              <i class="fa-solid fa-tag tag-list-icon"></i>
+              <span><%= tag.name %></span>
             </div>
           </div>
         </li>
