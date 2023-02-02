@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_01_072419) do
+ActiveRecord::Schema.define(version: 2023_02_02_134549) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 2023_02_01_072419) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["spot_id"], name: "index_favorite_spots_on_spot_id"
+    t.index ["user_id", "spot_id"], name: "index_favorite_spots_on_user_id_and_spot_id", unique: true
     t.index ["user_id"], name: "index_favorite_spots_on_user_id"
   end
 
@@ -90,6 +91,7 @@ ActiveRecord::Schema.define(version: 2023_02_01_072419) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["image_id"], name: "index_like_images_on_image_id"
+    t.index ["user_id", "blob_id"], name: "index_like_images_on_user_id_and_blob_id", unique: true
     t.index ["user_id"], name: "index_like_images_on_user_id"
   end
 
@@ -99,6 +101,7 @@ ActiveRecord::Schema.define(version: 2023_02_01_072419) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["review_id"], name: "index_like_reviews_on_review_id"
+    t.index ["user_id", "review_id"], name: "index_like_reviews_on_user_id_and_review_id", unique: true
     t.index ["user_id"], name: "index_like_reviews_on_user_id"
   end
 
