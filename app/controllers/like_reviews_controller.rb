@@ -1,6 +1,4 @@
 class LikeReviewsController < ApplicationController
-  before_action :authenticate_user!
-
   def create
     @like_review = current_user.like_reviews.create(review_id: params[:review_id])
     set_review
