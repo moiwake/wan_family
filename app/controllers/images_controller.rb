@@ -6,6 +6,9 @@ class ImagesController < ApplicationController
 
   def show
     @blob = ActiveStorage::Blob.preload(attachments: :record).find(params[:blob_id])
-    @like_image = LikeImage.find_by(user_id: current_user.id, blob_id: params[:blob_id])
+
+    if current_user.present?
+      @like_image = LikeImage.find_by(user_id: current_user.id, blob_id: params[:blob_id])
+    end
   end
 end
