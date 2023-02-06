@@ -2,17 +2,15 @@
   <% if current_user.present? %>
     <% if favorite?(favorite_spot) %>
       <%= link_to spot_favorite_spot_path(spot, favorite_spot), method: :delete, id: "remove-favorite", remote: true do %>
-        <i class="fa-solid fa-heart" id="add-favorite-btn"></i>
+        <i class="fa-solid fa-heart" id="remove-favorite-btn"></i>
       <% end %>
     <% else %>
       <%= link_to spot_favorite_spots_path(spot), method: :post, id: "add-favorite", remote: true do %>
-        <i class="fa-regular fa-heart" id="remove-favorite-btn"></i>
+        <i class="fa-regular fa-heart" id="add-favorite-btn"></i>
       <% end %>
     <% end %>
   <% else %>
-    <%= link_to new_user_session_path do %>
-      <i class="fa-regular fa-heart"></i>
-    <% end %>
+    <i class="fa-regular fa-heart"></i>
   <% end %>
-  <%= spot.favorite_spots.size %>
+  <span><%= spot.favorite_spots.size %></span>
 </div>

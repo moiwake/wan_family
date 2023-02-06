@@ -1,8 +1,11 @@
 <%= render "shared/flash_messages" %>
 <div class="spot">
   <h2><%= @spot.name %></h2>
-  <%= render partial: "shared/display_review_images", collection: @blobs, as: :image_data %>
-  <%= link_to "すべての画像を見る", spot_images_path(@spot) %>
+  <div id="mark-spot">
+    <%= link_to "お気に入り機能、タグ機能のご利用はログインが必要です" , new_user_session_path if current_user.nil? %>
+    <%= render "spot_tags/shared/tag_spot", spot: @spot, spot_tags: @spot_tags %>
+    <%= render "favorite_spots/shared/add_or_remove_favorite_spot", spot: @spot, favorite_spot: @favorite_spot %>
+  </div>
   <table>
     <thead>
       <tr>
@@ -27,10 +30,8 @@
       </tr>
     </tbody>
   </table>
-</div>
-<div id="mark-spot">
-  <%= render "spot_tags/shared/tag_spot", spot: @spot, spot_tags: @spot_tags %>
-  <%= render "favorite_spots/shared/add_or_remove_favorite_spot", spot: @spot, favorite_spot: @favorite_spot %>
+  <%= render partial: "shared/display_review_images", collection: @blobs, as: :image_data %>
+  <%= link_to "すべての画像を見る", spot_images_path(@spot) %>
 </div>
 <%= link_to "すべてのレビューを見る", spot_reviews_path(@spot), class: "button light ml-3 mt-3" %><br>
 <%= link_to "スポットの登録内容を更新する", edit_spot_path(@spot), "data-turbolinks": false %><br>
