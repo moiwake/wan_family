@@ -35,7 +35,7 @@ class QueryBase
       not_liked_ids = scope.pluck(:id).difference(liked_ids).reverse.uniq
       not_liked_scope = order_default(scope.where(id: not_liked_ids))
 
-      scope_ids = liked_ids.push(not_liked_ids).flatten
+      scope_ids = liked_ids.push(not_liked_scope.pluck(:id)).flatten
 
       scope_table_name = scope.first.class.table_name
 
