@@ -1,5 +1,5 @@
 module LikeImageHelper
-  def posted_by_another_user?(blob)
+  def image_posted_by_another?(blob)
     get_parent_image(blob).user_id != current_user.id
   end
 

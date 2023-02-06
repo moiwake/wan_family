@@ -1,7 +1,7 @@
 <div id="post-image-like">
   <% if current_user.present? %>
-    <% if posted_by_another_user?(blob) %>
-      <%= render "like_images/shared/image_like_button", blob: blob, like_image: like_image %>
+    <% if image_posted_by_another?(blob) %>
+      <%= render "like_images/shared/like_image_button", blob: blob, like_image: like_image %>
     <% else %>
       <span>Cute!</span>
     <% end %>
