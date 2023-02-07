@@ -5,9 +5,8 @@ RSpec.describe "LikeImagesSystemSpecs", type: :system, js: true do
   let!(:spot) { create(:spot) }
   let!(:image) { create(:image, :attached, spot_id: spot.id) }
   let(:blob) { image.files.blobs.first }
-
   let!(:like_images) { create_list(:like_image, 3, image_id: image.id, blob_id: blob.id) }
-  let!(:like_count) { LikeImage.where(blob_id: blob.id).count }
+  let!(:current_like_count) { LikeImage.where(blob_id: blob.id).count }
 
   describe "画像のCute登録" do
     before do
@@ -16,15 +15,14 @@ RSpec.describe "LikeImagesSystemSpecs", type: :system, js: true do
     end
 
     it "画像に登録されているCuteの総計を表示する" do
-      expect(find("#post-image-like")).to have_content(like_count)
+      expect(find("#post-image-like")).to have_content(current_like_count)
     end
 
     context "ログインしているとき" do
-      let!(:before_like_count) { like_count }
-
       before { sign_in user }
 
       context "ログインユーザーが画像にCuteを登録していないとき" do
+        let!(:before_like_count) { LikeImage.where(blob_id: blob.id).count }
         let(:new_like) { LikeImage.last }
 
         it "画像にCuteの登録ができる" do
@@ -41,11 +39,12 @@ RSpec.describe "LikeImagesSystemSpecs", type: :system, js: true do
 
       context "ログインユーザーが画像にCuteを登録しているとき" do
         let!(:like_image) { create(:like_image, user_id: user.id, image_id: image.id, blob_id: blob.id) }
+        let!(:before_like_count) { LikeImage.where(blob_id: blob.id).count }
 
         it "画像のCuteの登録を削除できる" do
           expect do
             find("#remove-image-like").click
-            expect(find("#post-image-like")).to have_content(before_like_count)
+            expect(find("#post-image-like")).to have_content(before_like_count - 1)
           end.to change { LikeImage.count }.by(-1)
         end
       end
