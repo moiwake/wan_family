@@ -1,22 +1,22 @@
-<div class="tag-spot">
+<div class="post-spot-tag">
   <% if current_user.present? %>
     <%= link_to spot_spot_tags_path(spot), id: "open-tag-list", remote: true do %>
       <i class="fa-solid fa-tag"></i>
     <% end %>
-    <% if tagged?(spot: spot) %>
-      <% spot_tags.limit(SpotTag::MAX_SPOT_TAG_DISPLAY_NUMBER).each do |tag| %>
-        <span><%= tag.name %></span>
+    <div id="display-created-tag-name">
+      <% if tagged?(spot: spot) %>
+        <% spot_tags.limit(SpotTag::MAX_DISPLAY_NUMBER).each do |tag| %>
+          <span><%= tag.name %></span>
+        <% end %>
+        <% if exceed_max?(spot_tags: spot_tags) %>
+          <span>他<%= difference_of_max(spot_tags: spot_tags) %>個</span>
+        <% end %>
+      <% else %>
+        <p>このスポットにはタグがついていません</p>
       <% end %>
-      <% if spot_tags.size > SpotTag::MAX_SPOT_TAG_DISPLAY_NUMBER %>
-        <span>他<%= (spot_tags.size) - SpotTag::MAX_SPOT_TAG_DISPLAY_NUMBER %>個</span>
-      <% end %>
-    <% else %>
-      <p>このスポットにはタグがついていません</p>
-    <% end %>
+    </div>
   <% else %>
-    <%= link_to new_user_session_path do %>
-      <i class="fa-solid fa-tag"></i>
-    <% end %>
+    <i class="fa-solid fa-tag"></i>
   <% end %>
 </div>
 

@@ -4,7 +4,7 @@ class SpotTag < ApplicationRecord
 
   validates :name, presence: true
 
-  MAX_SPOT_TAG_DISPLAY_NUMBER = 3
+  MAX_DISPLAY_NUMBER = 3
   MAX_CREATED_NAME_DISPLAY_NUMBER = 10
 
   scope :created_spot_tag_names, -> (user_id:) {
