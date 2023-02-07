@@ -4,7 +4,7 @@
     <%= f.label :name, "タグネーム" %><br>
     <%= f.search_field :name, id: "tag-name-form" %><br>
     <%= f.label :name, "メモ" %><br>
-    <%= f.text_area :memo %>
+    <%= f.text_area :memo, id: "tag-memo-form"  %>
     <%= f.hidden_field :user_id, value: current_user.id %>
     <%= f.hidden_field :spot_id, value: spot.id %>
     <%= f.submit "保存", id: "save-btn" %>
@@ -13,12 +13,12 @@
   <div>
     <p>過去に作成したタグをつける</p>
     <ul id="created-tag-list">
-      <% spot_tags.each do |tag| %>
+      <% spot_tag_names.each do |name| %>
         <li>
           <div class="created-tag">
             <div class="created-tag-name">
               <i class="fa-solid fa-tag tag-list-icon"></i>
-              <span><%= tag.name %></span>
+              <span><%= name %></span>
             </div>
           </div>
         </li>

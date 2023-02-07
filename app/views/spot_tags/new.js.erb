@@ -16,7 +16,7 @@ var tagList = document.getElementById("tag-list");
 tagList.insertAdjacentHTML("beforeend",
   "<%= j(render "spot_tags/shared/tag_form",
     spot_tag: @spot_tag,
-    spot_tags: @spot_tags,
+    spot_tag_names: @spot_tag_names,
     spot: @spot,
     url: spot_spot_tags_path(@spot)
   ) %>"

@@ -121,7 +121,7 @@ class SpotsController < ApplicationController
 
   def set_spot_tags
     if current_user.present?
-      @spot_tags = current_user.spot_tags.where(spot_id: params[:id])
+      @spot_tags = SpotTag.for_spot(user_id: current_user.id, spot_id: params[:id])
     end
   end
 

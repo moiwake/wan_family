@@ -24,7 +24,7 @@ if (!tagForm[0]) {
 tag.insertAdjacentHTML("beforeend",
   "<%= j(render "spot_tags/shared/tag_form",
     spot_tag: @spot_tag,
-    spot_tags: @spot_tags,
+    spot_tag_names: @spot_tag_names,
     spot: @spot,
     url: spot_spot_tag_path(@spot, @spot_tag)
   ) %>"

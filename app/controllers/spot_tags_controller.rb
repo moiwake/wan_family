@@ -56,10 +56,10 @@ class SpotTagsController < ApplicationController
   end
 
   def set_spot_tags
-    @spot_tags = current_user.spot_tags.where(spot_id: @spot.id)
+    @spot_tags = SpotTag.for_spot(user_id: current_user.id, spot_id: @spot.id)
   end
 
   def set_tag_names
-    @spot_tags = current_user.spot_tags.group(:name).select(:name)
+    @spot_tag_names = SpotTag.created_spot_tag_names(user_id: current_user.id)
   end
 end
