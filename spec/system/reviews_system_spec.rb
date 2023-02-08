@@ -30,11 +30,11 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
       reviews.each_with_index do |review, i|
         within(page.all(".review-grid-list")[i]) do
           review.image.files.length.times do |t|
-            break if t == Image::MAX_IMAGE_DISPLAY_NUMBER
+            break if t == Image::MAX_DISPLAY_NUMBER
             expect(page.all("img")[t][:src]).to include(images_filenames[t])
           end
 
-          expect(page.all("img").length).to be<=(Image::MAX_IMAGE_DISPLAY_NUMBER)
+          expect(page.all("img").length).to be<=(Image::MAX_DISPLAY_NUMBER)
         end
       end
     end
