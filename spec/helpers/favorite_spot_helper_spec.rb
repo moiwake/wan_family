@@ -16,7 +16,7 @@ RSpec.describe FavoriteSpotHelper, type: :helper do
       end
     end
 
-    context "引数に渡したFavoriteSpotのレコードが削除されているとき" do
+    context "引数に渡したFavoriteSpotのレコードがDBに保存されていないとき" do
       before { favorite_spot.destroy }
 
       it "falseを返す" do

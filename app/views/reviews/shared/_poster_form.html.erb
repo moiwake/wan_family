@@ -21,7 +21,7 @@
       <li>ファイルサイズ: 5メガバイトまで</li>
     </ul>
     <div class="check-box-delete-image" style="display: flex; flex-wrap: wrap; width: 750px;">
-      <%= render partial: "reviews/shared/edit_image_form", collection: get_files_for_edit(review: resource.review), as: :file, locals: { form: imf } %>
+      <%= render partial: "reviews/shared/edit_image_form", collection: get_files_for_edit(resource.review), as: :file, locals: { form: imf } %>
     </div>
   <% end %>
   <ul id="preview_lists" class="preview-lists-display">
