@@ -4,7 +4,7 @@ module LikeImageHelper
   end
 
   def image_liked?(blob)
-    current_user.like_images.exists?(blob_id: blob.id) if current_user.present?
+    current_user.present? && current_user.like_images.exists?(blob_id: blob.id)
   end
 
   def get_image_likes_count(blob)
