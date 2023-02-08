@@ -26,10 +26,10 @@ RSpec.describe LikeImageHelper, type: :helper do
 
   describe "#image_liked?" do
     context "ログインユーザーが存在するとき" do
-      before { allow(helper).to receive(:current_user).and_return(user) }
+      before { allow(helper).to receive(:current_user).and_return(another_user) }
 
       context "引数に渡したBlobレコードのidを持つLikeImageレコードが存在するとき" do
-        let!(:like_image) { create(:like_image, user_id: user.id, image_id: image.id, blob_id: blob.id) }
+        let!(:like_image) { create(:like_image, user_id: anothe_user.id, image_id: image.id, blob_id: blob.id) }
 
         it "trueを返す" do
           expect(helper.image_liked?(blob)).to eq(true)

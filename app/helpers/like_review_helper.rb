@@ -4,6 +4,6 @@ module LikeReviewHelper
   end
 
   def review_liked?(review)
-    current_user.like_reviews.exists?(review_id: review.id) if current_user.present?
+    current_user.present? && current_user.like_reviews.exists?(review_id: review.id)
   end
 end
