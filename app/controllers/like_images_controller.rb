@@ -15,6 +15,7 @@ class LikeImagesController < ApplicationController
   private
 
   def set_blob
-    @blob = ImageBlobsQuery.call(parent_image: params[:image_id]).find(params[:blob_id])
+    image = Image.find(params[:image_id])
+    @blob = ImageBlobsQuery.call(parent_image: image).find(params[:blob_id])
   end
 end

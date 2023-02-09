@@ -1,9 +1,9 @@
 class ImageBlobsQuery < QueryBase
   class << self
-    def call(blobs: ActiveStorage::Blob.all, parent_image: [], variant: false, order_params: {})
+    def call(blobs: ActiveStorage::Blob.all, parent_image: Image.all, variant: false, order_params: {})
       files = set_files(parent_image)
       scope = set_default_scope(blobs, files)
-      scope = with_variant_record(scope) if variant
+      scope = preload_variant_record(scope, variant)
       order_scope(scope, order_params)
     end
 
@@ -14,30 +14,30 @@ class ImageBlobsQuery < QueryBase
       search_by_parent_image(files, parent_image)
     end
 
-    def set_default_scope(blobs, files)
-      blobs.preload(attachments: :record).where(id: files.pluck(:blob_id))
+    def search_by_parent_image(files, parent_image)
+      if parent_image.nil?
+        return []
+      else
+        parent_image_id = [].push(parent_image).flatten.pluck(:id)
+        return files.where(record_id: parent_image_id)
+      end
     end
 
-    def with_variant_record(scope)
-      scope.preload(:variant_records)
+    def set_default_scope(scope, files)
+      preloaded_scope = preload_attachments_and_record(scope)
+      preloaded_scope.where(id: files.pluck(:blob_id))
+    end
+
+    def preload_attachments_and_record(scope)
+      scope.preload(attachments: :record)
+    end
+
+    def preload_variant_record(scope, variant)
+      variant ? scope.preload(:variant_records) : scope
     end
 
     def set_ids_in_order_likes
       LikeImage.group(:blob_id).order('count(blob_id) desc').pluck(:blob_id)
-    end
-
-    def search_by_parent_image(files, parent_image)
-      if parent_image.nil?
-        []
-      elsif parent_image.is_a?(Image)
-        parent_image_id = parent_image.id
-      elsif parent_image[0].is_a?(Image)
-        parent_image_id = parent_image.pluck(:id)
-      elsif parent_image.is_a?(String)
-        parent_image_id = parent_image
-      end
-
-      return files.where(record_id: parent_image_id)
     end
   end
 end
