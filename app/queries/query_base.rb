@@ -1,6 +1,6 @@
 class QueryBase
   class << self
-    def call(scope: nil, order_params: {})
+    def call(scope:, order_params: {})
       set_default_scope(scope)
       order_scope(scope, order_params)
     end
@@ -43,7 +43,7 @@ class QueryBase
     end
 
     def set_ids_in_order_likes
-      []
+      nil
     end
   end
 end
