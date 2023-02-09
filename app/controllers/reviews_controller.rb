@@ -4,7 +4,7 @@ class ReviewsController < ApplicationController
   before_action :set_like_review, only: [:show]
 
   def index
-    @reviews = ReviewsForSpotQuery.call(parent_record: @spot, params: params)
+    @reviews = ReviewsQuery.call(parent_record: @spot, order_params: params)
   end
 
   def new

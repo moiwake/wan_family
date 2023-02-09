@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   end
 
   def review_index
-    @reviews = ReviewsForSpotQuery.call(parent_record: current_user, params: params)
+    @reviews = ReviewsQuery.call(parent_record: current_user, order_params: params)
   end
 
   def image_index
