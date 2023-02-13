@@ -2,10 +2,9 @@ require 'rails_helper'
 
 RSpec.describe ReviewsQuery, type: :model do
   let!(:reviews) { create_list(:review, 3) }
-  let(:scope) { Review.all }
+  let!(:scope) { Review.all }
 
   describe "#call" do
-    let(:reviews) { instance_double("review") }
     let(:user) { instance_double("user") }
     let(:order_params) { {} }
 

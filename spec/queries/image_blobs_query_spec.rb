@@ -2,12 +2,10 @@ require 'rails_helper'
 
 RSpec.describe ImageBlobsQuery, type: :model do
   let!(:images) { create_list(:image, 3, :attached) }
-  let(:files) { ActiveStorage::Attachment.where(record_type: "Image") }
+  let!(:files) { ActiveStorage::Attachment.where(record_type: "Image") }
+  let!(:blobs) { images[0].files.blobs }
 
   describe "#call" do
-    let(:image) { instance_double("image") }
-    let(:files) { instance_double("files") }
-    let(:blobs) { instance_double("blobs") }
     let(:variant) { true }
     let(:order_params) { {} }
 
@@ -16,11 +14,11 @@ RSpec.describe ImageBlobsQuery, type: :model do
       allow(ImageBlobsQuery).to receive(:set_default_scope).and_return(blobs)
       allow(ImageBlobsQuery).to receive(:preload_variant_record).and_return(blobs)
       allow(ImageBlobsQuery).to receive(:order_scope)
-      ImageBlobsQuery.send(:call, blobs: blobs, parent_image: image, variant: variant, order_params: order_params)
+      ImageBlobsQuery.send(:call, blobs: blobs, parent_image: images, variant: variant, order_params: order_params)
     end
 
     it "引数の値を渡してset_filesメソッドを呼び出す" do
-      expect(ImageBlobsQuery).to have_received(:set_files).once.with(image)
+      expect(ImageBlobsQuery).to have_received(:set_files).once.with(images)
     end
 
     it "引数の値を渡してset_default_scopeメソッドを呼び出す" do
