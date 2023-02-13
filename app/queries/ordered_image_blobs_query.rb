@@ -1,4 +1,4 @@
-class ImageBlobsQuery < QueryBase
+class OrderedImageBlobsQuery < OrderedQueryBase
   class << self
     def call(blobs: ActiveStorage::Blob.all, parent_image: Image.all, variant: false, order_params: {})
       files = set_files(parent_image)

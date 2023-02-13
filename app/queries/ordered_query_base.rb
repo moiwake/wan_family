@@ -1,4 +1,4 @@
-class QueryBase
+class OrderedQueryBase
   class << self
     def call(scope:, order_params: {})
       set_default_scope(scope)
@@ -37,7 +37,7 @@ class QueryBase
 
       scope_ids = liked_ids.push(not_liked_scope.pluck(:id)).flatten
 
-      scope_table_name = scope.first.class.table_name
+      scope_table_name = scope.model.table_name
 
       return scope.where(id: scope_ids).order([Arel.sql("field(#{scope_table_name}.id, ?)"), scope_ids])
     end

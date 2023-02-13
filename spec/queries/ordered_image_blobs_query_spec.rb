@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ImageBlobsQuery, type: :model do
+RSpec.describe OrderedImageBlobsQuery, type: :model do
   let!(:images) { create_list(:image, 3, :attached) }
   let!(:files) { ActiveStorage::Attachment.where(record_type: "Image") }
   let!(:blobs) { images[0].files.blobs }
@@ -10,38 +10,38 @@ RSpec.describe ImageBlobsQuery, type: :model do
     let(:order_params) { {} }
 
     before do
-      allow(ImageBlobsQuery).to receive(:set_files).and_return(files)
-      allow(ImageBlobsQuery).to receive(:set_default_scope).and_return(blobs)
-      allow(ImageBlobsQuery).to receive(:preload_variant_record).and_return(blobs)
-      allow(ImageBlobsQuery).to receive(:order_scope)
-      ImageBlobsQuery.send(:call, blobs: blobs, parent_image: images, variant: variant, order_params: order_params)
+      allow(OrderedImageBlobsQuery).to receive(:set_files).and_return(files)
+      allow(OrderedImageBlobsQuery).to receive(:set_default_scope).and_return(blobs)
+      allow(OrderedImageBlobsQuery).to receive(:preload_variant_record).and_return(blobs)
+      allow(OrderedImageBlobsQuery).to receive(:order_scope)
+      OrderedImageBlobsQuery.send(:call, blobs: blobs, parent_image: images, variant: variant, order_params: order_params)
     end
 
     it "引数の値を渡してset_filesメソッドを呼び出す" do
-      expect(ImageBlobsQuery).to have_received(:set_files).once.with(images)
+      expect(OrderedImageBlobsQuery).to have_received(:set_files).once.with(images)
     end
 
     it "引数の値を渡してset_default_scopeメソッドを呼び出す" do
-      expect(ImageBlobsQuery).to have_received(:set_default_scope).once.with(blobs, files)
+      expect(OrderedImageBlobsQuery).to have_received(:set_default_scope).once.with(blobs, files)
     end
 
     it "引数の値を渡してpreload_variant_recordメソッドを呼び出す" do
-      expect(ImageBlobsQuery).to have_received(:preload_variant_record).once.with(blobs, variant)
+      expect(OrderedImageBlobsQuery).to have_received(:preload_variant_record).once.with(blobs, variant)
     end
 
     it "引数の値を渡してorder_scopeメソッドを呼び出す" do
-      expect(ImageBlobsQuery).to have_received(:order_scope).once.with(blobs, order_params)
+      expect(OrderedImageBlobsQuery).to have_received(:order_scope).once.with(blobs, order_params)
     end
   end
 
   describe "#set_files" do
     before do
-      allow(ImageBlobsQuery).to receive(:search_by_parent_image)
-      ImageBlobsQuery.send(:set_files, images)
+      allow(OrderedImageBlobsQuery).to receive(:search_by_parent_image)
+      OrderedImageBlobsQuery.send(:set_files, images)
     end
 
     it "引数の値を渡してsearch_by_parent_imageメソッドを呼び出す" do
-      expect(ImageBlobsQuery).to have_received(:search_by_parent_image).once.with(files, images)
+      expect(OrderedImageBlobsQuery).to have_received(:search_by_parent_image).once.with(files, images)
     end
   end
 
@@ -50,7 +50,7 @@ RSpec.describe ImageBlobsQuery, type: :model do
       let(:parent_image) { nil }
 
       it "空の配列を返す" do
-        expect(ImageBlobsQuery.send(:search_by_parent_image, files, parent_image)).to eq([])
+        expect(OrderedImageBlobsQuery.send(:search_by_parent_image, files, parent_image)).to eq([])
       end
     end
 
@@ -59,7 +59,7 @@ RSpec.describe ImageBlobsQuery, type: :model do
       let(:searched_files) { files.where(record_id: images.pluck(:id)) }
 
       it "parent_imageのレコードと関連するFilesレコード群を返す" do
-        expect(ImageBlobsQuery.send(:search_by_parent_image, files, parent_image)).to eq(searched_files)
+        expect(OrderedImageBlobsQuery.send(:search_by_parent_image, files, parent_image)).to eq(searched_files)
       end
     end
   end
@@ -68,13 +68,13 @@ RSpec.describe ImageBlobsQuery, type: :model do
     let(:scope) { ActiveStorage::Blob.all }
     let(:saerched_scope) { ActiveStorage::Blob.where(id: files.pluck(:blob_id)) }
 
-    subject { ImageBlobsQuery.send(:set_default_scope, scope, files) }
+    subject { OrderedImageBlobsQuery.send(:set_default_scope, scope, files) }
 
-    before { allow(ImageBlobsQuery).to receive(:preload_attachments_and_record).and_return(scope) }
+    before { allow(OrderedImageBlobsQuery).to receive(:preload_attachments_and_record).and_return(scope) }
 
     it "引数の値を渡してpreload_attachments_and_recordメソッドを呼び出す" do
       subject
-      expect(ImageBlobsQuery).to have_received(:preload_attachments_and_record).once.with(scope)
+      expect(OrderedImageBlobsQuery).to have_received(:preload_attachments_and_record).once.with(scope)
     end
 
     it "引数のblob_idカラムの値をidに持つ、Blobレコード群を返す" do
@@ -85,7 +85,7 @@ RSpec.describe ImageBlobsQuery, type: :model do
   describe "#preload_attachments_and_record" do
     let(:scope) { ActiveStorage::Blob.where(id: files.pluck(:blob_id)) }
 
-    subject { ImageBlobsQuery.send(:preload_attachments_and_record, scope) }
+    subject { OrderedImageBlobsQuery.send(:preload_attachments_and_record, scope) }
 
     it "Blobレコード群を返す" do
       expect(subject).to eq(scope)
@@ -100,7 +100,7 @@ RSpec.describe ImageBlobsQuery, type: :model do
   describe "#preload_variant_record" do
     let(:scope) { ActiveStorage::Blob.where(id: files.pluck(:blob_id)) }
 
-    subject { ImageBlobsQuery.send(:preload_variant_record, scope, variant) }
+    subject { OrderedImageBlobsQuery.send(:preload_variant_record, scope, variant) }
 
     context "引数のvariantがtrueのとき" do
       let(:variant) { true }
@@ -134,7 +134,7 @@ RSpec.describe ImageBlobsQuery, type: :model do
     let(:ordered_like_ids) { [images[0].files[0].blob.id, images[1].files[0].blob.id, images[2].files[0].blob.id] }
 
     it "同じblob_idを持つLikeImageレコードの数が多い順に、blob_idの配列を返す" do
-      expect(ImageBlobsQuery.send(:set_ids_in_order_likes)).to eq(ordered_like_ids)
+      expect(OrderedImageBlobsQuery.send(:set_ids_in_order_likes)).to eq(ordered_like_ids)
     end
   end
 end

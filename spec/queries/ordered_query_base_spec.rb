@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe QueryBase, type: :model do
+RSpec.describe OrderedQueryBase, type: :model do
   describe "#call" do
     let(:dummy_records) { create_list(:review, 3) }
     let(:scope) { dummy_records.first.class }
 
-    subject { QueryBase.call(scope: scope, order_params: order_params) }
+    subject { OrderedQueryBase.call(scope: scope, order_params: order_params) }
 
     context "引数のハッシュが空のとき" do
       let(:order_params) { {} }
@@ -42,7 +42,7 @@ RSpec.describe QueryBase, type: :model do
       before do
         FactoryBot.create_list(:like_review, 2, review_id: dummy_records[2].id )
         FactoryBot.create_list(:like_review, 1, review_id: dummy_records[0].id )
-        allow(QueryBase).to receive(:set_ids_in_order_likes).and_return(scope_ids)
+        allow(OrderedQueryBase).to receive(:set_ids_in_order_likes).and_return(scope_ids)
       end
 
       it "引数のレコード群をいいねが多い順にしたActiveRecord::Relationオブジェクトを返す" do

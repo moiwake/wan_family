@@ -1,4 +1,4 @@
-class ReviewsQuery < QueryBase
+class OrderedReviewsQuery < OrderedQueryBase
   class << self
     def call(reviews: Review.all, parent_record: nil, order_params: {})
       scope = set_default_scope(reviews)

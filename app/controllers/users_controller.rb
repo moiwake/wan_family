@@ -11,11 +11,11 @@ class UsersController < ApplicationController
   end
 
   def review_index
-    @reviews = ReviewsQuery.call(parent_record: current_user, order_params: params)
+    @reviews = OrderedReviewsQuery.call(parent_record: current_user, order_params: params)
   end
 
   def image_index
-    @blobs = ImageBlobsQuery.call(parent_image: current_user.images, order_params: params, variant: true)
+    @blobs = OrderedImageBlobsQuery.call(parent_image: current_user.images, order_params: params, variant: true)
   end
 
   # profile

@@ -4,7 +4,7 @@ class ReviewsController < ApplicationController
   before_action :set_like_review, only: [:show]
 
   def index
-    @reviews = ReviewsQuery.call(parent_record: @spot, order_params: params)
+    @reviews = OrderedReviewsQuery.call(parent_record: @spot, order_params: params)
   end
 
   def new
@@ -24,7 +24,7 @@ class ReviewsController < ApplicationController
 
   def show
     @review = Review.find(params[:id])
-    @blobs = ImageBlobsQuery.call(parent_image: @review.image, variant: true)
+    @blobs = OrderedImageBlobsQuery.call(parent_image: @review.image, variant: true)
   end
 
   def edit
