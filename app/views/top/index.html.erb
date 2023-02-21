@@ -1,5 +1,6 @@
 <%= render "shared/flash_messages" %>
 <%= render "top/shared/display_links/#{ who_signed_in? }_display" %>
+<%= link_to "新しいお出かけスポットの登録", new_spot_path, "data-turbolinks": false %>
 
 <h3>お出かけスポットの検索</h3>
 <%= render "top/shared/search_form", q: @q, categories: @categories, allowed_areas: @allowed_areas %>
