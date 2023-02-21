@@ -24,4 +24,6 @@ class Spot < ApplicationRecord
     with:    /\A#{URI::regexp(%w(http https))}\z/,
     message: "URLは「http:」もしくは「https:」から始めてください"
   }, allow_blank: true
+
+  scope :load_category_and_images , -> { eager_load(:category).preload(:images) }
 end

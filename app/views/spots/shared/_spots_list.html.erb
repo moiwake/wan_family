@@ -1,6 +1,5 @@
 <% if spots.present? %>
   <div class="registrated-spots">
-    <h2>登録スポットの一覧</h2>
     <div class="review-sort">
       <%= link_to "新しい順", { column: "created_at", direction: "desc" } %>
       <%= link_to "古い順", { column: "created_at", direction: "asc" } %>
@@ -20,6 +19,7 @@
           <td><%= link_to spot.name, spot_path(spot.id), class: "spot_detail" %></td>
           <td><%= spot.address %></td>
           <td><%= spot.category.name %></td>
+          <td><%= render "shared/display_limited_blobs", parent_image: spot.images %></td>
         </tr>
         <% end %>
       </tbody>

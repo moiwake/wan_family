@@ -3,12 +3,14 @@
 
 <h3>お出かけスポットの検索</h3>
 <%= render "top/shared/search_form", q: @q, categories: @categories, allowed_areas: @allowed_areas %>
-
 <h3>エリア一覧</h3>
 <% @regions.each do |region| %>
   <%= link_to region, controller: "top", action: "word_search", q: {or: { address_cont_any: get_prefecture_name(region) }} %>
 <% end %>
-
 <h3>地図で探す</h3>
 <%= link_to "お出かけスポット一覧", map_search_path, "data-turbolinks": false %>
 
+<h3>お気に入りスポットTOP5</h3>
+<%= render "spots/shared/spots_list", spots: @ranked_spots %>
+<h3>Cuteをたくさんもらった子たちをご紹介</h3>
+<%= render "shared/display_image_link_list", blobs: @ranked_blobs %>

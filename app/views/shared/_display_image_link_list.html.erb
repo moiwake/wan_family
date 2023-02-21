@@ -2,7 +2,7 @@
   <ul>
     <% blobs.each do |blob| %>
       <li>
-        <%= link_to spot_image_path(image_link_params_hash(blob: blob)), remote: true do %>
+        <%= link_to spot_image_path(image_link_params_hash(blob)), remote: true do %>
           <%= image_tag blob.representation(resize_to_limit: [150, 150]), { id: "blob_#{blob.id}", class: "review-image" } %>
         <% end %>
       </li>

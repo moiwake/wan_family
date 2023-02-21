@@ -3,6 +3,8 @@ class TopController < ApplicationController
 
   def index
     @q = Spot.ransack(params[:q])
+    @ranked_spots = SpotsForRankQuery.call.load_category_and_images
+    @ranked_blobs = BlobsForRankQuery.call.preload(attachments: :record)
   end
 
   def map_search
@@ -12,12 +14,12 @@ class TopController < ApplicationController
 
   def word_search
     if params[:q]["and"]
-      @q = Spot.ransack({ combinator: 'and', groupings: set_search_groupings("and") })
+      @q = Spot.ransack({ combinator: "and", groupings: set_search_groupings("and") })
     elsif params[:q]["or"]
-      @q = Spot.ransack({ combinator: 'or', groupings: set_search_groupings("or") })
+      @q = Spot.ransack({ combinator: "or", groupings: set_search_groupings("or") })
     end
 
-    @results = @q.result
+    @results = q.result.load_category_and_images
 
     if @q.present?
       @q = Spot.ransack(params[:q]["and"])
