@@ -15,7 +15,7 @@ class UsersController < ApplicationController
   end
 
   def image_index
-    @blobs = OrderedImageBlobsQuery.call(parent_image: current_user.images, order_params: params, variant: true)
+    @blobs = OrderedImageBlobsQuery.call(parent_record: current_user.images, order_params: params).preload(attachments: :record)
   end
 
   # profile

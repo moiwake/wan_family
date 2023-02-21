@@ -1,7 +1,7 @@
 class ImagesController < ApplicationController
   def index
     @spot = Spot.find(params[:spot_id])
-    @blobs = OrderedImageBlobsQuery.call(parent_image: @spot.images, order_params: params, variant: true)
+    @blobs = OrderedImageBlobsQuery.call(parent_record: @spot.images, order_params: params).preload(attachments: :record)
   end
 
   def show
