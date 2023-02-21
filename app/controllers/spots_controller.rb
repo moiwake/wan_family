@@ -42,7 +42,6 @@ class SpotsController < ApplicationController
 
   def show
     @spot = Spot.find(params[:id])
-    @blobs = OrderedImageBlobsQuery.call(parent_image: @spot.images)
   end
 
   def edit

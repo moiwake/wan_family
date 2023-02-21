@@ -30,7 +30,7 @@
       </tr>
     </tbody>
   </table>
-  <%= render partial: "shared/display_review_images", collection: @blobs, as: :image_data %>
+  <%= render "shared/display_limited_blobs", parent_image: @spot.images %>
   <%= link_to "すべての画像を見る", spot_images_path(@spot) %>
 </div>
 <%= link_to "すべてのレビューを見る", spot_reviews_path(@spot), class: "button light ml-3 mt-3" %><br>

@@ -8,7 +8,7 @@
         <section class="review-list-item">
           <%= render "reviews/shared/review_contents", review: review, i: i %>
           <div class="review-image-thumbnail">
-            <%= render partial: "shared/display_review_images", collection: review.image.files, as: :image_data if review.image.present? %>
+            <%= render "shared/display_limited_blobs", parent_image: review.image %>
           </div>
           <div class="review-reaction-count">
             <p>役立った<%= review.like_reviews.size %></p>
