@@ -1,0 +1,18 @@
+<div id="search-icon-box">
+  <p>スポットを検索する</p>
+  <div id="search-google">
+    <%= link_to 'https://www.google.com/search?q=' + spot.name, target: :_blank do %>
+      <i class="fa-brands fa-google"></i>
+    <% end %>
+  </div>
+  <div id="search-google-map">
+    <%= link_to 'https://www.google.co.jp/maps?q=' + spot.name, target: :_blank do %>
+      <i class="fa-solid fa-map-location-dot"></i>
+    <% end %>
+  </div>
+  <div id="search-instagram">
+    <%= link_to 'https://www.instagram.com/explore/tags/' + spot.name, target: :_blank do %>
+      <i class="fa-brands fa-instagram"></i>
+    <% end %>
+  </div>
+</div>
