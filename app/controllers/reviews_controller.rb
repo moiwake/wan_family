@@ -4,7 +4,7 @@ class ReviewsController < ApplicationController
   before_action :set_like_review, only: [:show]
 
   def index
-    @reviews = OrderedReviewsQuery.call(parent_record: @spot, order_params: params)
+    @reviews = OrderedReviewsQuery.call(parent_record: @spot, order_params: params).load_all_associations
   end
 
   def new
@@ -23,17 +23,17 @@ class ReviewsController < ApplicationController
   end
 
   def show
-    @review = Review.find(params[:id])
-    @blobs = OrderedImageBlobsQuery.call(parent_image: @review.image, variant: true)
+    @review = Review.preload(:image).find(params[:id])
+    @blobs = OrderedImageBlobsQuery.call(parent_record: @review.image).preload(attachments: :record)
   end
 
   def edit
-    @review = Review.find(params[:id])
+    @review = Review.find(params[:id]).decorate
     @review_poster_form = ReviewPosterForm.new(review: @review)
   end
 
   def update
-    @review = Review.load_variant_image.find(params[:id])
+    @review = Review.load_active_storage_associations.find(params[:id])
     @review_poster_form = ReviewPosterForm.new(attributes: form_params, review: @review)
 
     if @review_poster_form.save && delete_image_file
@@ -45,7 +45,7 @@ class ReviewsController < ApplicationController
   end
 
   def destroy
-    @review = Review.load_variant_image.find(params[:id])
+    @review = Review.load_active_storage_associations.find(params[:id])
     @review.destroy
     flash[:notice] = "#{@spot.name}のレビュー「#{@review.title}」を削除しました。"
     redirect_to users_review_index_path

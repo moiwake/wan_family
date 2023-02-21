@@ -11,5 +11,6 @@ class Review < ApplicationRecord
     validates :human_score
   end
 
-  scope :load_variant_image, -> { eager_load(:image).preload(image: { files_attachments: { blob: :variant_records } }) }
+  scope :load_all_associations, -> { eager_load(:user, :spot, image: :files_attachments).distinct.preload(:like_reviews) }
+  scope :load_active_storage_associations, -> { preload(image: { files_attachments: { blob: :variant_records } }) }
 end
