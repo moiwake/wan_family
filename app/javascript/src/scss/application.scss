@@ -1,0 +1,30 @@
+body {
+  min-height: 100vh;
+  color: #333;
+  line-height: 1.4;
+  letter-spacing: .01em;
+  font-family: 'Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
+}
+
+// ヘッダー
+.header-search {
+  width: 270px;
+}
+
+.header-search-form {
+  width: 100%;
+}
+
+.logo {
+  margin: 0 auto;
+  padding-left: 0;
+}
+
+.logo a {
+  display: block;
+}
+
+// ボディ
+.hero-body {
+  padding: 0;
+}
