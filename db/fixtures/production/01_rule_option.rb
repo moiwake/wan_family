@@ -9,6 +9,6 @@ rule_options = {
 
 OptionTitle.pluck(:id).each do |id|
   rule_options[id.to_s].each do |opt|
-    OptionTitle.find(id).rule_option.find_or_create_by(id: RuleOption.count + 1, name: opt)
+    OptionTitle.find(id).rule_options.find_or_create_by(id: RuleOption.count + 1, name: opt)
   end
 end

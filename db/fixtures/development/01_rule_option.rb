@@ -7,8 +7,12 @@ rule_options = {
   "5" => ["無駄吠え・トイレなどのしつけがされている", "マーキング癖がない"],
 }
 
-OptionTitle.pluck(:id).each do |id|
-  rule_options[id.to_s].each do |opt|
-    OptionTitle.find(id).rule_option.find_or_create_by(id: RuleOption.count + 1, name: opt)
+OptionTitle.pluck(:id).each do |title_id|
+  rule_options[title_id.to_s].each do |opt|
+    RuleOption.seed do |s|
+      s.id = RuleOption.count + 1
+      s.option_title_id = title_id
+      s.name = opt
+    end
   end
 end
