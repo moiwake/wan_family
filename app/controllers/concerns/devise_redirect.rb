@@ -5,7 +5,7 @@ module DeviseRedirect
     if resource_or_scope.is_a?(Admin)
       rails_admin_path
     else
-      root_path
+      stored_location_for(resource_or_scope) || super
     end
   end
 
