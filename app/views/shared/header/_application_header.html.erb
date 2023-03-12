@@ -1,0 +1,51 @@
+<div class="hero-head">
+  <header class="navbar">
+    <div class="container">
+      <div class="navbar-brand">
+        <div class="header-search navbar-item">
+          <%= search_form_for q, url: word_search_path, class: "header-search-form control has-icons-left" do |sf| %>
+            <%= sf.fields_for :and, q do |f| %>
+              <%= f.search_field :name_or_address_cont, placeholder: "施設の名前・住所で検索", class: "input-area input" %>
+              <div class="search-column block modal">
+                <div class="modal-background"></div>
+                <div class="modal-card">
+                  <header class="modal-card-head">
+                    <p class="modal-card-title">絞って検索</p>
+                    <div class="delete" aria-label="close"></div>
+                  </header>
+                  <section class="modal-card-body">
+                    <%= render "shared/filter_search", categories: categories, allowed_areas: allowed_areas, prefecture_hash: prefecture_hash, f: f %>
+                  </section>
+                  <footer class="modal-card-foot">
+                    <%= sf.submit "検索", class: "button" %>
+                  </footer>
+                </div>
+              </div>
+            <% end %>
+            <%= sf.submit "検索", class: "button" %>
+            <div class="filter-btn js-modal-trigger" data-target="modal-js-example">
+              <i class="fa-solid fa-sliders"></i>
+            </div>
+            <span class="icon is-small is-left">
+              <i class="fas fa-search"></i>
+            </span>
+          <% end %>
+        </div>
+        <h1 class="logo navbar-item">
+          <%= link_to "Wan Family", root_path, title: "WanFamily[ワン・ファミリー] -ワンちゃん・ペットとのお出かけメディア-", "data-turbolinks": false %>
+        </h1>
+        <span class="navbar-burger burger" data-target="navbarMenuHeroC">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </div>
+      <div id="navbarMenuHeroC" class="navbar-menu">
+        <div class="navbar-end">
+          <%= render "shared/header/navbar_links/#{ who_signed_in? }_links", class_name: "navbar-item" %>
+          <%= link_to "スポットを登録する", new_spot_path, "data-turbolinks": false, class: "navbar-item" %>
+        </div>
+      </div>
+    </div>
+  </header>
+</div>
