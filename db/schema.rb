@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_02_134549) do
+ActiveRecord::Schema.define(version: 2023_03_07_101047) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -112,6 +112,17 @@ ActiveRecord::Schema.define(version: 2023_02_02_134549) do
     t.index ["name"], name: "index_option_titles_on_name", unique: true
   end
 
+  create_table "prefectures", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "name_roma", null: false
+    t.string "region", null: false
+    t.string "region_roma", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "unique_names", unique: true
+    t.index ["name_roma"], name: "unique_name_romas", unique: true
+  end
+
   create_table "reviews", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "spot_id", null: false
@@ -176,11 +187,13 @@ ActiveRecord::Schema.define(version: 2023_02_02_134549) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "allowed_area_id", null: false
     t.bigint "category_id", null: false
+    t.bigint "prefecture_id", null: false
     t.index ["address"], name: "index_spots_on_address", unique: true
     t.index ["allowed_area_id"], name: "index_spots_on_allowed_area_id"
     t.index ["category_id"], name: "index_spots_on_category_id"
     t.index ["latitude", "longitude"], name: "index_spots_on_latitude_and_longitude", unique: true
     t.index ["name"], name: "index_spots_on_name", unique: true
+    t.index ["prefecture_id"], name: "index_spots_on_prefecture_id"
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -220,4 +233,5 @@ ActiveRecord::Schema.define(version: 2023_02_02_134549) do
   add_foreign_key "spot_tags", "users"
   add_foreign_key "spots", "allowed_areas"
   add_foreign_key "spots", "categories"
+  add_foreign_key "spots", "prefectures"
 end
