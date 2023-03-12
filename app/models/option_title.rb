@@ -1,5 +1,5 @@
 class OptionTitle < ApplicationRecord
-  has_many :rule_options, dependent: :destroy
+  has_many :rule_options
 
   validates :name, presence: true, uniqueness: true
 

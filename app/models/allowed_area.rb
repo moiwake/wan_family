@@ -1,5 +1,5 @@
 class AllowedArea < ApplicationRecord
-  has_many :spots, dependent: :destroy
+  has_many :spots
 
   validates :area, presence: true, uniqueness: true
 

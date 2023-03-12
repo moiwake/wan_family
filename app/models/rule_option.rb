@@ -1,5 +1,5 @@
 class RuleOption < ApplicationRecord
-  has_one :rule, dependent: :destroy
+  has_one :rule
   belongs_to :option_title
 
   with_options presence: true do
