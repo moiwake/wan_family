@@ -32,7 +32,7 @@
           <% end %>
         </div>
         <h1 class="logo navbar-item">
-          <%= link_to "Wan Family", root_path, title: "WanFamily[ワン・ファミリー] -ワンちゃん・ペットとのお出かけメディア-", "data-turbolinks": false %>
+          <%= link_to "Wan Family", root_path, title: "WanFamily[ワン・ファミリー] -ワンちゃん・ペットとのお出かけメディア-" %>
         </h1>
         <span class="navbar-burger burger" data-target="navbarMenuHeroC">
           <span></span>
@@ -43,7 +43,7 @@
       <div id="navbarMenuHeroC" class="navbar-menu">
         <div class="navbar-end">
           <%= render "shared/header/navbar_links/#{ who_signed_in? }_links", class_name: "navbar-item" %>
-          <%= link_to "スポットを登録する", new_spot_path, "data-turbolinks": false, class: "navbar-item" %>
+          <%= link_to "スポットを登録する", new_spot_path, class: "navbar-item" %>
         </div>
       </div>
     </div>
