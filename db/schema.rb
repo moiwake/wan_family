@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_07_101047) do
+ActiveRecord::Schema.define(version: 2023_03_14_054251) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -115,12 +115,21 @@ ActiveRecord::Schema.define(version: 2023_03_07_101047) do
   create_table "prefectures", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "name_roma", null: false
-    t.string "region", null: false
-    t.string "region_roma", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "region_id", null: false
     t.index ["name"], name: "unique_names", unique: true
     t.index ["name_roma"], name: "unique_name_romas", unique: true
+    t.index ["region_id"], name: "index_prefectures_on_region_id"
+  end
+
+  create_table "regions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "name_roma", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_regions_on_name", unique: true
+    t.index ["name_roma"], name: "index_regions_on_name_roma", unique: true
   end
 
   create_table "reviews", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -222,6 +231,7 @@ ActiveRecord::Schema.define(version: 2023_03_07_101047) do
   add_foreign_key "like_images", "users"
   add_foreign_key "like_reviews", "reviews"
   add_foreign_key "like_reviews", "users"
+  add_foreign_key "prefectures", "regions"
   add_foreign_key "reviews", "spots"
   add_foreign_key "reviews", "users"
   add_foreign_key "rule_options", "option_titles"
