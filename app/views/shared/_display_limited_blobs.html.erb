@@ -1,5 +1,0 @@
-<div>
-  <% LimitedBlobsPresenter.call(parent_image: parent_image).each do |blob| %>
-    <%= image_tag blob.representation(resize_to_limit: [150, 150]) %>
-  <% end %>
-</div>

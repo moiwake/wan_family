@@ -1,0 +1,14 @@
+<div class="top-hero-header">
+  <h2 class="top-header-title title is-4">注目のスポット</h2>
+  <div class="top-large-contents-wrap">
+    <%= render "top/shared/top_header_images", spots: spots.limit(3), width: 700, height: 700, add_number: 1 %>
+  </div>
+  <div class="top-small-contents-wrap">
+    <div class="upper-small-contents-wrap">
+      <%= render "top/shared/top_header_images", spots: spots.offset(3).limit(3), width: 300, height: 300, add_number: 4 %>
+    </div>
+    <div class="lower-small-contents-wrap">
+      <%= render "top/shared/top_header_images", spots: spots.offset(6).limit(4), width: 300, height: 300, add_number: 7 %>
+    </div>
+  </div>
+</div>

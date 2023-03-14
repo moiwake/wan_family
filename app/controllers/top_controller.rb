@@ -1,15 +1,14 @@
 class TopController < ApplicationController
-  before_action :set_categories, :set_allowed_areas, :set_regions, :set_prefecture_hash, only: [:index, :word_search]
-
   def index
     @q = Spot.ransack(params[:q])
-    @ranked_spots = SpotsForRankQuery.call.load_category_and_images
-    @ranked_blobs = BlobsForRankQuery.call.preload(attachments: :record)
+    @ranked_spots = Spots::RankedQuery.call.eager_load(:category, :prefecture).preload(:images)
+    @weekly_ranked_spots = Spots::WeeklyRankedQuery.call.preload(:images)
+    @weekly_ranked_blobs = Blobs::WeeklyRankedQuery.call.preload(attachments: :record)
   end
 
   def map_search
     @spots = Spot.eager_load(:category)
-    @regions = Prefecture.pluck(:region, :region_roma).uniq
+    @region_names = @region.pluck(:name)
   end
 
   def word_search
@@ -19,7 +18,7 @@ class TopController < ApplicationController
       @q = Spot.ransack({ combinator: "or", groupings: set_search_groupings("or") })
     end
 
-    @results = q.result.load_category_and_images
+    @results = @q.result(distinct: true).eager_load(:category).preload(:images)
 
     if @q.present?
       @q = Spot.ransack(params[:q]["and"])
@@ -42,24 +41,6 @@ class TopController < ApplicationController
     end
 
     return @search_groupings = grouping_ary.uniq
-  end
-
-  def set_categories
-    @categories = Category.order_default
-  end
-
-  def set_allowed_areas
-    @allowed_areas = AllowedArea.order_default
-  end
-
-  def set_regions
-    @regions = Prefecture.pluck(:region).uniq
-  end
-
-  def set_prefecture_hash
-    @prefecture_hash = @regions.reduce({}) do |hash, region|
-      hash.merge({ region => Prefecture.find_prefecture_name(region) })
-    end
   end
 end
 

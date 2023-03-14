@@ -1,20 +1,17 @@
-<%= search_form_for q, url: word_search_path do |sf| %>
-  <%= sf.fields_for :and, q do |f| %>
-    <%= f.label :name_or_address_cont, "施設の名前・住所で探す" %>
-    <br>
-    <%= f.search_field :name_or_address_cont %>
-    <br>
-    <%= f.label :category_id_matches_any, "カテゴリーで絞る" %>
-    <%= f.collection_check_boxes :category_id_matches_any, categories, :id, :name, { id: :search_spot_category } %>
-    <br>
-    <%= f.label :allowed_area_id_matches_any, "同伴が可能なエリアで絞る" %>
-    <%= f.collection_check_boxes :allowed_area_id_matches_any, allowed_areas, :id, :area, { id: :search_allowed_area } %>
-    <br>
-    <% if @prefecture_hash.present? %>
-      <%= f.label  :address_cont, "都道府県で絞る" %>
-      <%= f.select  :address_cont, @prefecture_hash, include_blank: "選択してください" %>
+<section class="top-search-form-wrap box">
+  <h2 class="title is-4">スポットの検索</h2>
+  <%= search_form_for q, url: word_search_path, class: "control has-icons-left" do |sf| %>
+    <%= sf.fields_for :and, q do |f| %>
+      <div class="main-search-wrap block">
+        <%= f.search_field :name_or_address_cont, class: "input-bar input", placeholder: "お出かけスポットを施設の名前・住所で探す" %>
+        <span class="main-input-bar-icon icon is-small is-left">
+          <i class="fas fa-search"></i>
+        </span>
+        <%= sf.submit "検索", class: "search_btn button" %>
+      </div>
+      <div class="search-filter-wrap block">
+        <%= render "shared/search_filter", categories: categories, allowed_areas: allowed_areas, prefecture_hash: prefecture_hash, f: f %>
+      </div>
     <% end %>
   <% end %>
-  <br>
-  <%= sf.submit "検索" %>
-<% end %>
+</section>

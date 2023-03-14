@@ -1,0 +1,144 @@
+.main-title {
+  margin-top: 3rem;
+}
+
+// みんなのお気に入り
+.popular-spot-list-wrap {
+  overflow-y: auto;
+  overflow-x: scroll;
+}
+
+.popular-spot-list-wrap .main-title {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.popular-spot-list-wrap ul {
+  display: flex;
+  width: max-content;
+}
+
+.popular-spot-list-item {
+  width: 150px;
+  margin-right: 2rem;
+  margin-bottom: 1rem;
+} @media screen and (max-width: 600px) {
+  .popular-spot-list-item {
+    width: 130px;
+  }
+}
+
+.popular-spot-list-item img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+} @media screen and (max-width: 600px) {
+  .popular-spot-list-item img {
+    height: 130px;
+  }
+}
+
+.popular-spot-name {
+  width: 100%;
+  margin-bottom: 0.5rem !important;
+}
+
+// エリアから選ぶ
+.area-search-wrap ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.region-card {
+  margin-right: 1.5rem;
+  margin-bottom: 1.5rem;
+  width: 250px;
+  height: 70px;
+}
+
+.region-card a {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.region-card img {
+  width: 80px;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 3px 0 0 3px;
+}
+
+.region-name {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+// マップで探す
+.map-links-wrap {
+  height: -webkit-fill-available;
+}
+
+.map-links-box {
+  position: relative;
+  width: 100%;
+}
+
+.map-links-box ul {
+  width: 100%;
+  padding: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.map-link-btn {
+  width: 5rem;
+  margin: 5px;
+  z-index: 10;
+}
+
+.map-links-box-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  object-fit: cover;
+  height: -webkit-fill-available;
+  width: 100%;
+}
+
+// Cute!の多い画像紹介
+.cute-image-list-wrap ul {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: beige;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.image-link-list-item {
+  padding: 0px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 20%;
+} @media screen and (max-width: 600px) {
+  .image-link-list-item {
+    width: 50%;
+  }
+}
+
+.image-link-list-item a {
+  width: 100%;
+  display: contents;
+}
+
+.image-link-list-item img {
+  width: 100%;
+  object-fit: cover;
+}

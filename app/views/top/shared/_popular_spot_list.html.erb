@@ -1,0 +1,19 @@
+<section class="popular-spot-list-wrap">
+  <h2 class="main-title title is-4"><span>みんなの</span>お気に入り</h2>
+  <ul>
+    <% ranked_spots.each do |spot| %>
+      <li class="popular-spot-list-item">
+        <%= link_to spot_path(spot.id) do %>
+          <%= render "shared/display_images/limited_blobs", parent_record: spot.images, limit: 1, width: 250, height:250 %>
+          <div class="popular-spot-name title is-6"><%= spot.name %></div>
+          <div class="breadcrumb is-small" aria-label="breadcrumbs">
+            <ul>
+              <li><%= spot.prefecture.name %></li>
+              <li><%= spot.category.name %></li>
+            </ul>
+          </div>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</section>

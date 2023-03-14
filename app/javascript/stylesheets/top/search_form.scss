@@ -1,0 +1,42 @@
+.top-search-form-wrap {
+  background-color: #fcfcf3;
+}
+
+.main-search-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 600px) {
+  .top-search-form-wrap .title {
+    font-size: 22px;
+  }
+}
+
+.main-search-wrap .input-bar {
+  max-width: 50vw;
+  margin-bottom: 5px;
+}
+
+.search_btn {
+  color: #767676;
+  margin-bottom: 5px;
+  background-color: #efefd7;
+}
+
+.options-wrap input {
+  display: none;
+}
+
+.options-wrap label {
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.options-wrap label:hover {
+  border-color: beige;
+}
+
+.js-colored-option-btn {
+  background-color: beige;
+}

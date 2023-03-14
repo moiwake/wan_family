@@ -19,12 +19,12 @@ class ApplicationController < ActionController::Base
   end
 
   def set_regions
-    @regions = Prefecture.pluck(:region).uniq
+    @regions = Region.all.preload(prefectures: :spots)
   end
 
   def set_prefecture_hash
     @prefecture_hash = @regions.reduce({}) do |hash, region|
-      hash.merge({ region => Prefecture.where(region: region).pluck(:name) })
+      hash.merge({ region => region.prefectures.pluck(:name) })
     end
   end
 

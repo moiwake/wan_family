@@ -1,0 +1,13 @@
+<section class="area-search-wrap">
+  <h2 class="main-title title is-4">エリア<span>から探す</span></h2>
+  <ul>
+    <% regions.each_with_index do |region, i| %>
+      <li class="region-card card">
+        <%= link_to word_search_path(q: { or: { prefecture_id_matches_any: region.prefectures.ids } }) do %>
+            <%= image_tag "region/#{i}.jpg" %>
+            <p class="region-name"><%= region.name %><span>（<%= region.decorate.spot_total %>件）</span></p>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</section>

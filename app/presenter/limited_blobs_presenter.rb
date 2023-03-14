@@ -1,30 +1,24 @@
 class LimitedBlobsPresenter
-  attr_reader :blobs, :parent_image, :limit
+  attr_reader :blobs, :parent_record, :limit
 
-  MAX_DISPLAY_NUMBER = 5.freeze
-
-  def initialize(parent_image:, limit:)
-    @parent_image = parent_image
+  def initialize(blobs:, parent_record:, limit:)
+    @blobs = blobs
+    @parent_record = parent_record
     @limit = limit
   end
 
-  def self.call(parent_image: nil, limit: MAX_DISPLAY_NUMBER)
-    @blobs = new(parent_image: parent_image, limit: limit).set_limited_blobs
+  def self.call(blobs: nil, parent_record:, limit: nil)
+    @blobs = new(blobs: blobs, parent_record: parent_record, limit: limit).limit_blobs
     return @blobs
   end
 
-  def set_limited_blobs
-    @blobs = set_ordered_blobs
-    @blobs = limit_blobs
+  def limit_blobs
+    set_blobs.limit(limit)
   end
 
   private
 
-  def set_ordered_blobs
-    OrderedImageBlobsQuery.call(parent_record: parent_image)
-  end
-
-  def limit_blobs
-    blobs.limit(limit)
+  def set_blobs
+    @blobs = Blobs::RankedQuery.call(parent_record: parent_record)
   end
 end

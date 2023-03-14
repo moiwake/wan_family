@@ -1,0 +1,143 @@
+.top-hero-header {
+  min-width: min-content;
+  line-height: 0;
+  width: 100%;
+  padding: 0 10px;
+}
+
+.top-header-title {
+  margin-top: 5rem;
+  margin-bottom: 0.5rem !important;
+}
+
+.top-large-contents-wrap {
+  display: flex;
+}
+
+@media screen and (min-width: 600px) {
+  .top-small-contents-wrap {
+    display: flex;
+  }
+}
+
+.upper-small-contents-wrap, .lower-small-contents-wrap {
+  display: flex;
+}
+
+.top-content {
+  padding: 0px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  min-width: 75px;
+  min-height: 75px;
+}
+
+.top-large-contents-wrap .top-content {
+  height: 40vw;
+  max-height: 300px;
+}
+
+.top-small-contents-wrap .top-content {
+  height: 20vw;
+  max-height: 200px;
+}
+
+.top-content a {
+  width: 100%;
+}
+
+.top-content img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.top-large-contents-wrap .top-spot-name-wrap {
+  font-size: 18px;
+}
+
+.top-spot-name-wrap {
+  width: 100%;
+  max-height: 50%;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  background: -webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,0)),to(rgba(0,0,0,.6)));
+  padding-bottom: 15px;
+}
+
+.top-spot-name {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  padding: 0 5px;
+  color: rgb(255, 255, 255);
+}
+
+@media screen and (max-width: 600px) {
+  .top-small-contents-wrap .top-spot-name {
+    -webkit-line-clamp: 1;
+  }
+}
+
+.ribbon {
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: 5px;
+  box-sizing: border-box;
+  margin: 0;
+  line-height: 30px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  background: #70c7ff;
+  color: white;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.12);
+  border-radius: 0 5px 5px 0;
+}
+
+.top-large-contents-wrap .ribbon {
+  padding: 0 10px;
+  height: 27px;
+  font-size: 17px;
+}
+
+.top-small-contents-wrap .ribbon {
+  padding: 0 8px;
+  height: 25px;
+  font-size: 13px;
+}
+
+.ribbon::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: -7px;
+  border: none;
+  width: 7px;
+  border-radius: 5px 0 0 5px;
+  background: #70c7ff;
+}
+
+.top-large-contents-wrap .ribbon::before {
+  height: 36px;
+}
+
+.top-small-contents-wrap .ribbon::before {
+  height: 34px;
+}
+
+.ribbon::after {
+  position: absolute;
+  content: '';
+  bottom: -7px;
+  left: -5px;
+  border: none;
+  height: 7px;
+  width: 5px;
+  border-radius: 5px 0 0 5px;
+  background: #4d99ca;
+}

@@ -1,0 +1,11 @@
+<section class="map-links-wrap">
+  <h2 class="main-title title is-4">マップで探す</h2>
+  <div class="map-links-box">
+    <ul>
+      <% @regions.each do |region| %>
+        <li class="map-link-btn button"><%= link_to region.name, map_search_path(region: region.name) %></li>
+      <% end %>
+    </ul>
+    <%= image_tag "map.jpg", class: "map-links-box-background" %>
+  </div>
+</section>

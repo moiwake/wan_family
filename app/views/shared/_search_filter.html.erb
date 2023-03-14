@@ -1,13 +1,13 @@
 <div class="checkbox block">
   <%= f.label :category_id_matches_any, "カテゴリー", class: "label" %>
-  <div class="options-wrap">
-    <%= f.collection_check_boxes :category_id_matches_any, categories, :id, :name, { id: :search_spot_category } %>
+  <div class="options-wrap js-target-wrap-options">
+    <%= f.collection_check_boxes :category_id_matches_any, categories, :id, :name, { id: "search_spot_category" } %>
   </div>
 </div>
 <div class="checkbox block">
   <%= f.label :allowed_area_id_matches_any, "同伴が可能なエリア", class: "label" %>
-  <div class="options-wrap">
-    <%= f.collection_check_boxes :allowed_area_id_matches_any, allowed_areas, :id, :area, { id: :search_allowed_area } %>
+  <div class="options-wrap js-target-wrap-options">
+    <%= f.collection_check_boxes :allowed_area_id_matches_any, allowed_areas, :id, :area, { id: "search_allowed_area" } %>
   </div>
 </div>
 <div class="select-box block">
