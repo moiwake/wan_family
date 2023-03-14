@@ -1,0 +1,30 @@
+<div class="header-search-wrap navbar-item js-header-search-hidden js-target-header-search">
+  <%= search_form_for q, url: word_search_path, class: "header-search-form control has-icons-left" do |sf| %>
+    <%= sf.fields_for :and, q do |f| %>
+      <%= f.search_field :name_or_address_cont, placeholder: "施設の名前・住所で検索", class: "input-bar input" %>
+      <div class="search-filter-wrap js-target-search-filter modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">絞って検索</p>
+            <div class="search-filter-close-btn js-trigger-search-filter-close-btn delete" aria-label="close"></div>
+          </header>
+          <section class="modal-card-body">
+            <%= render "shared/search_filter", categories: categories, allowed_areas: allowed_areas, prefecture_hash: prefecture_hash, f: f %>
+          </section>
+          <footer class="modal-card-foot">
+            <%= sf.submit "検索", class: "button" %>
+          </footer>
+        </div>
+      </div>
+    <% end %>
+    <%= sf.submit "検索", class: "header-search-btn button" %>
+    <span class="input-bar-icon icon is-small is-left">
+      <i class="fas fa-search"></i>
+    </span>
+    <div class="search-filter-open-btn js-trigger-search-filter-open-btn">
+      <i class="fa-solid fa-sliders"></i>
+    </div>
+  <% end %>
+  <div class="delete search-form-close-btn js-trigger-search-form-close-btn" aria-label="close"></div>
+</div>

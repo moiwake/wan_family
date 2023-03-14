@@ -1,0 +1,126 @@
+html {
+  overflow: auto;
+}
+
+// ヘッダー
+.navbar {
+  background-color: beige;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 999;
+}
+
+.navbar-brand {
+  align-items: center;
+}
+
+// ヘッダー検索バー
+.header-search-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} @media screen and (max-width: 600px) {
+  .header-search-wrap {
+    position: absolute;
+    top: 52px;
+    background-color: #fffff6;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .js-header-search-hidden {
+    display: none !important;
+  }
+}
+
+.header-search-form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.header-search-form .input-bar {
+  width: 245px;
+} @media screen and (max-width: 600px) {
+  .header-search-form .input-bar {
+    width: 100%;
+  }
+}
+
+.header-search-btn {
+  color: #767676;
+  background-color: #efefd7;
+}
+
+.search-form-open-btn {
+  color: #a5a59f;
+  position: absolute;
+  right: 60px;
+} @media screen and (min-width: 600px) {
+  .search-form-open-btn {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .search-form-close-btn {
+    display: none;
+  }
+}
+
+.header-search-wrap .control .icon {
+  top: auto;
+} @media screen and (max-width: 600px) {
+  .header-search-wrap .control .icon {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .header-search-wrap .control.has-icons-left .input {
+    padding-left: 10px;
+  }
+}
+
+.search-filter-open-btn {
+  padding: 10px;
+}
+
+.js-search-filter-open {
+  display: inherit;
+}
+
+// ヘッダーロゴ
+.navbar-logo {
+  font-weight: 600;
+  font-family: monospace;
+  font-size: larger;
+}
+
+// ボディ
+body {
+  min-height: 100vh;
+  color: #333;
+  line-height: 1.4;
+  letter-spacing: .01em;
+  font-family: 'Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
+}
+
+a {
+  color: grey;
+}
+
+.hero-body {
+  padding: 0;
+}
+
+.contents-wrap {
+  margin-top: 60px;
+}
+
+.main-contents-wrap {
+  padding: 3rem 3rem;
+  width: 100%;
+}

@@ -1,24 +1,41 @@
 window.onload = function() {
+  displaySearch();
   displayFilter();
   displayMenu();
 }
 
-function displayFilter() {
-  let filterBtn = document.getElementsByClassName("filter-btn")[0];
-  let modal = document.getElementsByClassName("modal")[0];
+function displaySearch() {
+  let headerSearch = document.getElementsByClassName("js-target-header-search")[0];
+  let searchFormOpenBtn = document.getElementsByClassName("js-trigger-search-form-open-btn")[0];
 
-  filterBtn.addEventListener("click", function () {
-    modal.classList.add("open");
+  searchFormOpenBtn.addEventListener("click", function () {
+    headerSearch.classList.remove("js-header-search-hidden");
   });
 
-  let deleteBtn = document.getElementsByClassName("delete")[0];
-  deleteBtn.addEventListener("click", function () {
-    modal.classList.remove("open");
+  let searchFormCloseBtn = headerSearch.getElementsByClassName("js-trigger-search-form-close-btn")[0];
+
+  searchFormCloseBtn.addEventListener("click", function () {
+    headerSearch.classList.add("js-header-search-hidden");
+  });
+}
+
+function displayFilter() {
+  let filterSearchModal = document.getElementsByClassName("js-target-search-filter")[0];
+  let filterOpenBtn = document.getElementsByClassName("js-trigger-search-filter-open-btn")[0];
+
+  filterOpenBtn.addEventListener("click", function () {
+    filterSearchModal.classList.add("js-search-filter-open");
+  });
+
+  let filterCloseBtn = document.getElementsByClassName("js-trigger-search-filter-close-btn")[0];
+
+  filterCloseBtn.addEventListener("click", function () {
+    filterSearchModal.classList.remove("js-search-filter-open");
   });
 }
 
 function displayMenu() {
-  let burger = document.getElementsByClassName("burger")[0];
+  let burger = document.getElementsByClassName("js-trigger-burger")[0];
   let menu = document.getElementById(burger.dataset.target);
 
   burger.addEventListener("click", function () {
