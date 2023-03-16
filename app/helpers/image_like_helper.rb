@@ -1,13 +1,13 @@
-module LikeImageHelper
+module ImageLikeHelper
   def image_posted_by_another?(blob)
-    get_parent_image(blob).user_id != current_user.id
+    blob.attachments[0].record.user_id != current_user.id
   end
 
-  def image_liked?(blob)
-    current_user.present? && current_user.like_images.exists?(blob_id: blob.id)
+  def image_liked?(image_like)
+    image_like && image_like.persisted?
   end
 
-  def get_image_likes_count(blob)
-    LikeImage.where(blob_id: blob.id).size
+  def count_image_like(blob)
+    ImageLike.where(blob_id: blob.id).size
   end
 end

@@ -1,0 +1,10 @@
+<ul>
+  <div class="enlarged-image-display js-enlarged-image-display"></div>
+  <% blobs.each do |blob| %>
+    <li class="image-link-list-item js-image-link-list-item">
+      <%= link_to spot_image_path(get_spot_id(blob), get_image_id(blob), blob_id: blob.id), remote: true do %>
+        <%= image_tag blob.representation(resize_to_limit: [width, height], gravity: "center", crop: "400x400+0+0"), { id: "blob_#{blob.id}" } %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

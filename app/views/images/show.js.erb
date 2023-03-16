@@ -1,46 +1,55 @@
-var imageList = document.getElementById("image-list");
+var imageDisplay = document.getElementsByClassName("js-enlarged-image-display")[0];
 
-imageList.insertAdjacentHTML('beforebegin',
-  '<%= j(render "images/shared/display_enlarged_image",
+imageDisplay.insertAdjacentHTML('afterbegin',
+  '<%= j(render "images/shared/enlarged_image",
     blob: @blob,
-    like_image: @like_image
+    image_like: @image_like
   )%>'
 );
 
-var imageOverlay = document.getElementById("image-overlay");
-var enlargerImage = document.getElementById("enlarged-image");
-var displayedImage = document.getElementById("blob_" + enlargerImage.dataset.blobId);
+var imageModal = document.getElementsByClassName("js-enlarged-image-modal")[0];
 
-var iClose = document.getElementsByClassName("fa-solid fa-xmark")[0];
-var iPrev = document.getElementsByClassName("fa-solid fa-chevron-left")[0];
-var iNext = document.getElementsByClassName("fa-solid fa-chevron-right")[0];
+var image = document.getElementById("js-enlarged-image");
+var targetListItem = document.getElementById("blob_" + image.dataset.blobId).closest("li");
 
-var listItems = imageList.querySelectorAll("li");
-var firstBlob = listItems[0].querySelector("img");
-var lastBlob = listItems[listItems.length - 1].querySelector("img");
+var prevBtn = document.getElementsByClassName("js-prev-icon")[0];
+var nextBtn = document.getElementsByClassName("js-next-icon")[0];
 
-iClose.addEventListener("click", closeImage);
+var listItems = document.getElementsByClassName("js-image-link-list-item");
+var firstImage = listItems[0].querySelector("img");
+var lastImage = listItems[listItems.length - 1].querySelector("img");
 
-if (`blob_${enlargerImage.dataset.blobId}` !== firstBlob.id) {
-  var prevImage = displayedImage.closest("li").previousElementSibling;
+if (`blob_${image.dataset.blobId}` !== firstImage.id) {
+  setPrevPath();
+  prevBtn.addEventListener("click", closeImage);
+} else {
+  prevBtn.remove();
+}
+
+if (`blob_${image.dataset.blobId}` !== lastImage.id) {
+  setNextPath();
+  nextBtn.addEventListener("click", closeImage);
+} else {
+  nextBtn.remove();
+}
+
+function setPrevPath () {
+  var prevImage = targetListItem.previousElementSibling;
   var prevImagePath = prevImage.querySelector("a").href;
-  iPrev.parentElement.href = prevImagePath;
 
-  iPrev.addEventListener("click", closeImage);
-} else {
-  iPrev.remove();
+  prevBtn.parentElement.href = prevImagePath;
 }
 
-if (`blob_${enlargerImage.dataset.blobId}` !== lastBlob.id) {
-  var nextImage = displayedImage.closest("li").nextElementSibling;
+function setNextPath () {
+  var nextImage = targetListItem.nextElementSibling;
   var nextImagePath = nextImage.querySelector("a").href;
-  iNext.parentElement.href = nextImagePath;
 
-  iNext.addEventListener("click", closeImage);
-} else {
-  iNext.remove();
+  nextBtn.parentElement.href = nextImagePath;
 }
+
+var imageDeleteBtn = document.getElementsByClassName("js-enlarged-image-close-btn")[0];
+imageDeleteBtn.addEventListener("click", closeImage);
 
 function closeImage () {
-  imageOverlay.remove();
+  imageModal.remove();
 }

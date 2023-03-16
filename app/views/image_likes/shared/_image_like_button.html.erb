@@ -1,0 +1,18 @@
+<% if image_liked?(image_like) %>
+  <%= link_to spot_image_image_like_path(
+      get_spot_id(blob),
+      get_image_id(blob),
+      image_like,
+      blob_id: blob.id
+    ), method: :delete, remote: true do %>
+    <i class="fa-solid fa-heart remove-like-image-btn"></i>
+  <% end %>
+<% else %>
+  <%= link_to spot_image_image_likes_path(
+      get_spot_id(blob),
+      get_image_id(blob),
+      blob_id: blob.id
+    ), method: :post, remote: true do %>
+    <i class="fa-regular fa-heart added-like-image-btn"></i>
+  <% end %>
+<% end %>

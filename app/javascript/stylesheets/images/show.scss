@@ -1,0 +1,47 @@
+// 拡大画像
+.enlarged-image-display {
+  display: flex;
+}
+
+.enlarged-image-display .open {
+  display: inherit;
+}
+
+.enlarged-image-display .modal-card {
+  margin-top: 70px;
+  width: auto;
+}
+
+.enlarged-image-display .modal-card-head, .enlarged-image-display .modal-card-foot {
+  justify-content: flex-end;
+}
+
+.enlarged-image-display .modal-card-body {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.fa-chevron-left, .fa-chevron-right {
+  margin-top: 60px;
+  position: absolute;
+  top: 50%;
+  transform: scale(3, 3);
+}
+
+.fa-chevron-left {
+  left: 8%;
+}
+
+.fa-chevron-right {
+  right: 8%;
+}
+
+// いいねボタン
+.remove-like-image-btn {
+  color: #e896c9cb;
+}
+
+.add-like-image-btn {
+  color: #ded9d994;
+}

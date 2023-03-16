@@ -16,4 +16,12 @@ module ApplicationHelper
       false
     end
   end
+
+  def get_image_id(blob)
+    blob.attachments[0].record.id
+  end
+
+  def get_spot_id(blob)
+    blob.attachments[0].record.spot_id
+  end
 end
