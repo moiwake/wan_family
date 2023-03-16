@@ -14,6 +14,11 @@ addEventListener("DOMContentLoaded", function () {
           labels[j].classList.add("js-colored-option-btn");
         }
       });
+
+      let checkbox = document.getElementById(labels[j].htmlFor);
+      if (checkbox.checked) {
+        labels[j].classList.add("js-colored-option-btn");
+      }
     }
   }
 });
