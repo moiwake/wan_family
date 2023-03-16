@@ -1,8 +1,8 @@
 addEventListener("DOMContentLoaded", function () {
-  let optionsWrap = document.getElementsByClassName("js-target-options-wrap");
+  let optionsWraps = document.getElementsByClassName("js-target-options-wrap");
 
-  for (let i = 0; i < optionsWrap.length; i++) {
-    let labels = optionsWrap[i].querySelectorAll("label");
+  for (let i = 0; i < optionsWraps.length; i++) {
+    let labels = optionsWraps[i].querySelectorAll("label");
 
     for (let j = 0; j < labels.length; j++) {
       labels[j].classList.add("button", "is-small");

@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
 
   def set_prefecture_hash
     @prefecture_hash = @regions.reduce({}) do |hash, region|
-      hash.merge({ region => region.prefectures.pluck(:name) })
+      hash.merge({ region.name => region.prefectures.pluck(:name) })
     end
   end
 

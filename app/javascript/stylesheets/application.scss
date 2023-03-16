@@ -120,16 +120,20 @@ html {
   display: inherit;
 }
 
-.search-filter-wrap .modal-card-head, .search-filter-wrap .modal-card-foot {
+.search-filter-overlay-wrap .modal-card-head, .search-filter-overlay-wrap .modal-card-foot {
   background-color: #f5f5e5;
 }
 
-.search-filter-btn {
-  color: #685656;
+.search-filter-overlay-wrap .modal-card-foot {
+  justify-content: flex-end;
 }
 
-.search-filter-wrap .modal-card-foot {
-  justify-content: flex-end;
+.filter-btn {
+  color: #6e4a4a;
+}
+
+.search-filter-btn {
+  background-color: #f7e5bb;
 }
 
 .options-wrap input {

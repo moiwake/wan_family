@@ -1,5 +1,5 @@
 addEventListener("DOMContentLoaded", function () {
-  let filterSearchModal = document.getElementsByClassName("js-target-search-filter")[0];
+  let filterSearchModal = document.getElementsByClassName("js-target-search-filter-overlay")[0];
   let filterOpenBtn = document.getElementsByClassName("js-trigger-search-filter-open-btn")[0];
 
   filterOpenBtn.addEventListener("click", function () {
