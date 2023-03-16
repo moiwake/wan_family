@@ -1,5 +1,8 @@
 class TopController < ApplicationController
+  before_action :set_categories, :set_allowed_areas, :set_regions, :set_prefecture_hash
+
   def index
+    session.delete(:q)
     @q = Spot.ransack(params[:q])
     @ranked_spots = Spots::RankedQuery.call.eager_load(:category, :prefecture).preload(:images)
     @weekly_ranked_spots = Spots::WeeklyRankedQuery.call.preload(:images)
@@ -22,6 +25,7 @@ class TopController < ApplicationController
 
     if @q.present?
       @q = Spot.ransack(params[:q]["and"])
+      session[:q] = params[:q]["and"]
     end
   end
 
@@ -43,4 +47,3 @@ class TopController < ApplicationController
     return @search_groupings = grouping_ary.uniq
   end
 end
-
