@@ -15,6 +15,16 @@ html {
   align-items: center;
 }
 
+.navbar-item:hover {
+  color: #574a4a !important;
+}
+
+.navbar-burger {
+  width: 60px;
+  height: 60px;
+  color: #6e4a4a;
+}
+
 // ヘッダー検索バー
 .header-search-wrap {
   display: flex;
@@ -43,21 +53,36 @@ html {
 
 .header-search-form .input-bar {
   width: 245px;
+  margin-right: 2px;
 } @media screen and (max-width: 600px) {
   .header-search-form .input-bar {
     width: 100%;
   }
 }
 
+@media screen and (max-width: 600px) {
+  .header-search-wrap .control.has-icons-left .input {
+    padding-left: 10px;
+  }
+}
+
+.header-search-wrap .control .icon {
+  top: auto;
+} @media screen and (max-width: 600px) {
+  .header-search-wrap .control .icon {
+    display: none;
+  }
+}
+
 .header-search-btn {
-  color: #767676;
+  color: #a28989;
   background-color: #efefd7;
 }
 
 .search-form-open-btn {
   color: #a5a59f;
   position: absolute;
-  right: 60px;
+  right: 70px;
 } @media screen and (min-width: 600px) {
   .search-form-open-btn {
     display: none;
@@ -70,23 +95,14 @@ html {
   }
 }
 
-.header-search-wrap .control .icon {
-  top: auto;
-} @media screen and (max-width: 600px) {
-  .header-search-wrap .control .icon {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .header-search-wrap .control.has-icons-left .input {
-    padding-left: 10px;
-  }
-}
-
 .search-filter-open-btn {
   padding: 10px;
   position: relative;
+  color: #a28989;
+}
+
+.search-filter-open-btn:hover {
+  color: #7a5555;
 }
 
 // 検索条件数バッジ
@@ -170,7 +186,21 @@ body {
 }
 
 a {
-  color: grey;
+  color: #7d7474;
+}
+
+a:hover {
+  color: #574a4a;
+}
+
+.button:hover {
+  border-color: #dcdca9;
+  color: #7a5555;
+}
+
+.input:focus {
+  border-color: #dcdca9;
+  box-shadow: 0 0 0 0.125em rgba(106, 100, 48, 0.25);
 }
 
 .hero-body {
