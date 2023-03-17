@@ -1,0 +1,34 @@
+<div class="spot-list-data">
+  <div class="main-data">
+    <span class="title is-5"><%= spot.name %></span>
+    <div class="breadcrumb is-small" aria-label="breadcrumbs">
+      <ul>
+        <li><%= spot.address %></li>
+        <li><%= spot.category.name %></li>
+      </ul>
+    </div>
+  </div>
+  <div class="detail-data">
+    <%= render "shared/display_reviews/review_rating", dog_score: spot.get_dog_rate_avg, human_score: spot.get_human_rate_avg %>
+    <div class="detail-data-rightside">
+      <div class="count-wrap">
+        <div class=favorite-count>
+          <i class="favorite-icon fa-solid fa-heart"></i>
+          <span>
+            <%= spot.favorite_spots.size %>人
+          </span>
+        </div>
+        <div class=review-count>
+          <i class="review-icon fa-solid fa-comment-dots"></i>
+          <span>
+            <%= spot.reviews.size %>人
+          </span>
+        </div>
+      </div>
+      <div class="review-comment">
+        <div class="title is-6"><%= spot.reviews[0].title %></div>
+        <div class="comment"><%= spot.reviews[0].comment %></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,135 @@
+.ratings-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+} @media screen and (min-width: 600px) and (max-width: 1216px) {
+  .ratings-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+} @media screen and (max-width: 1216px) {
+  .ratings-wrap {
+    margin-right: 20px;
+    margin-top: 10px;
+  }
+}
+
+.rating-content {
+  margin-bottom: 5px;
+}
+
+.rating-content:first-child {
+  margin-right: 1rem;
+}
+
+.rating-title {
+  display: flex;
+}
+
+.rating-title h3 {
+  margin-bottom: 0.5rem;
+}
+
+.rating {
+  display: flex;
+  justify-content: space-between;
+  width: 10.5rem;
+}
+
+.rating-score {
+  font-weight: 600;
+}
+
+.rating .js-non-colored{
+  color:#d1c4c4;
+}
+
+// ワンちゃんの評価
+.dog-rating .js-colored, .js-full-color {
+  color: #fb5b7b;
+}
+
+.dog-rating .js-nine-tenths-color {
+  background: linear-gradient(to right, #fb5b7b 0%, #fb5b7b 90%, #d1c4c4 90%, #d1c4c4 100%);
+}
+
+.dog-rating .js-four-fifths-color {
+  background: linear-gradient(to right, #fb5b7b 0%, #fb5b7b 80%, #d1c4c4 80%, #d1c4c4 100%);
+}
+
+.dog-rating .js-seven-tenths-color {
+  background: linear-gradient(to right, #fb5b7b 0%, #fb5b7b 70%, #d1c4c4 70%, #d1c4c4 100%);
+}
+
+.dog-rating .js-three-fifths-color {
+  background: linear-gradient(to right, #fb5b7b 0%, #fb5b7b 50%, #d1c4c4 60%, #d1c4c4 100%);
+}
+
+.dog-rating .js-half-color {
+  background: linear-gradient(to right, #fb5b7b 0%, #fb5b7b 50%, #d1c4c4 50%, #d1c4c4 100%);
+}
+
+.dog-rating .js-two-fifths-color {
+  background: linear-gradient(to right, #fb5b7b 0%, #fb5b7b 40%, #d1c4c4 40%, #d1c4c4 100%);
+}
+
+.dog-rating .js-three-tenths-color {
+  background: linear-gradient(to right, #fb5b7b 0%, #fb5b7b 30%, #d1c4c4 30%, #d1c4c4 100%);
+}
+
+.dog-rating .js-one-fifth-color {
+  background: linear-gradient(to right, #fb5b7b 0%, #fb5b7b 20%, #d1c4c4 20%, #d1c4c4 100%);
+}
+
+.dog-rating .js-one-tenth-color {
+  background: linear-gradient(to right, #fb5b7b 0%, #fb5b7b 10%, #d1c4c4 10%, #d1c4c4 100%);
+}
+
+// ユーザーの評価
+.human-rating .js-colored, .js-full-color {
+  color:#ffee05;
+}
+
+.human-rating .js-nine-tenths-color {
+  background: linear-gradient(to right, #ffee05 0%, #ffee05 90%, #d1c4c4 90%, #d1c4c4 100%);
+}
+
+.human-rating .js-four-fifths-color {
+  background: linear-gradient(to right, #ffee05 0%, #ffee05 80%, #d1c4c4 80%, #d1c4c4 100%);
+}
+
+.human-rating .js-seven-tenths-color {
+  background: linear-gradient(to right, #ffee05 0%, #ffee05 70%, #d1c4c4 70%, #d1c4c4 100%);
+}
+
+.human-rating .js-three-fifths-color {
+  background: linear-gradient(to right, #ffee05 0%, #ffee05 60%, #d1c4c4 60%, #d1c4c4 100%);
+}
+
+.human-rating .js-half-color {
+  background: linear-gradient(to right, #ffee05 0%, #ffee05 50%, #d1c4c4 50%, #d1c4c4 100%);
+}
+
+.human-rating .js-two-fifths-color {
+  background: linear-gradient(to right, #ffee05 0%, #ffee05 40%, #d1c4c4 40%, #d1c4c4 100%);
+}
+
+.human-rating .js-three-tenths-color {
+  background: linear-gradient(to right, #ffee05 0%, #ffee05 30%, #d1c4c4 30%, #d1c4c4 100%);
+}
+
+.human-rating .js-one-fifth-color {
+  background: linear-gradient(to right, #ffee05 0%, #ffee05 20%, #d1c4c4 20%, #d1c4c4 100%);
+}
+
+.human-rating .js-one-tenth-color {
+  background: linear-gradient(to right, #ffee05 0%, #ffee05 10%, #d1c4c4 10%, #d1c4c4 100%);
+}
+
+.rating .js-partial-color {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+

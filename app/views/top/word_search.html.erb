@@ -1,6 +1,24 @@
-<div class="search-result-list">
-  <h2>検索結果</h2>
-  <h3>条件を変更して検索</h3>
-  <%= render "top/shared/search_form", q: @q, categories: @categories, allowed_areas: @allowed_areas %>
-  <%= render "spots/shared/spots_list", spots: @results %>
+<div class="container">
+  <section class="side-search-wrap">
+    <%= render "top/shared/area_search_links", regions: @regions %>
+  </section>
+  <section class="main-contents-wrap">
+    <div>
+      <ul>
+        <li></li>
+      </ul>
+    </div>
+    <div class="search-result-wrap">
+      <div class="search-result-top-wrap">
+        <h2 class="search-result-title title is-5">検索結果<span>（<%= @results.size %>件）</span></h2>
+        <div class="spot-sort">
+          <%= link_to "新しい順", { by: "created_at", direction: "desc" } %>
+          <%= link_to "古い順", { by: "created_at", direction: "asc" } %>
+          <%= link_to "お気に入りが多い順", { by: "like_count" } %>
+        </div>
+      </div>
+      <%= render "shared/display_spots/spots_list", spots: @results %>
+    </div>
+  </section>
 </div>
+<%= javascript_pack_tag "top/word_search" %>

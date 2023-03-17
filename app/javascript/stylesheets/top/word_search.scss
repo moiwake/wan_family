@@ -1,0 +1,51 @@
+.container {
+  display: flex;
+}
+
+@media screen and (min-width: 1024px) {
+  .main-contents-wrap {
+    padding: 0 0 0 3rem;
+  }
+}
+
+// 検索結果
+.search-result-top-wrap {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-result-title span {
+  margin-left: 10px;
+  font-size: 15px;
+}
+
+// 左サイド検索リンク
+@media screen and (max-width: 900px) {
+  .side-search-wrap {
+    display: none;
+  }
+}
+
+.area-search-wrap {
+  width: 180px;
+  margin-left: 1rem;
+  padding: 1rem;
+  background-color: beige;
+  border-radius: 8px;
+}
+
+.area-search-wrap .title span {
+  font-size: 1rem;
+}
+
+.area-search-wrap li {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.area-search-wrap img {
+  display: none;
+}

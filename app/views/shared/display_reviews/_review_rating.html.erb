@@ -1,0 +1,28 @@
+<div class="ratings-wrap">
+  <div class="rating-content">
+    <div class="rating-title">
+      <h4 class="title is-6 mb-1">ワンちゃん</h3><span>の満足度</span>
+    </div>
+    <div class="rating">
+      <div class="dog-rating js-rating">
+        <% 5.times do %>
+          <span class="fa fa-paw js-non-colored"></span>
+        <% end %>
+      </div>
+      <span class="rating-score js-score"><%= dog_score %></span>
+    </div>
+  </div>
+  <div class="rating-content">
+    <div class="rating-title">
+      <h4 class="title is-6 mb-1">ユーザーさん</h4><span>の満足度</span>
+    </div>
+    <div class="rating">
+      <div class="human-rating js-rating">
+        <% 5.times do %>
+          <span class="fa fa-star js-non-colored"></span>
+        <% end %>
+      </div>
+      <span class="rating-score js-score"><%= human_score %></span>
+    </div>
+  </div>
+</div>
