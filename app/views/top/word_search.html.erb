@@ -3,15 +3,10 @@
     <%= render "top/shared/area_search_links", regions: @regions %>
   </section>
   <section class="main-contents-wrap">
-    <div>
-      <ul>
-        <li></li>
-      </ul>
-    </div>
     <div class="search-result-wrap">
       <div class="search-result-top-wrap">
         <h2 class="search-result-title title is-5">検索結果<span>（<%= @results.size %>件）</span></h2>
-        <div class="spot-sort">
+        <div class="spot-list-sort-wrap">
           <%= link_to "新しい順", { by: "created_at", direction: "desc" } %>
           <%= link_to "古い順", { by: "created_at", direction: "asc" } %>
           <%= link_to "お気に入りが多い順", { by: "like_count" } %>

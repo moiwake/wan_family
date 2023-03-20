@@ -10,13 +10,28 @@
 
 // 検索結果
 .search-result-top-wrap {
-  display: flex;
-  justify-content: space-between;
+  margin: 10px 0;
+}
+
+@media screen and (min-width: 600px) {
+  .search-result-top-wrap {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 .search-result-title span {
   margin-left: 10px;
   font-size: 15px;
+}
+
+.spot-list-sort-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.spot-list-sort-wrap a {
+  margin-right: 5px;
 }
 
 // 左サイド検索リンク
