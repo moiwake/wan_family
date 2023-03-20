@@ -9,11 +9,11 @@ class SpotDecorator < Draper::Decorator
     spot.rules.select { |r| r.answer == "1" }
   end
 
-  def get_dog_rate_avg
+  def get_dog_score_avg
     spot.reviews.average(:dog_score).round(1)
   end
 
-  def get_human_rate_avg
+  def get_human_score_avg
     spot.reviews.average(:human_score).round(1)
   end
 end

@@ -9,7 +9,7 @@
     </div>
   </div>
   <div class="detail-data">
-    <%= render "shared/display_reviews/review_rating", dog_score: spot.get_dog_rate_avg, human_score: spot.get_human_rate_avg %>
+    <%= render "shared/display_reviews/review_rating", dog_score: spot.decorate.get_dog_score_avg, human_score: spot.decorate.get_human_score_avg %>
     <div class="detail-data-rightside">
       <div class="count-wrap">
         <div class=favorite-count>
@@ -25,10 +25,14 @@
           </span>
         </div>
       </div>
-      <div class="review-comment">
-        <div class="title is-6"><%= spot.reviews[0].title %></div>
-        <div class="comment"><%= spot.reviews[0].comment %></div>
-      </div>
+      <% if spot.reviews %>
+        <div class="review-comment">
+          <% Reviews::LimitedRankedPresenter.call(scope: spot.reviews, limit: 1).each do |review| %>
+            <div class="title is-6"><%= review.title %></div>
+            <div class="comment"><%= review.comment %></div>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
