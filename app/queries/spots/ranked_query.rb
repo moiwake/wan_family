@@ -1,7 +1,9 @@
 module Spots
   class RankedQuery < RankedQueryBase
-    def self.call(scope: Spot.all, parent_record: nil, rank_class_record: FavoriteSpot.all)
-      RankedQueryBase.call(scope: scope, parent_record: parent_record, rank_class_record: rank_class_record)
+    RANKING_NUMBER = 10
+
+    def self.call
+      Spots::OrderedQuery.call(order_params: { by: "likes_count" }).limit(RANKING_NUMBER)
     end
   end
 end
