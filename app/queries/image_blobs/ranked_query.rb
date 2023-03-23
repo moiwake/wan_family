@@ -1,5 +1,5 @@
 module ImageBlobs
-  class RankedQuery < RankedQueryBase
+  class RankedQuery
     RANKING_NUMBER = 10
 
     def self.call
