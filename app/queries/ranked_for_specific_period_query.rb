@@ -33,11 +33,13 @@ class RankedForSpecificPeriodQuery < OrderedQueryBase
 
     grouped_like_class_record = like_class_record.group(:"#{like_class_foreign_key}")
     number = PERIOD_NUMBER
+    loop_limit = 0
 
-    until grouped_like_class_record.size.length >= RANKING_NUMBER
+    until grouped_like_class_record.size.length >= RANKING_NUMBER || loop_limit = 5
       number = number + PERIOD_NUMBER + 1
-      like_class_record = set_like_class_record(date, number)
+      like_class_record = set_like_class_record
       grouped_like_class_record = like_class_record.group(:"#{like_class_foreign_key}")
+      loop_limit = loop_limit + 1
     end
 
     return grouped_like_class_record
