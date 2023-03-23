@@ -6,7 +6,7 @@ RSpec.describe OrderedImageBlobsQuery, type: :model do
   describe "#call" do
     context "引数なしでcallメソッドを呼び出すとき" do
       let(:ordered_blobs_query_instance) { OrderedImageBlobsQuery.new(default_arguments) }
-      let(:default_arguments) { { scope: nil, parent_record: Image.all, order_params: {}, like_class: "LikeImage" } }
+      let(:default_arguments) { { scope: nil, parent_record: Image.all, order_params: {}, like_class: "ImageLike" } }
 
       before do
         allow(OrderedImageBlobsQuery).to receive(:new).and_return(ordered_blobs_query_instance)
@@ -20,7 +20,7 @@ RSpec.describe OrderedImageBlobsQuery, type: :model do
   end
 
   describe "#set_scope" do
-    let(:ordered_blobs_query_instance) { OrderedImageBlobsQuery.new(scope: nil, parent_record: nil, order_params: {}, like_class: "LikeImage") }
+    let(:ordered_blobs_query_instance) { OrderedImageBlobsQuery.new(scope: nil, parent_record: nil, order_params: {}, like_class: "ImageLike") }
 
     subject(:return_value) { ordered_blobs_query_instance.send(:set_scope) }
 
@@ -45,7 +45,7 @@ RSpec.describe OrderedImageBlobsQuery, type: :model do
   end
 
   describe "#search_blobs" do
-    let(:ordered_blobs_query_instance) { OrderedImageBlobsQuery.new(scope: nil, parent_record: parent_record, order_params: {}, like_class: "LikeImage") }
+    let(:ordered_blobs_query_instance) { OrderedImageBlobsQuery.new(scope: nil, parent_record: parent_record, order_params: {}, like_class: "ImageLike") }
 
     subject(:return_value) { ordered_blobs_query_instance.send(:search_blobs) }
 

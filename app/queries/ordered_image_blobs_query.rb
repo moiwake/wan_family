@@ -3,7 +3,7 @@ class OrderedImageBlobsQuery < OrderedQueryBase
     super(scope: scope, parent_record: parent_record, order_params: order_params, like_class: like_class)
   end
 
-  def self.call(scope: nil, parent_record: Image.all, order_params: {}, like_class: "LikeImage")
+  def self.call(scope: nil, parent_record: Image.all, order_params: {}, like_class: "ImageLike")
     super
   end
 
@@ -25,12 +25,12 @@ class OrderedImageBlobsQuery < OrderedQueryBase
   end
 
   def set_blobs_associated_with_image
-    parent_record.files.blobs
+    parent_record.files_blobs
   end
 
   def set_blobs_associated_with_images
     parent_record.reduce(ActiveStorage::Blob.none) do |blobs, image|
-      blobs = blobs.or(image.files.blobs)
+      blobs = blobs.or(image.files_blobs)
     end
   end
 end

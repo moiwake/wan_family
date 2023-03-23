@@ -42,7 +42,7 @@ Rails.application.routes.draw do
     end
 
     resources :images, only: [:index, :show] do
-      resources :like_images, only: [:create, :destroy]
+      resources :image_likes, only: [:create, :destroy]
     end
 
     resources :favorite_spots, only: [:create, :destroy]

@@ -1,5 +1,5 @@
 class Image < ApplicationRecord
-  has_many :like_images, dependent: :destroy
+  has_many :image_likes, dependent: :destroy
 
   belongs_to :user
   belongs_to :spot

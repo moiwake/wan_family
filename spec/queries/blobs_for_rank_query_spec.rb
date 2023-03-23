@@ -6,7 +6,7 @@ RSpec.describe BlobsForRankQuery, type: :model do
 
     context "引数なしでcallメソッドを呼び出すとき" do
       let(:blobs_for_rank_query_instance) { BlobsForRankQuery.new(default_arguments) }
-      let(:default_arguments) { { scope: ActiveStorage::Blob.all, rank_class: "LikeImage" } }
+      let(:default_arguments) { { scope: ActiveStorage::Blob.all, rank_class: "ImageLike" } }
 
       before do
         allow(BlobsForRankQuery).to receive(:new).and_return(blobs_for_rank_query_instance)

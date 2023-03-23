@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_many :images, dependent: :destroy
   has_many :like_reviews, dependent: :destroy
-  has_many :like_images, dependent: :destroy
+  has_many :image_likes, dependent: :destroy
   has_many :favorite_spots, dependent: :destroy
   has_many :spot_tags, dependent: :destroy
 

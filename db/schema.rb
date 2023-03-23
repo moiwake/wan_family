@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_14_054251) do
+ActiveRecord::Schema.define(version: 2023_03_15_061424) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -73,6 +73,17 @@ ActiveRecord::Schema.define(version: 2023_03_14_054251) do
     t.index ["user_id"], name: "index_favorite_spots_on_user_id"
   end
 
+  create_table "image_likes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "image_id", null: false
+    t.integer "blob_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["image_id"], name: "index_image_likes_on_image_id"
+    t.index ["user_id", "blob_id"], name: "index_image_likes_on_user_id_and_blob_id", unique: true
+    t.index ["user_id"], name: "index_image_likes_on_user_id"
+  end
+
   create_table "images", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "review_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -82,17 +93,6 @@ ActiveRecord::Schema.define(version: 2023_03_14_054251) do
     t.index ["review_id"], name: "index_images_on_review_id"
     t.index ["spot_id"], name: "index_images_on_spot_id"
     t.index ["user_id"], name: "index_images_on_user_id"
-  end
-
-  create_table "like_images", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "image_id", null: false
-    t.integer "blob_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["image_id"], name: "index_like_images_on_image_id"
-    t.index ["user_id", "blob_id"], name: "index_like_images_on_user_id_and_blob_id", unique: true
-    t.index ["user_id"], name: "index_like_images_on_user_id"
   end
 
   create_table "like_reviews", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -224,11 +224,11 @@ ActiveRecord::Schema.define(version: 2023_03_14_054251) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "favorite_spots", "spots"
   add_foreign_key "favorite_spots", "users"
+  add_foreign_key "image_likes", "images"
+  add_foreign_key "image_likes", "users"
   add_foreign_key "images", "reviews"
   add_foreign_key "images", "spots"
   add_foreign_key "images", "users"
-  add_foreign_key "like_images", "images"
-  add_foreign_key "like_images", "users"
   add_foreign_key "like_reviews", "reviews"
   add_foreign_key "like_reviews", "users"
   add_foreign_key "prefectures", "regions"

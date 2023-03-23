@@ -8,8 +8,8 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
   let!(:image_1) { create(:image, :attached_1, spot_id: spot.id) }
   let!(:image_2) { create(:image, :attached_2, spot_id: spot.id) }
 
-  let!(:likes_for_most_liked_file) { create_list(:like_image, 3, image_id: image_1.id, blob_id: most_liked_file.blob.id) }
-  let!(:likes_for_second_liked_file) { create_list(:like_image, 2, image_id: image_2.id, blob_id: second_liked_file.blob.id) }
+  let!(:likes_for_most_liked_file) { create_list(:image_like, 3, image_id: image_1.id, blob_id: most_liked_file.blob.id) }
+  let!(:likes_for_second_liked_file) { create_list(:image_like, 2, image_id: image_2.id, blob_id: second_liked_file.blob.id) }
   let(:most_liked_file) { image_1.files.last }
   let(:second_liked_file) { image_2.files.first }
 
@@ -21,7 +21,7 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
   end
   let(:filenames_desc) { filenames.reverse }
   let(:filenames_asc) { filenames }
-  let(:filenames_like_image) do
+  let(:filenames_image_like) do
     most_liked_filename = most_liked_file.filename.to_s
     second_liked_filename = second_liked_file.filename.to_s
     not_liked_files = filenames_desc.excluding(most_liked_filename, second_liked_filename)
@@ -56,7 +56,7 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
     it "画像をCute（いいね）の多い順に、Cuteが付いていないときは作成日（同じ場合はID）の降順に表示できる" do
       click_link "Cuteが多い順"
 
-      filenames_like_image.each_with_index do |filename, i|
+      filenames_image_like.each_with_index do |filename, i|
         expect(page.all("img")[i][:src]).to include(filename)
       end
     end
@@ -158,8 +158,8 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
         end
 
         context "一覧ページをCuteが多い順で表示している場合" do
-          let(:prev_filename) { filenames_like_image[filenames_like_image.index(displayed_filename) + 1] }
-          let(:next_filename) { filenames_like_image[filenames_like_image.index(displayed_filename) - 1] }
+          let(:prev_filename) { filenames_image_like[filenames_image_like.index(displayed_filename) + 1] }
+          let(:next_filename) { filenames_image_like[filenames_image_like.index(displayed_filename) - 1] }
 
           before do
             click_link "Cuteが多い順"
