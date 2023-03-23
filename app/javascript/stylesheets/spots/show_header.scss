@@ -1,0 +1,175 @@
+.contents-wrap {
+  margin-top: 70px;
+}
+
+.spot-header-wrap {
+  padding: 2rem 1rem;
+  background-color: #fdfcfc;
+}
+
+.header-contents-wrap {
+  margin-bottom: 2rem;
+} @media screen and (min-width: 800px) {
+  .header-contents-wrap {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.header-main-contents {
+  width: 70%;
+}
+
+.header-main-upper {
+  border-bottom: 1px dashed #f3efde;
+}
+
+@media screen and (min-width: 600px) {
+  .header-spot-rating .ratings-wrap {
+    display: flex;
+  }
+}
+
+.header-main-lower {
+  margin-top: 5px;
+}
+
+// お気に入り・クチコミ投稿数
+.count-wrap {
+  display: flex;
+}
+
+.favorite-count {
+  margin-right: 5px;
+}
+
+.count-wrap .favorite-icon {
+  color: #ffb9b9;;
+}
+
+.review-count .review-icon {
+  transform: scale(-1, 1);
+  color: #63dbd5;
+}
+
+// ヘッダースポット詳細データ
+.header-info-box {
+  padding: 1rem 0;
+}
+
+@media screen and (min-width: 800px) {
+  .header-info:last-child {
+    display: flex;
+  }
+}
+
+.header-info {
+  font-size: 13px;
+}
+
+.header-info li {
+  margin-right: 5px;
+  margin-bottom: 3px;
+}
+
+.header-info span {
+  font-weight: 600;
+}
+
+// ヘッダー右側コンテンツ
+.header-sub-contents {
+  display: flex;
+  flex-direction: column;
+} @media screen and (min-width: 800px) {
+  .header-sub-contents {
+    align-items: center;
+  }
+}
+
+.last-update-date {
+  font-size: 13px;
+}
+
+// スポット編集ボタン
+.edit-spot-btn .button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  width: fit-content;
+  height: 50px;
+  display: flex;
+  background-color: #fcefe3;
+  border-color: #fcefe3;
+  box-shadow: 2px 3px 2px #efe5dc;
+  color: #ae937a;
+  cursor: pointer;
+}
+
+// スポットのお気に入り・タグ登録
+.mark-spot-btns-wrap {
+  float: right;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 0;
+} @media screen and (min-width: 800px) {
+  .mark-spot-btns-wrap {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-top: 1rem;
+  }
+}
+
+.mark-spot-btns-wrap a {
+  display: flex;
+  flex-direction: column;
+}
+@media screen and (min-width: 600px) {
+  .mark-spot-btns-wrap a {
+  flex-direction: row;
+  }
+}
+
+.mark-spot-btns-wrap .login-notice {
+  display: none;
+  width: max-content;
+  position: absolute;
+  z-index: 999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.mark-spot-btns-wrap .js-open {
+  display: inherit;
+}
+
+.mark-spot-btns-wrap .button {
+  margin: 0 10px 10px 10px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  background-color: #fff;
+  border-color: #fafafa;
+  box-shadow: 2px 3px 2px #eaeaea;
+  color: #d5d5d5;
+  cursor: pointer;
+  font-size: 20px;
+} @media screen and (min-width: 600px) {
+  .mark-spot-btns-wrap .button {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+  }
+}
+
+// ヘッダータブ
+.header-tabs li {
+  width: 30%;
+}
+
+.header-tabs .is-active span {
+  color: #ae937a;
+}

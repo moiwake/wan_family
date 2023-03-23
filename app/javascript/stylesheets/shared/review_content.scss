@@ -1,0 +1,80 @@
+@media screen and (max-width: 800px) {
+  .card-content {
+    position: relative;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .js-resize-card {
+    max-height: 300px;
+    overflow: hidden;
+  }
+}
+
+.media-right .fa-thumbs-up {
+  color: #fba54f;
+}
+
+.review-rating .ratings-wrap {
+  margin-bottom: 20px;
+}
+
+.content figure {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.review-images-wrap ul {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 0;
+  list-style: none;
+}
+
+.review-images-wrap li {
+  width: 31%;
+  max-height: 150px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+} @media screen and (min-width: 600px) {
+  .review-images-wrap li {
+    width: 20%;
+  }
+}
+
+.content .review-images-wrap li+li {
+  margin-top: 0;
+}
+
+.image-link-list-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.posted-date {
+  font-size: 13px;
+}
+
+.review-hidden-cover {
+  width: 100%;
+  height: 90px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: -webkit-gradient(linear, left top, left bottom, from(rgb(0 0 0 / 0%)), to(#fafafa));
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #4a4a4a;
+}
+
+.js-hidden-card {
+  display: none;
+}
+
+.review-hidden-cover i {
+  padding-bottom: 20px;
+}

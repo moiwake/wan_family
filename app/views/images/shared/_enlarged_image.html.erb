@@ -6,19 +6,19 @@
     </header>
     <section class="modal-card-body">
       <%= image_tag blob, { id: "js-enlarged-image", alt: "拡大した画像", data: { blob_id: blob.id } } %>
+      <div class="prev-image-btn">
+        <%= link_to "", remote: true do %>
+          <i class="fa-solid fa-chevron-left prev-image-link-icon js-prev-icon"></i>
+        <% end %>
+      </div>
+      <div class="next-image-btn">
+        <%= link_to "", remote: true do %>
+          <i class="fa-solid fa-chevron-right next-image-link-icon js-next-icon"></i>
+        <% end %>
+      </div>
     </section>
     <footer class="modal-card-foot">
       <%= render "image_likes/shared/add_or_remove_image_like", blob: blob, image_like: image_like %>
     </footer>
-  </div>
-  <div class="image-prev-btn">
-    <%= link_to "", remote: true do %>
-      <i class="fa-solid fa-chevron-left js-prev-icon"></i>
-    <% end %>
-  </div>
-  <div class="image-next-btn">
-    <%= link_to "", remote: true do %>
-      <i class="fa-solid fa-chevron-right js-next-icon"></i>
-    <% end %>
   </div>
 </div>

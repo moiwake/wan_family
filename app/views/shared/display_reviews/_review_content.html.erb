@@ -1,0 +1,20 @@
+<div class="card-content js-card">
+  <%= render "shared/display_reviews/review_header", review: review %>
+  <div class="content">
+    <div class="review-rating">
+      <%= render "shared/display_reviews/review_rating", dog_score: review.dog_score, human_score: review.human_score %>
+    </div>
+    <div class="review-comment block">
+      <%= review.comment %>
+    </div>
+    <% if review.image %>
+      <figure class="review-images-wrap">
+        <%= render "shared/display_images/image_link_list", blobs: review.image.files_blobs, spot_id: review.spot, image_id: review.image.id %>
+      </figure>
+    <% end %>
+    <span class="posted-date">投稿日：<%= l review.created_at, format: :short %></span>
+    <div class="review-hidden-cover js-card-cover js-hidden-card">
+      <i class="fa-solid fa-angles-down"></i>
+    </div>
+  </div>
+</div>

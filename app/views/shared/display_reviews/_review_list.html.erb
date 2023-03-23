@@ -1,0 +1,11 @@
+<% if reviews.present? %>
+  <div class="review-list-wrap block">
+    <% reviews.each do |review| %>
+      <div class="card block">
+        <%= render "shared/display_reviews/review_content", review: review %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>レビューの投稿はありません。</p>
+<% end %>

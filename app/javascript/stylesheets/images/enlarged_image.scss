@@ -10,6 +10,8 @@
 .enlarged-image-display .modal-card {
   margin-top: 70px;
   width: auto;
+  max-width: 90%;
+  max-height: 80%;
 }
 
 .enlarged-image-display .modal-card-head, .enlarged-image-display .modal-card-foot {
@@ -20,20 +22,28 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  position: relative;
 }
 
-.fa-chevron-left, .fa-chevron-right {
-  margin-top: 60px;
+// .prev-image-link-icon, .next-image-link-icon {
+//   margin-top: 60px;
+//   position: absolute;
+//   top: 50%;
+//   transform: scale(3, 3);
+// }
+
+.prev-image-btn, .next-image-btn {
   position: absolute;
   top: 50%;
-  transform: scale(3, 3);
+  transform: translateY(-50%);
+  font-size: 3rem;
 }
 
-.fa-chevron-left {
+.prev-image-btn  {
   left: 8%;
 }
 
-.fa-chevron-right {
+.next-image-btn  {
   right: 8%;
 }
 

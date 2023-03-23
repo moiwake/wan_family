@@ -7,7 +7,7 @@
   <%= render "top/shared/map_search_links", regions: @regions %>
   <section class="cute-image-list-wrap">
     <h2 class="main-title title is-4">Cute!をたくさんもらった子たちをご紹介</h2>
-    <%= render "shared/display_images/image_link_list", blobs: @weekly_ranked_blobs, width: 500, height: 500 %>
+    <%= render "shared/display_images/image_link_list", blobs: @weekly_ranked_blobs, spot_id: nil, image_id: nil %>
   </section>
 </div>
 <%= javascript_pack_tag "top/index" %>

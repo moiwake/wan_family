@@ -1,39 +1,27 @@
 <%= render "shared/flash_messages" %>
-<div class="spot">
-  <h2><%= @spot.name %></h2>
-  <div id="mark-spot">
-    <%= link_to "お気に入り機能、タグ機能のご利用はログインが必要です" , new_user_session_path if current_user.nil? %>
-    <%= render "spot_tags/shared/tag_spot", spot: @spot, spot_tags: @spot_tags %>
-    <%= render "favorite_spots/shared/add_or_remove_favorite_spot", spot: @spot, favorite_spot: @favorite_spot %>
+<%= render "spots/shared/show_header", spot: @spot, favorite_spot_size: @favorite_spot_size, favorite_spot: @favorite_spot, spot_tags: @spot_tags %>
+<div class="container spot-body">
+  <div class="main-contents-wrap">
+    <div class="top-spot-images-wrap js-spot-images block">
+      <div class="large-image js-large-image"><img src="" alt=""></div>
+      <div class="small-image js-small-image">
+        <%= render "shared/display_images/limited_ranked_image_blobs", parent_record: @spot.images, limit: 10, width: 800, height: 800 %>
+      </div>
+    </div>
+    <section class="top-review-article block">
+      <h3 class="title is-5">スポットのレビュー</h3>
+      <%= render "shared/display_reviews/review_list", reviews: Reviews::LimitedRankedPresenter.call(scope: @reviews, limit: 3)  %>
+      <div class="article-link">
+        <%= link_to spot_reviews_path(@spot) do %>
+          <span>レビューをもっと見る</span>
+          <i class="fa-solid fa-chevron-right article-link-icon"></i>
+        <% end %>
+      </div>
+    </section>
+    <%= render "spots/shared/spot_base_data", spot: @spot %>
   </div>
-  <table>
-    <thead>
-      <tr>
-        <th>住所</th>
-        <th>スポットカテゴリー</th>
-        <th>同伴可能エリア</th>
-        <th>同伴ルール</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><%= @spot.address %></td>
-        <td><%= @spot.category.name %></td>
-        <td><%= @spot.allowed_area.area %></td>
-        <td>
-          <ul>
-          <% @spot.decorate.find_attached_rules.each do |rule| %>
-            <li><%= rule.rule_option.name %></li>
-          <% end %>
-          </ul>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <%= render "shared/display_limited_blobs", parent_image: @spot.images %>
-  <%= link_to "すべての画像を見る", spot_images_path(@spot) %>
+  <div class="right-contents-wrap">
+    <%= render "spots/shared/search_link_icon", spot: @spot %>
+  </div>
 </div>
-<%= render "spots/shared/search_link_icon", spot: @spot %>
-<%= link_to "すべてのレビューを見る", spot_reviews_path(@spot), class: "button light ml-3 mt-3" %><br>
-<%= link_to "スポットの登録内容を更新する", edit_spot_path(@spot), "data-turbolinks": false %><br>
-<%= link_to "レビューを投稿する", new_spot_review_path(@spot) %>
+<%= javascript_pack_tag "spots/show" %>

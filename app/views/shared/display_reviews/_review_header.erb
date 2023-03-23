@@ -1,0 +1,15 @@
+<div class="media">
+  <div class="media-left">
+    <figure class="image is-48x48">
+      <%= image_tag review.user.decorate.display_human_avatar %>
+    </figure>
+  </div>
+  <div class="media-content">
+    <p class="subtitle is-7"><%= review.user.name %>さんのレビュー</p>
+    <p class="title is-5"><%= review.title %></p>
+  </div>
+  <div class="media-right">
+    <i class="fa-solid fa-thumbs-up"></i>
+    <%= review.like_reviews.size %>
+  </div>
+</div>

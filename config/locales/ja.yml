@@ -1,4 +1,13 @@
 ja:
+  date:
+    formats:
+      default: "%Y/%m/%d"
+      long: "%Y年%m月%d日(%a)"
+      short: "%m/%d"
+  time:
+    formats:
+      default: "%Y/%m/%d%H:%M:%S"
+      short:  "%Y/%m/%d"
   attributes:
     confirmation_sent_at: パスワード確認送信時刻
     confirmation_token: パスワード確認用トークン

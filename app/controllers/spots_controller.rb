@@ -1,6 +1,6 @@
 class SpotsController < ApplicationController
-  before_action :authenticate_user!, except: [:show]
-  before_action :set_categories, :set_allowed_areas, :set_option_titles, except: [:show]
+  before_action :authenticate_user!, :set_option_titles, except: [:show]
+  before_action :set_categories, :set_allowed_areas, :set_regions, :set_prefecture_hash
   before_action :set_favorite_spot, :set_spot_tags, only: [:show]
   before_action :delete_session, only: [:new, :edit]
   after_action  :delete_session, only: [:create, :update]
@@ -42,6 +42,8 @@ class SpotsController < ApplicationController
 
   def show
     @spot = Spot.find(params[:id])
+    @reviews = @spot.reviews.eager_load(user: :human_avatar_attachment, image: :files_blobs).preload(:like_reviews)
+    @favorite_spot_size = @spot.favorite_spots.size
   end
 
   def edit
@@ -98,14 +100,6 @@ class SpotsController < ApplicationController
     ]
 
     params.require(:spot_register_form).permit(spot_attributes: spot_params, rules_attributes: [[:answer]])
-  end
-
-  def set_categories
-    @categories = Category.order_default
-  end
-
-  def set_allowed_areas
-    @allowed_areas = AllowedArea.order_default
   end
 
   def set_option_titles

@@ -1,0 +1,54 @@
+<div class="spot-header-wrap">
+  <div class="container">
+    <div class="header-contents-wrap">
+      <div class="header-main-contents">
+        <div class="header-main-upper">
+          <h2 class="title is-4"><%= spot.name %></h2>
+          <div class="header-spot-rating">
+            <%= render "shared/display_reviews/review_rating", dog_score: spot.decorate.get_dog_score_avg, human_score: spot.decorate.get_human_score_avg %>
+          </div>
+        </div>
+        <div class="header-main-lower">
+          <div class="count-wrap">
+            <div class=favorite-count>
+              <i class="favorite-icon fa-solid fa-heart"></i>
+              <span><%= favorite_spot_size %>人</span>
+            </div>
+            <div class=review-count>
+              <i class="review-icon fa-solid fa-comment-dots"></i>
+              <span><%= spot.reviews.size %>人</span>
+            </div>
+          </div>
+          <ul class="header-info-box">
+            <div class="header-info">
+              <li><span>住所 : </span><%= spot.address %></li>
+            </div>
+            <div class="header-info">
+              <li><span>スポットカテゴリー : </span><%= spot.category.name %></li>
+              <li><span>同伴可能エリア : </span><%= spot.allowed_area.area %></li>
+            </div>
+          </ul>
+        </div>
+      </div>
+      <div class="header-sub-contents">
+        <span class="last-update-date">最後更新日 : <%= l spot.updated_at, format: :short %></span>
+        <div class="edit-spot-btn">
+          <%= link_to "スポットの情報を更新", edit_spot_path(spot), class: "button" %>
+        </div>
+        <div class="mark-spot-btns-wrap js-mark-spot-btns">
+          <% if current_user.nil? %>
+            <%= link_to new_user_session_path do %>
+              <p class="login-notice js-login-notice">ログインが<br>必要です</p>
+              <i class="fa-regular fa-heart button"></i>
+              <i class="fa-solid fa-tag button"></i>
+            <% end %>
+          <% else %>
+            <%= render "favorite_spots/shared/add_or_remove_favorite_spot", spot: spot, favorite_spot: favorite_spot %>
+            <%= render "spot_tags/shared/tag_spot", spot: spot, spot_tags: spot_tags %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <%= render "spots/shared/show_header_tabs", spot: spot %>
+  </div>
+</div>
