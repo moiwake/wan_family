@@ -6,8 +6,15 @@
 
 .main-contents-wrap {
   padding-top: 2rem;
-  max-width: 900px;
   margin: 0 auto;
+}
+
+.top-articles-wrap {
+  width: 100%;
+} @media screen and (min-width: 800px) and (max-width: 1024px) {
+  .top-articles-wrap {
+    width: 70%;
+  }
 }
 
 // トップ画像ディスプレイ
@@ -21,10 +28,6 @@
   .top-spot-images-wrap {
     flex-direction: row;
     width: 100%;
-  }
-} @media screen and (min-width: 800px) and (max-width: 1024px) {
-  .top-spot-images-wrap {
-    width: calc(100% + 250px);
   }
 }
 
@@ -113,15 +116,17 @@
 
 // 右サイドコンテンツ
 .right-contents-wrap {
-  margin: 2rem 1rem 2rem 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: max-content;
-  min-width: fit-content;
+  margin: 0 1rem;
+} @media screen and (min-width: 1024px) {
+  .right-contents-wrap {
+    margin: 2rem 1rem;
+  }
 } @media screen and (min-width: 800px) and (max-width: 1024px) {
   .right-contents-wrap {
-    margin-top: 37rem;
+    position: absolute;
+    top: 37rem;
+    right: 0;
+    width: 27%;
   }
 } @media screen and (max-width: 800px) {
   .right-contents-wrap {

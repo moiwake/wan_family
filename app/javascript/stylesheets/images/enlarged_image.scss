@@ -8,10 +8,9 @@
 }
 
 .enlarged-image-display .modal-card {
-  margin-top: 70px;
-  width: auto;
+  padding-top: 90px;
   max-width: 90%;
-  max-height: 80%;
+  max-height: 90%;
 }
 
 .enlarged-image-display .modal-card-head, .enlarged-image-display .modal-card-foot {
@@ -24,13 +23,6 @@
   flex-wrap: wrap;
   position: relative;
 }
-
-// .prev-image-link-icon, .next-image-link-icon {
-//   margin-top: 60px;
-//   position: absolute;
-//   top: 50%;
-//   transform: scale(3, 3);
-// }
 
 .prev-image-btn, .next-image-btn {
   position: absolute;
