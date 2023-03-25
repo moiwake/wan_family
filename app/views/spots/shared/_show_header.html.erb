@@ -12,7 +12,7 @@
           <div class="count-wrap">
             <div class=favorite-count>
               <i class="favorite-icon fa-solid fa-heart"></i>
-              <span><%= favorite_spot_size %>人</span>
+              <span><%= spot.favorite_spots.size %>人</span>
             </div>
             <div class=review-count>
               <i class="review-icon fa-solid fa-comment-dots"></i>
@@ -35,16 +35,16 @@
         <div class="edit-spot-btn">
           <%= link_to "スポットの情報を更新", edit_spot_path(spot), class: "button" %>
         </div>
-        <div class="mark-spot-btns-wrap js-mark-spot-btns">
+        <div class="mark-spot-btns-wrap js-mark-spot-btns" data-login=<%= current_user.nil? %>>
           <% if current_user.nil? %>
-            <%= link_to new_user_session_path do %>
+            <%= link_to new_user_session_path, class: "login-link" do %>
               <p class="login-notice js-login-notice">ログインが<br>必要です</p>
-              <i class="fa-regular fa-heart button"></i>
-              <i class="fa-solid fa-tag button"></i>
+              <i class="fa-regular fa-heart mark-spot-btn button"></i>
+              <i class="fa-solid fa-tag mark-spot-btn button"></i>
             <% end %>
           <% else %>
             <%= render "favorite_spots/shared/add_or_remove_favorite_spot", spot: spot, favorite_spot: favorite_spot %>
-            <%= render "spot_tags/shared/tag_spot", spot: spot, spot_tags: spot_tags %>
+            <%= render "spot_tags/shared/spot_tag_post_btn", spot: spot, tags_user_put_on_spot: tags_user_put_on_spot %>
           <% end %>
         </div>
       </div>

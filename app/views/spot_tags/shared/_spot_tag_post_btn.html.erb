@@ -1,0 +1,22 @@
+<div class="spot-tag-btn-wrap js-spot-tag-btn-wrap">
+  <%= link_to spot_spot_tags_path(spot), id: "open-tag-list", class: "mark-spot-btn button", remote: true do %>
+    <% if tagged?(spot) %>
+      <i class="fa-solid fa-tag tagged-icon"></i>
+    <% else %>
+      <i class="fa-solid fa-tag"></i>
+    <% end %>
+  <% end %>
+  <div class="header-created-tags-wrap">
+    <ul>
+      <% tags_user_put_on_spot.limit(SpotTag::MAX_DISPLAY_NUMBER).each do |tag| %>
+        <li class="tag header-created-tag">
+          <span><%= tag.name %></span>
+        </li>
+      <% end %>
+    </ul>
+    <% if exceed_max?(tags_user_put_on_spot) %>
+      <span class="other-tags-number">+<%= difference_of_max(tags_user_put_on_spot) %></span>
+    <% end %>
+  </div>
+  <div class="spot-tag-display js-spot-tag-display"></div>
+</div>

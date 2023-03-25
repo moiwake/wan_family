@@ -80,6 +80,7 @@
 .header-sub-contents {
   display: flex;
   flex-direction: column;
+  max-width: 40%;
 } @media screen and (min-width: 800px) {
   .header-sub-contents {
     align-items: center;
@@ -107,6 +108,7 @@
 
 // スポットのお気に入り・タグ登録
 .mark-spot-btns-wrap {
+  display: flex;
   float: right;
   position: absolute;
   top: 0;
@@ -114,24 +116,26 @@
   margin-top: 0;
 } @media screen and (min-width: 800px) {
   .mark-spot-btns-wrap {
-    display: flex;
-    align-items: center;
     position: relative;
     margin-top: 1rem;
   }
+} @media screen and (max-width: 600px) {
+  .mark-spot-btns-wrap {
+    flex-direction: column;
+  }
 }
 
-.mark-spot-btns-wrap a {
+.mark-spot-btns-wrap .login-link {
   display: flex;
   flex-direction: column;
 }
 @media screen and (min-width: 600px) {
-  .mark-spot-btns-wrap a {
+  .mark-spot-btns-wrap .login-link {
   flex-direction: row;
   }
 }
 
-.mark-spot-btns-wrap .login-notice {
+.login-notice {
   display: none;
   width: max-content;
   position: absolute;
@@ -141,12 +145,12 @@
   transform: translate(-50%, -50%);
 }
 
-.mark-spot-btns-wrap .js-open {
+.js-login-notice-open {
   display: inherit;
 }
 
-.mark-spot-btns-wrap .button {
-  margin: 0 10px 10px 10px;
+.mark-spot-btn {
+  margin-bottom: 10px;
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -158,11 +162,67 @@
   cursor: pointer;
   font-size: 20px;
 } @media screen and (min-width: 600px) {
-  .mark-spot-btns-wrap .button {
-    width: 80px;
-    height: 80px;
-    font-size: 2rem;
+  .mark-spot-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
   }
+}
+
+.favorite-spot-btn-wrap {
+  display: flex;
+  justify-content: center;
+} @media screen and (min-width: 600px) {
+  .favorite-spot-btn-wrap {
+    margin-right: 10px;
+  }
+}
+
+.spot-tag-btn-wrap {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+#remove-favorite-btn {
+  color: #ffb9b9;
+}
+
+.tagged-icon {
+  color: #8dc8f8;
+}
+
+.header-created-tags-wrap {
+  display: flex;
+  flex-direction: column;
+  max-width: 135px;
+} @media screen and (max-width: 600px) {
+  .header-created-tags-wrap {
+    display: none;
+  }
+}
+
+.header-created-tags-wrap ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-created-tag {
+  margin: 3px 0;
+  background-color: #d8edff !important;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.header-created-tag span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.other-tags-number {
+  text-align: right;
+  font-size: 13px;
 }
 
 // ヘッダータブ

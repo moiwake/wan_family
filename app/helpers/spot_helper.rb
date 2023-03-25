@@ -1,4 +1,4 @@
-module SpotTagHelper
+module SpotHelper
   def tagged?(spot)
     current_user.spot_tags.exists?(spot_id: spot.id)
   end
