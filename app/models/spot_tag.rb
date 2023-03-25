@@ -7,14 +7,15 @@ class SpotTag < ApplicationRecord
   MAX_DISPLAY_NUMBER = 3
   MAX_CREATED_NAME_DISPLAY_NUMBER = 10
 
-  scope :created_spot_tag_names, -> (user_id:) {
+  scope :get_tag_names_user_created, -> (user_id:) {
     where(user_id: user_id)
     .order(updated_at: :desc, created_at: :desc)
-    .limit(SpotTag::MAX_CREATED_NAME_DISPLAY_NUMBER)
     .pluck(:name)
+    .uniq
+    .first(SpotTag::MAX_CREATED_NAME_DISPLAY_NUMBER)
   }
 
-  scope :for_spot, -> (user_id:, spot_id:) {
+  scope :get_tags_user_put_on_spot, -> (user_id:, spot_id:) {
     where(user_id: user_id, spot_id: spot_id)
     .order(updated_at: :desc, created_at: :desc)
   }

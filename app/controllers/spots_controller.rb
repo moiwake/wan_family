@@ -1,7 +1,7 @@
 class SpotsController < ApplicationController
   before_action :authenticate_user!, :set_option_titles, except: [:show]
   before_action :set_categories, :set_allowed_areas, :set_regions, :set_prefecture_hash
-  before_action :set_favorite_spot, :set_spot_tags, only: [:show]
+  before_action :set_favorite_spot, :set_tags_user_put_on_spot, only: [:show]
   before_action :delete_session, only: [:new, :edit]
   after_action  :delete_session, only: [:create, :update]
 
@@ -43,7 +43,6 @@ class SpotsController < ApplicationController
   def show
     @spot = Spot.find(params[:id])
     @reviews = @spot.reviews.eager_load(user: :human_avatar_attachment, image: :files_blobs).preload(:like_reviews)
-    @favorite_spot_size = @spot.favorite_spots.size
   end
 
   def edit
@@ -112,9 +111,9 @@ class SpotsController < ApplicationController
     end
   end
 
-  def set_spot_tags
+  def set_tags_user_put_on_spot
     if current_user.present?
-      @spot_tags = SpotTag.for_spot(user_id: current_user.id, spot_id: params[:id])
+      @tags_user_put_on_spot = SpotTag.get_tags_user_put_on_spot(user_id: current_user.id, spot_id: params[:id])
     end
   end
 
