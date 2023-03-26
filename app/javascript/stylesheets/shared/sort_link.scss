@@ -1,0 +1,15 @@
+.sort-links-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+} @media screen and (max-width: 400px) {
+  .sort-links-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+}
+
+.sort-links-wrap a {
+  margin-right: 10px;
+}
