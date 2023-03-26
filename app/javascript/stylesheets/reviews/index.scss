@@ -1,0 +1,26 @@
+// ヘッダータブ
+.review-tab-label a {
+  background-color: #fff;
+  border: 1px solid #dbdbdb !important;
+  border-bottom-color: transparent !important;
+}
+
+.review-tab-label span {
+  color: #ae937a;
+}
+
+@media screen and (min-width: 600px) {
+  .main-container {
+    display: flex;
+  }
+}
+
+// 右サイドコンテンツ
+.right-contents-wrap {
+  margin: 1rem;
+} @media screen and (min-width: 600px) {
+  .right-contents-wrap {
+    margin-top: 58px;
+    margin-right: 1rem;
+  }
+}

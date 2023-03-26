@@ -1,2 +1,11 @@
-<h3><%= link_to @spot.name, spot_path(@spot) %>のすべてのレビュー</h3>
-<%= render "reviews/shared/display_all_reviews", reviews: @reviews %>
+<%= render "shared/spot_header", spot: @spot, favorite_spot: @favorite_spot, tags_user_put_on_spot: @tags_user_put_on_spot %>
+<div class="container main-container">
+  <div class="main-contents-wrap">
+    <%= render "shared/sort_link", likes_count_title: "いいねが多い順" %>
+    <%= render "shared/display_reviews/review_list", reviews: @reviews %>
+  </div>
+  <div class="right-contents-wrap">
+    <%= render "spots/shared/search_links", spot: @spot %>
+  </div>
+</div>
+<%= javascript_pack_tag "reviews/index" %>

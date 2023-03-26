@@ -1,10 +1,9 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_spot, except: [:show]
-  before_action :set_like_review, only: [:show]
+  before_action :set_spot, :set_favorite_spot, :set_tags_user_put_on_spot, :set_like_review, only: [:index]
 
   def index
-    @reviews = OrderedReviewsQuery.call(parent_record: @spot, order_params: params).load_all_associations
+    @reviews = Reviews::OrderedQuery.call(parent_record: @spot, order_params: params).load_all_associations
   end
 
   def new
@@ -28,7 +27,7 @@ class ReviewsController < ApplicationController
   end
 
   def edit
-    @review = Review.find(params[:id]).decorate
+    @review = Review.find(params[:id])
     @review_poster_form = ReviewPosterForm.new(review: @review)
   end
 
@@ -67,6 +66,18 @@ class ReviewsController < ApplicationController
   def set_like_review
     if current_user
       @like_review = LikeReview.find_by(user_id: current_user.id, review_id: params[:id])
+    end
+  end
+
+  def set_favorite_spot
+    if current_user.present?
+      @favorite_spot = current_user.favorite_spots.find_by(spot_id: @spot.id)
+    end
+  end
+
+  def set_tags_user_put_on_spot
+    if current_user.present?
+      @tags_user_put_on_spot = SpotTag.get_tags_user_put_on_spot(user_id: current_user.id, spot_id: @spot.id)
     end
   end
 
