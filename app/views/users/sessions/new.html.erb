@@ -1,26 +1,28 @@
-<h2>ログイン</h2>
-
-<%= render "shared/flash_messages" %>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.text_field :email, placeholder: "ご登録のメールアドレス", autofocus: true, autocomplete: "on" %>
-  </div>
-
-  <div class="field">
-    <%= f.password_field :password, placeholder: "パスワード", autocomplete: "on" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+<div class="container">
+  <div class="main-contents-wrap">
+    <div class="card login-wrap">
+      <h2 class="title is-4">ユーザーログイン</h2>
+      <%= form_with model: resource, as: resource_name, url: session_path(resource_name), class: "login-form" do |f| %>
+        <div class="input-bar field">
+          <%= f.search_field :email, placeholder: "ご登録のメールアドレス", autofocus: true, autocomplete: "on", class: "input" %>
+        </div>
+        <div class="input-bar field">
+          <%= f.password_field :password, placeholder: "パスワード", autocomplete: "on", class: "input" %>
+        </div>
+        <% if devise_mapping.rememberable? %>
+          <div class="remember-me-checkbox">
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me %>
+          </div>
+        <% end %>
+        <div class="login-btn">
+          <%= f.submit "ログイン", class: "button" %>
+        </div>
+      <% end %>
+      <div class="login-help-links-wrap">
+        <%= render "users/shared/links" %>
+      </div>
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "ログイン" %>
   </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+</div>
+<%= javascript_pack_tag "users/sessions/new" %>
