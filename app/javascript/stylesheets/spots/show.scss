@@ -4,11 +4,6 @@
   }
 }
 
-.main-contents-wrap {
-  padding-top: 2rem;
-  margin: 0 auto;
-}
-
 .top-articles-wrap {
   width: 100%;
 } @media screen and (min-width: 800px) and (max-width: 1024px) {
@@ -130,12 +125,12 @@
   margin: 0 1rem;
 } @media screen and (min-width: 1024px) {
   .right-contents-wrap {
-    margin: 2rem 1rem;
+    margin: 1rem;
   }
 } @media screen and (min-width: 800px) and (max-width: 1024px) {
   .right-contents-wrap {
     position: absolute;
-    top: 37rem;
+    top: 36rem;
     right: 0;
     width: 27%;
   }

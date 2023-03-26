@@ -10,26 +10,6 @@
 }
 
 // メインコンテンツ
-.main-contents-wrap {
-  padding: 1rem;
-}
-
-.image-sort-link {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 20px;
-} @media screen and (max-width: 400px) {
-  .image-sort-link {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-}
-
-.image-sort-link a {
-  margin-right: 10px;
-}
-
 .image-list-wrap ul {
   display: flex;
   flex-wrap: wrap;

@@ -215,10 +215,7 @@ a:hover {
 }
 
 .main-contents-wrap {
-  padding: 0 3rem;
+  padding: 1rem;
+  margin: 0 auto;
   width: 100%;
-} @media screen and (max-width: 1024px) {
-  .main-contents-wrap {
-    padding: 0 1rem;
-  }
 }

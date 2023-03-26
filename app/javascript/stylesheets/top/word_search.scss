@@ -2,7 +2,9 @@
   display: flex;
 }
 
-@media screen and (min-width: 1024px) {
+.main-contents-wrap {
+  padding: 0 1rem;
+} @media screen and (min-width: 1024px) {
   .main-contents-wrap {
     padding: 0 0 0 3rem;
   }
@@ -23,12 +25,6 @@
 .search-result-title span {
   margin-left: 10px;
   font-size: 15px;
-}
-
-.spot-list-sort-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
 }
 
 .spot-list-sort-wrap a {
