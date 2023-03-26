@@ -22,8 +22,8 @@ function insertNewTagBtnWrap () {
   var tagBtnWrap = document.getElementsByClassName("js-spot-tag-btn-wrap");
 
   tagBtnWrap[0].insertAdjacentHTML('afterend',
-    '<%= j(render "spot_tags/shared/spot_tag_post_btn",
-      tags_user_put_on_spot: @tags_user_put_on_spot,
+    '<%= j(render "spot_tags/shared/spot_tag_post_button",
+      tags_user_put_on_spot: @tags_user_put_on_spot.decorate,
       spot: @spot
     )%>'
   );
