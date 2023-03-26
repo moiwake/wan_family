@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :set_q
+  before_action :set_categories, :set_allowed_areas, :set_regions, :set_prefecture_hash, unless: proc { request.xhr? }
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :store_user_location!, if: :storable_location?
 

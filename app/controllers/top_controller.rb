@@ -1,12 +1,10 @@
 class TopController < ApplicationController
-  before_action :set_categories, :set_allowed_areas, :set_regions, :set_prefecture_hash
-
   def index
     session.delete(:q)
     @q = Spot.ransack(params[:q])
     @ranked_spots = Spots::RankedQuery.call.eager_load(:category, :prefecture).preload(:images)
     @weekly_ranked_spots = Spots::WeeklyRankedQuery.call.preload(:images)
-    @weekly_ranked_blobs = Blobs::WeeklyRankedQuery.call.preload(attachments: :record)
+    @weekly_ranked_blobs = ImageBlobs::WeeklyRankedQuery.call.preload(attachments: :record)
   end
 
   def map_search
