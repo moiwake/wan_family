@@ -208,14 +208,17 @@ a:hover {
 
 .hero-body {
   padding: 0;
-}
-
-.contents-wrap {
-  margin-top: 100px;
+  margin-top: 70px;
 }
 
 .main-contents-wrap {
   padding: 1rem;
   margin: 0 auto;
   width: 100%;
+}
+
+.flash-message {
+  padding: 0.5rem;
+  background-color: #ffee050d;
+  color: #ffa605;
 }

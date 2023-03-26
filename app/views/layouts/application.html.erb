@@ -15,6 +15,7 @@
   <body>
     <%= render "shared/application/header", q: @q, categories: @categories, allowed_areas: @allowed_areas, prefecture_hash: @prefecture_hash %>
     <div class="hero-body">
+      <%= render "shared/flash_messages" %>
       <div class="contents-wrap">
         <%= yield %>
       </div>
