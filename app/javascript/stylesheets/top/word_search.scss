@@ -27,11 +27,25 @@
 
 .spot-list-sort-wrap {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .spot-list-sort-wrap a {
   margin-right: 5px;
+}
+
+// スポットレビュー
+.ratings-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+} @media screen and (min-width: 600px) and (max-width: 1216px) {
+  .ratings-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
 }
 
 // 左サイド検索リンク

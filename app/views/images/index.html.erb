@@ -1,2 +1,7 @@
-<h3><%= link_to @spot.name, spot_path(@spot) %>の画像一覧</h3>
-<%= render "shared/display_all_images", blobs: @blobs %>
+<%= render "shared/spot_header", spot: @spot, favorite_spot: @favorite_spot, tags_user_put_on_spot: @tags_user_put_on_spot %>
+<div class="container">
+  <div class="main-contents-wrap ">
+    <%= render "shared/display_images/image_list", blobs: @blobs, spot: @spot %>
+  </div>
+</div>
+<%= javascript_pack_tag "images/index" %>

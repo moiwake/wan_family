@@ -1,18 +1,18 @@
 <div class="header-tabs tabs is-centered is-boxed">
   <ul>
-    <li class="is-active">
+    <li class="top-tab-label">
       <%= link_to spot_path(spot) do %>
         <span class="icon is-small"><i class="fa-solid fa-house header-tab-icon" aria-hidden="true"></i></span>
         <span>トップ</span>
     <% end %>
     </li>
-    <li>
+    <li class="image-tab-label">
       <%= link_to spot_images_path(spot) do %>
         <span class="icon is-small"><i class="fas fa-image header-tab-icon" aria-hidden="true"></i></span>
         <span>写真</span>
       <% end %>
     </li>
-    <li>
+    <li class="review-tab-label">
       <%= link_to spot_reviews_path(spot) do %>
         <span class="icon is-small"><i class="fa-solid fa-comment-dots header-tab-icon" aria-hidden="true"></i></span>
         <span>レビュー</span>

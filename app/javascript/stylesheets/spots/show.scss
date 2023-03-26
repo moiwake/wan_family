@@ -17,6 +17,17 @@
   }
 }
 
+// ヘッダータブ
+.top-tab-label a {
+  background-color: #fff;
+  border: 1px solid #dbdbdb !important;
+  border-bottom-color: transparent !important;
+}
+
+.top-tab-label span {
+  color: #ae937a;
+}
+
 // トップ画像ディスプレイ
 .top-spot-images-wrap {
   background-color: #fafaf8;
