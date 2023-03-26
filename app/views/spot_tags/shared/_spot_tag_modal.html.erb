@@ -1,0 +1,53 @@
+<div class="modal js-tag-list-modal open">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <h3 class="modal-title">保存済みタグ</h3>
+      <div class="js-spot-tag-close-btn delete" aria-label="close"></div>
+    </header>
+    <section class="modal-card-body">
+      <div class="tag-list-wrap js-tag-list">
+        <ul>
+          <% spot_tags.each do |tag| %>
+            <li class="tag-list-content-wrap box" id="tag-<%= tag.id %>">
+              <div class="tag-main-content">
+                <div class="tag-title-wrap">
+                  <i class="fa-solid fa-tag tag-list-icon"></i>
+                  <span class="tag-name"><%= tag.name %></span>
+                </div>
+                <div class="tag-btns-wrap">
+                  <div class="tag-expand-btn js-tag-expand-btn">
+                    <i class="fa-solid fa-angles-down js-open-icon"></i>
+                  </div>
+                  <div class="tag-edit-btn js-tag-edit-btn">
+                    <%= link_to edit_spot_spot_tag_path(spot, tag), remote: true do %>
+                      <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <% end %>
+                  </div>
+                  <div class="tag-delete-btn">
+                    <%= link_to spot_spot_tag_path(spot, tag), method: :delete, data: { confirm: "タグを削除しますか？" }, remote: true do %>
+                      <i class="fa-solid fa-circle-xmark"></i>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+              <div class="tag-memo js-tag-memo-display js-hidden-memo">
+                <% if tag.memo.present? %>
+                  <%= tag.memo %>
+                <% else %>
+                  このタグにメモはありません。
+                <% end %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </section>
+    <footer class="modal-card-foot js-tag-foot">
+      <%= link_to new_spot_spot_tag_path(spot), class: "new-tag-link js-new-tag-link", remote: true do %>
+        <i class="fa-solid fa-plus"></i>
+        <span>タグを追加する</span>
+      <% end %>
+    </footer>
+  </div>
+</div>

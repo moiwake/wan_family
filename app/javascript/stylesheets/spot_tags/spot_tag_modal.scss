@@ -1,0 +1,117 @@
+// モーダルウィンドウ
+.spot-tag-display .open {
+  display: inherit;
+}
+
+.spot-tag-display .modal-card-head {
+  justify-content: space-between;
+}
+
+.spot-tag-display .modal-card {
+  padding-top: 100px;
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.spot-tag-display .modal-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.spot-tag-display .new-tag-link {
+  display: flex;
+  align-items: center;
+}
+
+// タグ
+.tag-list-wrap ul {
+  font-size: 14px;
+}
+
+.tag-main-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tag-title-wrap {
+  align-items: center;
+  display: flex;
+  max-width: 70%;
+}
+
+.tag-title-wrap i {
+  margin-right: 8px;
+}
+
+.tag-name {
+  max-height: 3.7rem;
+  overflow: auto;
+}
+
+.tag-btns-wrap {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 30%;
+}
+
+.tag-memo {
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #fbfbf2;
+  max-height: 11.7rem;
+  overflow: auto;
+}
+
+.js-hidden-memo {
+  display: none;
+}
+
+// 作成・編集フォーム
+.tag-form-wrap {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+.tag-form-wrap form {
+  width: 40%;
+  padding: 10px;
+}
+
+.tag-form-wrap form *:not(:last-child) {
+  margin-bottom: 5px;
+}
+
+.tag-form-wrap label {
+  display: inline-block;
+  font-size: 15px;
+}
+
+.form-btns-wrap {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#save-btn {
+  background-color: #e2eefd;
+}
+
+.form-right-contents {
+  width: 60%;
+}
+
+.created-tag-list-wrap {
+  padding: 10px;
+}
+
+.created-tag-list-wrap li {
+  max-width: 100%;
+  background-color: #fce8d4;
+  margin-bottom: 5px;
+}
+
+.created-tag {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

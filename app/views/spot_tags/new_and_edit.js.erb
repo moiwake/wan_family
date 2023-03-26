@@ -1,0 +1,41 @@
+deleteFormOpenElement();
+insertFormHtml();
+setCreatedTagName();
+
+function deleteFormOpenElement () {
+  var tagForm = document.getElementsByClassName("js-tag-form");
+
+  if (!tagForm[0]) {
+    var newTagLink = document.getElementsByClassName("js-new-tag-link")[0];
+    newTagLink.remove();
+
+    var editTagBtns = document.getElementsByClassName("js-tag-edit-btn");
+    while (editTagBtns[0]) {
+      editTagBtns[0].remove();
+    }
+  }
+}
+
+function insertFormHtml () {
+  var tagFoot = document.getElementsByClassName("js-tag-foot")[0];
+
+  tagFoot.insertAdjacentHTML("beforeend",
+    "<%= j(render "spot_tags/shared/spot_tag_post_form",
+      spot_tag: @spot_tag,
+      created_tag_names: @created_tag_names,
+      spot: @spot,
+      url: @spot_tag.id ? spot_spot_tag_path(@spot, @spot_tag) : spot_spot_tags_path(@spot)
+    ) %>"
+  );
+}
+
+function setCreatedTagName () {
+  var createdTags = document.getElementsByClassName("js-created-tag");
+  for (var i = 0; i < createdTags.length; i++) {
+    createdTags[i].addEventListener("click", function (e){
+      var parent = e.target.parentElement;
+      var tagNameForm = document.getElementsByClassName("js-tag-name-form")[0];
+      tagNameForm.value = parent.innerText;
+    });
+  }
+}

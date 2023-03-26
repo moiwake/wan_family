@@ -1,39 +1,41 @@
 class SpotTagsController < ApplicationController
   before_action :set_spot
-  before_action :set_tag_names, only: [:new, :edit]
+  before_action :set_created_tag_names, only: [:new, :edit]
 
   def index
-    set_spot_tags
+    set_tags_user_put_on_spot
   end
 
   def new
     @spot_tag = SpotTag.new
+    render "new_and_edit"
   end
 
   def create
     @spot_tag = SpotTag.new(spot_tag_params)
 
     if @spot_tag.save
-      set_spot_tags
+      set_tags_user_put_on_spot
       render "index"
     else
-      set_tag_names
+      set_created_tag_names
       render "new"
     end
   end
 
   def edit
     @spot_tag = SpotTag.find(params[:id])
+    render "new_and_edit"
   end
 
   def update
     @spot_tag = SpotTag.find(params[:id])
 
     if @spot_tag.update(spot_tag_params)
-      set_spot_tags
+      set_tags_user_put_on_spot
       render "index"
     else
-      set_tag_names
+      set_created_tag_names
       render "edit"
     end
   end
@@ -41,7 +43,7 @@ class SpotTagsController < ApplicationController
   def destroy
     @spot_tag = SpotTag.find(params[:id])
     @spot_tag.destroy
-    set_spot_tags
+    set_tags_user_put_on_spot
     render "index"
   end
 
@@ -55,11 +57,11 @@ class SpotTagsController < ApplicationController
     @spot = Spot.find(params[:spot_id])
   end
 
-  def set_spot_tags
-    @spot_tags = SpotTag.for_spot(user_id: current_user.id, spot_id: @spot.id)
+  def set_tags_user_put_on_spot
+    @tags_user_put_on_spot = SpotTag.get_tags_user_put_on_spot(user_id: current_user.id, spot_id: @spot.id)
   end
 
-  def set_tag_names
-    @spot_tag_names = SpotTag.created_spot_tag_names(user_id: current_user.id)
+  def set_created_tag_names
+    @created_tag_names = SpotTag.get_tag_names_user_created(user_id: current_user.id)
   end
 end
