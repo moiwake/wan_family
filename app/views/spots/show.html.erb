@@ -4,19 +4,25 @@
     <div class="top-spot-images-wrap js-spot-images block">
       <div class="large-image js-large-image"><img src="" alt=""></div>
       <div class="small-image js-small-image">
-        <%= render "shared/display_images/limited_ranked_image_blobs", parent_record: @spot.images, limit: 10, width: 800, height: 800 %>
+        <% if @spot.images.any? %>
+          <%= render "shared/display_images/limited_ranked_image_blobs", parent_record: @spot.images, limit: 10, width: 800, height: 800 %>
+        <% else %>
+          <%= image_tag "noimage.png" %>
+        <% end %>
       </div>
     </div>
     <div class="top-articles-wrap">
       <section class="top-review-article block">
         <h3 class="title is-5">スポットのレビュー</h3>
         <%= render "shared/display_reviews/review_list", reviews: Reviews::LimitedRankedPresenter.call(scope: @reviews, limit: 3)  %>
-        <div class="article-link">
-          <%= link_to spot_reviews_path(@spot) do %>
-            <span>レビューをもっと見る</span>
-            <i class="fa-solid fa-chevron-right article-link-icon"></i>
-          <% end %>
-        </div>
+        <% if @spot.reviews.any? %>
+          <div class="article-link">
+            <%= link_to spot_reviews_path(@spot) do %>
+              <span>レビューをもっと見る</span>
+              <i class="fa-solid fa-chevron-right article-link-icon"></i>
+            <% end %>
+          </div>
+        <% end %>
       </section>
       <%= render "spots/shared/spot_base_data", spot: @spot %>
     </div>

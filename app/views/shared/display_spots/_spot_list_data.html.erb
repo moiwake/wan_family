@@ -25,13 +25,15 @@
           </span>
         </div>
       </div>
-      <% if spot.reviews %>
+      <% if spot.reviews.any? %>
         <div class="review-comment">
           <% Reviews::LimitedRankedPresenter.call(scope: spot.reviews, limit: 1).each do |review| %>
             <div class="title is-6"><%= review.title %></div>
             <div class="comment"><%= review.comment %></div>
           <% end %>
         </div>
+      <% else %>
+        <div>レビューは投稿されてません。</div>
       <% end %>
     </div>
   </div>
