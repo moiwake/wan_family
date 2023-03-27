@@ -1,4 +1,9 @@
-<h2>スポット登録内容の変更</h2>
-<%= render "shared/error_messages", resource: @spot_register_form %>
-<%= render "spots/shared/register_form", url: edit_confirm_spot_path(@spot), method: :patch %>
-<%= render "shared/include_map", file: "spot/search_spot_address" %>
+<div class="container">
+  <div class="main-contents-wrap">
+    <div class="edit-spot-register-form-wrap">
+      <h2 class="edit-spot-main-title title is-5"><i class="fa-solid fa-pencil"></i>スポット登録内容の変更</h2>
+      <%= render "spots/shared/register_form", url: edit_confirm_spot_path(@spot), method: :patch %>
+    </div>
+  </div>
+</div>
+<%= javascript_pack_tag "spots/edit" %>
