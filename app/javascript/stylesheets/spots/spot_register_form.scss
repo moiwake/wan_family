@@ -1,0 +1,67 @@
+.spot-base-data-form label, .rule-option-title {
+  display: inline-block;
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+.required::after {
+  content: " *";
+  color: #e11212;
+  vertical-align: middle;
+}
+
+.required-guide span {
+  color: #e11212;
+  padding: 0 5px;
+}
+
+.guide-comment {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 15px;
+  color: #3850b7;
+  padding: 5px 0;
+}
+
+.guide-comment i {
+  margin-right: 5px;
+}
+
+.address-search-inputs {
+  display: flex;
+  align-items: center;
+}
+
+.address-search-bar {
+  max-width: 500px;
+}
+
+.select-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.select-wrap label {
+  margin-right: 10px;
+}
+
+.spot-rule-checkbox {
+  padding: 3px;
+}
+
+.confirm-btn {
+  display: flex;
+  justify-content: center;
+}
+
+.confirm-btn .button {
+  width: max-content;
+  height: max-content;
+  padding: 0.5rem 2rem;
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  border-color: #50c9eb;
+  background-color: #50c9eb;
+}

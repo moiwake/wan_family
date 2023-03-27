@@ -18,6 +18,7 @@ ja:
         latitude: 緯度
         longitude: 経度
         address: 所在地
+        prefecture: 所在地の県
         official_site: 公式サイト
         allowed_area: 同伴可能エリア
         category: スポットカテゴリー
