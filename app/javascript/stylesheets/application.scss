@@ -219,6 +219,30 @@ a:hover {
 
 .flash-message {
   padding: 0.5rem;
+}
+
+.flash-notice {
   background-color: #ffee050d;
   color: #ffa605;
+}
+
+.flash-alert {
+  background-color: #e112120d;
+  color: #e11212;
+}
+
+.error-messages-wrap {
+  margin-bottom: 1rem;
+  color: #e11212;
+  font-size: 15px;
+}
+
+.error-count {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.error-message-list-wrap {
+  list-style: inside;
 }

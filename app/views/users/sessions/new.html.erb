@@ -1,8 +1,8 @@
 <div class="container">
   <div class="main-contents-wrap">
-    <div class="card login-wrap">
+    <div class="card account-wrap">
       <h2 class="title is-4">ユーザーログイン</h2>
-      <%= form_with model: resource, as: resource_name, url: session_path(resource_name), class: "login-form" do |f| %>
+      <%= form_with model: resource, as: resource_name, url: session_path(resource_name), class: "account-form" do |f| %>
         <div class="input-bar field">
           <%= f.search_field :email, placeholder: "ご登録のメールアドレス", autofocus: true, autocomplete: "on", class: "input" %>
         </div>
@@ -15,11 +15,11 @@
             <%= f.label :remember_me %>
           </div>
         <% end %>
-        <div class="login-btn">
+        <div class="account-btn">
           <%= f.submit "ログイン", class: "button" %>
         </div>
       <% end %>
-      <div class="login-help-links-wrap">
+      <div class="account-help-links-wrap">
         <%= render "users/shared/links" %>
       </div>
     </div>

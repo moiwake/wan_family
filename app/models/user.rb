@@ -11,12 +11,13 @@ class User < ApplicationRecord
   has_one_attached :human_avatar
   has_one_attached :dog_avatar
 
+  validates :name, presence: true, uniqueness: true
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  validates :name, presence: true, uniqueness: true
   validates :human_avatar, :dog_avatar, blob: {
     content_type: ['image/png', 'image/jpg', 'image/jpeg'],
     size_range: 1..(5.megabytes),
