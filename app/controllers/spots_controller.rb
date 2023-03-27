@@ -95,6 +95,7 @@ class SpotsController < ApplicationController
       :official_site,
       :allowed_area_id,
       :category_id,
+      :prefecture_id,
     ]
 
     params.require(:spot_register_form).permit(spot_attributes: spot_params, rules_attributes: [[:answer]])
