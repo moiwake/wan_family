@@ -1,0 +1,37 @@
+.spot-register-confirm-table {
+  border-collapse: inherit;
+  font-size: 15px;
+}
+
+.spot-register-confirm-table th, .spot-register-confirm-table td {
+  white-space: nowrap;
+}
+
+.spot-register-confirm-table .spot-rules-row {
+  border-bottom: 1px solid #dbdbdb;
+  display: grid;
+}
+
+.confirm-btns-wrap {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.confirm-btn {
+  margin: 15px 0;
+  background-color: #ed7d8f;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.register-btn .confirm-btn {
+  padding: 0.5rem 2rem;
+  width: max-content;
+  height: max-content;
+}
+
+.back-btn .confirm-btn {
+  background-color: #9b9fb1;
+}

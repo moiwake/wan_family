@@ -1,3 +1,17 @@
-<%= render "spots/shared/confirm_table", spot: @spot_register_form.spot %>
-<%= render "spots/shared/confirm_form", url: spots_path, method: :post, btn_display: "登録を完了する" %>
-<%= render "spots/shared/confirm_form", url: back_new_spots_path, method: :post, btn_display: "入力画面に戻る" %>
+<div class="container">
+  <div class="main-contents-wrap">
+    <div class="new-spot-register-form-wrap">
+      <h2 class="new-spot-main-title title is-5">入力内容の確認</h2>
+      <%= render "spots/shared/confirm_table", spot: @spot_register_form.spot %>
+      <div class="confirm-btns-wrap">
+        <div class="register-btn">
+          <%= render "spots/shared/confirm_form", url: spots_path, method: :post, btn_display: "入力した内容で登録する" %>
+        </div>
+        <div class="back-btn">
+          <%= render "spots/shared/confirm_form", url: back_new_spots_path, method: :post, btn_display: "入力画面に戻る" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= javascript_pack_tag "spots/new_confirm" %>
