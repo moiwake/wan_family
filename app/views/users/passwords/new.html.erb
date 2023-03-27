@@ -1,16 +1,23 @@
-<h2>パスワードの再設定</h2>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email, "ご登録のメールアドレス" %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<div class="container">
+  <div class="main-contents-wrap">
+    <div class="card account-wrap">
+      <h2 class="title is-4">パスワードの再設定</h2>
+      <%= form_with model: resource, as: resource_name, url: password_path(resource_name), html: { method: :post }, class: "account-form" do |f| %>
+        <%= render "shared/error_messages", resource: resource %>
+        <div class="input-bar field">
+          <%= f.email_field :email, placeholder: "ご登録のメールアドレス", autofocus: true, autocomplete: "email", class: "input" %>
+        </div>
+        <div class="account-btn">
+          <div class="account-btn">
+            <%= f.submit "パスワード再設定のメールを送信", class: "button" %>
+          </div>
+        </div>
+      <% end %>
+      <div class="account-help-links-wrap">
+        <%= render "users/shared/links" %>
+      </div>
+    </div>
   </div>
+</div>
+<%= javascript_pack_tag "users/passwords/new" %>
 
-  <div class="actions">
-    <%= f.submit "パスワード再設定のメールを送信" %>
-  </div>
-<% end %>
-
-<%= render "users/shared/links" %>
