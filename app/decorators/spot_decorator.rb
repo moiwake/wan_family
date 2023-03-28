@@ -10,10 +10,14 @@ class SpotDecorator < Draper::Decorator
   end
 
   def get_dog_score_avg
-    spot.reviews.average(:dog_score).round(1)
+    if spot.reviews.any?
+      spot.reviews.average(:dog_score).round(1)
+    end
   end
 
   def get_human_score_avg
-    spot.reviews.average(:human_score).round(1)
+    if spot.reviews.any?
+      spot.reviews.average(:human_score).round(1)
+    end
   end
 end
