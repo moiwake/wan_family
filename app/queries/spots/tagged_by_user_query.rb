@@ -1,14 +1,15 @@
 module Spots
   class TaggedByUserQuery
-    attr_reader :spot, :user
+    attr_reader :spot, :user, :tag_params
 
-    def initialize(spot: Spot.all, user:)
+    def initialize(spot: Spot.all, user:, tag_params:)
       @spot = spot
       @user = user
+      @tag_params = tag_params
     end
 
-    def self.call(user:)
-      @spot = new(user: user).set_spot
+    def self.call(user:, tag_params: {})
+      @spot = new(user: user, tag_params: tag_params).set_spot
       return @spot
     end
 
@@ -20,11 +21,21 @@ module Spots
     private
 
     def set_spot_ids
-      tags_created_by_user.pluck(:spot_id)
+      order_tags.pluck(:spot_id)
+    end
+
+    def order_tags
+      tags_created_by_user.order(created_at: :desc)
     end
 
     def tags_created_by_user
-      user.spot_tags.order(created_at: :desc)
+      spot_tags = user.spot_tags
+
+      if tag_params[:tag_name].present?
+        spot_tags = spot_tags.where(name: tag_params[:tag_name])
+      end
+
+      return spot_tags
     end
   end
 end

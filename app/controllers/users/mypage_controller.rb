@@ -6,7 +6,8 @@ class Users::MypageController < ApplicationController
   end
 
   def spot_tag_index
-    @tagged_spots = Spots::TaggedByUserQuery.call(user: current_user)
+    @tagged_spots = Spots::TaggedByUserQuery.call(user: current_user, tag_params: params)
+    @tag_names = SpotTag.get_tag_names_user_created(user_id: current_user.id)
   end
 
   def spot_index

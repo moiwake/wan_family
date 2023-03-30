@@ -12,7 +12,6 @@ class SpotTag < ApplicationRecord
     .order(updated_at: :desc, created_at: :desc)
     .pluck(:name)
     .uniq
-    .first(SpotTag::MAX_CREATED_NAME_DISPLAY_NUMBER)
   }
 
   scope :get_tags_user_put_on_spot, -> (user_id:, spot_id:) {

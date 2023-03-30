@@ -62,6 +62,6 @@ class SpotTagsController < ApplicationController
   end
 
   def set_created_tag_names
-    @created_tag_names = SpotTag.get_tag_names_user_created(user_id: current_user.id)
+    @created_tag_names = SpotTag.get_tag_names_user_created(user_id: current_user.id).first(SpotTag::MAX_CREATED_NAME_DISPLAY_NUMBER)
   end
 end

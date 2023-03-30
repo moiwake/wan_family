@@ -20,11 +20,15 @@ module Spots
     private
 
     def set_spot_ids
-      favorites_created_by_user.pluck(:spot_id)
+      order_favorites.pluck(:spot_id)
+    end
+
+    def order_favorites
+      favorites_created_by_user.order(created_at: :desc)
     end
 
     def favorites_created_by_user
-      user.favorite_spots.order(created_at: :desc)
+      user.favorite_spots
     end
   end
 end

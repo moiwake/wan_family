@@ -27,8 +27,9 @@
   width: 50%;
 }
 
+// ユーザーコンテンツ
 @media screen and (min-width: 800px) {
-  .side-contents-wrap {
+  .user-contents-wrap {
     width: 40%;
     min-width: max-content;
     padding: 2rem 1rem;

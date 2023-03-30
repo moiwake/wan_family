@@ -2,3 +2,33 @@
   border-bottom-color: #f5b593;
   color: #e87334;
 }
+
+// タグリストのドロップダウン
+.js-hidden {
+  display: none;
+}
+
+.dropdown-wrap {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dropdown .button:focus:not(:active) {
+  box-shadow: none;
+}
+
+.dropdown .button.is-focused, .button:focus {
+  border-color: #b5b5b5;
+}
+
+.dropdown-menu-wrap {
+  right: 0;
+  left: auto;
+  max-width: 18rem;
+}
+
+.dropdown-content a {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
