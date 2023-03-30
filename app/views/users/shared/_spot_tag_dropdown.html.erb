@@ -1,0 +1,23 @@
+<div class="dropdown dropdown-wrap js-tag-dropdown">
+  <div class="dropdown-trigger">
+    <button class="button dropdown-btn js-dropdown-btn" aria-haspopup="true" aria-controls="dropdown-menu">
+      <span class="js-dropdown-button-text"><%= params[:tag_name].present? ? params[:tag_name] : "すべて" %></span>
+      <span class="icon is-small">
+        <i class="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+    </button>
+  </div>
+  <div class="dropdown-menu dropdown-menu-wrap" id="dropdown-menu" role="menu">
+    <div class="dropdown-content js-dropdown-content">
+      <%= link_to "すべて", { tag_name: "" }, class: "dropdown-item" %>
+      <hr class="dropdown-divider">
+      <% tag_names.each_with_index do |tag_name, i| %>
+        <%= link_to tag_name, { tag_name: tag_name }, class: "dropdown-item js-dropdown-item js-hidden" %>
+      <% end %>
+      <div class="dropdown-item js-show-more-trigger">
+        <hr class="dropdown-divider">
+        <p>さらに表示</p>
+      </div>
+    </div>
+  </div>
+</div>
