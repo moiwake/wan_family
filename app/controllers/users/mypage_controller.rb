@@ -1,10 +1,5 @@
-class UsersController < ApplicationController
+class Users::MypageController < ApplicationController
   before_action :authenticate_user!
-
-  # mypage
-  def index
-    @user = current_user
-  end
 
   def spot_index
     @spots = current_user.spots.preload(:category)
@@ -27,8 +22,8 @@ class UsersController < ApplicationController
     @user = current_user
 
     if @user.update(user_params)
-      flash[:notice] = "プロフィールを変更しました。"
-      redirect_to edit_profile_path
+      # flash[:notice] = "プロフィールを変更しました。"
+      redirect_to mypage_path
     else
       render "edit"
     end

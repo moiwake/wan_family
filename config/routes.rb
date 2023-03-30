@@ -15,12 +15,15 @@ Rails.application.routes.draw do
     registrations: 'users/registrations',
   }
 
-  get   "mypage",             to: "users#index",  as: "mypage"
-  get   "profile/edit",       to: "users#edit",   as: "edit_profile"
-  patch "profile",            to: "users#update", as: "profile"
-  get   "users_spot_index",   to: "users#spot_index"
-  get   "users_review_index", to: "users#review_index"
-  get   "users_image_index",  to: "users#image_index"
+  namespace :users do
+    get   "mypage/profile/edit",        to: "mypage#edit"
+    patch "mypage/profile",             to: "mypage#update"
+    get   "mypage/spot_index",          to: "mypage#spot_index"
+    get   "mypage/review_index",        to: "mypage#review_index"
+    get   "mypage/image_index",         to: "mypage#image_index"
+    get   "mypage/favorite_spot_index", to: "mypage#favorite_spot_index"
+    get   "mypage/spot_tag_index",      to: "mypage#spot_tag_index"
+  end
 
   resources :spots, except: :destroy do
     collection do

@@ -1,0 +1,9 @@
+    <div class="review-operation-links">
+          <%= link_to edit_spot_review_path(review.spot, review) do %>
+        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+      <% end %>
+      <%= link_to spot_review_path(review.spot, review), method: :delete, data: { confirm: "#{review.spot.name}のレビュー「#{review.title}」を削除しますか？" } do %>
+        <i class="fa fa-trash" aria-hidden="true"></i>
+      <% end %>
+      <%#= link_to review.spot.name, spot_path(review.spot.id)のレビュー %>
+    </div>
