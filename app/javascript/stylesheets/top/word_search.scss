@@ -1,5 +1,6 @@
-.container {
+.search-result-container {
   display: flex;
+  padding-top: 1rem;
 }
 
 .main-contents-wrap {
@@ -36,17 +37,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-} @media screen and (min-width: 600px) and (max-width: 1216px) {
-  .ratings-wrap {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-  }
 }
 
 // 左サイド検索リンク
 @media screen and (max-width: 900px) {
-  .side-search-wrap {
+  .side-contents-wrap {
     display: none;
   }
 }

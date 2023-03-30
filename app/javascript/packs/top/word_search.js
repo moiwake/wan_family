@@ -1,4 +1,4 @@
-import "src/shared/display_list_image.js"
+import "src/shared/display_image_slide.js"
 import "src/shared/display_rating.js"
 import "stylesheets/top/word_search.scss"
 import "stylesheets/shared/spot_list.scss"

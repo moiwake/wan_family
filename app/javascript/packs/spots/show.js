@@ -1,4 +1,4 @@
-import "src/shared/display_list_image.js"
+import "src/shared/display_image_slide.js"
 import "src/shared/display_rating.js"
 import "src/shared/hidden_card.js"
 import "src/spots/display_login_notice.js"

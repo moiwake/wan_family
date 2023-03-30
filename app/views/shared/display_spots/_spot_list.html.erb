@@ -2,10 +2,10 @@
   <% if spots.present? %>
     <% spots.each do |spot| %>
       <%= link_to spot_path(spot.id), class: "list-content card block" do %>
-        <div class="spot-images">
-          <div class="large-image"><img src="" alt=""></div>
-          <div class="small-image">
-            <%= render "shared/display_images/limited_ranked_image_blobs", parent_record: spot.images, limit: 3, width: 500, height: 500 %>
+        <div class="spot-images js-spot-images">
+          <div class="large-image js-large-image"><img src="" alt=""></div>
+          <div class="small-image js-small-image">
+            <%= render "shared/display_images/limited_ranked_image_blobs", parent_record: spot.images, limit: 5, width: 500, height: 500 %>
           </div>
         </div>
           <%= render "shared/display_spots/spot_list_data", spot: spot %>
