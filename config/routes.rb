@@ -16,8 +16,8 @@ Rails.application.routes.draw do
   }
 
   namespace :users do
-    get   "mypage/profile/edit",        to: "mypage#edit"
-    patch "mypage/profile",             to: "mypage#update"
+    get   "mypage/profile/edit",        to: "mypage#edit_profile"
+    patch "mypage/profile",             to: "mypage#update_profile"
     get   "mypage/spot_index",          to: "mypage#spot_index"
     get   "mypage/review_index",        to: "mypage#review_index"
     get   "mypage/image_index",         to: "mypage#image_index"

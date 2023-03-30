@@ -1,0 +1,66 @@
+<div class="container">
+  <div class="main-contents-wrap">
+    <div class="mypage-link-wrap">
+      <i class="fa-solid fa-chevron-left mypage-link-icon"></i>
+      <%= link_to "マイページへ戻る", users_mypage_favorite_spot_index_path %>
+    </div>
+    <div class="card profile-wrap">
+      <h2 class="title is-4">プロフィールの編集</h2>
+      <p class="profile-name"><%= @user.name %><span>(変更できません)</span></p>
+      <%= form_with model: current_user, url: users_mypage_profile_path do |f| %>
+        <%= render "shared/error_messages", resource: current_user %>
+        <div class="file-uploader-wrap">
+          <div class="file-uploader field">
+            <div class="profile-image-wrap">
+              <div class="profile-image">
+                <%= image_tag @user.decorate.display_human_avatar, size: "130x130", class: "js-upload-image" %>
+              </div>
+              <p class="image-label">ユーザー画像</p>
+              <div class="file is-small">
+                <label class="file-label">
+                  <%= f.file_field :human_avatar, class: "file-input js-file-input" %>
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      ファイルを選択してください
+                    </span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="file-uploader field">
+            <div class="profile-image-wrap">
+              <div class="profile-image">
+                <%= image_tag @user.decorate.display_dog_avatar, size: "130x130", class: "js-upload-image" %>
+              </div>
+              <p class="image-label">ワンちゃんの画像</p>
+              <div class="file is-small">
+                <label class="file-label">
+                  <%= f.file_field :dog_avatar, class: "file-input js-file-input" %>
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      ファイルを選択してください
+                    </span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <%= f.text_area :introduction, placeholder: "自己紹介をご記入ください。", class: "textarea" %>
+        </div>
+        <div class="profile-btn">
+          <input type="button" onclick="submit();" value= "保存" class="button" />
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<%= javascript_pack_tag "users/edit_profile" %>

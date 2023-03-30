@@ -23,18 +23,18 @@ class Users::MypageController < ApplicationController
   end
 
   # profile
-  def edit
+  def edit_profile
     @user = current_user
   end
 
-  def update
+  def update_profile
     @user = current_user
 
     if @user.update(user_params)
-      # flash[:notice] = "プロフィールを変更しました。"
-      redirect_to mypage_path
+      flash[:notice] = "プロフィールを変更しました。"
+      redirect_to users_mypage_favorite_spot_index_path
     else
-      render "edit"
+      render "edit_profile"
     end
   end
 
