@@ -1,6 +1,14 @@
 class Users::MypageController < ApplicationController
   before_action :authenticate_user!
 
+  def favorite_spot_index
+    @favorite_spots = Spots::FavoriteByUserQuery.call(user: current_user)
+  end
+
+  def spot_tag_index
+    @tagged_spots = Spots::TaggedByUserQuery.call(user: current_user)
+  end
+
   def spot_index
     @spots = current_user.spots.preload(:category)
   end

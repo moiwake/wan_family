@@ -1,0 +1,50 @@
+<div class="container user-mypage-wrap">
+  <div class="main-contents-wrap">
+    <div class="user-marked-spot-tab-wrap tabs">
+      <ul>
+        <li class="favorite-spot-tab-label">
+          <%= link_to "お気に入りしたスポット", users_mypage_favorite_spot_index_path %>
+        </li>
+        <li class="spot-tag-tab-label">
+          <%= link_to "タグをつけたスポット", users_mypage_spot_tag_index_path %>
+        </li>
+      </ul>
+    </div>
+    <div class="user-marked-spot-list-wrap js-user-marked-spot-list">
+      <%= render "shared/display_spots/spot_list", spots: spots %>
+    </div>
+  </div>
+  <div class="side-contents-wrap">
+    <div class="user-media-head">
+      <div class="user-images-wrap">
+        <div class="user-image">
+          <%= image_tag current_user.decorate.display_human_avatar, size: "130x130" %>
+        </div>
+        <div class="user-image">
+          <%= image_tag current_user.decorate.display_dog_avatar, size: "130x130" %>
+        </div>
+      </div>
+      <span class="user-name"><%= current_user.name %></span>
+    </div>
+    <ul class="user-media-body">
+      <li>
+        <%= link_to "プロフィール編集", users_mypage_profile_edit_path %>
+      </li>
+      <li>
+        <%= link_to "アカウント設定", edit_user_registration_path %>
+      </li>
+      <li>
+        <%= link_to "登録・更新したスポット", users_mypage_spot_index_path %>
+        <span class="count"><%= current_user.spots.size %></span>
+      </li>
+      <li>
+        <%= link_to "投稿したレビュー", users_mypage_review_index_path %>
+        <span class="count"><%= current_user.reviews.size %></span>
+      </li>
+      <li>
+        <%= link_to "投稿した画像", users_mypage_image_index_path %>
+        <span class="count"><%= current_user.images.size %></span>
+      </li>
+    </ul>
+  </div>
+</div>

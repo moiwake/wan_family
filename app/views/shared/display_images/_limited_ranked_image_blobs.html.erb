@@ -1,3 +1,7 @@
-<% ImageBlobs::LimitedRankedPresenter.call(parent_record: parent_record, limit: limit).each do |blob| %>
-  <%= image_tag blob.representation(resize_to_limit: [width, height], gravity: "center", crop: "#{width-100}x#{height-100}+0+0") %>
+<% if parent_record.present? || parent_record.any? %>
+  <% ImageBlobs::LimitedRankedPresenter.call(parent_record: parent_record, limit: limit).each do |blob| %>
+    <%= image_tag blob.representation(resize_to_limit: [width, height], gravity: "center", crop: "#{width-100}x#{height-100}+0+0") %>
+  <% end %>
+<% else %>
+  <%= image_tag "noimage.png" %>
 <% end %>
