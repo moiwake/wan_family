@@ -1,11 +1,6 @@
-<div class="image-sort-link">
-  <%= link_to "新しい順", { by: "created_at", direction: "desc" } %>
-  <%= link_to "古い順", { by: "created_at", direction: "asc" } %>
-  <%= link_to "Cuteが多い順", { by: "likes_count", direction: "desc" } %>
-</div>
 <% if blobs.present? %>
   <section class="image-list-wrap">
-    <%= render "shared/display_images/image_link_list", blobs: blobs, spot_id: spot.id, image_id: nil %>
+    <%= render "shared/display_images/image_link_list", blobs: blobs, spot_id: spot_id, image_id: image_id %>
   </section>
 <% else %>
   画像の投稿はありません。

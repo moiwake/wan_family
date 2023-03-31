@@ -2,7 +2,7 @@
 <div class="container">
   <div class="main-contents-wrap">
     <%= render "shared/sort_link", likes_count_title: "いいねが多い順" %>
-    <%= render "shared/display_images/image_list", blobs: @blobs, spot: @spot %>
+    <%= render "shared/display_images/image_list", blobs: @blobs, spot_id: @spot.id, image_id: nil %>
   </div>
 </div>
 <%= javascript_pack_tag "images/index" %>

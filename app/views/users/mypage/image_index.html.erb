@@ -1,2 +1,22 @@
-<%= link_to "マイページへ戻る", mypage_path %>
-<%= render "shared/display_all_images", blobs: @blobs %>
+<div class="container review-index-container">
+  <section class="main-contents-wrap">
+    <div class="page-link-wrap">
+      <i class="fa-solid fa-chevron-left mypage-link-icon"></i>
+      <%= link_to "マイページへ戻る", users_mypage_favorite_spot_index_path %>
+    </div>
+    <div class="page-link-wrap">
+      <i class="fa-solid fa-chevron-left mypage-link-icon"></i>
+      <%= link_to "登録・更新したスポット", users_mypage_spot_index_path %>
+    </div>
+    <div class="page-link-wrap">
+      <i class="fa-solid fa-chevron-left mypage-link-icon"></i>
+      <%= link_to "投稿したレビュー", users_mypage_review_index_path %>
+    </div>
+    <h2 class="title is-4 main-title">投稿した画像</h2>
+    <div class="review-index-wrap">
+      <%= render "shared/sort_link", likes_count_title: "いいねが多い順" %>
+      <%= render "shared/display_images/image_list", blobs: @blobs, spot_id: nil, image_id: nil %>
+    </div>
+  </section>
+</div>
+<%= javascript_pack_tag "users/image_index" %>
