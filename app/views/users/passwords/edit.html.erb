@@ -1,26 +1,31 @@
-<h2>パスワードの変更</h2>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
-
-  <div class="field">
-    <%= f.label :password, "新しく設定するパスワードをご入力ください。" %><br />
-    <% if @minimum_password_length %>
-      <em>半角の英字・数字、両方を含めて<%= @minimum_password_length %>文字以上</em><br />
-      <p>記号はご使用できません。</p>
-    <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
+<div class="container">
+  <div class="main-contents-wrap">
+    <div class="page-back-link-wrap">
+      <i class="fa-solid fa-chevron-left link-icon"></i>
+      <%= link_to "TOPへ", root_path %>
+    </div>
+    <div class="card account-wrap">
+      <h2 class="title is-4">パスワードの再設定</h2>
+      <%= form_with model: resource, as: resource_name, url: password_path(resource_name), html: { method: :put }, class: "account-form" do |f| %>
+        <%= render "shared/error_messages", resource: resource %>
+        <%= f.hidden_field :reset_password_token %>
+        <div class="input-bar field">
+          <%= f.label :password, "新しく設定するパスワード" %>
+          <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "input" %>
+          <% if @minimum_password_length %>
+            <p class="input-guide">半角の英字・数字、両方を含めて<%= @minimum_password_length %>文字以上</p>
+          <% end %>
+          <p class="input-guide">記号は使用できません。</p>
+        </div>
+        <div class="input-bar field">
+          <%= f.label :password_confirmation, "新しいパスワードの確認" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "input" %>
+        </div>
+        <div class="account-btn">
+          <%= f.submit "新しいパスワードを設定する", class: "button" %>
+        </div>
+      <% end %>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation, "新しいパスワードの確認" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "パスワードを変更する" %>
-  </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+</div>
+<%= javascript_pack_tag "users/passwords/edit" %>
