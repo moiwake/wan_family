@@ -1,3 +1,22 @@
-<%= render "shared/flash_messages" %>
-<%= link_to "マイページへ戻る", mypage_path %>
-<%= render "reviews/shared/display_all_reviews", reviews: @reviews %>
+<div class="container review-index-container">
+  <section class="main-contents-wrap">
+    <div class="page-link-wrap">
+      <i class="fa-solid fa-chevron-left mypage-link-icon"></i>
+      <%= link_to "マイページへ戻る", users_mypage_favorite_spot_index_path %>
+    </div>
+    <div class="page-link-wrap">
+      <i class="fa-solid fa-chevron-left mypage-link-icon"></i>
+      <%= link_to "登録・更新したスポット", users_mypage_spot_index_path %>
+    </div>
+    <div class="page-link-wrap">
+      <i class="fa-solid fa-chevron-left mypage-link-icon"></i>
+      <%= link_to "投稿した画像", users_mypage_image_index_path %>
+    </div>
+    <h2 class="title is-4 main-title">投稿したレビュー</h2>
+    <div class="review-index-wrap">
+      <%= render "shared/sort_link", likes_count_title: "お気に入りが多い順" %>
+      <%= render "shared/display_reviews/review_list", reviews: @reviews %>
+    </div>
+  </section>
+</div>
+<%= javascript_pack_tag "users/review_index" %>

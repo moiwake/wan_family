@@ -14,9 +14,7 @@
     </div>
     <h2 class="title is-4 main-title">登録・更新したスポット</h2>
     <div class="spot-index-wrap">
-      <div class="spot-index-top-wrap">
-        <%= render "shared/sort_link", likes_count_title: "お気に入りが多い順" %>
-      </div>
+      <%= render "shared/sort_link", likes_count_title: "お気に入りが多い順" %>
       <%= render "shared/display_spots/spot_list", spots: @spots %>
     </div>
   </section>

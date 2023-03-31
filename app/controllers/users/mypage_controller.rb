@@ -15,7 +15,7 @@ class Users::MypageController < ApplicationController
   end
 
   def review_index
-    @reviews = OrderedReviewsQuery.call(parent_record: current_user, order_params: params).load_all_associations
+    @reviews = Reviews::OrderedQuery.call(parent_record: current_user, order_params: params).load_all_associations
   end
 
   def image_index

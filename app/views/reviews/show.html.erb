@@ -1,8 +1,0 @@
-<%= render "shared/flash_messages" %>
-<%= link_to "#{@review.spot.name}のすべてのレビュー", spot_reviews_path(@review.spot), class: "button light ml-3 mt-3" %>
-<%= render "reviews/shared/review_contents", review: @review, i: nil %>
-<div id="review-reaction">
-  <%= render "like_reviews/shared/add_or_remove_review_like", review: @review, spot: @review.spot, like_review: @like_review %>
-</div>
-<%= render "shared/display_image_link_list", blobs: @blobs %>
-<%= javascript_pack_tag "review/display_rating" %>

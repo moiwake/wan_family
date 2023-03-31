@@ -12,7 +12,7 @@ function hiddenCard() {
       cover[i].classList.add("js-hidden-card");
       cards[i].classList.remove("js-resize-card");
 
-      if (cards[i].clientHeight > 500) {
+      if (cards[i].clientHeight > 600) {
         cover[i].classList.remove("js-hidden-card");
         cards[i].classList.add("js-resize-card");
 
