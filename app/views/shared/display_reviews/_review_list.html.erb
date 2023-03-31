@@ -1,6 +1,12 @@
 <% if reviews.present? %>
   <div class="review-list-wrap block">
     <% reviews.each do |review| %>
+      <% if show_spot_link ||= false %>
+        <%= link_to spot_path(review.spot), class: "title is-6 review-spot-name" do %>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          <span><%= review.spot.name %>のレビュー</span>
+        <% end %>
+      <% end %>
       <div class="card block">
         <%= render "shared/display_reviews/review_content", review: review %>
       </div>

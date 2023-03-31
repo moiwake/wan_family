@@ -11,7 +11,12 @@
   margin-top: 2rem;
 }
 
-// スポットレビュー
+.review-spot-name {
+  display: inline-block;
+  margin-top: 20px;
+  color: #7d7474 !important;
+}
+
 .ratings-wrap {
   display: flex;
   flex-direction: column;
