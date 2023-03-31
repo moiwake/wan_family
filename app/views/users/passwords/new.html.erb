@@ -1,5 +1,9 @@
 <div class="container">
   <div class="main-contents-wrap">
+    <div class="page-back-link-wrap">
+      <i class="fa-solid fa-chevron-left link-icon"></i>
+      <%= link_to "TOPへ", root_path %>
+    </div>
     <div class="card account-wrap">
       <h2 class="title is-4">パスワードの再設定</h2>
       <%= form_with model: resource, as: resource_name, url: password_path(resource_name), html: { method: :post }, class: "account-form" do |f| %>
