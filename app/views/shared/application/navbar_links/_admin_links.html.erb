@@ -1,1 +1,2 @@
-<%= link_to "サイト管理ページへ", rails_admin_path %>
+<%= link_to "サイト管理ページへ", rails_admin_path, class: "navbar-item" %>
+<%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "navbar-item" %>
