@@ -8,10 +8,10 @@
       <h2 class="title is-4">ユーザーログイン</h2>
       <%= form_with model: resource, as: resource_name, url: session_path(resource_name), class: "account-form" do |f| %>
         <div class="input-bar field">
-          <%= f.search_field :email, placeholder: "ご登録のメールアドレス", autofocus: true, autocomplete: "on", class: "input" %>
+          <%= f.search_field :email, placeholder: "ご登録のメールアドレス", autofocus: true, autocomplete: "email", class: "input" %>
         </div>
         <div class="input-bar field">
-          <%= f.password_field :password, placeholder: "パスワード", autocomplete: "on", class: "input" %>
+          <%= f.password_field :password, placeholder: "パスワード", autocomplete: "current-password", class: "input" %>
         </div>
         <% if devise_mapping.rememberable? %>
           <div class="remember-me-checkbox">

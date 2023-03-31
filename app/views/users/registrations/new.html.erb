@@ -9,10 +9,10 @@
       <%= form_with model: resource, as: resource_name, url: registration_path(resource_name), class: "account-form" do |f| %>
         <%= render "shared/error_messages", resource: resource %>
         <div class="input-bar field">
-          <%= f.text_field :name, placeholder: "ユーザーネーム(後から変更できません)", autofocus: true, autocomplete: "on", class: "input" %>
+          <%= f.text_field :name, placeholder: "ユーザーネーム(後から変更できません)", autofocus: true, autocomplete: "name", class: "input" %>
         </div>
         <div class="input-bar field">
-          <%= f.email_field :email, placeholder: "メールアドレス", autocomplete: "on", class: "input" %>
+          <%= f.email_field :email, placeholder: "メールアドレス", autocomplete: "email", class: "input" %>
         </div>
         <div class="input-bar field">
           <%= f.password_field :password, placeholder: "半角英数字で#{@minimum_password_length}文字以上", autocomplete: "new-password", class: "input" %>
