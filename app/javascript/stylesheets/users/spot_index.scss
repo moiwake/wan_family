@@ -1,0 +1,28 @@
+.spot-index-container {
+  display: flex;
+  padding-top: 1rem;
+}
+
+.main-contents-wrap {
+  padding: 0 1rem;
+}
+
+.main-title {
+  margin-top: 2rem;
+}
+
+.spot-index-top-wrap {
+  margin: 10px 0;
+} @media screen and (min-width: 600px) {
+  .spot-index-top-wrap {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+// スポットレビュー
+.ratings-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

@@ -1,25 +1,24 @@
-<%= link_to "マイページへ戻る", mypage_path %>
-
-<% if @spots.present? %>
-  <div class="registrated-spots">
-    <h2>登録スポットの一覧</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>スポット名</th>
-          <th>住所</th>
-          <th>スポットカテゴリー</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @spots.each do |spot| %>
-        <tr>
-          <td><%= link_to spot.name, spot_path(spot.id), class: "spot_detail" %></td>
-          <td><%= spot.address %></td>
-          <td><%= spot.category.name %></td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-<% end %>
+<div class="container spot-index-container">
+  <section class="main-contents-wrap">
+    <div class="page-link-wrap">
+      <i class="fa-solid fa-chevron-left mypage-link-icon"></i>
+      <%= link_to "マイページへ戻る", users_mypage_favorite_spot_index_path %>
+    </div>
+    <div class="page-link-wrap">
+      <i class="fa-solid fa-chevron-left mypage-link-icon"></i>
+      <%= link_to "投稿したレビュー", users_mypage_review_index_path %>
+    </div>
+    <div class="page-link-wrap">
+      <i class="fa-solid fa-chevron-left mypage-link-icon"></i>
+      <%= link_to "投稿した画像", users_mypage_image_index_path %>
+    </div>
+    <h2 class="title is-4 main-title">登録・更新したスポット</h2>
+    <div class="spot-index-wrap">
+      <div class="spot-index-top-wrap">
+        <%= render "shared/sort_link", likes_count_title: "お気に入りが多い順" %>
+      </div>
+      <%= render "shared/display_spots/spot_list", spots: @spots %>
+    </div>
+  </section>
+</div>
+<%= javascript_pack_tag "users/spot_index" %>

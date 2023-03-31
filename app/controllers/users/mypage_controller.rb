@@ -11,7 +11,7 @@ class Users::MypageController < ApplicationController
   end
 
   def spot_index
-    @spots = current_user.spots.preload(:category)
+    @spots = Spots::OrderedQuery.call(scope: current_user.spots, order_params: params).preload(:category)
   end
 
   def review_index
