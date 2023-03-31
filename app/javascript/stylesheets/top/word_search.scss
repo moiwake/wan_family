@@ -26,10 +26,8 @@
 .search-result-title span {
   margin-left: 10px;
   font-size: 15px;
-}
-
-.spot-list-sort-wrap a {
-  margin-right: 5px;
+  display: inline-block;
+  width: max-content;
 }
 
 // スポットレビュー
