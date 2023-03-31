@@ -21,6 +21,8 @@ class OrderedQueryBase
   private
 
   def set_scope
+    @scope = scope.distinct
+
     if parent_record.nil?
       scope
     else
@@ -59,7 +61,7 @@ class OrderedQueryBase
   end
 
   def set_not_liked_scope_ids
-    order_default.ids.difference(@liked_scope_ids)
+    scope.order(id: :desc).ids.difference(@liked_scope_ids)
   end
 
   def set_liked_scope_ids
