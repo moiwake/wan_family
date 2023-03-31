@@ -246,3 +246,14 @@ a:hover {
 .error-message-list-wrap {
   list-style: inside;
 }
+
+.page-link-wrap {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.page-link-wrap i {
+  color: #7a7a7a;
+}
