@@ -1,19 +1,23 @@
-<h2>＜管理者用＞ログイン</h2>
-
-<%= render "shared/flash_messages" %>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email, "メールアドレス" %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<div class="container">
+  <div class="main-contents-wrap">
+    <div class="page-back-link-wrap">
+      <i class="fa-solid fa-chevron-left link-icon"></i>
+      <%= link_to "TOPへ", root_path %>
+    </div>
+    <div class="card account-wrap">
+      <h2 class="title is-4">管理者ログイン</h2>
+      <%= form_with model: resource, as: resource_name, url: session_path(resource_name), class: "account-form" do |f| %>
+        <div class="input-bar field">
+          <%= f.search_field :email, placeholder: "ご登録のメールアドレス", autofocus: true, autocomplete: "on", class: "input" %>
+        </div>
+        <div class="input-bar field">
+          <%= f.password_field :password, placeholder: "パスワード", autocomplete: "current-password", class: "input" %>
+        </div>
+        <div class="account-btn">
+          <%= f.submit "管理者としてログイン", class: "button" %>
+        </div>
+      <% end %>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :password, "パスワード" %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <input type="button" onclick="submit();" value= "ログイン" />
-  </div>
-<% end %>
+</div>
+<%= javascript_pack_tag "admins/sessions/new" %>
