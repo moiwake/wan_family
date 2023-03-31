@@ -1,12 +1,14 @@
-<div id="post-review-like">
+<div class="like-review-btn-wrap js-like-review-post">
   <% if current_user.present? %>
     <% if review_posted_by_another?(review) %>
       <%= render "like_reviews/shared/like_review_button", review: review, like_review: like_review %>
     <% else %>
-      <span>Good!</span>
+      <i class="fa-solid fa-thumbs-up review-like-icon"></i>
     <% end %>
   <% else %>
-    <%= link_to "Good!", new_user_session_path %>
+    <%= link_to new_user_session_path do %>
+      <i class="fa-solid fa-thumbs-up review-like-icon"></i>
+    <% end %>
   <% end %>
   <span><%= review.like_reviews.size %></span>
 </div>

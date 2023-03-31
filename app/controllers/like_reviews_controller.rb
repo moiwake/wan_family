@@ -7,8 +7,8 @@ class LikeReviewsController < ApplicationController
 
   def destroy
     @like_review = LikeReview.find(params[:id])
-    set_review
     @like_review.destroy
+    set_review
     render "create_and_destroy"
   end
 

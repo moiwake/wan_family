@@ -1,6 +1,9 @@
-var reviewReaction = document.getElementById("review-reaction");
-reviewReaction.firstElementChild.remove();
+var reviewLikePost = document.getElementsByClassName("js-like-review-post")[0];
 
-reviewReaction.insertAdjacentHTML('afterbegin',
+while (reviewLikePost.firstElementChild) {
+  reviewLikePost.firstElementChild.remove();
+}
+
+reviewLikePost.insertAdjacentHTML('afterbegin',
   '<%= j(render "like_reviews/shared/add_or_remove_review_like", review: @review, like_review: @like_review) %>'
 );

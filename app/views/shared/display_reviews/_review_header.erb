@@ -9,7 +9,6 @@
     <p class="title is-5"><%= review.title %></p>
   </div>
   <div class="media-right">
-    <i class="fa-solid fa-thumbs-up"></i>
-    <%= review.like_reviews.size %>
+    <%= render "like_reviews/shared/add_or_remove_review_like", review: review, spot: review.spot, like_review: like_review_by_user(review) %>
   </div>
 </div>
