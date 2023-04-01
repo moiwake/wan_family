@@ -201,6 +201,15 @@ a:hover {
   color: #7a5555;
 }
 
+.button:focus {
+  border-color: #fbab5d;
+  color: #363636;
+}
+
+.button:focus:not(:active) {
+  box-shadow: 0 0 0 0.125em #fbab5d8c;
+}
+
 .input:focus, .textarea:focus {
   border-color: #dcdca9;
   box-shadow: 0 0 0 0.125em rgba(106, 100, 48, 0.25);

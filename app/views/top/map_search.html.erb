@@ -1,40 +1,21 @@
-<%= render "shared/flash_messages", obj: @spot_register_form %>
-
-<div class="registrated-spots">
-  <h2>登録スポットの一覧</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>スポット名</th>
-        <th>住所</th>
-        <th>スポットカテゴリー</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @spots.each do |spot| %>
-      <tr>
-        <td><%= link_to spot.name, spot_path(spot.id), class: "spot_detail" %></td>
-        <td><%= spot.address %></td>
-        <td><%= spot.category.name %></td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
+<div class="container map-search-container">
+  <section class="main-contents-wrap">
+    <h2 class="title is-4 main-title">マップで探す</h2>
+    <div class="map-search-wrap">
+      <div class="region-btns-wrap">
+        <% @regions.each do |region| %>
+          <%= button_tag region.name, id: "js-#{region.name_roma}-btn", class: "button" %>
+        <% end %>
+      </div>
+      <div id="js-map-display" class="map-display"></div>
+    </div>
+  </section>
 </div>
-
-<% @regions.each do |region| %>
-  <input type="button" id=<%= region[1] %> value=<%= region[0] %> >
+<!-- javascriptで参照するため -->
+<% @spots.each do |spot|%>
+  <input type="hidden" class="js-spot-data" data-name=<%= spot.name %> data-lat=<%= spot.latitude %> data-lng=<%= spot.longitude %> data-path=<%= spot_path(spot.id) %>>
 <% end %>
-
-<div id='map_search_spot'></div>
-
-<!-- javascriptで緯度経度を参照するため -->
-<input type="hidden" id="spot_counts" value=<%= @spots.size %>>
-<% @spots.each_with_index do |spot, i|%>
-  <input type="hidden" id="spot_latitude_<%= i %>" value=<%= spot.latitude %>>
-  <input type="hidden" id="spot_longitude_<%= i %>" value=<%= spot.longitude %>>
-  <input type="hidden" id="spot_path_<%= i %>" value=<%= spot_path(spot.id) %>>
-  <input type="hidden" id="spot_name_<%= i %>" value=<%= spot.name %>>
-<% end %>
-
-<%= render "shared/include_map", file: "spot/search_spot_on_map" %>
+<input type="hidden" id="js-focus-area" data-focus=<%= @focus_area %>>
+<!-- end -->
+<%= render "shared/include_map" %>
+<%= javascript_pack_tag "top/map_search" %>

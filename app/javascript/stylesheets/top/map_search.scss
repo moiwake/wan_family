@@ -1,0 +1,23 @@
+.map-display {
+  width: 100%;
+  max-width: 1000px;
+  height: 100%;
+  min-height: 800px;
+  background-color: antiquewhite;
+}
+
+@media screen and (min-width: 450px) {
+  .map-search-wrap {
+    display: flex;
+  }
+}
+
+.region-btns-wrap {
+  display: flex;
+  flex-direction: column;
+  margin-right: 1rem;
+}
+
+.region-btns-wrap button {
+  margin-bottom: 10px;
+}

@@ -9,7 +9,7 @@ class TopController < ApplicationController
 
   def map_search
     @spots = Spot.eager_load(:category)
-    @region_names = @region.pluck(:name)
+    @focus_area = params[:region]
   end
 
   def word_search
