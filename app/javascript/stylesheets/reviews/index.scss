@@ -24,3 +24,20 @@
     margin-right: 1rem;
   }
 }
+
+.new-review-btn {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  width: 100%;
+}
+
+.new-review-btn a {
+  width: 100%;
+  height: max-content;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  border-color: #4fc2c5;
+  background-color: #4fc2c5;
+}

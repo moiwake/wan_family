@@ -14,11 +14,12 @@
 
 .rating-title {
   display: flex;
+  align-items: center;
   width: max-content;
 }
 
-.rating-title h3 {
-  margin-bottom: 0.5rem;
+.rating-title p, .rating-title span {
+  margin-bottom: 5px !important;
 }
 
 .rating {

@@ -7,7 +7,7 @@ class SpotRegisterForm < FormBase
   end
 
   def spot_attributes= (attributes)
-    attributes = merge_prefecture_id(attributes)
+    merge_prefecture_id(attributes)
     spot.assign_attributes(attributes)
   end
 
@@ -62,8 +62,10 @@ class SpotRegisterForm < FormBase
   end
 
   def merge_prefecture_id(attributes)
-    prefecture_id = Prefecture.find_by(name: attributes["address"].match(/.*[都道府県]/).to_s).id
-    attributes.merge({ "prefecture_id" => prefecture_id })
+    if attributes["address"].present?
+      prefecture_id = Prefecture.find_by(name: attributes["address"].match(/.*[都道府県]/).to_s).id
+      attributes = attributes.merge({ "prefecture_id" => prefecture_id })
+    end
   end
 
   def default_attributes

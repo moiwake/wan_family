@@ -1,6 +1,7 @@
 class ReviewsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_spot, :set_favorite_spot, :set_tags_user_put_on_spot, :set_like_review, only: [:index]
+  before_action :authenticate_user!, except: [:index]
+  before_action :set_spot
+  before_action :set_favorite_spot, :set_tags_user_put_on_spot, :set_like_review, only: [:index]
 
   def index
     @reviews = Reviews::OrderedQuery.call(parent_record: @spot, order_params: params).load_all_associations
@@ -14,16 +15,11 @@ class ReviewsController < ApplicationController
     @review_poster_form = ReviewPosterForm.new(attributes: form_params)
 
     if @review_poster_form.save
-      flash[:notice] = "新規のレビューを投稿しました。"
-      redirect_to spot_review_path(@spot, @review_poster_form.review)
+      flash[:notice] = "レビューを投稿しました。"
+      redirect_to spot_reviews_path(@spot)
     else
       render "new"
     end
-  end
-
-  def show
-    @review = Review.preload(:image).find(params[:id])
-    @blobs = OrderedImageBlobsQuery.call(parent_record: @review.image).preload(attachments: :record)
   end
 
   def edit

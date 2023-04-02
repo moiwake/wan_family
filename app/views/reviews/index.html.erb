@@ -5,6 +5,9 @@
     <%= render "shared/display_reviews/review_list", reviews: @reviews %>
   </div>
   <div class="right-contents-wrap">
+    <div class="new-review-btn">
+      <%= link_to "レビューを投稿する", new_spot_review_path(@spot), class: "button" %>
+    </div>
     <%= render "spots/shared/search_links", spot: @spot %>
   </div>
 </div>

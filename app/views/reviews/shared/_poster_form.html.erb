@@ -1,35 +1,61 @@
-<%= render "shared/flash_messages" %>
-<%= render "shared/error_messages", resource: resource %>
-<%= form_with model: resource, url: url, method: method do |f| %>
-  <%= render "reviews/shared/display_rating", i: nil, review: nil %>
-  <%= f.fields_for :review_attributes, resource.review do |rf| %>
-    <%= rf.hidden_field :user_id, value: current_user.id if signed_in? %>
-    <%= rf.hidden_field :spot_id, value: spot.id %>
-    <%= rf.hidden_field :dog_score, id: "dog-rating-value" %>
-    <%= rf.hidden_field :human_score, id: "human-rating-value" %>
-    <%= rf.label :title, "レビュータイトル" %>
-    <%= rf.text_field :title, id: :form_review_title %>
-    <%= rf.text_field :comment, id: :form_review_comment, class: "textarea", placeholder: "行ってみた感想、ワンちゃんたちの様子、ワンちゃんたちを連れて行くときの注意点などをご記入ください。" %>
-  <% end %>
-  <br>
+<%= form_with model: resource, url: url, method: method, class: "review-poster-form-wrap" do |f| %>
+  <%= render "shared/error_messages", resource: resource %>
+  <div class="guide-comment required-guide"><p><span>*</span>は必須項目</p></div>
+  <div class="review-form box">
+    <%= render "shared/display_reviews/review_rating", dog_score: nil, human_score: nil %>
+    <%= f.fields_for :review_attributes, resource.review do |rf| %>
+      <%= rf.hidden_field :user_id, value: current_user.id if signed_in? %>
+      <%= rf.hidden_field :spot_id, value: spot.id %>
+      <%= rf.hidden_field :dog_score, class: "js-score-input" %>
+      <%= rf.hidden_field :human_score, class: "js-score-input" %>
+      <div class="field">
+        <%= rf.label :title, "タイトル", class: "required" %>
+        <%= rf.text_field :title, id: :form_review_title, class: "input" %>
+      </div>
+      <div class="field">
+        <%= rf.label :title, "コメント", class: "required" %>
+        <%= rf.text_field :comment, id: :review_comment_input, class: "textarea", placeholder: "行ってみた感想、ワンちゃんたちの様子、ワンちゃんたちを連れて行くときの注意点などをご記入ください。" %>
+      </div>
+    <% end %>
+  </div>
   <%= f.fields_for :image_attributes, resource.review.image do |imf| %>
-    <%= imf.label :files, "画像をアップロードする" %>
-    <%= imf.file_field :files, multiple: true, id: :form_review_image %>
-    <p>アップロードできる画像</p>
-    <ul>
-      <li>ファイル形式 : png, jpg, jpeg</li>
-      <li>ファイルサイズ: 5メガバイトまで</li>
-    </ul>
-    <div class="check-box-delete-image" style="display: flex; flex-wrap: wrap; width: 750px;">
-      <%= render partial: "reviews/shared/edit_image_form", collection: resource.review.get_files_for_edit, as: :file, locals: { form: imf } %>
+    <div class="address-input-guide guide-comment-wrap">
+      <div class="guide-title">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <p>アップロードできる画像</p>
+      </div>
+      <ul>
+        <li>複数の画像をアップロードできます。</li>
+        <li>ファイル形式 : png, jpg, jpeg</li>
+        <li>ファイルサイズ : 5メガバイトまで</li>
+      </ul>
     </div>
+    <div class="file-uploader field">
+      <%= imf.label :files, "画像のアップロード", class: "image-label" %>
+      <div class="file is-small">
+        <label class="file-label">
+          <%= imf.file_field :files, multiple: true, id: :form_review_image, class: "file-input js-file-input" %>
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload"></i>
+            </span>
+            <span class="file-label">
+              ファイルを選択してください
+            </span>
+          </span>
+        </label>
+      </div>
+    </div>
+    <% if resource.review %>
+      <div class="check-box-delete-image" style="display: flex; flex-wrap: wrap; width: 750px;">
+          <%= render partial: "reviews/shared/edit_image_form", collection: resource.review.decorate.get_files_for_edit, as: :file, locals: { form: imf } %>
+      </div>
+    <% end %>
   <% end %>
-  <ul id="preview_lists" class="preview-lists-display">
-    <li id="preview" class="preview-display" ></li>
+  <ul id="js-preview-image-list" class="js-preview-display">
+    <%# <li id="preview" class="preview-display" ></li> %>
   </ul>
-  <input type="button" onclick=submit(); value="投稿する", class="button mt-3">
+  <div class="review-poster-btn">
+    <input type="button" onclick=submit(); value="投稿する", class="button">
+  </div>
 <% end %>
-<%= link_to "戻る", users_review_index_path %>
-
-<%= javascript_pack_tag "review/set_rating" %>
-<%= javascript_pack_tag "image/preview_image" %>
