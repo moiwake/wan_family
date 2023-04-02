@@ -11,6 +11,26 @@
   margin-top: 2rem;
 }
 
+.review-links-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review-operation-btns-wrap a {
+  font-size: 20px;
+  margin-left: 20px;
+}
+
+.review-edit-btn  {
+  color: #34b37a;
+}
+
+
+.review-delete-btn  {
+  color: #335dcc;
+}
+
 .review-spot-name {
   display: inline-block;
   margin-top: 20px;

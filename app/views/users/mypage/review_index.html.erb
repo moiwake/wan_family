@@ -15,7 +15,31 @@
     <h2 class="title is-4 main-title">投稿したレビュー</h2>
     <div class="review-index-wrap">
       <%= render "shared/sort_link", likes_count_title: "役に立ったが多い順" %>
-      <%= render "shared/display_reviews/review_list", reviews: @reviews, show_spot_link: true %>
+      <% if @reviews.present? %>
+        <div class="review-list-wrap block">
+          <% @reviews.each do |review| %>
+            <div class="review-links-wrap">
+              <%= link_to spot_path(review.spot), class: "title is-6 review-spot-name" do %>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                <span><%= review.spot.name %>のレビュー</span>
+              <% end %>
+              <div class="review-operation-btns-wrap">
+                <%= link_to edit_spot_review_path(review.spot, review), class: "review-edit-btn" do %>
+                  <i class="fa-solid fa-file-pen"></i>
+                <% end %>
+                <%= link_to spot_review_path(review.spot, review), data: { confirm: "「#{review.title}」を削除してよろしいでしょうか？" }, method: :delete, class: "review-delete-btn" do %>
+                  <i class="fa-solid fa-trash"></i>
+                <% end %>
+              </div>
+            </div>
+            <div class="card block">
+              <%= render "shared/display_reviews/review_content", review: review %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="box">レビューの投稿はありません。</div>
+      <% end %>
     </div>
   </section>
 </div>

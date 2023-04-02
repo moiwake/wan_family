@@ -43,7 +43,7 @@ class ReviewsController < ApplicationController
     @review = Review.load_active_storage_associations.find(params[:id])
     @review.destroy
     flash[:notice] = "#{@spot.name}のレビュー「#{@review.title}」を削除しました。"
-    redirect_to users_review_index_path
+    redirect_to users_mypage_review_index_path
   end
 
   private
