@@ -1,7 +1,7 @@
 .review-poster-form-wrap label {
-  display: inline-block;
+  display: flex;
   font-weight: 600;
-  margin: 10px 0;
+  margin: 10px 10px 10px 0;
 }
 
 .required::after {
@@ -62,10 +62,6 @@
   flex-wrap: wrap;
 }
 
-.file-uploader label {
-  margin-right: 10px;
-}
-
 // プレビュー画像
 #js-preview-image-list {
   display: flex;
@@ -98,4 +94,34 @@
   color: #ffffff;
   border-color: #43c38a;
   background-color: #43c38a;
+}
+
+// 画像削除フォーム
+.image-delete-title {
+  margin-top: 3rem;
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.image-delete-title i {
+  margin-right: 10px;
+}
+
+.image-delete-list-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.image-delete-wrap {
+  width: 173px;
+  height: 150px;
+}
+
+.image-delete-wrap img {
+  margin-left: 10px;
+  width: 150px;
+  height: 100%;
+  object-fit: cover;
 }

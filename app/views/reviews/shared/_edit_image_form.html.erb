@@ -1,6 +1,0 @@
-<div style="display: flex; margin:5px 5px 5px 0;">
-  <%= form.check_box :file_ids, { multiple: true, checked: false, id: "form_file_ids_#{file.id}"}, file.id, false %>
-  <label for="form_file_ids_<%= file.id %>">
-    <%= image_tag file.representation(resize_to_limit: [150, 150]) %>
-  </label>
-</div>

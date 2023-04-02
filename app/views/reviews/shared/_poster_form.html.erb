@@ -46,15 +46,24 @@
         </label>
       </div>
     </div>
-    <% if resource.review %>
-      <div class="check-box-delete-image" style="display: flex; flex-wrap: wrap; width: 750px;">
-          <%= render partial: "reviews/shared/edit_image_form", collection: resource.review.decorate.get_files_for_edit, as: :file, locals: { form: imf } %>
+    <ul id="js-preview-image-list" class="js-preview-display field"></ul>
+    <% if resource.review.image %>
+      <div class="image-delete-checkbox">
+        <div class="image-delete-title">
+          <i class="fa-solid fa-trash"></i>
+          <p>アップロード画像の削除</p>
+        </div>
+        <div class="image-delete-list-wrap">
+          <% resource.review.decorate.get_files_for_edit.each do |file| %>
+            <label for="file_id_<%= file.id %>_input" class="image-delete-wrap">
+              <%= imf.check_box :file_ids, { multiple: true, checked: false, id: "file_id_#{file.id}_input"}, file.id, false %>
+              <%= image_tag file.representation(resize_to_limit: [150, 150]) %>
+            </label>
+          <% end %>
+        </div>
       </div>
     <% end %>
   <% end %>
-  <ul id="js-preview-image-list" class="js-preview-display">
-    <%# <li id="preview" class="preview-display" ></li> %>
-  </ul>
   <div class="review-poster-btn">
     <input type="button" onclick=submit(); value="投稿する", class="button">
   </div>

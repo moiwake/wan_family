@@ -33,7 +33,7 @@ class ReviewsController < ApplicationController
 
     if @review_poster_form.save && delete_image_file
       flash[:notice] = "#{@spot.name}のレビューを変更しました。"
-      redirect_to spot_review_path(@spot, @review_poster_form.review)
+      redirect_to users_mypage_review_index_path
     else
       render "edit"
     end
