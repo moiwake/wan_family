@@ -15,7 +15,7 @@
               <div class="profile-image">
                 <%= image_tag @user.decorate.display_human_avatar, size: "130x130", class: "js-upload-image" %>
               </div>
-              <p class="image-label">ユーザー画像</p>
+              <%= f.label :human_avatar, "ユーザー画像", class: "image-label" %>
               <div class="file is-small">
                 <label class="file-label">
                   <%= f.file_field :human_avatar, class: "file-input js-file-input" %>
@@ -36,7 +36,7 @@
               <div class="profile-image">
                 <%= image_tag @user.decorate.display_dog_avatar, size: "130x130", class: "js-upload-image" %>
               </div>
-              <p class="image-label">ワンちゃんの画像</p>
+              <%= f.label :dog_avatar, "ワンちゃんの画像", class: "image-label" %>
               <div class="file is-small">
                 <label class="file-label">
                   <%= f.file_field :dog_avatar, class: "file-input js-file-input" %>
