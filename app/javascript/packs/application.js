@@ -11,6 +11,8 @@ import * as ActiveStorage from "@rails/activestorage";
 import "channels";
 import "src/application.js";
 import "stylesheets/application.scss";
+import "stylesheets/shared/header.scss";
+import "stylesheets/shared/footer.scss";
 
 Rails.start();
 Turbolinks.start();
