@@ -7,5 +7,26 @@ module Reviews
     def self.call(scope: Review.all, parent_record: nil, order_params: {}, like_class: "LikeReview")
       super
     end
+
+    def order_scope
+      if order_params[:by] == "created_at"
+        order_asc_or_desc
+      elsif order_params[:by] == "likes_count"
+        order_by_likes
+      elsif order_params[:by] == "spot_name"
+        order_by_spot_name
+      else
+        order_default
+      end
+    end
+
+    def order_by_spot_name
+      ordered_scope_ids = Spot.where(id: set_spot_ids).order(:name).ids
+      scope.where(spot_id: ordered_scope_ids).order([Arel.sql("field(reviews.spot_id, ?)"), ordered_scope_ids])
+    end
+
+    def set_spot_ids
+      scope.pluck(:spot_id)
+    end
   end
 end
