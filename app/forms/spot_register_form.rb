@@ -7,8 +7,7 @@ class SpotRegisterForm < FormBase
   end
 
   def spot_attributes= (attributes)
-    merge_prefecture_id(attributes)
-    spot.assign_attributes(attributes)
+    spot.assign_attributes(merge_prefecture_id(attributes))
   end
 
   def rules_attributes= (attributes)
