@@ -3,7 +3,14 @@
     <%= render "shared/page_link", link_hash: { "戻る": users_mypage_review_index_path } %>
     <div class="edit-review-poster-form-wrap">
       <h2 class="edit-review-main-title title is-5"><i class="fa-solid fa-pencil"></i><%= @spot.name %>のレビューを編集する</h2>
-      <%= render "reviews/shared/poster_form", resource: @review_poster_form, spot: @spot, url: spot_review_path(@spot, @review), method: :patch %>
+      <%= render "reviews/shared/poster_form",
+        resource: @review_poster_form,
+        spot: @spot,
+        url: spot_review_path(@spot, @review),
+        method: :patch,
+        dog_score: @review.dog_score,
+        human_score: @review.human_score
+      %>
     </div>
   </div>
 </div>

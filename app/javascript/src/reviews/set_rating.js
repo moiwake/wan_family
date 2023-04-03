@@ -2,7 +2,7 @@ let ratings = document.getElementsByClassName("js-rating");
 
 for (let i = 0; i < ratings.length; i++) {
   let rating = ratings[i].children;
-  let ratingValue = document.getElementsByClassName("js-score")[i].value;
+  let ratingValue = document.getElementsByClassName("js-score")[i].innerText;
   let index;
 
   if (!ratingValue == 0) {

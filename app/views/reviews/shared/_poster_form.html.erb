@@ -2,7 +2,7 @@
   <%= render "shared/error_messages", resource: resource %>
   <div class="guide-comment required-guide"><p><span>*</span>は必須項目</p></div>
   <div class="review-form box">
-    <%= render "shared/display_reviews/review_rating", dog_score: nil, human_score: nil %>
+    <%= render "shared/display_reviews/review_rating", dog_score: dog_score, human_score: human_score %>
     <%= f.fields_for :review_attributes, resource.review do |rf| %>
       <%= rf.hidden_field :user_id, value: current_user.id if signed_in? %>
       <%= rf.hidden_field :spot_id, value: spot.id %>

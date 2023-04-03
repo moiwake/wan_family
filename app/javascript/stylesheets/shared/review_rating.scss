@@ -24,12 +24,18 @@
 
 .rating {
   display: flex;
-  justify-content: space-between;
   width: 10.5rem;
 }
 
 .rating-score {
   font-weight: 600;
+  margin-left: 1rem;
+}
+
+.dog-rating, .human-rating {
+  width: 100px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .rating .js-non-colored{
