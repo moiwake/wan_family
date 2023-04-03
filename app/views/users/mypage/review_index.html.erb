@@ -1,17 +1,10 @@
 <div class="container review-index-container">
   <section class="main-contents-wrap">
-    <div class="page-link-wrap">
-      <i class="fa-solid fa-chevron-left mypage-link-icon"></i>
-      <%= link_to "マイページへ戻る", users_mypage_favorite_spot_index_path %>
-    </div>
-    <div class="page-link-wrap">
-      <i class="fa-solid fa-chevron-left mypage-link-icon"></i>
-      <%= link_to "登録・更新したスポット", users_mypage_spot_index_path %>
-    </div>
-    <div class="page-link-wrap">
-      <i class="fa-solid fa-chevron-left mypage-link-icon"></i>
-      <%= link_to "投稿した画像", users_mypage_image_index_path %>
-    </div>
+    <%= render "shared/page_link", link_hash: {
+      "マイページへ戻る": users_mypage_favorite_spot_index_path,
+      "登録・更新したスポット": users_mypage_spot_index_path,
+      "投稿した画像": users_mypage_image_index_path
+    } %>
     <h2 class="title is-4 main-title">投稿したレビュー</h2>
     <div class="review-index-wrap">
       <div class="sort-links-wrap">

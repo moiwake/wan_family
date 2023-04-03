@@ -1,9 +1,6 @@
 <div class="container">
   <div class="main-contents-wrap">
-    <div class="page-link-wrap">
-      <i class="fa-solid fa-chevron-left mypage-link-icon"></i>
-      <%= link_to "戻る", :back %>
-    </div>
+    <%= render "shared/page_link", link_hash: { "TOP": root_path } %>
     <div class="new-spot-register-form-wrap">
       <h2 class="new-spot-main-title title is-5"><i class="fa-solid fa-pencil"></i>新しいスポットを登録</h2>
       <%= render "spots/shared/register_form", url: new_confirm_spots_path, method: :post %>
