@@ -7,5 +7,24 @@ module Spots
     def self.call(scope: Spot.all, parent_record: nil, order_params: {}, like_class: "FavoriteSpot")
       super
     end
+
+    private
+
+    def set_scope
+      @scope = scope.distinct
+    end
+
+    def order_asc_or_desc
+      @ordered_scope_ids = SpotHistory
+                          .order(order_params[:by] => order_params[:direction], "id" => order_params[:direction])
+                          .pluck(:spot_id)
+      order_scope_by_ids
+    end
+
+    def order_default
+      @ordered_scope_ids = SpotHistory.order(created_at: :desc, id: :desc).pluck(:spot_id)
+      order_scope_by_ids
+    end
   end
 end
+
