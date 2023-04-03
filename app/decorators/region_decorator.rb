@@ -5,4 +5,3 @@ class RegionDecorator < Draper::Decorator
     region.prefectures.map(&:spots).flatten.size
   end
 end
-

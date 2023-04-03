@@ -1,11 +1,14 @@
 let markSpotBtns = document.getElementsByClassName("js-mark-spot-btns")[0];
-let icon_link = markSpotBtns.querySelector("a");
-let notice = markSpotBtns.getElementsByClassName("js-login-notice")[0];
 
-icon_link.addEventListener("mouseover", function () {
-  notice.classList.add("js-open");
-});
+if (markSpotBtns.dataset.login == "true") {
+  let iconLink = markSpotBtns.querySelector("a");
+  let notice = markSpotBtns.getElementsByClassName("js-login-notice")[0];
 
-icon_link.addEventListener("mouseout", function () {
-  notice.classList.remove("js-open");
-});
+  iconLink.addEventListener("mouseover", function () {
+    notice.classList.add("js-login-notice-open");
+  });
+
+  iconLink.addEventListener("mouseout", function () {
+    notice.classList.remove("js-login-notice-open");
+  });
+}
