@@ -4,7 +4,7 @@
 } @media screen and (min-width: 600px) and (max-width: 1216px) {
   .list-content {
     display: flex;
-    height: 300px;
+    max-height: 370px;
   }
 } @media screen and (min-width: 1216px) {
   .list-content {
@@ -92,9 +92,7 @@
   }
 }
 
-.main-data .title {
-  white-space: nowrap;
-} @media screen and (max-width: 1216px) {
+@media screen and (max-width: 1216px) {
   .main-data .title {
     margin-bottom: 0.5rem;
   }

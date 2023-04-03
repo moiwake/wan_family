@@ -86,3 +86,18 @@
 .user-media-body li .count {
   margin-top: 5px;
 }
+
+// スポットリスト
+.main-data {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start !important;
+}
+
+.main-data .title {
+  margin-bottom: 0 !important;
+}
+
+.main-data .breadcrumb {
+  margin-left: 0 !important;
+}
