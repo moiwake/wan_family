@@ -1,5 +1,7 @@
-addEventListener("DOMContentLoaded", activeDropDownBtn);
-openDropDownItem(0);
+addEventListener("DOMContentLoaded", function () {
+  activeDropDownBtn();
+  openDropDownItem(0);
+});
 
 let showMoreTrigger = document.getElementsByClassName("js-show-more-trigger")[0];
 var displayNum
