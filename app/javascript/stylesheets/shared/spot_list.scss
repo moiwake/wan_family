@@ -88,10 +88,13 @@
 } @media screen and (min-width: 600px) and (max-width: 1216px) {
   .main-data {
     display: flex;
+    align-items: center;
   }
 }
 
-@media screen and (max-width: 1216px) {
+.main-data .title {
+  white-space: nowrap;
+} @media screen and (max-width: 1216px) {
   .main-data .title {
     margin-bottom: 0.5rem;
   }
@@ -107,6 +110,10 @@
 
 .main-data ul {
   margin-bottom: 0.5rem;
+}
+
+.main-data li {
+  white-space: pre-wrap;
 }
 
 @media screen and (min-width: 1216px) {
