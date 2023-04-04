@@ -11,6 +11,12 @@
   }
 }
 
+.content-wrap {
+  background-color: #f8f8d738;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
 .media-content {
   min-height: 45px;
 }
@@ -23,11 +29,17 @@
   color: #7a7a7a;
 }
 
+.visit-date {
+  font-size: 13px;
+  display: inline-flex;
+  margin-bottom: 1rem;
+}
+
 .review-rating .ratings-wrap {
   margin-bottom: 20px;
 }
 
-.content figure {
+.content-wrap figure {
   margin-left: 0;
   margin-right: 0;
 }
@@ -50,7 +62,7 @@
   }
 }
 
-.content .review-images-wrap li+li {
+.content-wrap .review-images-wrap li+li {
   margin-top: 0;
 }
 

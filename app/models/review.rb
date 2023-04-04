@@ -9,6 +9,7 @@ class Review < ApplicationRecord
     validates :comment
     validates :dog_score
     validates :human_score
+    validates :visit_date
   end
 
   scope :load_all_associations, -> { eager_load(:user, :spot, image: :files_attachments).distinct.preload(:review_helpfulnesses) }

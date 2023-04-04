@@ -12,6 +12,7 @@ class ReviewsController < ApplicationController
   end
 
   def create
+    # binding.pry
     @review_poster_form = ReviewPosterForm.new(attributes: form_params)
 
     if @review_poster_form.save
@@ -49,7 +50,7 @@ class ReviewsController < ApplicationController
   private
 
   def form_params
-    review_params = [:user_id, :spot_id, :dog_score, :human_score, :comment, :title]
+    review_params = [:user_id, :spot_id, :dog_score, :human_score, :comment, :title, :visit_date]
     params.require(:review_poster_form).permit(
       review_attributes: review_params, image_attributes: [:user_id, :spot_id, :review_id, files: []]
     )
