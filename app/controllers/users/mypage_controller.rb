@@ -19,7 +19,7 @@ class Users::MypageController < ApplicationController
   end
 
   def image_index
-    @blobs = ImageBlobs::OrderedQuery.call(parent_record: current_user.images, order_params: params).preload(attachments: :record)
+    @image_blobs = ImageBlobs::OrderedQuery.call(parent_record: current_user.images, order_params: params).preload(attachments: :record)
   end
 
   # profile

@@ -1,7 +1,7 @@
 <div class="image-like-btn-wrap js-image-like-post">
   <% if current_user.present? %>
-    <% if image_posted_by_another?(blob) %>
-      <%= render "image_likes/shared/image_like_button", blob: blob, image_like: image_like %>
+    <% if image_blob_posted_by_another?(image_blob) %>
+      <%= render "image_likes/shared/image_like_button", image_blob: image_blob, image_like: image_like %>
     <% else %>
       <i class="fa-regular fa-heart"></i>
     <% end %>
@@ -10,5 +10,5 @@
       <i class="fa-regular fa-heart"></i>
     <% end %>
   <% end %>
-  <span><%= count_image_like(blob) %></span>
+  <span><%= count_image_blob_likes(image_blob) %></span>
 </div>

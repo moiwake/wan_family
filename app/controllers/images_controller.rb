@@ -2,14 +2,14 @@ class ImagesController < ApplicationController
   before_action :set_spot, :set_favorite_spot, :set_tags_user_put_on_spot, only: :index
 
   def index
-    @blobs = ImageBlobs::OrderedQuery.call(parent_record: @spot.images, order_params: params).preload(attachments: :record)
+    @image_blobs = ImageBlobs::OrderedQuery.call(parent_record: @spot.images, order_params: params).preload(attachments: :record)
   end
 
   def show
-    @blob = ActiveStorage::Blob.preload(attachments: :record).find(params[:blob_id])
+    @image_blob = ActiveStorage::Blob.preload(attachments: :record).find(params[:image_blob_id])
 
     if current_user.present?
-      @image_like = ImageLike.find_by(user_id: current_user.id, blob_id: params[:blob_id])
+      @image_like = ImageLike.find_by(user_id: current_user.id, image_blob_id: params[:image_blob_id])
     end
   end
 

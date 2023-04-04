@@ -6,7 +6,7 @@
   <%= render "top/shared/map_search_links", regions: @regions %>
   <section class="image-like-list-wrap">
     <h2 class="main-title title is-4">いいねをたくさんもらった子たちをご紹介</h2>
-    <%= render "shared/display_images/image_link_list", blobs: @weekly_ranked_blobs, spot_id: nil, image_id: nil %>
+    <%= render "shared/display_images/image_link_list", image_blobs: @weekly_ranked_image_blobs, spot_id: nil, image_id: nil %>
   </section>
 </div>
 <%= javascript_pack_tag "top/index" %>

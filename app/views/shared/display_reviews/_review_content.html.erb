@@ -9,7 +9,7 @@
     </div>
     <% if review.image %>
       <figure class="review-images-wrap">
-        <%= render "shared/display_images/image_link_list", blobs: review.image.files_blobs, spot_id: review.spot, image_id: review.image.id %>
+        <%= render "shared/display_images/image_link_list", image_blobs: review.image.files_blobs, spot_id: review.spot, image_id: review.image.id %>
       </figure>
     <% end %>
     <span class="posted-date">投稿日：<%= l review.created_at, format: :short %></span>

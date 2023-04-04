@@ -4,7 +4,7 @@ class TopController < ApplicationController
     @q = Spot.ransack(params[:q])
     @ranked_spots = Spots::RankedQuery.call.eager_load(:category, :prefecture).preload(:images)
     @weekly_ranked_spots = Spots::WeeklyRankedQuery.call.preload(:images)
-    @weekly_ranked_blobs = ImageBlobs::WeeklyRankedQuery.call.preload(attachments: :record)
+    @weekly_ranked_image_blobs = ImageBlobs::WeeklyRankedQuery.call.preload(attachments: :record)
   end
 
   def map_search

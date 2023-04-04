@@ -5,7 +5,7 @@
       <div class="js-enlarged-image-close-btn delete" aria-label="close"></div>
     </header>
     <section class="modal-card-body">
-      <%= image_tag blob, { id: "js-enlarged-image", alt: "拡大した画像", data: { blob_id: blob.id } } %>
+      <%= image_tag image_blob, { id: "js-enlarged-image", alt: "拡大した画像", data: { image_blob_id: image_blob.id } } %>
       <div class="prev-image-btn">
         <%= link_to "", remote: true do %>
           <i class="fa-solid fa-chevron-left prev-image-link-icon js-prev-icon"></i>
@@ -18,7 +18,7 @@
       </div>
     </section>
     <footer class="modal-card-foot">
-      <%= render "image_likes/shared/add_or_remove_image_like", blob: blob, image_like: image_like %>
+      <%= render "image_likes/shared/add_or_remove_image_like", image_blob: image_blob, image_like: image_like %>
     </footer>
   </div>
 </div>

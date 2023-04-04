@@ -2,7 +2,7 @@ var imageDisplay = document.getElementsByClassName("js-enlarged-image-display")[
 
 imageDisplay.insertAdjacentHTML('afterbegin',
   '<%= j(render "images/shared/enlarged_image",
-    blob: @blob,
+    image_blob: @image_blob,
     image_like: @image_like
   )%>'
 );
@@ -10,7 +10,7 @@ imageDisplay.insertAdjacentHTML('afterbegin',
 var imageModal = document.getElementsByClassName("js-enlarged-image-modal")[0];
 
 var image = document.getElementById("js-enlarged-image");
-var targetListItem = document.getElementById("blob_" + image.dataset.blobId).closest("li");
+var targetListItem = document.getElementById("image_blob_" + image.dataset.imageBlobId).closest("li");
 
 var prevBtn = document.getElementsByClassName("js-prev-icon")[0];
 var nextBtn = document.getElementsByClassName("js-next-icon")[0];
@@ -19,14 +19,14 @@ var listItems = document.getElementsByClassName("js-image-link-list-item");
 var firstImage = listItems[0].querySelector("img");
 var lastImage = listItems[listItems.length - 1].querySelector("img");
 
-if (`blob_${image.dataset.blobId}` !== firstImage.id) {
+if (`image_blob_${image.dataset.imageBlobId}` !== firstImage.id) {
   setPrevPath();
   prevBtn.addEventListener("click", closeImage);
 } else {
   prevBtn.remove();
 }
 
-if (`blob_${image.dataset.blobId}` !== lastImage.id) {
+if (`image_blob_${image.dataset.imageBlobId}` !== lastImage.id) {
   setNextPath();
   nextBtn.addEventListener("click", closeImage);
 } else {

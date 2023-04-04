@@ -1,9 +1,9 @@
 <ul>
   <div class="enlarged-image-display js-enlarged-image-display"></div>
-  <% blobs.each do |blob| %>
+  <% image_blobs.each do |image_blob| %>
     <li class="image-link-list-item js-image-link-list-item">
-      <%= link_to spot_image_path(spot_id ||= get_spot_id(blob), image_id ||= get_image_id(blob), blob_id: blob.id), remote: true do %>
-        <%= image_tag blob.representation(resize_to_limit: [500, 500], gravity: "center", crop: "400x400+0+0"), { id: "blob_#{blob.id}" } %>
+      <%= link_to spot_image_path(spot_id ||= get_spot_id(image_blob), image_id ||= get_image_id(image_blob), image_blob_id: image_blob.id), remote: true do %>
+        <%= image_tag image_blob.representation(resize_to_limit: [500, 500], gravity: "center", crop: "400x400+0+0"), { id: "image_blob_#{image_blob.id}" } %>
       <% end %>
     </li>
   <% end %>

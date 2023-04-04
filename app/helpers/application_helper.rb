@@ -17,11 +17,11 @@ module ApplicationHelper
     end
   end
 
-  def get_image_id(blob)
-    blob.attachments[0].record.id
+  def get_image_id(image_blob)
+    image_blob.attachments[0].record.id
   end
 
-  def get_spot_id(blob)
-    blob.attachments[0].record.spot_id
+  def get_spot_id(image_blob)
+    image_blob.attachments[0].record.spot_id
   end
 end

@@ -6,18 +6,18 @@ module ImageBlobs
       super(scope: scope, parent_record: parent_record, like_class: like_class, date: date, number: number)
     end
 
-    def self.call(scope: ActiveStorage::Blob.all, parent_record: Image.all, like_class: "ImageLike", date: "days", number: PERIOD_NUMBER)
+    def self.call(scope: nil, parent_record: Image.all, like_class: "ImageLike", date: "days", number: PERIOD_NUMBER)
       super
     end
 
     private
 
     def set_scope
-      scope = search_blobs
+      scope = search_image_blobs
       return scope.present? ? scope : ActiveStorage::Blob.none
     end
 
-    def search_blobs
+    def search_image_blobs
       if parent_record.present?
         if parent_record.is_a?(Image)
           set_blobs_associated_with_image
@@ -32,8 +32,8 @@ module ImageBlobs
     end
 
     def set_blobs_associated_with_images
-      parent_record.reduce(ActiveStorage::Blob.none) do |blobs, image|
-        blobs = blobs.or(image.files_blobs)
+      parent_record.reduce(ActiveStorage::Blob.none) do |image_blobs, image|
+        image_blobs = image_blobs.or(image.files_blobs)
       end
     end
   end

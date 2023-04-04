@@ -5,5 +5,5 @@ while (imageLikePost.firstElementChild) {
 }
 
 imageLikePost.insertAdjacentHTML('afterbegin',
-  '<%= j(render "image_likes/shared/add_or_remove_image_like", blob: @blob, image_like: @image_like) %>'
+  '<%= j(render "image_likes/shared/add_or_remove_image_like", image_blob: @image_blob, image_like: @image_like) %>'
 );

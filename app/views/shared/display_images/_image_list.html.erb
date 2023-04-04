@@ -1,6 +1,6 @@
-<% if blobs.present? %>
+<% if image_blobs.present? %>
   <section class="image-list-wrap">
-    <%= render "shared/display_images/image_link_list", blobs: blobs, spot_id: spot_id, image_id: image_id %>
+    <%= render "shared/display_images/image_link_list", image_blobs: image_blobs, spot_id: spot_id, image_id: image_id %>
   </section>
 <% else %>
   画像の投稿はありません。
