@@ -1,4 +1,4 @@
-<div class="review-helpfulness-btn-wrap js-review-helpfulness-post">
+<div class="review-helpfulness-btn-wrap js-review-helpfulness-post" id="js-helpful-btn-<%= review.id %>">
   <% if current_user.present? %>
     <% if review_posted_by_another?(review) %>
       <%= render "review_helpfulnesses/shared/review_helpfulness_button", review: review, review_helpfulness: review_helpfulness %>

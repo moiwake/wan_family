@@ -1,9 +1,9 @@
 <% if review_helpful?(review) %>
-  <%= link_to spot_review_review_helpfulness_path(review.spot, review, review_helpfulness), method: :delete, id: "remove-review-helpfulness", remote: true do %>
-    <i id="remove-review-helpfulness-btn" class="fa-solid fa-thumbs-up helpful-review-icon"></i>
+  <%= link_to spot_review_review_helpfulness_path(review.spot, review, review_helpfulness), method: :delete, class: "review-helpfulness-remove-btn", remote: true do %>
+    <i class="fa-solid fa-thumbs-up helpful-review-icon"></i>
   <% end %>
 <% else %>
-  <%= link_to spot_review_review_helpfulnesses_path(review.spot, review), method: :post, id: "add-review-helpfulness", remote: true do %>
-    <i id="add-review-helpfulness-btn" class="fa-solid fa-thumbs-up not-helpful-review-icon"></i>
+  <%= link_to spot_review_review_helpfulnesses_path(review.spot, review), method: :post, class: "review-helpfulness-add-btn", remote: true do %>
+    <i class="fa-solid fa-thumbs-up not-helpful-review-icon"></i>
   <% end %>
 <% end %>

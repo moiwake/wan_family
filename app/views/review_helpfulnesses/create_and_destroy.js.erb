@@ -1,6 +1,4 @@
-console.log("aaa")
-
-var reviewHelpfulnessPost = document.getElementsByClassName("js-review-helpfulness-post")[0];
+var reviewHelpfulnessPost = document.getElementById("js-helpful-btn-<%= @review.id %>");
 
 while (reviewHelpfulnessPost.firstElementChild) {
   reviewHelpfulnessPost.firstElementChild.remove();
