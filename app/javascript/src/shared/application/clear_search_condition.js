@@ -19,8 +19,6 @@ addEventListener("DOMContentLoaded", function () {
     for (let i = 0; i < selects.length; i++) {
       let selectOpts = selects[i].children;
 
-      console.log(selectOpts[0])
-
       selectOpts[0].setAttribute("selected", "selected")
 
       for (let j = 0; j < selectOpts.length; j++) {

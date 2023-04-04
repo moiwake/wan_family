@@ -12,8 +12,6 @@ function searchAddress(){
     if (status == "OK") {
       let addressArray = results[0].formatted_address.split(" ");
 
-      console.log(results[0].address_components[4].long_name)
-      console.log(results[0])
       if (addressArray[1]){
         document.getElementsByClassName("js-spot-lat-input")[0].value = results[0].geometry.location.lat();
         document.getElementsByClassName("js-spot-lng-input")[0].value = results[0].geometry.location.lng();
