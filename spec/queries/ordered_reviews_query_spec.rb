@@ -6,7 +6,7 @@ RSpec.describe OrderedReviewsQuery, type: :model do
   describe "#call" do
     context "引数なしでcallメソッドを呼び出すとき" do
       let(:ordered_reviews_query_instance) { OrderedReviewsQuery.new(default_arguments) }
-      let(:default_arguments) { { scope: Review.all, parent_record: nil, order_params: {}, like_class: "LikeReview" } }
+      let(:default_arguments) { { scope: Review.all, parent_record: nil, order_params: {}, like_class: "ReviewHelpfulness" } }
 
       before do
         allow(OrderedReviewsQuery).to receive(:new).and_return(ordered_reviews_query_instance)
@@ -21,7 +21,7 @@ RSpec.describe OrderedReviewsQuery, type: :model do
 
   describe "#set_scope" do
     let(:scope) { Review.all }
-    let(:ordered_reviews_query_instance) { OrderedReviewsQuery.new(scope: scope, parent_record: parent_record, order_params: {}, like_class: "LikeReview") }
+    let(:ordered_reviews_query_instance) { OrderedReviewsQuery.new(scope: scope, parent_record: parent_record, order_params: {}, like_class: "ReviewHelpfulness") }
 
     subject(:return_value) { ordered_reviews_query_instance.send(:set_scope) }
 

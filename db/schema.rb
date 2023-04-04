@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_15_061424) do
+ActiveRecord::Schema.define(version: 2023_04_03_235742) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -95,16 +95,6 @@ ActiveRecord::Schema.define(version: 2023_03_15_061424) do
     t.index ["user_id"], name: "index_images_on_user_id"
   end
 
-  create_table "like_reviews", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "review_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["review_id"], name: "index_like_reviews_on_review_id"
-    t.index ["user_id", "review_id"], name: "index_like_reviews_on_user_id_and_review_id", unique: true
-    t.index ["user_id"], name: "index_like_reviews_on_user_id"
-  end
-
   create_table "option_titles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -130,6 +120,16 @@ ActiveRecord::Schema.define(version: 2023_03_15_061424) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_regions_on_name", unique: true
     t.index ["name_roma"], name: "index_regions_on_name_roma", unique: true
+  end
+
+  create_table "review_helpfulnesses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "review_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["review_id"], name: "index_review_helpfulnesses_on_review_id"
+    t.index ["user_id", "review_id"], name: "index_review_helpfulnesses_on_user_id_and_review_id", unique: true
+    t.index ["user_id"], name: "index_review_helpfulnesses_on_user_id"
   end
 
   create_table "reviews", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -229,9 +229,9 @@ ActiveRecord::Schema.define(version: 2023_03_15_061424) do
   add_foreign_key "images", "reviews"
   add_foreign_key "images", "spots"
   add_foreign_key "images", "users"
-  add_foreign_key "like_reviews", "reviews"
-  add_foreign_key "like_reviews", "users"
   add_foreign_key "prefectures", "regions"
+  add_foreign_key "review_helpfulnesses", "reviews"
+  add_foreign_key "review_helpfulnesses", "users"
   add_foreign_key "reviews", "spots"
   add_foreign_key "reviews", "users"
   add_foreign_key "rule_options", "option_titles"

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :like_review do
+  factory :review_helpfulness do
     association :user
     association :review
   end

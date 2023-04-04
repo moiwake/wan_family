@@ -1,7 +1,7 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   before_action :set_spot
-  before_action :set_favorite_spot, :set_tags_user_put_on_spot, :set_like_review, only: [:index]
+  before_action :set_favorite_spot, :set_tags_user_put_on_spot, :set_review_helpfulness, only: [:index]
 
   def index
     @reviews = Reviews::OrderedQuery.call(parent_record: @spot, order_params: params).load_all_associations
@@ -59,9 +59,9 @@ class ReviewsController < ApplicationController
     @spot = Spot.find(params[:spot_id])
   end
 
-  def set_like_review
+  def set_review_helpfulness
     if current_user
-      @like_review = LikeReview.find_by(user_id: current_user.id, review_id: params[:id])
+      @review_helpfulness = ReviewHelpfulness.find_by(user_id: current_user.id, review_id: params[:id])
     end
   end
 

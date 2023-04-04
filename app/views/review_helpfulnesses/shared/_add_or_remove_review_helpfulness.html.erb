@@ -1,0 +1,14 @@
+<div class="review-helpfulness-btn-wrap js-review-helpfulness-post">
+  <% if current_user.present? %>
+    <% if review_posted_by_another?(review) %>
+      <%= render "review_helpfulnesses/shared/review_helpfulness_button", review: review, review_helpfulness: review_helpfulness %>
+    <% else %>
+      <i class="fa-solid fa-thumbs-up review-helpfulness-icon"></i>
+    <% end %>
+  <% else %>
+    <%= link_to new_user_session_path do %>
+      <i class="fa-solid fa-thumbs-up review-helpfulness-icon"></i>
+    <% end %>
+  <% end %>
+  <span><%= review.review_helpfulnesses.size %></span>
+</div>

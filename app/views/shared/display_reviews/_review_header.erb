@@ -9,6 +9,6 @@
     <p class="title is-5"><%= review.title %></p>
   </div>
   <div class="media-right">
-    <%= render "like_reviews/shared/add_or_remove_review_like", review: review, spot: review.spot, like_review: like_review_by_user(review) %>
+    <%= render "review_helpfulnesses/shared/add_or_remove_review_helpfulness", review: review, spot: review.spot, review_helpfulness: review_helpfulness_by_user(review) %>
   </div>
 </div>

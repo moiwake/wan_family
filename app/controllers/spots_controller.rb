@@ -41,7 +41,7 @@ class SpotsController < ApplicationController
 
   def show
     @spot = Spot.find(params[:id])
-    @reviews = @spot.reviews.eager_load(user: :human_avatar_attachment, image: :files_blobs).preload(:like_reviews)
+    @reviews = @spot.reviews.eager_load(user: :human_avatar_attachment, image: :files_blobs).preload(:review_helpfulnesses)
   end
 
   def edit

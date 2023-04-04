@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe OrderedQueryBase, type: :model do
   let(:scope) { create_list(:review, 3)[0].class.all }
   let(:child_class_instance) { ChildClass.new(arguments) }
-  let(:arguments) { { scope: scope, parent_record: parent_record, order_params: order_params, like_class: "LikeReview" } }
+  let(:arguments) { { scope: scope, parent_record: parent_record, order_params: order_params, like_class: "ReviewHelpfulness" } }
   let(:parent_record) { instance_double("spot") }
   let(:order_params) { {} }
 
@@ -96,8 +96,8 @@ RSpec.describe OrderedQueryBase, type: :model do
       let(:ordered_scope) { scope.where(id: ordered_scope_ids).order([Arel.sql("field(reviews.id, ?)"), ordered_scope_ids]) }
 
       before do
-        FactoryBot.create_list(:like_review, 2, review_id: scope[1].id)
-        FactoryBot.create_list(:like_review, 1, review_id: scope[2].id)
+        FactoryBot.create_list(:review_helpfulness, 2, review_id: scope[1].id)
+        FactoryBot.create_list(:review_helpfulness, 1, review_id: scope[2].id)
       end
 
       it "レシーバーのレコード群を、好評価が多い順に並び替える" do

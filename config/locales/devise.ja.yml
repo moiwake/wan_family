@@ -77,7 +77,7 @@ ja:
       favorite_spot: スポットのお気に入り
       spot_tag: スポットのタグ
       image_like: 画像のいいね
-      like_review: レビューの役立った
+      review_helpfulness: レビューの役立った
       prefecture: 都道府県
       region: 都道府県の地方
   devise: &devise
