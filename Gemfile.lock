@@ -363,6 +363,7 @@ DEPENDENCIES
   factory_bot_rails
   image_processing (~> 1.2)
   jbuilder (~> 2.7)
+  kaminari
   listen (~> 3.3)
   mysql2 (~> 0.5)
   pry-byebug

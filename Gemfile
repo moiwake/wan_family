@@ -12,6 +12,7 @@ gem 'ransack'
 gem 'active_hash'
 gem 'bulma-rails'
 gem 'activestorage-validator'
+gem 'kaminari'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.6'

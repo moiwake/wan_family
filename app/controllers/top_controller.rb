@@ -19,7 +19,7 @@ class TopController < ApplicationController
       @q = Spot.ransack(session[:q])
     end
 
-    @results = Spots::OrderedQuery.call(scope: @q.result(distinct: true), order_params: params).eager_load(:category).preload(:images)
+    @results = Spots::OrderedQuery.call(scope: @q.result(distinct: true), order_params: params).page(params[:page]).eager_load(:category).preload(:images)
 
     if @q.present? && params[:q]
       @q = Spot.ransack(params[:q]["and"])

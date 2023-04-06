@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def paginated?(records)
+    paginate records if records.methods.include?(:current_page)
+  end
+
   def who_signed_in?
     if current_user.present?
       return "user"

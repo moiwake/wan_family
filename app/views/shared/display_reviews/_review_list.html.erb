@@ -1,11 +1,12 @@
-<% if reviews.present? %>
-  <div class="review-list-wrap block">
+<section class="review-list-wrap block">
+  <% if reviews.present? %>
     <% reviews.each do |review| %>
       <div class="card block">
         <%= render "shared/display_reviews/review_content", review: review %>
       </div>
     <% end %>
-  </div>
-<% else %>
-  <div class="box">レビューの投稿はありません。</div>
-<% end %>
+  <% else %>
+    <div class="box">レビューの投稿はありません。</div>
+  <% end %>
+</section>
+<%= paginated?(reviews) %>

@@ -1,4 +1,4 @@
-<div class="spot-list-wrap js-spot-list">
+<section class="spot-list-wrap js-spot-list">
   <% if spots.present? %>
     <% spots.each do |spot| %>
       <%= link_to spot_path(spot.id), class: "list-content card block" do %>
@@ -14,4 +14,5 @@
   <% else %>
     <p>スポットは登録されておりません。</p>
   <% end %>
-</div>
+</section>
+<%= paginated?(spots) %>

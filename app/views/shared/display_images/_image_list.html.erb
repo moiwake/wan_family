@@ -1,8 +1,8 @@
-<% if image_blobs.present? %>
-  <section class="image-list-wrap">
+<section class="image-list-wrap">
+  <% if image_blobs.present? %>
     <%= render "shared/display_images/image_link_list", image_blobs: image_blobs, spot_id: spot_id, image_id: image_id %>
-  </section>
-<% else %>
-  画像の投稿はありません。
-<% end %>
-
+  <% else %>
+    画像の投稿はありません。
+  <% end %>
+</section>
+<%= paginated?(image_blobs) %>

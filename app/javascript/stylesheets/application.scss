@@ -90,3 +90,17 @@ a:hover {
 .page-link-wrap i {
   color: #7a7a7a;
 }
+
+// ページ割
+.pagination {
+  margin-top: 3rem;
+}
+
+.page-num {
+  border-radius: 50%;
+}
+
+.pagination-link.is-current {
+  background-color: #b28d80;
+  border-color: #b28d80;
+}
