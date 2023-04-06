@@ -62,7 +62,7 @@ class SpotRegisterForm < FormBase
 
   def merge_prefecture_id(attributes)
     if attributes["address"].present?
-      prefecture_id = Prefecture.find_by(name: attributes["address"].match(/.*[都道府県]/).to_s).id
+      prefecture_id = Prefecture.find_by(name: attributes["address"].slice(0, 4).match(/.*[都道府県]/).to_s).id
       attributes = attributes.merge({ "prefecture_id" => prefecture_id })
     end
   end
