@@ -1,12 +1,12 @@
 <div class="container review-index-container">
-  <section class="main-contents-wrap">
-    <%= render "shared/page_link", link_hash: {
-      "マイページへ戻る": users_mypage_favorite_spot_index_path,
-      "登録・更新したスポット": users_mypage_spot_index_path,
-      "投稿した画像": users_mypage_image_index_path
-    } %>
-    <h2 class="title is-4 main-title">投稿したレビュー</h2>
-    <div class="review-index-wrap">
+  <div class="main-contents-wrap">
+    <section class="review-index-wrap">
+      <%= render "shared/page_link", link_hash: {
+        "マイページへ戻る": users_mypage_favorite_spot_index_path,
+        "登録・更新したスポット": users_mypage_spot_index_path,
+        "投稿した画像": users_mypage_image_index_path
+      } %>
+      <h2 class="title is-4 main-title">投稿したレビュー</h2>
       <div class="sort-links-wrap">
         <%= link_to "スポット名順", { by: "spot_name", direction: "asc" } %>
         <%= render "shared/sort_link", likes_count_title: "役に立ったが多い順" %>
@@ -36,7 +36,7 @@
       <% else %>
         <div class="box">レビューの投稿はありません。</div>
       <% end %>
-    </div>
-  </section>
+    </section>
+  </div>
 </div>
 <%= javascript_pack_tag "users/review_index" %>

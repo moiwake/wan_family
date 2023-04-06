@@ -1,17 +1,17 @@
 <div class="container review-index-container">
-  <section class="main-contents-wrap">
-    <%= render "shared/page_link", link_hash: {
-      "マイページへ戻る": users_mypage_favorite_spot_index_path,
-      "登録・更新したスポット": users_mypage_spot_index_path,
-      "投稿したレビュー": users_mypage_review_index_path
-    } %>
-    <h2 class="title is-4 main-title">投稿した画像</h2>
-    <div class="review-index-wrap">
+  <div class="main-contents-wrap">
+    <section class="image-index-wrap">
+      <%= render "shared/page_link", link_hash: {
+        "マイページへ戻る": users_mypage_favorite_spot_index_path,
+        "登録・更新したスポット": users_mypage_spot_index_path,
+        "投稿したレビュー": users_mypage_review_index_path
+      } %>
+      <h2 class="title is-4 main-title">投稿した画像</h2>
       <div class="sort-links-wrap">
         <%= render "shared/sort_link", likes_count_title: "いいねが多い順" %>
       </div>
       <%= render "shared/display_images/image_list", image_blobs: @image_blobs, spot_id: nil, image_id: nil %>
-    </div>
-  </section>
+    </section>
+  </div>
 </div>
 <%= javascript_pack_tag "users/image_index" %>
