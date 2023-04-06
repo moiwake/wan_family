@@ -11,7 +11,7 @@ class ReviewPosterForm < FormBase
   end
 
   def image_attributes= (attributes)
-    if review.new_record?
+    if review.new_record? || review.image.nil?
       build_image_record(attributes: attributes, user_id: review.user_id, spot_id: review.spot_id)
     else
       update_iamge_attributes(attributes: attributes)
