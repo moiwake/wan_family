@@ -29,5 +29,6 @@ FactoryBot.define do
 
     association :category
     association :allowed_area
+    association :prefecture
   end
 end
