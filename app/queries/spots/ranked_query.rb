@@ -1,9 +1,7 @@
 module Spots
   class RankedQuery
-    RANKING_NUMBER = 10
-
-    def self.call
-      Spots::OrderedQuery.call(order_params: { by: "likes_count" }).limit(RANKING_NUMBER)
+    def self.call(rank_num: 10)
+      Spots::OrderedQuery.call(order_params: { by: "likes_count" }).limit(rank_num)
     end
   end
 end
