@@ -118,7 +118,7 @@ class SpotsController < ApplicationController
   end
 
   def set_attached_rule_opt_ids(spot)
-    attached_rule_opt_ary = spot.decorate.get_checked_rule_opt
+    attached_rule_opt_ary = spot.decorate.get_attached_unsaved_rules
     @attached_rule_opt_ids = attached_rule_opt_ary.pluck(:rule_option_id)
   end
 

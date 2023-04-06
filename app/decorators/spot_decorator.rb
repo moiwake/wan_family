@@ -1,11 +1,11 @@
 class SpotDecorator < Draper::Decorator
   delegate_all
 
-  def find_attached_rules
+  def get_attached_saved_rules
     object.rules.where(answer: "1").eager_load(:rule_option)
   end
 
-  def get_checked_rule_opt
+  def get_attached_unsaved_rules
     object.rules.select { |r| r.answer == "1" }
   end
 

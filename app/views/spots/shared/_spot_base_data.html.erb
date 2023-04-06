@@ -24,13 +24,15 @@
           <td><%= link_to spot.official_site, spot.official_site %></td>
         </tr>
         <tr>
-          <th rowspan=<%= spot.rules.size %>>ペットを同伴するときのルール</th>
-        </tr>
-        <tr class="spot-rules-row table">
-          <% if spot.rules.size > 0 %>
-            <% spot.decorate.find_attached_rules.each do |rule| %>
-              <td><%= rule.rule_option.name %></td>
-            <% end %>
+          <th>ペットを同伴するときのルール</th>
+          <% if spot.decorate.get_attached_saved_rules.size > 0 %>
+            <td>
+              <ul class="rule-list-wrap">
+                <% spot.decorate.get_attached_saved_rules.each do |rule| %>
+                  <li><%= rule.rule_option.name %></li>
+                <% end %>
+              </ul>
+            </td>
           <% else %>
             <td>現在登録されているルールはありません。</td>
           <% end %>
