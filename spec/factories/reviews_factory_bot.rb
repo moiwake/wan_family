@@ -4,6 +4,7 @@ FactoryBot.define do
     sequence(:comment) { |n| "review_comment#{n}" }
     sequence(:dog_score) { rand(1..5) }
     sequence(:human_score) { rand(1..5) }
+    sequence(:visit_date) { "2023-01-01" }
 
     trait :with_image do
       after(:create) do |review|

@@ -54,6 +54,7 @@ ja:
         comment: コメント
         dog_score: ワンちゃんたちの満足度
         human_score: ユーザーさんの満足度
+        visit_date: 訪問した日
         user: ユーザーID
         spot: スポットID
         images: 画像ID

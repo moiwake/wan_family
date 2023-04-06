@@ -61,7 +61,7 @@
           <% resource.review.decorate.get_files_for_edit.each do |file| %>
             <label for="file_id_<%= file.id %>_input" class="image-delete-wrap">
               <%= imf.check_box :file_ids, { multiple: true, checked: false, id: "file_id_#{file.id}_input"}, file.id, false %>
-              <%= image_tag file.representation(resize_to_limit: [150, 150]) %>
+              <%= image_tag file.representation(resize_to_limit: [250, 250]) %>
             </label>
           <% end %>
         </div>
