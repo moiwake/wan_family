@@ -12,10 +12,6 @@ FactoryBot.define do
         image.files.attach(
           { io: File.open('spec/fixtures/images/test1.png'), filename: 'test1.png' },
           { io: File.open('spec/fixtures/images/test2.png'), filename: 'test2.png' },
-          { io: File.open('spec/fixtures/images/test3.png'), filename: 'test3.png' },
-          { io: File.open('spec/fixtures/images/test4.png'), filename: 'test4.png' },
-          { io: File.open('spec/fixtures/images/test5.png'), filename: 'test5.png' },
-          { io: File.open('spec/fixtures/images/test6.png'), filename: 'test6.png' },
         )
         image.save
       end
@@ -26,6 +22,7 @@ FactoryBot.define do
       comment { nil }
       dog_score { nil }
       human_score { nil }
+      visit_date { nil }
     end
 
     association :user
