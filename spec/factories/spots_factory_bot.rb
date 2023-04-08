@@ -7,9 +7,9 @@ FactoryBot.define do
     sequence(:official_site) { |n| "http://official_site_#{n}" }
 
     trait :with_rules do
-      after(:build) do |spot|
-        build_list(:rule, 2, answer: "1", spot: spot)
-        build_list(:rule, 2, answer: "0", spot: spot)
+      after(:create) do |spot|
+        create_list(:rule, 2, answer: "1", spot: spot)
+        create_list(:rule, 2, answer: "0", spot: spot)
       end
     end
 

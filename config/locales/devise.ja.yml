@@ -22,10 +22,10 @@ ja:
         official_site: 公式サイト
         allowed_area: 同伴可能エリア
         category: スポットカテゴリー
-        rule: 同伴ルールID
         spot_histories: スポットの登録履歴ID
         users: 登録ユーザーID
         image: スポットイメージ
+        rules: 同伴ルールID
       spot_history:
         user: 登録ユーザーID
         spot: 登録スポットID
@@ -68,7 +68,7 @@ ja:
       admin: 管理者
       spot: スポット
       spot_history: スポットの登録履歴
-      rule: 同伴ルール
+      rules: 同伴ルール
       rule_option: ルールの選択肢
       option_title: 選択肢タイトル
       category: カテゴリー
