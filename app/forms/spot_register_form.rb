@@ -3,7 +3,7 @@ class SpotRegisterForm < FormBase
 
   def initialize(attributes: nil, spot: Spot.new)
     @spot = spot
-    super(attributes: attributes)
+    super(attributes: attributes, record: spot)
   end
 
   def spot_attributes= (attributes)
@@ -22,13 +22,6 @@ class SpotRegisterForm < FormBase
 
   private
 
-  def persist
-    raise ActiveRecord::RecordInvalid if check_and_add_error
-    spot.save!
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
-    false
-  end
-
   def build_rule_records(rule_option_id: nil, answer: nil)
     spot.rules.build(rule_option_id: rule_option_id, answer: answer)
   end
@@ -41,15 +34,9 @@ class SpotRegisterForm < FormBase
     end
   end
 
-  def check_and_add_error
-    spot.invalid? ? add_spot_errors : false
-  end
-
-  def add_spot_errors
+  def add_errors
     delete_errors_not_to_display
-    spot.errors.each do |error|
-      errors.add(:base, error.full_message)
-    end
+    super
   end
 
   def delete_errors_not_to_display
@@ -64,6 +51,8 @@ class SpotRegisterForm < FormBase
     if attributes["address"].present?
       prefecture_id = Prefecture.find_by(name: attributes["address"].slice(0, 4).match(/.*[都道府県]/).to_s).id
       attributes = attributes.merge({ "prefecture_id" => prefecture_id })
+    else
+      attributes
     end
   end
 

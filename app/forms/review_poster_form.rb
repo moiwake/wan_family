@@ -3,7 +3,7 @@ class ReviewPosterForm < FormBase
 
   def initialize(attributes: nil, review: Review.new)
     @review = review
-    super(attributes: attributes)
+    super(attributes: attributes, record: review)
   end
 
   def review_attributes= (attributes)
@@ -20,13 +20,6 @@ class ReviewPosterForm < FormBase
 
   private
 
-  def persist
-    raise ActiveRecord::RecordInvalid if check_and_add_error
-    review.save!
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
-    return false
-  end
-
   def build_image_record(attributes: nil, user_id: nil, spot_id: nil)
     attributes = attributes.merge({ user_id: review.user_id, spot_id: review.spot_id })
     review.build_image(attributes)
@@ -34,16 +27,6 @@ class ReviewPosterForm < FormBase
 
   def update_iamge_attributes(attributes: nil)
     review.image.assign_attributes(attributes)
-  end
-
-  def check_and_add_error
-    review.invalid? ? add_review_errors : false
-  end
-
-  def add_review_errors
-    review.errors.each do |error|
-      errors.add(:base, error.full_message)
-    end
   end
 
   def default_attributes
