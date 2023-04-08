@@ -1,6 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationHelper, type: :helper do
+  describe "#paginated?" do
+    context "引数に渡したレコード群がページネーションのメソッドを利用できるとき" do
+      let(:records) { create_list(:spot, 2)[0].class.all.page(params[:page]) }
+
+      before do
+        allow(helper).to receive(:paginate).with(records)
+        helper.paginated?(records)
+      end
+
+      it "レコード群を引数に、paginateメソッドを呼び出す" do
+        expect(helper).to have_received(:paginate).once.with(records)
+      end
+    end
+  end
+
   describe "#who_signed_in?" do
     let(:user) { double("user") }
     let(:admin) { double("admin") }
@@ -55,9 +70,21 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
-  describe "#get_prefecture_name" do
-    it "地方名が引数の値と一致するデータの県名を、配列で取得する" do
-      expect(helper.get_prefecture_name("東北")).to eq(["青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県"])
+  describe "#get_image_id" do
+    let(:image) { create(:image, :attached) }
+    let(:image_blob) { image.files_blobs[0] }
+
+    it "引数に渡したBlobレコードに関連するImageレコードのidを返す" do
+      expect(helper.get_image_id(image_blob)).to eq(image.id)
+    end
+  end
+
+  describe "#get_spot_id" do
+    let(:image) { create(:image, :attached) }
+    let(:image_blob) { image.files_blobs[0] }
+
+    it "引数に渡したBlobレコードに関連するSpotレコードのidを返す" do
+      expect(helper.get_spot_id(image_blob)).to eq(image.spot.id)
     end
   end
 end
