@@ -109,40 +109,83 @@ RSpec.describe User, type: :model do
   describe "content_typeのバリデーション" do
     let(:invalid_object) { create(:user) }
     let(:message) { "のファイル形式が不正です。" }
-    let(:attribute) { :human_avatar }
 
-    context "filesカラムに不正な形式のファイルを添付したとき" do
-      before do
-        invalid_object.human_avatar.attach({ io: File.open('spec/fixtures/test.txt'), filename: 'test.txt' })
+    context "human_avatarカラム" do
+      let(:attribute) { :human_avatar }
+
+      context "filesカラムに不正な形式のファイルを添付したとき" do
+        before do
+          invalid_object.human_avatar.attach({ io: File.open('spec/fixtures/test.txt'), filename: 'test.txt' })
+        end
+
+        it_behaves_like "adds validation error messages"
       end
+    end
 
-      it_behaves_like "adds validation error messages"
+    context "dog_avatarカラム" do
+      let(:attribute) { :dog_avatar }
+
+      context "filesカラムに不正な形式のファイルを添付したとき" do
+        before do
+          invalid_object.dog_avatar.attach({ io: File.open('spec/fixtures/test.txt'), filename: 'test.txt' })
+        end
+
+        it_behaves_like "adds validation error messages"
+      end
     end
   end
 
   describe "size_rangeのバリデーション" do
     let(:invalid_object) { create(:user) }
-    let(:attribute) { :human_avatar }
 
-    context "filesカラムに1バイト以下のファイルを添付したとき" do
-      let(:message) { "を1バイト以上のサイズにしてください。" }
+    context "human_avatarカラム" do
+      let(:attribute) { :human_avatar }
 
-      before do
-        invalid_object.human_avatar.attach({ io: File.open('spec/fixtures/images/0byte.png'), filename: '0byte.png' })
+      context "filesカラムに1バイト以下のファイルを添付したとき" do
+        let(:message) { "を1バイト以上のサイズにしてください。" }
+
+        before do
+          invalid_object.human_avatar.attach({ io: File.open('spec/fixtures/images/0byte.png'), filename: '0byte.png' })
+        end
+
+        it_behaves_like "adds validation error messages"
       end
 
-      it_behaves_like "adds validation error messages"
+      context "filesカラムに5メガバイト以上のファイルを添付したとき" do
+        let(:message) { "を5MB以下のサイズにしてください。" }
+
+        before do
+          invalid_object.human_avatar.attach({ io: File.open('spec/fixtures/images/0byte.png'), filename: '0byte.png' })
+          invalid_object.human_avatar.blob.assign_attributes({byte_size: 6.megabytes})
+        end
+
+        it_behaves_like "adds validation error messages"
+      end
     end
 
-    context "filesカラムに5メガバイト以上のファイルを添付したとき" do
-      let(:message) { "を5MB以下のサイズにしてください。" }
+    context "dog_avatarカラム" do
+      let(:attribute) { :dog_avatar }
 
-      before do
-        invalid_object.human_avatar.attach({ io: File.open('spec/fixtures/images/0byte.png'), filename: '0byte.png' })
-        invalid_object.human_avatar.blob.assign_attributes({byte_size: 6.megabytes})
+      context "filesカラムに1バイト以下のファイルを添付したとき" do
+        let(:message) { "を1バイト以上のサイズにしてください。" }
+
+        before do
+          invalid_object.dog_avatar.attach({ io: File.open('spec/fixtures/images/0byte.png'), filename: '0byte.png' })
+        end
+
+        it_behaves_like "adds validation error messages"
       end
 
-      it_behaves_like "adds validation error messages"
+      context "filesカラムに5メガバイト以上のファイルを添付したとき" do
+        let(:message) { "を5MB以下のサイズにしてください。" }
+
+        before do
+          invalid_object.dog_avatar.attach({ io: File.open('spec/fixtures/images/0byte.png'), filename: '0byte.png' })
+          invalid_object.dog_avatar.blob.assign_attributes({byte_size: 6.megabytes})
+        end
+
+        it_behaves_like "adds validation error messages"
+      end
     end
   end
 end
