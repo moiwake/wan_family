@@ -1,6 +1,4 @@
 class Spot < ApplicationRecord
-  extend ActiveHash::Associations::ActiveRecordExtensions
-
   has_many :spot_histories, dependent: :destroy
   has_many :users, through: :spot_histories
   has_many :rules, dependent: :destroy, autosave: true

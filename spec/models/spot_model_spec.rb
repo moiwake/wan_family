@@ -97,6 +97,16 @@ RSpec.describe Spot, type: :model do
         it_behaves_like "adds validation error messages"
       end
     end
+
+    context "prefectureカラム" do
+      let(:attribute) { :prefecture }
+
+      context "nilのとき" do
+        let(:type) { :nil }
+
+        it_behaves_like "adds validation error messages"
+      end
+    end
   end
 
   describe "uniquenessのバリデーション" do
