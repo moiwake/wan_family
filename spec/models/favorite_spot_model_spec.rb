@@ -11,15 +11,13 @@ RSpec.describe FavoriteSpot, type: :model do
   end
 
   describe "presenceのバリデーション" do
-    let(:invalid_object) { build(:favorite_spot, attribute => (type == :nil ? nil : "")) }
+    let(:invalid_object) { build(:favorite_spot, attribute => nil) }
     let(:message) { "を入力してください" }
 
     context "userカラム" do
       let(:attribute) { :user }
 
       context "nilのとき" do
-        let(:type) { :nil }
-
         it_behaves_like "adds validation error messages"
       end
     end
@@ -28,8 +26,6 @@ RSpec.describe FavoriteSpot, type: :model do
       let(:attribute) { :spot }
 
       context "nilのとき" do
-        let(:type) { :nil }
-
         it_behaves_like "adds validation error messages"
       end
     end
