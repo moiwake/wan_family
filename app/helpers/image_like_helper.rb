@@ -4,7 +4,7 @@ module ImageLikeHelper
   end
 
   def image_liked?(image_like)
-    image_like && image_like.persisted?
+    image_like.present? && image_like.persisted?
   end
 
   def count_image_blob_likes(image_blob)
