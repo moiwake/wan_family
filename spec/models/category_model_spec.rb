@@ -41,4 +41,12 @@ RSpec.describe Category, type: :model do
       it_behaves_like "adds validation error messages"
     end
   end
+
+  describe "scope#order_default" do
+    before { create_list(:allowed_area, 3) }
+
+    it "レシーバーのモデルのレコードを、idの昇順に並べ替えて返す" do
+      expect(Category.order_default).to eq(Category.order(:id))
+    end
+  end
 end
