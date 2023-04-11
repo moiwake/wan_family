@@ -17,8 +17,22 @@ RSpec.describe Image, type: :model do
 
     context "filesカラム" do
       context "nilのとき" do
-        let(:type) { :nil }
+        it_behaves_like "adds validation error messages"
+      end
+    end
 
+    context "userカラム" do
+      let(:attribute) { :user }
+
+      context "nilのとき" do
+        it_behaves_like "adds validation error messages"
+      end
+    end
+
+    context "spotカラム" do
+      let(:attribute) { :spot }
+
+      context "nilのとき" do
         it_behaves_like "adds validation error messages"
       end
     end
@@ -29,9 +43,7 @@ RSpec.describe Image, type: :model do
     let(:message) { "のファイル形式が不正です。" }
 
     context "filesカラムに不正な形式のファイルを添付したとき" do
-      before do
-        invalid_object.files.attach({ io: File.open('spec/fixtures/test.txt'), filename: 'test.txt' })
-      end
+      before { invalid_object.files.attach({ io: File.open('spec/fixtures/test.txt'), filename: 'test.txt' }) }
 
       it_behaves_like "adds validation error messages"
     end
@@ -43,9 +55,7 @@ RSpec.describe Image, type: :model do
     context "filesカラムに1バイト以下のファイルを添付したとき" do
       let(:message) { "を1バイト以上のサイズにしてください。" }
 
-      before do
-        invalid_object.files.attach({ io: File.open('spec/fixtures/images/0byte.png'), filename: '0byte.png' })
-      end
+      before { invalid_object.files.attach({ io: File.open('spec/fixtures/images/0byte.png'), filename: '0byte.png' }) }
 
       it_behaves_like "adds validation error messages"
     end
@@ -53,9 +63,7 @@ RSpec.describe Image, type: :model do
     context "filesカラムに5メガバイト以上のファイルを添付したとき" do
       let(:message) { "を5MB以下のサイズにしてください。" }
 
-      before do
-        invalid_object.files.blobs << ActiveStorage::Blob.new(content_type: "image/png", byte_size: 6.megabytes)
-      end
+      before { invalid_object.files.blobs << ActiveStorage::Blob.new(content_type: "image/png", byte_size: 6.megabytes) }
 
       it_behaves_like "adds validation error messages"
     end
