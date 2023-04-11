@@ -77,5 +77,62 @@ RSpec.describe Review, type: :model do
         it_behaves_like "adds validation error messages"
       end
     end
+
+    context "visit_dateカラム" do
+      let(:attribute) { :visit_date }
+
+      context "nilのとき" do
+        let(:type) { :nil }
+
+        it_behaves_like "adds validation error messages"
+      end
+    end
+
+    context "userカラム" do
+      let(:attribute) { :user }
+
+      context "nilのとき" do
+        let(:type) { :nil }
+
+        it_behaves_like "adds validation error messages"
+      end
+    end
+
+    context "spotカラム" do
+      let(:attribute) { :spot }
+
+      context "nilのとき" do
+        let(:type) { :nil }
+
+        it_behaves_like "adds validation error messages"
+      end
+    end
+  end
+
+  describe "scope" do
+    before { create_list(:review, 2, :with_image) }
+
+    describe "scope#load_all_associations" do
+      subject(:return_value) { Review.all.load_all_associations }
+
+      it "関連する全てのモデルのテーブルをロードする" do
+        expect(return_value.last.association(:user).loaded?).to eq(true)
+        expect(return_value.last.association(:spot).loaded?).to eq(true)
+        expect(return_value.last.association(:image).loaded?).to eq(true)
+        expect(return_value.last.association(:review_helpfulnesses).loaded?).to eq(true)
+        expect(return_value.last.image.association(:files_attachments).loaded?).to eq(true)
+      end
+    end
+
+    describe "scope#load_active_storage_associations" do
+      subject(:return_value) { Review.all.load_active_storage_associations }
+
+      it "関連するActiveStorageクラスのモデルのテーブルをロードする" do
+        expect(return_value.last.association(:image).loaded?).to eq(true)
+        expect(return_value.last.image.association(:files_attachments).loaded?).to eq(true)
+        expect(return_value.last.image.files[0].association(:blob).loaded?).to eq(true)
+        expect(return_value.last.image.files[0].blob.association(:variant_records).loaded?).to eq(true)
+      end
+    end
   end
 end
