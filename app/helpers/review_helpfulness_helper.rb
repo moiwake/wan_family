@@ -3,8 +3,8 @@ module ReviewHelpfulnessHelper
     review.user_id != current_user.id
   end
 
-  def review_helpful?(review)
-    current_user.present? && current_user.review_helpfulnesses.exists?(review_id: review.id)
+  def review_helpful?(review_helpfulness)
+    review_helpfulness.present? && review_helpfulness.persisted?
   end
 
   def review_helpfulness_by_user(review)

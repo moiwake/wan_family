@@ -1,4 +1,4 @@
-<% if review_helpful?(review) %>
+<% if review_helpful?(review_helpfulness) %>
   <%= link_to spot_review_review_helpfulness_path(review.spot, review, review_helpfulness), method: :delete, class: "review-helpfulness-remove-btn", remote: true do %>
     <i class="fa-solid fa-thumbs-up helpful-review-icon"></i>
   <% end %>
