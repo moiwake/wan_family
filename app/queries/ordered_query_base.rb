@@ -21,10 +21,8 @@ class OrderedQueryBase
   private
 
   def set_scope
-    @scope = scope.distinct
-
     if parent_record.nil?
-      scope
+      scope.distinct
     else
       if parent_record && parent_record[0]
         scope.where({"#{parent_record.model.name.downcase}_id" => parent_record.ids})
@@ -52,8 +50,8 @@ class OrderedQueryBase
   end
 
   def order_by_likes
-    @ordered_scope_ids = set_scope_ids_in_likes_order
-    order_scope_by_ids
+    ordered_scope_ids = set_scope_ids_in_likes_order
+    order_scope_by_ids(ordered_scope_ids)
   end
 
   def order_default
@@ -88,7 +86,7 @@ class OrderedQueryBase
     @like_class_foreign_key = "#{scope.model.name.demodulize.downcase}_id"
   end
 
-  def order_scope_by_ids
-    scope.where(id: @ordered_scope_ids).order([Arel.sql("field(#{scope.model.table_name}.id, ?)"), @ordered_scope_ids])
+  def order_scope_by_ids(ordered_scope_ids)
+    scope.where(id: ordered_scope_ids).order([Arel.sql("field(#{scope.model.table_name}.id, ?)"), ordered_scope_ids])
   end
 end

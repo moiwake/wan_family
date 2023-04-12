@@ -1,10 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe OrderedQueryBase, type: :model do
-  let(:scope) { create_list(:review, 3)[0].class.all }
+  let(:scope) do
+    create_list(:review, 3)
+    Review.all
+  end
   let(:child_class_instance) { ChildClass.new(arguments) }
   let(:arguments) { { scope: scope, parent_record: parent_record, order_params: order_params, like_class: "ReviewHelpfulness" } }
-  let(:parent_record) { instance_double("spot") }
+  let(:parent_record) { nil }
   let(:order_params) { {} }
 
   before(:all) { ChildClass = Class.new(OrderedQueryBase) }
@@ -55,16 +58,26 @@ RSpec.describe OrderedQueryBase, type: :model do
     context "parent_recordがnilのとき" do
       let(:parent_record) { nil }
 
-      it "scopeを返す" do
-        expect(return_value).to eq(scope)
+      it "重複を除いたscopeを返す" do
+        expect(return_value).to eq(scope.distinct)
       end
     end
 
     context "parent_recordがnilではないとき" do
-      let(:parent_record) { Spot.where(id: [scope[0].spot_id, scope[1].spot_id]) }
+      context "parent_recordが複数のレコードであれば" do
+        let(:parent_record) { Spot.where(id: [scope[0].spot_id, scope[1].spot_id]) }
 
-      it "parent_recordと関連するscopeを返す" do
-        expect(return_value).to eq(scope.where(spot_id: parent_record.ids))
+        it "parent_recordのidを外部キーに持つscopeのレコードのActiveRecord::Relationオブジェクトを返す" do
+          expect(return_value).to eq(scope.where(spot_id: parent_record.ids))
+        end
+      end
+
+      context "parent_recordが単一のレコードであれば" do
+        let(:parent_record) { Spot.find(scope[0].spot_id) }
+
+        it "parent_recordのidを外部キーに持つscopeのレコードを返す" do
+          expect(return_value).to eq(scope.where(spot_id: parent_record.id))
+        end
       end
     end
   end
@@ -92,12 +105,13 @@ RSpec.describe OrderedQueryBase, type: :model do
 
     context "order_paramsハッシュのbyキーがlikes_countのとき" do
       let(:order_params) { { by: "likes_count" } }
-      let(:ordered_scope_ids) { [scope[1].id, scope[2].id, scope[0].id] }
-      let(:ordered_scope) { scope.where(id: ordered_scope_ids).order([Arel.sql("field(reviews.id, ?)"), ordered_scope_ids]) }
+      let(:ordered_scope) do
+        scope.where(id: [scope[1].id, scope[2].id, scope[0].id]).order([Arel.sql("field(reviews.id, ?)"), [scope[1].id, scope[2].id, scope[0].id]])
+      end
 
       before do
-        FactoryBot.create_list(:review_helpfulness, 2, review_id: scope[1].id)
-        FactoryBot.create_list(:review_helpfulness, 1, review_id: scope[2].id)
+        create_list(:review_helpfulness, 2, review_id: scope[1].id)
+        create_list(:review_helpfulness, 1, review_id: scope[2].id)
       end
 
       it "レシーバーのレコード群を、好評価が多い順に並び替える" do
@@ -107,10 +121,23 @@ RSpec.describe OrderedQueryBase, type: :model do
 
     context "order_paramsハッシュが空のとき" do
       let(:order_params) { {} }
-      let(:ordered_scope) { scope.order(created_at: :desc, id: :desc) }
 
-      it "レシーバーのレコード群を、created_atカラム、idカラムの降順に並び替える" do
-        expect(return_value).to eq(ordered_scope)
+      context "scopeのレコードの属性にupdated_atカラムが含まれていれば" do
+        let(:ordered_scope) { scope.order(updated_at: :desc, created_at: :desc, id: :desc) }
+
+        it "レシーバーのレコード群を、updated_atカラム、created_atカラム、idカラムの降順に並び替える" do
+          expect(return_value).to eq(ordered_scope)
+        end
+      end
+
+      context "scopeのレコードの属性にupdated_atカラムが含まれていれば" do
+        let(:scope) { create(:image, :attached).files_blobs }
+        let(:arguments) { { scope: scope, parent_record: nil, order_params: order_params, like_class: "ImageLike" } }
+        let(:ordered_scope) { scope.order(created_at: :desc, id: :desc) }
+
+        it "レシーバーのレコード群を、created_atカラム、idカラムの降順に並び替える" do
+          expect(return_value).to eq(ordered_scope)
+        end
       end
     end
   end
