@@ -4,7 +4,8 @@ module Spots
       super(scope: scope, parent_record: parent_record, order_params: order_params, like_class: like_class)
     end
 
-    def self.call(scope: Spot.all, parent_record: nil, order_params: {}, like_class: "FavoriteSpot")
+    def self.call(scope: nil, parent_record: nil, order_params: {}, like_class: "FavoriteSpot")
+      scope ||= Spot.all
       super
     end
 
@@ -15,15 +16,15 @@ module Spots
     end
 
     def order_asc_or_desc
-      @ordered_scope_ids = SpotHistory
+      ordered_scope_ids = SpotHistory
                           .order(order_params[:by] => order_params[:direction], "id" => order_params[:direction])
                           .pluck(:spot_id)
-      order_scope_by_ids
+      order_scope_by_ids(ordered_scope_ids)
     end
 
     def order_default
-      @ordered_scope_ids = SpotHistory.order(created_at: :desc, id: :desc).pluck(:spot_id)
-      order_scope_by_ids
+      ordered_scope_ids = SpotHistory.order(created_at: :desc, id: :desc).pluck(:spot_id)
+      order_scope_by_ids(ordered_scope_ids)
     end
   end
 end
