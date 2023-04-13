@@ -10,42 +10,50 @@ class RankedForSpecificPeriodQuery < OrderedQueryBase
   end
 
   def self.call(scope:, parent_record: nil, like_class:, date:, number:)
-    new_instance = new(
+    @scope = new(
       scope: scope,
       parent_record: parent_record,
       like_class: like_class,
       date: date,
       number: number
-    )
-    @scope = new_instance.set_ordered_scope
-    @scope = limit_scope
+    ).set_ranked_scope_for_specific_period
+
     return @scope
   end
 
-  def self.limit_scope
-    @scope.limit(RANKING_NUMBER)
+  def set_ranked_scope_for_specific_period
+    @scope = set_ordered_scope
+    @scope = limit_scope
   end
 
   private
 
-  def group_like_class_record
-    like_class_record = set_like_class_record
-
-    grouped_like_class_record = like_class_record.group(:"#{like_class_foreign_key}")
-    number = PERIOD_NUMBER
-    loop_limit = 0
-
-    until grouped_like_class_record.size.length >= RANKING_NUMBER || loop_limit = 5
-      number = number + PERIOD_NUMBER + 1
-      like_class_record = set_like_class_record
-      grouped_like_class_record = like_class_record.group(:"#{like_class_foreign_key}")
-      loop_limit = loop_limit + 1
-    end
-
-    return grouped_like_class_record
+  def limit_scope
+    @scope.limit(RANKING_NUMBER)
   end
 
-  def set_like_class_record
+  def group_like_class_records
+    @grouped_like_class_records = set_grouped_like_class_records
+
+    @loop_limit = 0
+    until @grouped_like_class_records.size.length >= RANKING_NUMBER || @loop_limit == 5
+      @loop_limit = @loop_limit + 1
+      @grouped_like_class_records = fill_records_up_to_rank_num
+    end
+
+    return @grouped_like_class_records
+  end
+
+  def set_grouped_like_class_records
+    set_like_class_records.group(:"#{like_class_foreign_key}")
+  end
+
+  def fill_records_up_to_rank_num
+    @number = number + (number + 1)
+    return set_grouped_like_class_records
+  end
+
+  def set_like_class_records
     CreatedInSpecificPeriodQuery.call(scope: like_class.constantize.all, date: date, number: number)
   end
 end

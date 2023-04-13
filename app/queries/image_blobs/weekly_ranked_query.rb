@@ -1,6 +1,6 @@
 module ImageBlobs
   class WeeklyRankedQuery < RankedForSpecificPeriodQuery
-    RankedForSpecificPeriodQuery::PERIOD_NUMBER = 6
+    PERIOD_NUMBER = 6
 
     def initialize(scope:, parent_record:, like_class:, date:, number:)
       super(scope: scope, parent_record: parent_record, like_class: like_class, date: date, number: number)
