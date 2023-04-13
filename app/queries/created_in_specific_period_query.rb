@@ -8,7 +8,8 @@ class CreatedInSpecificPeriodQuery
   end
 
   def self.call(scope:, date:, number:)
-    new(scope: scope, date: date, number: number).for_specific_period
+    @scope = new(scope: scope, date: date, number: number).for_specific_period
+    return @scope
   end
 
   def for_specific_period
