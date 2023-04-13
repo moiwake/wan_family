@@ -1,9 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe ImageBlobs::OrderedQuery, type: :model do
-  let!(:images) { create_list(:image, 3, :attached) }
-  let(:ordered_query_instance) { ImageBlobs::OrderedQuery.new(scope: nil, parent_record: parent_record, order_params: {}, like_class: "ImageLike") }
-  let(:parent_record) { nil }
+  let(:ordered_query_instance) { ImageBlobs::OrderedQuery.new(scope: nil, parent_record: nil, order_params: {}, like_class: "ImageLike") }
+
+  describe "#call" do
+    before do
+      create_list(:image, 2, :attached)
+      allow(OrderedQueryBase).to receive(:call)
+      ImageBlobs::OrderedQuery.call
+    end
+
+    it "指定した引数を渡して、親クラスのcallメソッドを呼び出す" do
+      expect(OrderedQueryBase).to have_received(:call).once.with(scope: nil, parent_record: Image.all, order_params: {}, like_class: "ImageLike")
+    end
+  end
 
   describe "#set_scope" do
     subject(:return_value) { ordered_query_instance.send(:set_scope) }
@@ -24,28 +34,6 @@ RSpec.describe ImageBlobs::OrderedQuery, type: :model do
       it "空のActiveRecord::Relationオブジェクトを返す" do
         expect(return_value.any?).to eq(false)
         expect(return_value.class.name).to eq("ActiveRecord::Relation")
-      end
-    end
-  end
-
-  describe "#search_image_blobs" do
-    subject(:return_value) { ordered_query_instance.send(:search_image_blobs) }
-
-    context "parent_recordが単一のImageクラスのオブジェクトのとき" do
-      let(:parent_record) { images[0] }
-      let(:searched_scope) { parent_record.files_blobs }
-
-      it "parent_recordに関連するBlobレコード群を返す" do
-        expect(return_value).to eq(searched_scope)
-      end
-    end
-
-    context "parent_recordが複数のImageクラスのオブジェクトのとき" do
-      let(:parent_record) { [images[0], images[1]] }
-      let(:searched_scope) { parent_record[0].files.blobs.or(parent_record[1].files.blobs) }
-
-      it "それぞれのparent_recordに関連するBlobレコード群を返す" do
-        expect(return_value).to eq(searched_scope)
       end
     end
   end
