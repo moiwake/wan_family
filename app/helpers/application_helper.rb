@@ -21,11 +21,11 @@ module ApplicationHelper
     end
   end
 
-  def get_image_id(image_blob)
-    image_blob.attachments[0].record.id
+  def set_image_id(image_blob:, image_id: nil)
+    image_id ? image_id : image_blob.attachments[0].record.id
   end
 
-  def get_spot_id(image_blob)
-    image_blob.attachments[0].record.spot_id
+  def set_spot_id(image_blob:, spot_id: nil)
+    spot_id ? spot_id : image_blob.attachments[0].record.spot_id
   end
 end

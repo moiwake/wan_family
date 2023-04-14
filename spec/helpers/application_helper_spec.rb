@@ -70,21 +70,21 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
-  describe "#get_image_id" do
+  describe "#set_image_id" do
     let(:image) { create(:image, :attached) }
     let(:image_blob) { image.files_blobs[0] }
 
     it "引数に渡したBlobレコードに関連するImageレコードのidを返す" do
-      expect(helper.get_image_id(image_blob)).to eq(image.id)
+      expect(helper.set_image_id(image_blob)).to eq(image.id)
     end
   end
 
-  describe "#get_spot_id" do
+  describe "#set_spot_id" do
     let(:image) { create(:image, :attached) }
     let(:image_blob) { image.files_blobs[0] }
 
     it "引数に渡したBlobレコードに関連するSpotレコードのidを返す" do
-      expect(helper.get_spot_id(image_blob)).to eq(image.spot.id)
+      expect(helper.set_spot_id(image_blob)).to eq(image.spot.id)
     end
   end
 end
