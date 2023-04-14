@@ -1,13 +1,13 @@
 class FavoriteSpotsController < ApplicationController
+  before_action :set_spot
+
   def create
-    @favorite_spot = current_user.favorite_spots.create(spot_id: params[:spot_id])
-    set_spot
+    @favorite_spot = @spot.favorite_spots.create(user: current_user)
     render "create_and_destroy"
   end
 
   def destroy
     @favorite_spot = FavoriteSpot.find(params[:id])
-    set_spot
     @favorite_spot.destroy
     render "create_and_destroy"
   end
@@ -15,6 +15,6 @@ class FavoriteSpotsController < ApplicationController
   private
 
   def set_spot
-    @spot = @favorite_spot.spot
+    @spot = Spot.find(params[:spot_id])
   end
 end
