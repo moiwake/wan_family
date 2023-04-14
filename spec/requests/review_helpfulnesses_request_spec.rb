@@ -23,7 +23,7 @@ RSpec.describe "ReviewHelpfulnesses", type: :request do
   end
 
   describe "DELETE /destroy" do
-    let!(:review_helpfulness) { create(:review_helpfulness, user_id: user.id, review_id: review.id) }
+    let!(:review_helpfulness) { create(:review_helpfulness, user: user, review: review) }
 
     subject { delete spot_review_review_helpfulness_path(spot, review, review_helpfulness), xhr: true }
 
