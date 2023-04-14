@@ -135,6 +135,11 @@
   display: flex;
   justify-content: center;
   width: 20%;
+  height: 180px;
+} @media screen and (min-width: 600px) and (max-width: 800px) {
+  .image-link-list-item {
+    height: 110px;
+  }
 } @media screen and (max-width: 600px) {
   .image-link-list-item {
     width: 50%;
