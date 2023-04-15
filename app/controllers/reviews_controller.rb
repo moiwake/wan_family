@@ -12,7 +12,6 @@ class ReviewsController < ApplicationController
   end
 
   def create
-    # binding.pry
     @review_poster_form = ReviewPosterForm.new(attributes: form_params)
 
     if @review_poster_form.save
