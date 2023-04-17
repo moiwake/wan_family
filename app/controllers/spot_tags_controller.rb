@@ -19,7 +19,7 @@ class SpotTagsController < ApplicationController
       render "index"
     else
       set_created_tag_names
-      render "new"
+      render "new_and_edit"
     end
   end
 
@@ -36,7 +36,7 @@ class SpotTagsController < ApplicationController
       render "index"
     else
       set_created_tag_names
-      render "edit"
+      render "new_and_edit"
     end
   end
 

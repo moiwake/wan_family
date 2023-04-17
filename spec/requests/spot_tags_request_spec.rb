@@ -23,7 +23,7 @@ RSpec.describe "SpotTags", type: :request do
     subject { post spot_spot_tags_path(spot), params: { spot_tag: params }, xhr: true }
 
     context "パラメータの値が妥当なとき" do
-      let(:params) { FactoryBot.attributes_for(:spot_tag, user_id: user.id, spot_id: spot.id) }
+      let(:params) { attributes_for(:spot_tag, user_id: user.id, spot_id: spot.id) }
       let(:new_spot_tag) { SpotTag.last }
 
       it "スポットにタグを登録できる" do
