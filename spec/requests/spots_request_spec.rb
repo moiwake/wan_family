@@ -4,11 +4,11 @@ require 'support/shared_examples/request_spec'
 RSpec.describe "Spots", type: :request do
   let!(:user) { create(:user) }
   let!(:spot) { create(:spot, :with_rules) }
-
   let!(:categories) { create_list(:category, 3) }
   let!(:allowed_areas) { create_list(:allowed_area, 3) }
   let!(:option_titles) { create_list(:option_title, 3) }
-  let(:rule_options) { RuleOption.all.limit(4) }
+  let!(:prefecture) { create(:prefecture, :real_prefecture) }
+  let!(:rule_option_ids) { spot.rules.pluck(:rule_option_id) }
 
   describe "GET" do
     describe "GET /new" do
@@ -35,7 +35,8 @@ RSpec.describe "Spots", type: :request do
     describe "GET /show" do
       before do
         sign_in user
-        get spot_path(spot.id)
+        create(:spot_history, spot: spot)
+        get spot_path(spot)
       end
 
       it_behaves_like "returns http success"
@@ -45,14 +46,14 @@ RSpec.describe "Spots", type: :request do
       context "ログインしているとき" do
         before do
           sign_in user
-          get edit_spot_path(spot.id)
+          get edit_spot_path(spot)
         end
 
         it_behaves_like "returns http success"
       end
 
       context "ログインしていないとき" do
-        before { get edit_spot_path(spot.id) }
+        before { get edit_spot_path(spot) }
 
         it_behaves_like "redirects to login page"
       end
@@ -60,22 +61,16 @@ RSpec.describe "Spots", type: :request do
   end
 
   describe "POST" do
-    let(:params) { { "spot_attributes" => spot_params, "rules_attributes" => rules_params } }
-    let(:spot_params) do
-      FactoryBot.attributes_for(:spot, allowed_area_id: allowed_areas[0].id, category_id: categories[0].id)
-      .transform_keys(&:to_s).transform_values(&:to_s)
-    end
+    let(:params) { { spot_attributes: spot_params, rules_attributes: rules_params } }
+    let(:spot_params) { attributes_for(:spot, :real_spot, allowed_area_id: allowed_areas[0].id, category_id: categories[0].id).stringify_keys.transform_values(&:to_s) }
     let(:rules_params) do
       {
-        "#{rule_options[0].id}" => { "answer" => "1" },
-        "#{rule_options[1].id}" => { "answer" => "1" },
-        "#{rule_options[2].id}" => { "answer" => "0" },
-        "#{rule_options[3].id}" => { "answer" => "0" },
+        "#{rule_option_ids[0]}" => { "answer" => "0" },
+        "#{rule_option_ids[1]}" => { "answer" => "1" },
+        "#{rule_option_ids[2]}" => { "answer" => "0" },
+        "#{rule_option_ids[3]}" => { "answer" => "1" },
       }
     end
-
-    let(:invalid_params) { { spot_attributes: invalid_spot_params, rules_attributes: { nil => {} } } }
-    let(:invalid_spot_params) { FactoryBot.attributes_for(:spot, :invalid_spot) }
 
     describe "POST /new_confirm" do
       context "ログインしているとき" do
@@ -92,8 +87,14 @@ RSpec.describe "Spots", type: :request do
           it_behaves_like "returns http success"
         end
 
-        context "送信されたパラメータが不正なとき" do
-          before { post new_confirm_spots_path, params: { spot_register_form: invalid_params } }
+        context "送信されたスポットのパラメータが不正なとき" do
+          before { post new_confirm_spots_path, params: { spot_register_form: { spot_attributes: attributes_for(:spot, :invalid_spot) } } }
+
+          it_behaves_like "returns http success"
+        end
+
+        context "送信された同伴ルールのパラメータが不正なとき" do
+          before { post new_confirm_spots_path, params: { spot_register_form: { spot_attributes: spot_params, rules_attributes: { nil => {} } } } }
 
           it_behaves_like "returns http success"
         end
@@ -157,30 +158,33 @@ RSpec.describe "Spots", type: :request do
 
         before { post new_confirm_spots_path, params: { spot_register_form: params } }
 
-        it "スポットを登録できる" do
+        it "Spotレコードを保存できる" do
           expect { subject }.to change { Spot.count }.by(1)
           expect(new_spot.name).to eq(spot_params["name"])
-          expect(new_spot.latitude).to eq(spot_params["latitude"].to_i)
-          expect(new_spot.longitude).to eq(spot_params["longitude"].to_i)
+          expect(new_spot.latitude).to eq(spot_params["latitude"].to_f)
+          expect(new_spot.longitude).to eq(spot_params["longitude"].to_f)
           expect(new_spot.address).to eq(spot_params["address"])
           expect(new_spot.official_site).to eq(spot_params["official_site"])
           expect(new_spot.allowed_area_id).to eq(spot_params["allowed_area_id"].to_i)
           expect(new_spot.category_id).to eq(spot_params["category_id"].to_i)
+          expect(new_spot.prefecture_id).to eq(prefecture.id)
         end
 
-        it "スポットの同伴ルールが、選択肢分だけ登録される" do
+        it "Ruleレコードが、RuleOptionレコードの数だけ保存される" do
           subject
-          expect(new_rules.count).to eq(rule_options.count)
+          expect(new_rules.count).to eq(rule_option_ids.length)
 
-          new_rules.each_with_index do |new_rule, i|
-            expect(new_rule.rule_option_id).to eq(rules_params.keys[i].to_i)
-            expect(new_rule.answer).to eq(rules_params.values[i]["answer"])
+          rules_params.each.with_index do |(rule_opt_param, answer_param), i|
+            expect(new_rules[i].rule_option_id).to eq(rule_opt_param.to_i)
+            expect(new_rules[i].answer).to eq(answer_param["answer"])
           end
         end
 
-        it "スポットの登録履歴が保存される" do
+        it "SpotHistoryレコードが保存される" do
           expect { subject }.to change { SpotHistory.count }.by(1)
           expect(SpotHistory.last.history).to eq("新規登録")
+          expect(SpotHistory.last.user_id).to eq(user.id)
+          expect(SpotHistory.last.spot_id).to eq(new_spot.id)
         end
 
         it "登録後、登録したスポットの詳細ページにリダイレクトする" do
@@ -189,18 +193,38 @@ RSpec.describe "Spots", type: :request do
         end
       end
 
-      context "セッションに保存されたデータが不正な場合" do
-        before { post new_confirm_spots_path, params: { spot_register_form: invalid_params } }
+      context "セッションに保存されたスポットのデータが不正な場合" do
+        before { post new_confirm_spots_path, params: { spot_register_form: { spot_params: attributes_for(:spot, :invalid_spot) } } }
 
-        it "スポットを登録できない" do
+        it "Spotレコードを保存できない" do
           expect { subject }.to change { Spot.count }.by(0)
         end
 
-        it "スポットの同伴ルールは登録されない" do
+        it "Ruleレコードを保存できない" do
           expect { subject }.to change { Rule.count }.by(0)
         end
 
-        it "スポットの登録履歴は保存されない" do
+        it "SpotHistoryレコードは保存されない" do
+          expect { subject }.to change { SpotHistory.count }.by(0)
+        end
+
+        it_behaves_like "returns http success"
+      end
+
+      context "セッションに保存された同伴ルールのデータが不正な場合" do
+        let(:invalid_rule_params) { { rule_option_ids[0] => { "answer" => nil } } }
+
+        before { post new_confirm_spots_path, params: { spot_register_form: { spot_attributes: spot_params, rules_attributes: invalid_rule_params } } }
+
+        it "Spotレコードを保存できない" do
+          expect { subject }.to change { Spot.count }.by(0)
+        end
+
+        it "Ruleレコードを保存できない" do
+          expect { subject }.to change { Rule.count }.by(0)
+        end
+
+        it "SpotHistoryレコードは保存されない" do
           expect { subject }.to change { SpotHistory.count }.by(0)
         end
 
@@ -222,28 +246,23 @@ RSpec.describe "Spots", type: :request do
 
   describe "PATCH" do
     let(:updated_params) { { spot_attributes: updated_spot_params, rules_attributes: updated_rules_params } }
-    let(:updated_spot_params) do
-      FactoryBot.attributes_for(:spot, allowed_area_id: allowed_areas[1].id, category_id: categories[1].id)
-      .transform_keys(&:to_s).transform_values(&:to_s)
-    end
+    let(:updated_spot_params) { attributes_for(:spot, address: "大阪府", allowed_area_id: allowed_areas[1].id, category_id: categories[1].id, prefecture_id: updated_prefecture_id).stringify_keys.transform_values(&:to_s) }
     let(:updated_rules_params) do
       {
-        "#{rule_options[0].id}" => { "answer" => "0" },
-        "#{rule_options[1].id}" => { "answer" => "0" },
-        "#{rule_options[2].id}" => { "answer" => "1" },
-        "#{rule_options[3].id}" => { "answer" => "1" },
+        "#{rule_option_ids[0]}" => { "answer" => "0" },
+        "#{rule_option_ids[1]}" => { "answer" => "0" },
+        "#{rule_option_ids[2]}" => { "answer" => "1" },
+        "#{rule_option_ids[3]}" => { "answer" => "1" },
       }
     end
-
-    let(:invalid_spot_params) { FactoryBot.attributes_for(:spot, :invalid_spot, allowed_area_id: nil, category_id: nil) }
-    let(:invalid_params) { { spot_attributes: invalid_spot_params, rules_attributes: { nil => {} } } }
+    let!(:updated_prefecture_id) { create(:prefecture, name: "大阪府", name_roma: "osaka").id }
 
     describe "PATCH /edit_confirm" do
       context "ログインしているとき" do
         before { sign_in user }
 
         context "送信されたパラメータが妥当なとき" do
-          before { patch edit_confirm_spot_path(spot.id), params: { spot_register_form: updated_params } }
+          before { patch edit_confirm_spot_path(spot), params: { spot_register_form: updated_params } }
 
           it "送信されたパラメータがセッションに保存されている" do
             expect(session[:params]["spot_attributes"]).to eq(updated_spot_params)
@@ -253,8 +272,16 @@ RSpec.describe "Spots", type: :request do
           it_behaves_like "returns http success"
         end
 
-        context "送信されたパラメータが不正なとき" do
-          before { patch edit_confirm_spot_path(spot.id), params: { spot_register_form: invalid_params } }
+        context "送信されたスポットのパラメータが不正なとき" do
+          before { patch edit_confirm_spot_path(spot), params: { spot_register_form: { spot_attributes: attributes_for(:spot, :invalid_spot) } } }
+
+          it_behaves_like "returns http success"
+        end
+
+        context "送信された同伴ルールのパラメータが不正なとき" do
+          let(:invalid_rule_params) { { rule_option_ids[0] => { "answer" => nil } } }
+
+          before { patch edit_confirm_spot_path(spot), params: { spot_register_form: { spot_attributes:  updated_spot_params, rules_attributes: invalid_rule_params } } }
 
           it_behaves_like "returns http success"
         end
@@ -265,17 +292,17 @@ RSpec.describe "Spots", type: :request do
             .to receive(:form_params)
             .and_raise(ActionController::ParameterMissing, :spot_register_form)
 
-            get edit_confirm_spot_path(spot.id)
+            get edit_confirm_spot_path(spot)
           end
 
           it "back_editへリダイレクトする" do
-            expect(response).to redirect_to(back_edit_spot_path(spot.id))
+            expect(response).to redirect_to(back_edit_spot_path(spot))
           end
         end
       end
 
       context "ログインしていないとき" do
-        before { patch edit_confirm_spot_path(spot.id), params: { spot_register_form: invalid_params } }
+        before { patch edit_confirm_spot_path(spot), params: { spot_register_form: updated_params } }
 
         it_behaves_like "redirects to login page"
       end
@@ -285,8 +312,8 @@ RSpec.describe "Spots", type: :request do
       context "ログインしているとき" do
         before do
           sign_in user
-          patch edit_confirm_spot_path(spot.id), params: { spot_register_form: updated_params }
-          patch back_edit_spot_path(spot.id)
+          patch edit_confirm_spot_path(spot), params: { spot_register_form: updated_params }
+          patch back_edit_spot_path(spot)
         end
 
         it_behaves_like "returns http success"
@@ -294,8 +321,8 @@ RSpec.describe "Spots", type: :request do
 
       context "ログインしていないとき" do
         before do
-          patch edit_confirm_spot_path(spot.id), params: { spot_register_form: invalid_params }
-          patch back_edit_spot_path(spot.id)
+          patch edit_confirm_spot_path(spot), params: { spot_register_form: updated_params }
+          patch back_edit_spot_path(spot)
         end
 
         it_behaves_like "redirects to login page"
@@ -303,49 +330,52 @@ RSpec.describe "Spots", type: :request do
     end
 
     describe "PATCH /update" do
-      subject { patch spot_path(spot.id) }
+      subject { patch spot_path(spot) }
 
       before { sign_in user }
 
       context "セッションに保存されたデータが妥当な場合" do
-        before { patch edit_confirm_spot_path(spot.id), params: { spot_register_form: updated_params } }
+        before { patch edit_confirm_spot_path(spot), params: { spot_register_form: updated_params } }
 
-        it "スポットを更新できる" do
+        it "Spotレコードを更新できる" do
           expect { subject }.to change { Spot.count }.by(0)
           expect(spot.reload.name).to eq(updated_spot_params["name"])
-          expect(spot.reload.latitude).to eq(updated_spot_params["latitude"].to_i)
-          expect(spot.reload.longitude).to eq(updated_spot_params["longitude"].to_i)
+          expect(spot.reload.latitude).to eq(updated_spot_params["latitude"].to_f)
+          expect(spot.reload.longitude).to eq(updated_spot_params["longitude"].to_f)
           expect(spot.reload.address).to eq(updated_spot_params["address"])
           expect(spot.reload.official_site).to eq(updated_spot_params["official_site"])
           expect(spot.reload.allowed_area_id).to eq(updated_spot_params["allowed_area_id"].to_i)
           expect(spot.reload.category_id).to eq(updated_spot_params["category_id"].to_i)
+          expect(spot.reload.prefecture_id).to eq(updated_prefecture_id)
         end
 
-        it "スポットの同伴ルールを変更できる" do
+        it "全てのRuleレコードを更新できる" do
           subject
-          expect(spot.reload.rule.count).to eq(rule_options.count)
+          expect(spot.reload.rules.count).to eq(rule_option_ids.length)
 
-          spot.reload.rule.each_with_index do |rule, i|
-            expect(rule.rule_option_id).to eq(updated_rules_params.keys[i].to_i)
-            expect(rule.answer).to eq(updated_rules_params.values[i]["answer"])
+          updated_rules_params.each.with_index do |(rule_opt_param, answer_param), i|
+            expect(spot.reload.rules[i].rule_option_id).to eq(rule_opt_param.to_i)
+            expect(spot.reload.rules[i].answer).to eq(answer_param["answer"])
           end
         end
 
-        it "スポットの変更履歴が保存される" do
+        it "SpotHistoryレコードが保存される" do
           expect { subject }.to change { SpotHistory.count }.by(1)
           expect(SpotHistory.last.history).to eq("更新")
+          expect(SpotHistory.last.user_id).to eq(user.id)
+          expect(SpotHistory.last.spot_id).to eq(spot.id)
         end
 
         it "更新後、更新したスポットの詳細ページにリダイレクトする" do
           subject
-          expect(response).to redirect_to(spot_path(spot.id))
+          expect(response).to redirect_to(spot_path(spot))
         end
       end
 
-      context "セッションに保存されたデータが不正な場合" do
-        before { post new_confirm_spots_path, params: { spot_register_form: invalid_params } }
+      context "セッションに保存された同伴ルールのデータが不正な場合" do
+        before { post new_confirm_spots_path, params: { spot_register_form: { spot_attributes: attributes_for(:spot, :invalid_spot) } } }
 
-        it "スポットを変更できない" do
+        it "Spotレコードを更新できない" do
           spot.reload
           expect { subject }.to change { Spot.count }.by(0)
           expect(spot.saved_change_to_name?).to eq(false)
@@ -357,7 +387,7 @@ RSpec.describe "Spots", type: :request do
           expect(spot.saved_change_to_category_id?).to eq(false)
         end
 
-        it "スポットの同伴ルールは変更されない" do
+        it "Ruleレコードを更新できない" do
           spot.reload
           subject
 
@@ -367,7 +397,41 @@ RSpec.describe "Spots", type: :request do
           end
         end
 
-        it "スポットの登録履歴は保存されない" do
+        it "SpotHistoryレコードは保存されない" do
+          expect { subject }.to change { SpotHistory.count }.by(0)
+        end
+
+        it_behaves_like "returns http success"
+      end
+
+      context "セッションに保存されたスポットのデータが不正な場合" do
+        let(:invalid_rule_params) { { rule_option_ids[0] => { "answer" => nil } } }
+
+        before { post new_confirm_spots_path, params: { spot_register_form: { spot_attributes: updated_spot_params, rules_attributes: invalid_rule_params } } }
+
+        it "Spotレコードを更新できない" do
+          spot.reload
+          expect { subject }.to change { Spot.count }.by(0)
+          expect(spot.saved_change_to_name?).to eq(false)
+          expect(spot.saved_change_to_latitude?).to eq(false)
+          expect(spot.saved_change_to_longitude?).to eq(false)
+          expect(spot.saved_change_to_address?).to eq(false)
+          expect(spot.saved_change_to_official_site?).to eq(false)
+          expect(spot.saved_change_to_allowed_area_id?).to eq(false)
+          expect(spot.saved_change_to_category_id?).to eq(false)
+        end
+
+        it "Ruleレコードを更新できない" do
+          spot.reload
+          subject
+
+          spot.rules.each_with_index do |rule, i|
+            expect(rule.saved_change_to_rule_option_id?).to eq(false)
+            expect(rule.saved_change_to_answer?).to eq(false)
+          end
+        end
+
+        it "SpotHistoryレコードは保存されない" do
           expect { subject }.to change { SpotHistory.count }.by(0)
         end
 
@@ -376,7 +440,7 @@ RSpec.describe "Spots", type: :request do
 
       context "update処理がすべて終わったとき" do
         before do
-          post new_confirm_spots_path, params: { spot_register_form: invalid_params }
+          post new_confirm_spots_path, params: { spot_register_form: updated_params }
           subject
         end
 
