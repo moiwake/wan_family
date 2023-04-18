@@ -8,10 +8,7 @@ RSpec.describe "Reviews", type: :request do
   let!(:image) { create(:image, :attached, review: review) }
 
   describe "GET /index" do
-    before do
-      create(:spot_history, spot: spot)
-      get spot_reviews_path(spot)
-    end
+    before { get spot_reviews_path(spot) }
 
     it_behaves_like "returns http success"
   end

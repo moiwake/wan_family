@@ -4,14 +4,8 @@ RSpec.describe Spots::OrderedQuery, type: :model do
   let(:scope) { Spot.all }
   let(:ordered_query_instance) { Spots::OrderedQuery.new(scope: scope, parent_record: nil, order_params: order_params, like_class: "FavoriteSpot") }
   let!(:spot1) { create(:spot) }
-  let!(:spot2) { create(:spot) }
   let!(:spot3) { create(:spot) }
-
-  before do
-    create(:spot_history, spot: spot1)
-    create(:spot_history, spot: spot3)
-    create(:spot_history, spot: spot2)
-  end
+  let!(:spot2) { create(:spot) }
 
   describe "#order_asc_or_desc" do
     subject(:return_value) { ordered_query_instance.send(:order_asc_or_desc) }

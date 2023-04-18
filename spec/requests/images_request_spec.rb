@@ -7,10 +7,7 @@ RSpec.describe "Images", type: :request do
   let!(:image_blob) { image.files_blobs[0] }
 
   describe "GET /index" do
-    before do
-      create(:spot_history, spot: spot)
-      get spot_images_path(spot)
-    end
+    before { get spot_images_path(spot) }
 
     it_behaves_like "returns http success"
   end

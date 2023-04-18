@@ -35,7 +35,6 @@ RSpec.describe "Spots", type: :request do
     describe "GET /show" do
       before do
         sign_in user
-        create(:spot_history, spot: spot)
         get spot_path(spot)
       end
 
