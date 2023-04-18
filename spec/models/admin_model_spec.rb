@@ -58,7 +58,7 @@ RSpec.describe Admin, type: :model do
     end
   end
 
-  context "パスワードに関するバリデーション" do
+  describe "パスワードに関するバリデーション" do
     let(:attribute) { :password }
 
     context "６文字未満のとき" do
