@@ -22,17 +22,17 @@ RSpec.describe ReviewPosterForm, type: :model do
 
   describe "#image_attributes=" do
     let(:image_attributes) { attributes_for(:image, files: files) }
-    let(:files) { file_names.map { |file_name| fixture_file_upload(Rails.root.join('spec', 'fixtures', 'images', file_name), 'image/png') } }
+    let(:files) { filenames.map { |filename| fixture_file_upload(Rails.root.join('spec', 'fixtures', 'images', filename), 'image/png') } }
     let(:image) { review_poster_form_instance.review.image }
 
     context "Reviewレコードが未保存のとき" do
       let(:review_poster_form_instance) { ReviewPosterForm.new(attributes: { "image_attributes" => image_attributes }, review: review) }
       let(:review) { build(:review, user_id: user.id, spot_id: spot.id) }
-      let(:file_names) { ["test1.png", "test2.png"] }
+      let(:filenames) { ["test1.png", "test2.png"] }
 
       it "Imageレコードを作成し、属性値にパラメータと指定の値を設定する" do
-        file_names.each_with_index do |file_name, i|
-          expect(image.files.blobs[i].filename).to eq(file_name)
+        filenames.each_with_index do |filename, i|
+          expect(image.files.blobs[i].filename).to eq(filename)
         end
 
         expect(image.user_id).to eq(review.user_id)
@@ -43,11 +43,11 @@ RSpec.describe ReviewPosterForm, type: :model do
     context "Reviewレコードに関連するImageレコードがnilのとき" do
       let(:review_poster_form_instance) { ReviewPosterForm.new(attributes: { "image_attributes" => image_attributes }, review: review) }
       let!(:review) { create(:review, user_id: user.id, spot_id: spot.id) }
-      let(:file_names) { ["test1.png", "test2.png"] }
+      let(:filenames) { ["test1.png", "test2.png"] }
 
       it "Imageレコードを作成し、属性値にパラメータと指定の値を設定する" do
-        file_names.each_with_index do |file_name, i|
-          expect(image.files.blobs[i].filename).to eq(file_name)
+        filenames.each_with_index do |filename, i|
+          expect(image.files.blobs[i].filename).to eq(filename)
         end
 
         expect(image.user_id).to eq(review.user_id)
@@ -59,10 +59,10 @@ RSpec.describe ReviewPosterForm, type: :model do
     context "Reviewレコードが保存済み、かつReviewレコードに関連するImageレコードが存在するとき" do
       let(:review_poster_form_instance) { ReviewPosterForm.new(attributes: { "image_attributes" => image_attributes }, review: review) }
       let!(:review) { create(:review, user_id: user.id, spot_id: spot.id) }
-      let(:file_names) { ["test3.png"] }
+      let(:filenames) { ["test3.png"] }
 
       it "Imageレコードの属性値に、パラメータの値を設定する" do
-        expect(image.files.blobs[0].filename).to eq(file_names[0])
+        expect(image.files.blobs[0].filename).to eq(filenames[0])
       end
     end
   end
