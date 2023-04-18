@@ -6,6 +6,10 @@ FactoryBot.define do
     sequence(:address) { |n| "spot_address_#{n}" }
     sequence(:official_site) { |n| "http://official_site_#{n}" }
 
+    after(:create) do |spot|
+      create(:spot_history, spot: spot)
+    end
+
     trait :with_rules do
       after(:create) do |spot|
         create_list(:rule, 2, answer: "1", spot: spot)
