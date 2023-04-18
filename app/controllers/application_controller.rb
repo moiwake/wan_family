@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :set_q
-  before_action :set_categories, :set_allowed_areas, :set_regions, :set_prefecture_hash, unless: proc { request.xhr? }
+  before_action :set_categories, :set_allowed_areas, :set_regions, unless: proc { request.xhr? }
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :store_user_location!, if: :storable_location?
 
@@ -20,12 +20,6 @@ class ApplicationController < ActionController::Base
 
   def set_regions
     @regions = Region.all.preload(prefectures: :spots)
-  end
-
-  def set_prefecture_hash
-    @prefecture_hash = @regions.reduce({}) do |hash, region|
-      hash.merge({ region.name => region.prefectures.pluck(:name) })
-    end
   end
 
   def configure_permitted_parameters

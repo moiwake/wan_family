@@ -11,8 +11,8 @@
   </div>
 </div>
 <div class="select-box block">
-  <%= f.label  :address_cont, "都道府県", class: "label" %>
+  <%= f.label  :prefecture_id_eq, "都道府県", class: "label" %>
   <div class="select is-small">
-    <%= f.select  :address_cont, prefecture_hash, include_blank: "選択してください" %>
+    <%= f.grouped_collection_select :prefecture_id_eq, regions, :prefectures, :name, :id, :name, include_blank: "選択してください" %>
   </div>
 </div>

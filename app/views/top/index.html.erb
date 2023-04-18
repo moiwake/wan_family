@@ -1,6 +1,6 @@
 <%= render "top/shared/top_header", spots: @weekly_ranked_spots %>
 <div class="main-contents-wrap">
-  <%= render "top/shared/search_form", q: @q, categories: @categories, allowed_areas: @allowed_areas, prefecture_hash: @prefecture_hash %>
+  <%= render "top/shared/search_form", q: @q, categories: @categories, allowed_areas: @allowed_areas, regions: @regions %>
   <%= render "top/shared/popular_spot_list", ranked_spots: @ranked_spots %>
   <%= render "top/shared/area_search_links", regions: @regions %>
   <%= render "top/shared/map_search_links", regions: @regions %>
