@@ -18,7 +18,9 @@
       </div>
     </section>
     <footer class="modal-card-foot">
-      <%= render "image_likes/shared/add_or_remove_image_like", image_blob: image_blob, image_like: image_like %>
+      <div class="js-image-like-post">
+        <%= render "image_likes/shared/add_or_remove_image_like", image_blob: image_blob, image_like: image_like %>
+      </div>
     </footer>
   </div>
 </div>

@@ -1,4 +1,4 @@
-<div class="image-like-btn-wrap js-image-like-post">
+<div class="image-like-btn-wrap">
   <% if current_user.present? %>
     <% if image_blob_posted_by_another?(image_blob) %>
       <%= render "image_likes/shared/image_like_button", image_blob: image_blob, image_like: image_like %>
