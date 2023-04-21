@@ -10,7 +10,7 @@
       <%= rf.hidden_field :human_score, class: "js-score-input" %>
       <div class="field">
         <%= rf.label :title, "タイトル", class: "required" %>
-        <%= rf.text_field :title, id: :form_review_title, class: "input" %>
+        <%= rf.text_field :title, id: :review_title_input, class: "input" %>
       </div>
       <div class="field">
         <%= rf.label :title, "コメント", class: "required" %>
@@ -18,7 +18,7 @@
       </div>
       <div class="field">
         <%= rf.label :visit_date, "訪問した日", class: "required" %>
-        <%= rf.date_field :visit_date, class: "visit-date-input" %>
+        <%= rf.date_field :visit_date, id: :review_visit_date_input, class: "visit-date-input" %>
       </div>
     <% end %>
   </div>
@@ -38,7 +38,7 @@
       <%= imf.label :files, "画像のアップロード", class: "image-label" %>
       <div class="file is-small">
         <label class="file-label">
-          <%= imf.file_field :files, multiple: true, id: :form_review_image, class: "file-input js-file-input" %>
+          <%= imf.file_field :files, multiple: true, id: :review_image_input, class: "file-input js-file-input" %>
           <span class="file-cta">
             <span class="file-icon">
               <i class="fas fa-upload"></i>

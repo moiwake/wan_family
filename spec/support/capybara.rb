@@ -30,3 +30,7 @@ Capybara.register_driver :remote_chrome do |app|
 
   Capybara::Selenium::Driver.new app, **driver_opts
 end
+
+def resize_browser_size(width = 600, height = 600)
+  Capybara.current_session.driver.browser.manage.window.resize_to(width, height)
+end

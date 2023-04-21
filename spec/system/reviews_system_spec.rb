@@ -4,50 +4,101 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
   let!(:user) { create(:user) }
   let!(:spot) { create(:spot) }
 
-  describe "スポットに投稿されたすべてのレビュー一覧ページ" do
-    let!(:reviews) { create_list(:review, 3, :with_image, spot_id: spot.id) }
-    let(:images_filenames) { reviews[0].image.files.map { |file| file.filename.to_s } }
+  describe "スポットに投稿されたレビュー一覧ページ" do
+    let(:reviews) { Review.all.reverse }
+    let!(:users) { create_list(:user, 3, :updated_profile_user) }
 
-    before { visit spot_reviews_path(spot.id) }
-
-    it "投稿されたすべてのレビューのデータが表示される", js: true do
-      reviews.each do |review|
-        expect(page).to have_link("#{review.user.name}", href: spot_review_path(spot.id, review.id))
-        expect(page).to have_content(review.title)
-        expect(page).to have_content(review.comment)
-
-        within("#dog-ratings#{review.id}") do
-          expect(page.all(".colored").length).to eq(review.dog_score)
-        end
-
-        within("#human-ratings#{review.id}") do
-          expect(page.all(".colored").length).to eq(review.human_score)
-        end
-      end
+    before do
+      create(:review, :with_image, user: users[0], spot: spot)
+      create(:review, :with_image, user: users[1], spot: spot)
+      create(:review, :with_image, user: users[2], spot: spot)
+      visit spot_reviews_path(spot)
     end
 
-    it "レビューに紐づく画像が、上限枚数以下で表示される" do
-      reviews.each_with_index do |review, i|
-        within(page.all(".review-grid-list")[i]) do
-          review.image.files.length.times do |t|
-            break if t == Image::MAX_DISPLAY_NUMBER
-            expect(page.all("img")[t][:src]).to include(images_filenames[t])
+    describe "レビューの表示内容" do
+      it "レビューのデータが表示される", js: true do
+        within(".review-list-wrap") do
+          reviews.each.with_index do |review, i|
+            expect(page).to have_content(review.user.name)
+            expect(all(".review-header")[i].find("img")[:src]).to include(review.user.human_avatar.blob.filename.to_s)
+            expect(page).to have_content(I18n.l review.visit_date, format: :short)
+            expect(page).to have_content(review.title)
+            expect(page).to have_content(review.comment)
+            expect(page).to have_content(review.dog_score)
+            expect(page).to have_content(review.human_score)
+            expect(page).to have_content(I18n.l review.created_at, format: :short)
+
+            within(all(".dog-rating")[i]) do
+              expect(all(".js-colored").length).to eq(review.dog_score)
+            end
+
+            within(all(".human-rating")[i]) do
+              expect(all(".js-colored").length).to eq(review.human_score)
+            end
           end
+        end
+      end
 
-          expect(page.all("img").length).to be<=(Image::MAX_DISPLAY_NUMBER)
+      it "レビューに紐づく画像がすべて表示される" do
+        reviews.each_with_index do |review, i|
+          within(all(".review-images-wrap")[i]) do
+            review.image.files_blobs.each_with_index do |blob, j|
+              expect(all("img")[j][:src]).to include(blob.filename.to_s)
+            end
+          end
         end
       end
     end
 
-    it "スポット詳細ページへのリンクがある" do
-      expect(page).to have_link("#{spot.name}", href: spot_path(spot.id))
+    describe "レビューの表示順序" do
+      shared_examples "displays_reviews_in_the_specified_order" do
+        it "レビューが指定した順序で表示される" do
+          ordered_reviews.each_with_index do |review, i|
+            expect(all(".review-content")[i]).to have_content(review.title)
+          end
+        end
+      end
+
+      context "表示の順番を指定していないとき" do
+        let(:ordered_reviews) { Review.all.reverse }
+
+        it_behaves_like "displays_reviews_in_the_specified_order"
+      end
+
+      context "表示を新しい順にしたとき" do
+        let(:ordered_reviews) { Review.all.reverse }
+
+        before { click_link "新しい順" }
+
+        it_behaves_like "displays_reviews_in_the_specified_order"
+      end
+
+      context "表示を古い順にしたとき" do
+        let(:ordered_reviews) { Review.all }
+
+        before { click_link "古い順" }
+
+        it_behaves_like "displays_reviews_in_the_specified_order"
+      end
+
+      context "表示を役に立ったが多い順にしたとき" do
+        let(:ordered_reviews) { [reviews[1], reviews[0], reviews[2]] }
+
+        before do
+          create_list(:review_helpfulness, 3, review: reviews[1])
+          create_list(:review_helpfulness, 2, review: reviews[0])
+          click_link "役に立ったが多い順"
+        end
+
+        it_behaves_like "displays_reviews_in_the_specified_order"
+      end
     end
   end
 
   describe "新規レビュー投稿ページ" do
     before do
       sign_in user
-      visit spot_path(spot.id)
+      visit spot_reviews_path(spot)
       click_link "レビューを投稿する"
     end
 
@@ -56,27 +107,28 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
         expect(page).to have_content(spot.name)
       end
 
-      it "スポット詳細ページへ戻るリンクがある" do
-        expect(page).to have_link("戻る", href: spot_path(spot.id))
+      it "スポットのレビュー一覧ページへ戻るリンクがある" do
+        expect(page).to have_link("戻る", href: spot_reviews_path(spot))
       end
     end
 
     describe "新しいレビューの投稿", js: true do
       let(:new_review) { build(:review) }
-      let(:new_file_paths) { ["#{Rails.root}/spec/fixtures/images/test1.png", "#{Rails.root}/spec/fixtures/images/test2.png"] }
-      let(:new_filenames) { new_file_paths.map { |new_file_path| new_file_path.split("/").last } }
+      let(:new_file_paths) { new_filenames.map { |filename| "#{Rails.root}/spec/fixtures/images/#{filename}" } }
+      let(:new_filenames) { ["test1.png", "test2.png"] }
 
       before do
-        page.all(".fa-paw")[new_review.dog_score - 1].click
-        page.all(".fa-star")[new_review.human_score - 1].click
-        fill_in "form_review_title", with: new_review.title
-        fill_in "form_review_comment", with: new_review.comment
+        fill_in "review_title_input", with: new_review.title
+        fill_in "review_comment_input", with: new_review.comment
+        fill_in "review_visit_date_input", with: new_review.visit_date
+        all(".fa-paw")[new_review.dog_score - 1].click
+        all(".fa-star")[new_review.human_score - 1].click
       end
 
       it "アップロードするファイルを選択すると、プレビューが表示される" do
         expect do
-          attach_file "form_review_image", new_file_paths
-        end.to change { page.all("img").length }.by(2)
+          attach_file "review_image_input", new_file_paths, make_visible: true
+        end.to change { find("#js-preview-image-list", visible: false).all("img").length }.by(2)
       end
 
       it "レビューを投稿できる" do
@@ -85,125 +137,98 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
         expect(Review.last.comment).to eq(new_review.comment)
         expect(Review.last.dog_score).to eq(new_review.dog_score)
         expect(Review.last.human_score).to eq(new_review.human_score)
+        expect(Review.last.visit_date).to eq(new_review.visit_date)
       end
 
       it "複数の画像データを投稿できる" do
-        attach_file "form_review_image", new_file_paths
+        attach_file "review_image_input", new_file_paths, make_visible: true
         expect { click_button "投稿する" }.to change { Image.count }.by(1)
 
-        new_filenames.each do |new_filename|
-          expect(Image.last.files.blobs.pluck(:filename).include?(new_filename)).to eq(true)
+        new_filenames.each_with_index do |filename, i|
+          expect(Image.last.files_blobs[i].filename).to eq(filename)
         end
       end
 
       it "投稿後にフラッシュメッセージが表示される" do
         click_button "投稿する"
-        expect(page).to have_content("新規のレビューを投稿しました。")
+        expect(page).to have_content("レビューを投稿しました。")
       end
     end
   end
 
-  describe "レビュー詳細ページ" do
-    let!(:review) { create(:review, user_id: user.id, spot_id: spot.id) }
-    let!(:image) { create(:image, :attached, review_id: review.id) }
-    let(:image_filenames) { review.image.files.map { |file| file.filename.to_s } }
-
-    before { visit spot_review_path(spot.id, review.id) }
-
-    it "レビューのデータが表示される", js: true do
-      expect(page).to have_content(review.user.name)
-      expect(page).to have_content(review.title)
-      expect(page).to have_content(review.comment)
-
-      within(".dog-ratings") do
-        expect(page.all(".colored").length).to eq(review.dog_score)
-      end
-
-      within(".human-ratings") do
-        expect(page.all(".colored").length).to eq(review.human_score)
-      end
-    end
-
-    it "レビューに紐づく画像がすべて表示される" do
-      review.image.files.length.times do |t|
-        expect(page.all("img")[t][:src]).to include(image_filenames[t])
-      end
-    end
-
-    it "レビュー一覧ページへのリンクがある" do
-      expect(page).to have_link("すべてのレビュー", href: spot_reviews_path(spot.id))
-    end
-
-    it "スポット詳細ページへのリンクがある" do
-      expect(page).to have_link("#{spot.name}", href: spot_path(spot.id))
-    end
-  end
-
-  describe "レビュー編集ページ" do
-    let!(:review) { create(:review, user_id: user.id, spot_id: spot.id) }
-    let!(:image) { create(:image, :attached, review_id: review.id) }
+  describe "レビュー更新ページ" do
+    let!(:review) { create(:review, user: user, spot: spot) }
+    let!(:image) { create(:image, :attached, review: review) }
 
     before do
       sign_in user
-      visit mypage_path
-      click_link "投稿したレビュー"
-      find(".fa-pencil-square-o").click
+      visit users_mypage_review_index_path
+      find(".review-edit-btn").click
     end
 
-    describe "レビュー編集ページの表示", js: true do
-      let(:image_filenames) { review.image.files.map { |file| file.filename.to_s } }
+    describe "レビュー更新ページの表示", js: true do
+      let(:filenames) { review.image.files.map { |file| file.filename.to_s }.reverse }
 
-      it "レビューのデータが入力ページに表示される" do
-        expect(find("#form_review_title").value).to eq(review.title)
-        expect(find("#form_review_comment").value).to eq(review.comment)
+      it "投稿先のスポット名が表示される" do
+        expect(page).to have_content(spot.name)
+      end
 
-        within(".dog-ratings") do
-          expect(page.all(".colored").length).to eq(review.dog_score)
+      it "ユーザー投稿レビュー一覧ページへ戻るリンクがある" do
+        expect(page).to have_link("戻る", href: users_mypage_review_index_path)
+      end
+
+      it "レビューのデータが入力欄に表示される" do
+        expect(find("#review_title_input").value).to eq(review.title)
+        expect(find("#review_comment_input").value).to eq(review.comment)
+        expect(all(".rating-score")[0].text).to eq(review.dog_score.to_s)
+        expect(all(".rating-score")[1].text).to eq(review.human_score.to_s)
+        expect(find("#review_visit_date_input").value).to eq(review.visit_date.to_s)
+
+        within(".dog-rating") do
+          expect(all(".js-colored").length).to eq(review.dog_score)
         end
 
-        within(".human-ratings") do
-          expect(page.all(".colored").length).to eq(review.human_score)
+        within(".human-rating") do
+          expect(all(".js-colored").length).to eq(review.human_score)
         end
       end
 
-      it "レビューに紐づく画像が、チェックボックスの選択肢として表示される" do
-        within(".check-box-delete-image") do
-          review.image.files.length.times do |t|
-            within(page.all("label")[t]) do
-              expect(find("img")[:src]).to include(image_filenames[t])
+      it "レビューに紐づく画像が、画像削除の選択肢として表示される" do
+        within(".image-delete-list-wrap") do
+          review.image.files_blobs.each_with_index do |blob, i|
+            within(all(".image-delete-wrap")[i]) do
+              expect(find("img")[:src]).to include(filenames[i])
             end
           end
         end
       end
-
-      it "スポット詳細ページへ戻るリンクがある" do
-        expect(page).to have_link("戻る", href: spot_path(spot.id))
-      end
     end
 
     describe "レビューの更新", js: true do
-      let(:updated_review) { build(:review, user_id: user.id, spot_id: spot.id) }
+      let(:updated_review) { build(:review, user: user, spot: spot) }
       let!(:remained_filenames) do
         remained_files = image.files.reject { |file| file.id == removed_file_id }
         remained_files.map { |file| file.blob.filename.to_s }
       end
-      let(:added_file_path) { "#{Rails.root}/spec/fixtures/images/test3.png" }
-      let(:added_filename) { added_file_path.split("/").last }
-      let(:removed_file_id) { image.files.first.id }
+      let(:added_file_path) { "#{Rails.root}/spec/fixtures/images/#{added_filename}" }
+      let(:added_filename) { "test3.png" }
+      let(:removed_file_id) { image.files[0].id }
 
       before do
-        fill_in "form_review_title", with: updated_review.title
-        fill_in "form_review_comment", with: updated_review.comment
-        page.all(".fa-paw")[updated_review.dog_score - 1].click
-        page.all(".fa-star")[updated_review.human_score - 1].click
-        attach_file "form_review_image", added_file_path
-        check "form_files_blob_ids_#{removed_file_id}"
+        fill_in "review_title_input", with: updated_review.title
+        fill_in "review_comment_input", with: updated_review.comment
+        fill_in "review_visit_date_input", with: updated_review.visit_date
+        all(".fa-paw")[updated_review.dog_score - 1].click
+        all(".fa-star")[updated_review.human_score - 1].click
+        attach_file "review_image_input", added_file_path, make_visible: true
+        check "file_id_#{removed_file_id}_input"
       end
 
       it "レビューを更新できる" do
         expect { click_button "投稿する" }.to change { Review.count }.by(0)
         expect(review.reload.title).to eq(updated_review.title)
         expect(review.reload.comment).to eq(updated_review.comment)
+        expect(review.reload.visit_date).to eq(updated_review.visit_date)
         expect(review.reload.dog_score).to eq(updated_review.dog_score)
         expect(review.reload.human_score).to eq(updated_review.human_score)
         expect(review.reload.user_id).to eq(updated_review.user_id)
@@ -213,16 +238,16 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
       it "投稿画像を追加できる" do
         expect { click_button "投稿する" }.to change { Image.count }.by(0)
 
-        remained_filenames.each do |remained_filename|
-          expect(image.reload.files.blobs.pluck(:filename).include?(remained_filename)).to eq(true)
+        remained_filenames.each_with_index do |remained_filename, i|
+          expect(image.reload.files.blobs[i].filename).to eq(remained_filename)
         end
 
-        expect(image.reload.files.blobs.pluck(:filename).include?(added_filename)).to eq(true)
+        expect(image.reload.files_blobs.pluck(:filename).include?(added_filename)).to eq(true)
       end
 
       it "指定した投稿画像を削除できる" do
         click_button "投稿する"
-        expect(image.reload.files.blobs.pluck(:id).include?(removed_file_id)).to eq(false)
+        expect(image.reload.files_blobs.ids.include?(removed_file_id)).to eq(false)
       end
 
       it "投稿後にフラッシュメッセージが表示される" do
