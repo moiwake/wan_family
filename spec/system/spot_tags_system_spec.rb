@@ -6,28 +6,25 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
 
   describe "スポット詳細ページのタグ表示" do
     context "ログインしているとき" do
-      context "ログインユーザーがスポットにタグを登録しているとき" do
-        let!(:spot_tags) { create_list(:spot_tag, 3, user_id: user.id, spot_id: spot.id) }
-        let!(:current_tag_count) { SpotTag.where(user_id: user.id, spot_id: spot.id).count }
+      let!(:spot_tags) { create_list(:spot_tag, 4, user: user, spot: spot).reverse }
 
-        before do
-          sign_in user
-          visit spot_path(spot)
-        end
-
-        it "登録しているタグの総計を表示する" do
-          expect(find(".post-spot-tag")).to have_content(current_tag_count)
-        end
+      before do
+        sign_in user
+        visit spot_path(spot)
       end
 
-      context "ログインユーザーがスポットにタグを登録していないとき" do
-        before do
-          sign_in user
-          visit spot_path(spot)
+      it "登録したタグ名が新しい順に３つまで表示される" do
+        spot_tags.each_with_index do |spot_tag, i|
+          break if i == 3
+          expect(all(".header-created-tag")[i]).to have_content(spot_tag.name)
         end
 
-        it "タグが登録されていない表示が出る" do
-          expect(find(".post-spot-tag")).to have_content("このスポットにはタグがついていません")
+        expect(all(".header-created-tag").length).to eq(3)
+      end
+
+      context "タグを３つ以上登録しているとき" do
+        it "表示しているタグとの差分の数を表示する" do
+          expect(find(".other-tags-number")).to have_content(spot_tags.length - 3)
         end
       end
     end
@@ -35,14 +32,19 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
     context "ログインしていないとき" do
       before { visit spot_path(spot) }
 
-      it "タグ登録のリンクが表示されない" do
-        expect(find(".post-spot-tag")).not_to have_selector("a")
+      it "ログインページへのリンクが表示される" do
+        expect(find(".mark-spot-btns-wrap")).to have_link(href: new_user_session_path)
+      end
+
+      it "マウスオーバーすると、メッセージが表示される" do
+        find('.mark-spot-btns-wrap').hover
+        expect(page).to have_content("ログインが\n必要です")
       end
     end
   end
 
-  describe "作成タグの一覧表示" do
-    let!(:spot_tags) { create_list(:spot_tag, 3, user_id: user.id, spot_id: spot.id) }
+  describe "登録タグの一覧表示" do
+    let!(:spot_tags) { create_list(:spot_tag, 3, user: user, spot: spot).reverse }
 
     before do
       sign_in user
@@ -50,35 +52,26 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
       find("#open-tag-list").click
     end
 
-    it "このスポットで作成したタグが一覧表示される" do
-      spot_tags.each do |spot_tag|
-        expect(find("#tag-list")).to have_content(spot_tag.name)
-        expect(find("#tag-list")).to have_link(href: edit_spot_spot_tag_path(spot, spot_tag))
-        expect(find("#tag-list")).to have_link(href: spot_spot_tag_path(spot, spot_tag))
+    it "このスポットで登録したタグが新しい順に一覧表示される" do
+      spot_tags.each_with_index do |spot_tag, i|
+        expect(all(".tag-list-content-wrap")[i]).to have_content(spot_tag.name)
+        expect(all(".tag-list-content-wrap")[i]).to have_link(href: edit_spot_spot_tag_path(spot, spot_tag))
+        expect(all(".tag-list-content-wrap")[i]).to have_link(href: spot_spot_tag_path(spot, spot_tag))
       end
     end
 
     it "タグごとにメモを表示できる" do
-      spot_tags.reverse_each.with_index do |spot_tag, i|
-        page.all(".expand-tag-btn")[i].click
-        expect(page.all("#tag-list li")[i]).to have_content(spot_tag.memo)
-      end
-    end
-
-    context "タグにメモが保存されていないとき" do
-      let!(:spot_tag) { create(:spot_tag, user_id: user.id, spot_id: spot.id, memo: nil) }
-
-      it "メモが未保存である表示が出る" do
-        page.all(".expand-tag-btn").first.click
-        expect(page.all("#tag-list li").first).to have_content("このタグにメモはありません。")
+      spot_tags.each.with_index do |spot_tag, i|
+        all(".tag-expand-btn")[i].click
+        expect(all(".tag-list-content-wrap")[i]).to have_content(spot_tag.memo)
       end
     end
   end
 
   describe "タグ登録フォームの表示" do
     let!(:another_spot) { create(:spot) }
-    let!(:spot_tags) { create_list(:spot_tag, 5, user_id: user.id, spot_id: spot.id) }
-    let!(:another_spot_tags) { create_list(:spot_tag, 6, user_id: user.id, spot_id: another_spot.id) }
+    let!(:spot_tags) { create_list(:spot_tag, 5, user: user, spot: spot) }
+    let!(:another_spot_tags) { create_list(:spot_tag, 6, user: user, spot: another_spot) }
     let(:all_tags) { user.spot_tags.order(created_at: :desc) }
     let(:max_number) { SpotTag::MAX_CREATED_NAME_DISPLAY_NUMBER }
 
@@ -86,42 +79,47 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
       sign_in user
       visit spot_path(spot)
       find("#open-tag-list").click
-      find("#new-tag-link a").click
+      find(".new-tag-link").click
     end
 
     it "追加リンクが非表示になる" do
-      expect(find("#tag-list")).not_to have_link(href: new_spot_spot_tag_path(spot))
+      expect(page).not_to have_link(href: new_spot_spot_tag_path(spot))
     end
 
     it "タグ編集のボタンが非表示になる" do
       spot_tags.each do |spot_tag|
-        expect(find("#tag-list")).not_to have_link(href: edit_spot_spot_tag_path(spot, spot_tag))
+        expect(page).not_to have_link(href: edit_spot_spot_tag_path(spot, spot_tag))
       end
     end
 
-    it "タグネームの入力フォームにデフォルト値が設定されている" do
-      expect(find("#tag-name-form").value).to eq("行ってみたい")
+    it "タグ名の入力フォームにデフォルト値が設定されている" do
+      expect(find("#tag-name-input").value).to eq("行ってみたい")
     end
 
-    it "ログインユーザーの過去に作成したタグネームが、新しい順に上限数まで表示される" do
-      all_tags.limit(max_number).each do |spot_tag|
-        expect(find(".tag-form")).to have_content(spot_tag.name)
+    it "ログインユーザーの過去に登録したタグ名が、新しい順に上限数まで表示される" do
+      all_tags.each_with_index do |spot_tag, i|
+        break i == (max_number - 1)
+        expect(all(".created-tag")[i]).to have_content(spot_tag.name)
       end
 
-      expect(page.all(".tag-form li")[max_number]).not_to have_content(all_tags[max_number].name)
+      expect(all(".created-tag").length).to eq(max_number)
     end
 
-    it "入力をキャンセルすると、フォームが閉じ、タグ追加のリンクが表示される" do
+    it "入力をキャンセルすると、フォームが閉じ、タグ追加・編集のリンクが表示される" do
       find("#cancel-btn").click
-      expect(find("#tag-list")).not_to have_selector(".tag-form")
-      expect(find("#tag-list")).to have_link(href: new_spot_spot_tag_path(spot))
+      expect(page).not_to have_selector(".tag-form-wrap")
+      expect(page).to have_link(href: new_spot_spot_tag_path(spot))
+
+      spot_tags.each do |spot_tag|
+        expect(page).to have_link(href: edit_spot_spot_tag_path(spot, spot_tag))
+      end
     end
   end
 
   describe "タグ編集フォームの表示" do
     let!(:another_spot) { create(:spot) }
-    let!(:spot_tags) { create_list(:spot_tag, 5, user_id: user.id, spot_id: spot.id) }
-    let!(:another_spot_tags) { create_list(:spot_tag, 6, user_id: user.id, spot_id: another_spot.id) }
+    let!(:spot_tags) { create_list(:spot_tag, 5, user: user, spot: spot).reverse }
+    let!(:another_spot_tags) { create_list(:spot_tag, 6, user: user, spot: another_spot) }
     let(:all_tags) { user.spot_tags.order(created_at: :desc) }
     let(:tag_to_be_updated) { spot_tags.last }
     let(:max_number) { SpotTag::MAX_CREATED_NAME_DISPLAY_NUMBER }
@@ -130,39 +128,41 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
       sign_in user
       visit spot_path(spot)
       find("#open-tag-list").click
-      page.all(".edit-tag-btn a").first.click
+      all(".tag-edit-btn")[0].click
     end
 
     it "追加リンクが非表示になる" do
-      expect(find("#tag-list")).not_to have_link(href: new_spot_spot_tag_path(spot))
+      expect(page).not_to have_link(href: new_spot_spot_tag_path(spot))
     end
 
     it "タグ編集のボタンが非表示になる" do
       spot_tags.each do |spot_tag|
-        expect(find("#tag-list")).not_to have_link(href: edit_spot_spot_tag_path(spot, spot_tag))
+        expect(page).not_to have_link(href: edit_spot_spot_tag_path(spot, spot_tag))
       end
     end
 
-    it "編集するタグの詳細が非表示になる" do
-      expect(page.all(".tag-list-content").first).not_to have_selector(".tag_bar")
-      expect(find("#tag-list")).not_to have_link(href: spot_spot_tag_path(spot, tag_to_be_updated))
+    it "編集するタグのデータが入力欄に表示される" do
+      expect(find("#tag-name-input").value).to eq(spot_tags[0].name)
+      expect(find("#tag-memo-input").value).to eq(spot_tags[0].memo)
     end
 
-    it "ログインユーザーの過去に作成したタグネームが、新しい順に上限数まで表示される" do
-      all_tags.limit(max_number).each do |spot_tag|
-        expect(find(".tag-form")).to have_content(spot_tag.name)
+    it "ログインユーザーの過去に登録したタグ名が、新しい順に上限数まで表示される" do
+      all_tags.each_with_index do |spot_tag, i|
+        break i == (max_number - 1)
+        expect(all(".created-tag")[i]).to have_content(spot_tag.name)
       end
 
-      expect(page.all(".tag-form li")[max_number]).not_to have_content(all_tags[max_number].name)
+      expect(all(".created-tag").length).to eq(max_number)
     end
 
-    it "入力をキャンセルすると、フォームが閉じ、タグの詳細と追加リンクが表示される" do
+    it "入力をキャンセルすると、フォームが閉じ、タグ追加・編集のリンクが表示される" do
       find("#cancel-btn").click
-      expect(find("#tag-list")).not_to have_selector(".tag-form")
-      expect(find("#tag-list")).to have_content(tag_to_be_updated.name)
-      expect(find("#tag-list")).to have_link(href: edit_spot_spot_tag_path(spot, tag_to_be_updated))
-      expect(find("#tag-list")).to have_link(href: spot_spot_tag_path(spot, tag_to_be_updated))
-      expect(find("#tag-list")).to have_link(href: new_spot_spot_tag_path(spot))
+      expect(page).not_to have_selector(".tag-form-wrap")
+      expect(page).to have_link(href: new_spot_spot_tag_path(spot))
+
+      spot_tags.each do |spot_tag|
+        expect(page).to have_link(href: edit_spot_spot_tag_path(spot, spot_tag))
+      end
     end
   end
 
@@ -174,48 +174,43 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
       sign_in user
       visit spot_path(spot)
       find("#open-tag-list").click
-      find("#new-tag-link a").click
-      fill_in "tag-name-form", with: spot_tag.name
-      fill_in "tag-memo-form", with: spot_tag.memo
+      find(".new-tag-link").click
+      fill_in "tag-name-input", with: spot_tag.name
+      fill_in "tag-memo-input", with: spot_tag.memo
     end
 
     it "スポットタグの登録ができる" do
       expect do
         click_button "保存"
-        expect(find("#display-created-tag-name")).to have_content(spot_tag.name)
+        expect(find(".tag-list-wrap")).to have_content(new_spot_tag.name)
+        expect(find(".tag-list-wrap")).to have_link(href: edit_spot_spot_tag_path(spot, new_spot_tag))
+        expect(find(".tag-list-wrap")).to have_link(href: spot_spot_tag_path(spot, new_spot_tag))
       end.to change { SpotTag.count }.by(1)
 
-      expect(new_spot_tag.user_id).to eq(user.id)
-      expect(new_spot_tag.spot_id).to eq(spot.id)
       expect(new_spot_tag.name).to eq(spot_tag.name)
       expect(new_spot_tag.memo).to eq(spot_tag.memo)
-    end
-
-    it "タグ追加後、一覧に追加したタグが表示される" do
-      click_button "保存"
-      expect(find("#tag-list")).to have_content(new_spot_tag.name)
-      expect(find("#tag-list")).to have_link(href: edit_spot_spot_tag_path(spot, new_spot_tag))
-      expect(find("#tag-list")).to have_link(href: spot_spot_tag_path(spot, new_spot_tag))
+      expect(new_spot_tag.user_id).to eq(user.id)
+      expect(new_spot_tag.spot_id).to eq(spot.id)
     end
   end
 
   describe "スポットタグの更新" do
-    let!(:spot_tag) { create(:spot_tag, user_id: user.id, spot_id: spot.id) }
+    let!(:spot_tag) { create(:spot_tag, user: user, spot: spot) }
     let(:updated_spot_tag) { build(:spot_tag) }
 
     before do
       sign_in user
       visit spot_path(spot)
       find("#open-tag-list").click
-      page.all(".edit-tag-btn a").first.click
-      fill_in "tag-name-form", with: updated_spot_tag.name
-      fill_in "tag-memo-form", with: updated_spot_tag.memo
+      all(".tag-edit-btn")[0].click
+      fill_in "tag-name-input", with: updated_spot_tag.name
+      fill_in "tag-memo-input", with: updated_spot_tag.memo
     end
 
     it "スポットタグの更新ができる" do
       expect do
         click_button "保存"
-        expect(find("#display-created-tag-name")).to have_content(updated_spot_tag.name)
+        expect(find(".tag-list-wrap")).to have_content(updated_spot_tag.name)
       end.to change { SpotTag.count }.by(0)
 
       spot_tag.reload
@@ -224,15 +219,10 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
       expect(spot_tag.name).to eq(updated_spot_tag.name)
       expect(spot_tag.memo).to eq(updated_spot_tag.memo)
     end
-
-    it "タグ更新後、一覧に更新したタグが表示される" do
-      click_button "保存"
-      expect(find("#tag-list")).to have_content(updated_spot_tag.name)
-    end
   end
 
   describe "スポットタグの削除" do
-    let!(:spot_tag) { create(:spot_tag, user_id: user.id, spot_id: spot.id) }
+    let!(:spot_tag) { create(:spot_tag, user: user, spot: spot) }
 
     before do
       sign_in user
@@ -242,14 +232,10 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
 
     it "スポットタグの削除ができる" do
       expect do
-        page.all(".delete-tag-btn a").first.click
+        all(".tag-delete-btn")[0].click
         expect(page.accept_confirm).to eq("タグを削除しますか？")
-        expect(find("#display-created-tag-name")).not_to have_content(spot_tag.name)
+        expect(find(".tag-list-wrap")).not_to have_content(spot_tag.name)
       end.to change { SpotTag.count }.by(-1)
-    end
-
-    it "タグ削除後、一覧に削除したタグが表示されない" do
-      expect(find("#tag-list")).to have_content(spot_tag.name)
     end
   end
 end
