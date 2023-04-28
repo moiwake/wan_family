@@ -25,7 +25,7 @@ module Spots
     end
 
     def order_tags
-      tags_created_by_user.order(created_at: :desc)
+      tags_created_by_user.order(created_at: :desc, id: :desc)
     end
 
     def tags_created_by_user

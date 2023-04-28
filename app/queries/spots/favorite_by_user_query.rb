@@ -24,7 +24,7 @@ module Spots
     end
 
     def order_favorites
-      favorites_created_by_user.order(created_at: :desc)
+      favorites_created_by_user.order(created_at: :desc, id: :desc)
     end
 
     def favorites_created_by_user
