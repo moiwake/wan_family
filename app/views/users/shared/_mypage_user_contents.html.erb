@@ -27,7 +27,7 @@
     </li>
     <li>
       <%= link_to "投稿した画像", users_mypage_image_index_path %>
-      <span class="count"><%= current_user.images.size %></span>
+      <span class="count"><%= current_user.decorate.total_of_images_posted_by_user %></span>
     </li>
   </ul>
 </div>
