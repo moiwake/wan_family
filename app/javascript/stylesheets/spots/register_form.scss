@@ -37,9 +37,15 @@
   max-width: 500px;
 }
 
+#map-display {
+  height: 300px;
+  margin: 2rem 0;
+}
+
 .select-wrap {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .select-wrap label {

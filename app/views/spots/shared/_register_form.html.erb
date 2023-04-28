@@ -10,37 +10,38 @@
         <p>例）レストラン ワンファミリー 新宿区"</p>
       </div>
       <div class="address-search-wrap field">
-        <label for="form_serch_spot">所在地を検索して入力</label>
+        <label for="spot_search_input">所在地を検索して入力</label>
         <div class="address-search-inputs">
-          <input id="form_search_spot" type="search" placeholder="検索して所在地を入力" class="input address-search-bar js-spot-name-input">
-          <input id="form_search_button" type="button" value="検索" class="button js-search-address-btn">
+          <input id="spot_search_input" type="search" placeholder="検索して所在地を入力" class="input address-search-bar js-spot-name-input">
+          <input id="search_button" type="button" value="検索" class="button js-search-address-btn">
         </div>
+        <div id="map-display"></div>
       </div>
       <div class="field">
         <%= sf.label :name, "スポット名", class: "required" %>
-        <%= sf.search_field :name, placeholder: "施設や観光地の正式名称でご登録ください。 例）レストラン ワンファミリー" , id: :form_spot_name, class: "input" %>
+        <%= sf.search_field :name, placeholder: "施設や観光地の正式名称でご登録ください。 例）レストラン ワンファミリー" , id: :spot_name_input, class: "input" %>
       </div>
       <div class="field">
         <%= sf.label :address, "所在地", class: "required" %>
-        <%= sf.search_field :address, placeholder: "例）東京都〇〇区〇〇１丁目１", id: :form_spot_address, class: "input js-spot-address-input" %>
-        <%= sf.hidden_field :latitude, id: :form_spot_lat, class: "js-spot-lat-input" %>
-        <%= sf.hidden_field :longitude, id: :form_spot_lng, class: "js-spot-lng-input" %>
+        <%= sf.search_field :address, placeholder: "例）東京都〇〇区〇〇１丁目１", id: :spot_address_input, class: "input js-spot-address-input" %>
+        <%= sf.hidden_field :latitude, id: :spot_lat_input, class: "js-spot-lat-input" %>
+        <%= sf.hidden_field :longitude, id: :spot_lng_input, class: "js-spot-lng-input" %>
       </div>
       <div class="field select-wrap">
-        <%= sf.label :category_id, "スポットカテゴリー", for: "form_spot_category", class: "required" %>
+        <%= sf.label :category_id, "スポットカテゴリー", for: "spot_category_input", class: "required" %>
         <div class="select is-small">
-          <%= sf.collection_select :category_id, @categories, :id, :name, { prompt: "選択してください" }, { id: :form_spot_category } %>
+          <%= sf.collection_select :category_id, @categories, :id, :name, { prompt: "選択してください" }, { id: :spot_category_input } %>
         </div>
       </div>
       <div class="field select-wrap">
-        <%= sf.label :allowed_area_id, "同伴可能エリア", for: "form_allowed_area", class: "required" %>
+        <%= sf.label :allowed_area_id, "同伴可能エリア", for: "allowed_area_input", class: "required" %>
         <div class="select is-small">
-          <%= sf.collection_select :allowed_area_id, @allowed_areas, :id, :area, { prompt: "選択してください" }, { id: :form_allowed_area } %>
+          <%= sf.collection_select :allowed_area_id, @allowed_areas, :id, :area, { prompt: "選択してください" }, { id: :allowed_area_input } %>
         </div>
       </div>
       <div class="field">
         <%= sf.label :official_site, "スポットのオフィシャルサイト" %>
-        <%= sf.search_field :official_site, placeholder: "リンクを貼ってください。", id: :form_spot_official_site, class: "input" %>
+        <%= sf.search_field :official_site, placeholder: "リンクを貼ってください。", id: :spot_official_site_input, class: "input" %>
       </div>
     </div>
   <% end %>
@@ -59,7 +60,6 @@
               <label for="check_box_<%= rule_opt.id %>">
                 <%= rf.check_box :answer, {
                   checked: ary_present_and_include_ele?(ary: @attached_rule_opt_ids, ele: rule_opt.id),
-                  class: :form_rule_check_box,
                   id: "check_box_#{rule_opt.id}"
                 }, "1", "0" %>
                 <%= rule_opt.name %>

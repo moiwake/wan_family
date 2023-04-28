@@ -1,8 +1,23 @@
+window.onload = function() {
+  initMap();
+}
+
 let searchAddBtn = document.getElementsByClassName("js-search-address-btn")[0];
 if( searchAddBtn !== null ) {
   searchAddBtn.addEventListener("click", searchAddress);
 }
 
+let map
+function initMap(){
+  geocoder = new google.maps.Geocoder()
+
+  map = new google.maps.Map(document.getElementById("map-display"), {
+    center:  {lat: 35.6803997, lng:139.7690174},
+    zoom: 17,
+  });
+}
+
+let marker
 let aft
 function searchAddress(){
   let searchWord = document.getElementsByClassName("js-spot-name-input")[0].value;
@@ -13,6 +28,16 @@ function searchAddress(){
       let addressArray = results[0].formatted_address.split(" ");
 
       if (addressArray[1]){
+        if (aft == true) {
+          marker.setMap(null);
+        }
+
+        map.setCenter(results[0].geometry.location);
+        marker = new google.maps.Marker({
+          map: map,
+          position: results[0].geometry.location,
+        });
+
         document.getElementsByClassName("js-spot-lat-input")[0].value = results[0].geometry.location.lat();
         document.getElementsByClassName("js-spot-lng-input")[0].value = results[0].geometry.location.lng();
         document.getElementsByClassName("js-spot-address-input")[0].value = addressArray[1];
