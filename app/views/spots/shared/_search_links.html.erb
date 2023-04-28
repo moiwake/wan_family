@@ -2,25 +2,25 @@
   <p class="title is-6">スポットを<span class="title is-5">検索</span></p>
   <div class="search-links-wrap">
     <div class="search-google button block">
-      <%= link_to 'https://www.google.com/search?q=' + spot.name, target: :_blank do %>
+      <%= link_to "https://www.google.com/search?q=#{spot.name}", target: :_blank do %>
         <i class="fa-brands fa-google fa-2x"></i>
         <p>Googleで検索</p>
       <% end %>
     </div>
     <div class="search-google-map button block">
-      <%= link_to 'https://www.google.co.jp/maps?q=' + spot.name, target: :_blank do %>
+      <%= link_to "https://www.google.co.jp/maps?q=#{spot.name}", target: :_blank do %>
         <i class="fa-solid fa-map-location-dot"></i>
         <p>Google Mapで検索</p>
       <% end %>
     </div>
     <div class="search-instagram button block">
-      <%= link_to 'https://www.instagram.com/explore/tags/' + spot.name, target: :_blank do %>
+      <%= link_to "https://www.instagram.com/explore/tags/#{spot.name}", target: :_blank do %>
         <i class="fa-brands fa-instagram"></i>
         <p>Instagramで検索</p>
       <% end %>
     </div>
     <div class="search-twitter button block">
-      <%= link_to 'https://twitter.com/search?q=' + spot.name, target: :_blank do %>
+      <%= link_to "https://twitter.com/search?q=#{spot.name}", target: :_blank do %>
         <i class="fa-brands fa-twitter"></i>
         <p>Twitterで検索</p>
       <% end %>
