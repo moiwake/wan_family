@@ -41,7 +41,9 @@ class SpotsController < ApplicationController
 
   def show
     @spot = Spot.find(params[:id])
-    @reviews = Reviews::RankedQuery.call(rank_num: 3).eager_load(user: :human_avatar_attachment, image: :files_blobs).preload(:review_helpfulnesses)
+    @reviews = Reviews::RankedQuery.call(parent_record: @spot, rank_num: 3)
+              .eager_load(user: :human_avatar_attachment, image: :files_blobs)
+              .preload(:review_helpfulnesses)
   end
 
   def edit
