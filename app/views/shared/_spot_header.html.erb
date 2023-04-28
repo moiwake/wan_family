@@ -31,7 +31,7 @@
         </div>
       </div>
       <div class="header-sub-contents">
-        <span class="last-update-date">最後更新日 : <%= l spot.updated_at, format: :short %></span>
+        <span class="last-update-date">最後更新日 : <%= l spot.decorate.get_spot_history_creation_date, format: :short %></span>
         <div class="edit-spot-btn">
           <%= link_to "スポットの情報を更新", edit_spot_path(spot), class: "button" %>
         </div>

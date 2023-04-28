@@ -20,4 +20,8 @@ class SpotDecorator < Draper::Decorator
       object.reviews.average(:human_score).round(1)
     end
   end
+
+  def get_spot_history_creation_date
+    object.spot_histories.last.created_at
+  end
 end
