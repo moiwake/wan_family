@@ -1,8 +1,10 @@
-let opened
-
-window.addEventListener('DOMContentLoaded', hiddenCard);
+// window.addEventListener('DOMContentLoaded', hiddenCard);
+window.onload = function () {
+  hiddenCard();
+}
 window.addEventListener('resize', hiddenCard);
 
+let opened
 function hiddenCard() {
   if (opened !== "true") {
     let cards = document.getElementsByClassName("js-card");

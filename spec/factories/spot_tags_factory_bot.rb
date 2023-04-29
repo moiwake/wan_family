@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :spot_tag do
-    sequence(:name) { |n| "name_#{n}" }
-    sequence(:memo) { |n| "memo_#{n}" }
+    sequence(:name) { |n| "#{n}_name" }
+    sequence(:memo) { |n| "#{n}_memo" }
 
     association :user
     association :spot

@@ -6,7 +6,7 @@
 
 @media screen and (max-width: 800px) {
   .js-resize-card {
-    max-height: 300px;
+    max-height: 400px;
     overflow: hidden;
   }
 }
@@ -21,12 +21,12 @@
   min-height: 45px;
 }
 
-.media-right .helpful-review-icon {
+.media-right .review-helpfulness-remove-btn i {
   color: #fba54f;
 }
 
-.media-right .not-helpful-review-icon, .review-helpfulness-icon {
-  color: #7a7a7a;
+.media-right .review-helpfulness-add-btn i, .review-helpfulness-icon {
+  color: #a9a9a9;
 }
 
 .visit-date {
