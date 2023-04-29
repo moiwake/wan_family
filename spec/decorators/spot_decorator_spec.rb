@@ -70,4 +70,12 @@ RSpec.describe SpotDecorator, type: :decorator do
       end
     end
   end
+
+  describe "#get_spot_history_creation_date" do
+    let(:creation_date) { spot.spot_histories.last.created_at }
+
+    it "レシーバーに関連する最新のSpotHistoryレコードの作成日を返す" do
+      expect(spot.decorate.get_spot_history_creation_date).to eq(creation_date)
+    end
+  end
 end
