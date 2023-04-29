@@ -633,7 +633,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
 
           before do
             visit users_mypage_review_index_path
-            resize_browser_size
+            resize_browser_size(300)
           end
 
           it "要素の高さが指定の高さになる" do
@@ -874,11 +874,6 @@ RSpec.describe "UsersSystemSpecs", type: :system do
   describe "ユーザーの新規登録ページ" do
     let(:new_user) { build(:user) }
     let(:sign_up_link) { all(".navbar-item", visible: false)[2] }
-
-    # before do
-    #   visit root_path
-    #   click_link "新規登録"
-    # end
 
     describe "新規登録ページの表示" do
       before do

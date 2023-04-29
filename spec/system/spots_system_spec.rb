@@ -156,9 +156,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
   describe "スポット詳細ページ" do
     let!(:spot) { create(:spot) }
 
-    describe "スポット詳細のヘッダー", js: true do
-      let!(:spot) { create(:spot, :with_rules) }
-
+    describe "ページヘッダーの表示", js: true do
       before do
         create(:review, dog_score: 3, human_score: 4, spot: spot)
         create(:review, dog_score: 2, human_score: 4, spot: spot)
@@ -167,7 +165,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
         visit spot_path(spot)
       end
 
-      it "詳細のヘッダーに、スポットのデータが表示される" do
+      it "ヘッダーに、スポットのデータが表示される" do
         expect(page).to have_content(spot.name)
         expect(page).to have_content(spot.address)
         expect(page).to have_content(spot.category.name)
@@ -293,17 +291,18 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
     end
 
     describe "スポットの基本情報" do
-      let(:attached_rules) { spot.rules.where(answer: "1") }
-      let(:unattached_rules) { spot.rules.where(answer: "0") }
+      let!(:spot_with_rules) { create(:spot, :with_rules) }
+      let(:attached_rules) { spot_with_rules.rules.where(answer: "1") }
+      let(:unattached_rules) { spot_with_rules.rules.where(answer: "0") }
 
-      before { visit spot_path(spot) }
+      before { visit spot_path(spot_with_rules) }
 
       it "スポットの基本情報の欄に、スポットのデータが表示される" do
-        expect(page).to have_content(spot.name)
-        expect(page).to have_content(spot.address)
-        expect(page).to have_content(spot.category.name)
-        expect(page).to have_content(spot.allowed_area.area)
-        expect(page).to have_content(spot.official_site)
+        expect(page).to have_content(spot_with_rules.name)
+        expect(page).to have_content(spot_with_rules.address)
+        expect(page).to have_content(spot_with_rules.category.name)
+        expect(page).to have_content(spot_with_rules.allowed_area.area)
+        expect(page).to have_content(spot_with_rules.official_site)
 
         attached_rules.each do |attached_rule|
           expect(page).to have_content(attached_rule.rule_option.name)
