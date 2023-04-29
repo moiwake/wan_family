@@ -1,7 +1,7 @@
 <div class="header-search-wrap navbar-item js-header-search-hidden js-target-header-search">
-  <%= search_form_for q, url: word_search_path, class: "header-search-form control has-icons-left" do |sf| %>
+  <%= search_form_for q, url: word_search_path, class: "header-search-form control has-icons-left js-search-form-wrap" do |sf| %>
     <%= sf.fields_for :and, q do |f| %>
-      <%= f.search_field :name_or_address_cont, placeholder: "施設の名前・住所で検索", class: "input-bar input" %>
+      <%= f.search_field :name_or_address_cont, placeholder: "施設の名前・住所で検索", class: "input-bar input js-name-or-address-input" %>
       <div class="search-filter-overlay-wrap js-target-search-filter-overlay modal">
         <div class="modal-background"></div>
         <div class="modal-card">
@@ -10,7 +10,7 @@
             <div class="search-filter-close-btn js-trigger-search-filter-close-btn delete" aria-label="close"></div>
           </header>
           <section class="modal-card-body search-filter-wrap js-search-filter-wrap">
-            <%= render "shared/search_filter", categories: categories, allowed_areas: allowed_areas, regions: regions, f: f %>
+            <%= render "shared/search_filter", categories: categories, allowed_areas: allowed_areas, regions: regions, f: f, location: "header" %>
           </section>
           <footer class="modal-card-foot">
             <div class="filter-btn js-search-condition-clear-btn button">検索条件のクリア</div>

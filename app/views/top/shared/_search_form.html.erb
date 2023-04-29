@@ -1,16 +1,17 @@
 <section class="top-search-form-wrap box">
   <h2 class="title is-4">スポットの検索</h2>
-  <%= search_form_for q, url: word_search_path, class: "control has-icons-left" do |sf| %>
+  <%= search_form_for q, url: word_search_path, class: "control has-icons-left js-search-form-wrap" do |sf| %>
     <%= sf.fields_for :and, q do |f| %>
       <div class="main-search-wrap block">
-        <%= f.search_field :name_or_address_cont, class: "input-bar input", placeholder: "お出かけスポットを施設の名前・住所で探す" %>
+        <%= f.search_field :name_or_address_cont, class: "input-bar input js-name-or-address-input", placeholder: "お出かけスポットを施設の名前・住所で探す" %>
         <span class="main-input-bar-icon icon is-small is-left">
           <i class="fas fa-search"></i>
         </span>
         <%= sf.submit "検索", class: "search_btn button" %>
+        <div class="js-search-condition-clear-btn button">検索条件のクリア</div>
       </div>
       <div class="search-filter-wrap block">
-        <%= render "shared/search_filter", categories: categories, allowed_areas: allowed_areas, regions: regions, f: f %>
+        <%= render "shared/search_filter", categories: categories, allowed_areas: allowed_areas, regions: regions, f: f, location: "top" %>
       </div>
     <% end %>
   <% end %>

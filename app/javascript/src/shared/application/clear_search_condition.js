@@ -1,30 +1,34 @@
 addEventListener("DOMContentLoaded", function () {
-  let clearBtn = document.getElementsByClassName("js-search-condition-clear-btn")[0];
+  let searchFormWraps = document.getElementsByClassName("js-search-form-wrap");
 
-  clearBtn.addEventListener("click", function () {
-    let searchFilterWrap = document.getElementsByClassName("js-search-filter-wrap")[0];
-    let optionsWraps = searchFilterWrap.getElementsByClassName("js-target-options-wrap");
+  for (let i = 0; i < searchFormWraps.length; i++) {
+    let clearBtn = document.getElementsByClassName("js-search-condition-clear-btn")[i];
 
-    for (let i = 0; i < optionsWraps.length; i++) {
-      let options = optionsWraps[i].children;
+    clearBtn.addEventListener("click", function () {
+      let optionsWraps = searchFormWraps[i].getElementsByClassName("js-target-options-wrap");
+      for (let j = 0; j < optionsWraps.length; j++) {
+        let options = optionsWraps[j].children;
 
-      for (let j = 0; j < options.length; j++) {
-        options[j].removeAttribute("checked");
-        options[j].classList.remove("js-colored-option-btn");
+        for (let k = 0; k < options.length; k++) {
+          options[k].checked = false;
+          options[k].classList.remove("js-colored-option-btn");
+        }
       }
-    }
 
-    let selects = searchFilterWrap.querySelectorAll("select");
+      let input = searchFormWraps[i].getElementsByClassName("js-name-or-address-input")[0];
+      input.value = ""
 
-    for (let i = 0; i < selects.length; i++) {
-      let selectOpts = selects[i].children;
+      let selects = searchFormWraps[i].querySelectorAll("select");
 
-      selectOpts[0].setAttribute("selected", "selected")
+      for (let j = 0; j < selects.length; j++) {
+        let selectOpts = selects[j].children;
+        selectOpts[0].setAttribute("selected", "selected")
 
-      for (let j = 0; j < selectOpts.length; j++) {
-        selectOpts[j].removeAttribute("selected");
-        selectOpts[j].classList.remove("js-colored-option-btn");
+        for (let k = 0; k < selectOpts.length; k++) {
+          selectOpts[k].removeAttribute("selected");
+          selectOpts[k].classList.remove("js-colored-option-btn");
+        }
       }
-    }
-  });
+    });
+  }
 });
