@@ -9,9 +9,10 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
     let!(:users) { create_list(:user, 3, :updated_profile_user) }
 
     before do
-      create(:review, :with_image, user: users[0], spot: spot)
-      create(:review, :with_image, user: users[1], spot: spot)
-      create(:review, :with_image, user: users[2], spot: spot)
+      create(:review, :with_image, user: users[0], spot: spot, dog_score: 3, human_score: 4)
+      create(:review, :with_image, user: users[1], spot: spot, dog_score: 2, human_score: 4)
+      create(:review, :with_image, user: users[2], spot: spot, dog_score: 3, human_score: 3)
+      sign_in user
       visit spot_reviews_path(spot)
     end
 
@@ -46,6 +47,26 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
               expect(all("img")[j][:src]).to include(blob.filename.to_s)
             end
           end
+        end
+      end
+
+      it "レビューに役立ったを登録できる", js: true do
+        within(all(".review-content")[0]) do
+          expect do
+            find(".review-helpfulness-add-btn").click
+            expect(find(".review-helpfulness-btn-wrap")).to have_content(reviews[0].review_helpfulnesses.size)
+          end.to change { ReviewHelpfulness.count }.by(1)
+
+          expect(ReviewHelpfulness.last.user_id).to eq(user.id)
+          expect(ReviewHelpfulness.last.review_id).to eq(reviews[0].id)
+        end
+      end
+
+      it "レビューの画像を拡大表示できる", js: true do
+        within(all(".review-images-wrap")[0]) do
+          all("img")[0].click
+          expect(page).to have_selector("#js-enlarged-image")
+          expect(find("#js-enlarged-image")[:src]).to include(reviews[0].image.files_blobs[0].filename.to_s)
         end
       end
     end
@@ -91,6 +112,79 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
         end
 
         it_behaves_like "displays_reviews_in_the_specified_order"
+      end
+    end
+
+    describe "レビューの表示サイズ", js: true do
+      context "レビューを表示する要素の高さが600px超のとき" do
+        let(:height) { "400px" }
+        let!(:review) { create(:review, spot: spot) }
+        let!(:image) { create(:image, files: files, review: review, spot: spot) }
+        let(:files) { filenames.map { |filename| fixture_file_upload(Rails.root.join('spec', 'fixtures', 'images', filename), 'image/png') } }
+        let(:filenames) { ["test1.png", "test2.png", "test3.png", "test4.png", "test5.png", "test6.png"] }
+
+        before do
+          visit spot_reviews_path(spot)
+          resize_browser_size(300)
+        end
+
+        it "要素の高さが指定の高さになる" do
+          expect(all(".js-card")[0].style("height")["height"]).to eq(height)
+        end
+
+        it "全表示のアイコンをクリックすると、元の高さで表示される" do
+          find(".fa-angles-down").click
+          expect(all(".js-card")[0].style("height")["height"]).not_to eq(height)
+        end
+      end
+    end
+
+    describe "ページヘッダーの表示", js: true do
+      it "ヘッダーに、スポットのデータが表示される" do
+        expect(page).to have_content(spot.name)
+        expect(page).to have_content(spot.address)
+        expect(page).to have_content(spot.category.name)
+        expect(page).to have_content(spot.allowed_area.area)
+        expect(page).to have_content(I18n.l spot.updated_at, format: :short)
+        expect(find(".favorite-count")).to have_content(spot.favorite_spots.size)
+        expect(find(".review-count")).to have_content(spot.reviews.size)
+        expect(all(".rating-score")[0]).to have_content(spot.reviews.average(:dog_score).round(1))
+        expect(all(".rating-score")[1]).to have_content(spot.reviews.average(:human_score).round(1))
+
+        within(all(".dog-rating")[0]) do
+          expect(all(".js-colored").length).to eq(2)
+          expect(all(".js-seven-tenths-color").length).to eq(1)
+          expect(all(".js-non-colored").length).to eq(2)
+        end
+
+        within(all(".human-rating")[0]) do
+          expect(all(".js-colored").length).to eq(3)
+          expect(all(".js-seven-tenths-color").length).to eq(1)
+          expect(all(".js-non-colored").length).to eq(1)
+        end
+      end
+
+      it "スポット更新ページへのリンクがある" do
+        expect(page).to have_link("スポットの情報を更新", href: edit_spot_path(spot))
+      end
+
+      it "スポット詳細ページへのリンクがある" do
+        expect(find(".header-tabs")).to have_link("トップ", href: spot_path(spot))
+      end
+
+      it "スポットに投稿された画像一覧ページへのリンクがある" do
+        expect(find(".header-tabs")).to have_link("画像", href: spot_images_path(spot))
+      end
+    end
+
+    describe "外部の検索リンク" do
+      before { visit spot_path(spot) }
+
+      it "スポットを外部サイトで検索するリンクがある" do
+        expect(page).to have_link("Googleで検索", href: "https://www.google.com/search?q=#{spot.name}")
+        expect(page).to have_link("Google Mapで検索", href: "https://www.google.co.jp/maps?q=#{spot.name}")
+        expect(page).to have_link("Instagramで検索", href: "https://www.instagram.com/explore/tags/#{spot.name}")
+        expect(page).to have_link("Twitterで検索", href: "https://twitter.com/search?q=#{spot.name}")
       end
     end
   end
