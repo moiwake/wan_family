@@ -16,13 +16,17 @@ function initMap() {
   markSpot();
 }
 
+let infoWindows = []
 function markSpot() {
   let spots = document.getElementsByClassName("js-spot-data");
+
   for (let i = 0; i < spots.length; i++) {
     if (spots) {
       let spotLat = Number(spots[i].dataset.lat);
       let spotLng = Number(spots[i].dataset.lng);
       let spotName = spots[i].dataset.name;
+      let spotAddress = spots[i].dataset.address;
+      let spotCategory = spots[i].dataset.category;
       let spotPath = spots[i].dataset.path;
 
       (function() {
@@ -32,14 +36,33 @@ function markSpot() {
           map: map
         });
 
+        let infoContent = "<div class='map-info'>"
+        + `<a href=${spotPath} target="_blank" rel="noopener noreferrer">${spotName}</a>`
+        + `<span>${spotAddress} / ${spotCategory}</span>`
+        + "</div>";
+
         let infoWindow = new google.maps.InfoWindow({
           position: markerLatLng,
-          content: `<a href=${spotPath} target="_blank" rel="noopener noreferrer">${spotName}</a>`
+          content: infoContent
         });
+
+        infoWindows.push(infoWindow);
+
         marker.addListener('click', function() {
           infoWindow.open(map, marker);
+          infoClose(infoWindow);
         });
       })();
+    }
+  }
+}
+
+function infoClose(infoWindow) {
+  if (document.getElementsByClassName("map-info").length > 0) {
+    for (let j = 0; j < infoWindows.length; j++) {
+      if (infoWindows[j] != infoWindow) {
+        infoWindows[j].close();
+      }
     }
   }
 }

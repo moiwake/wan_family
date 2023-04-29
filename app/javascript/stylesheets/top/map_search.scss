@@ -6,6 +6,17 @@
   background-color: antiquewhite;
 }
 
+.map-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.map-info a {
+  font-size: 14px;
+  font-weight: 600;
+}
+
 @media screen and (min-width: 450px) {
   .map-search-wrap {
     display: flex;

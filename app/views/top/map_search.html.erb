@@ -13,7 +13,7 @@
 </div>
 <!-- javascriptで参照するため -->
 <% @spots.each do |spot|%>
-  <input type="hidden" class="js-spot-data" data-name=<%= spot.name %> data-lat=<%= spot.latitude %> data-lng=<%= spot.longitude %> data-path=<%= spot_path(spot.id) %>>
+  <input type="hidden" class="js-spot-data" data-name=<%= spot.name %> data-address=<%= spot.address %> data-category=<%= spot.category.name %> data-lat=<%= spot.latitude %> data-lng=<%= spot.longitude %> data-path=<%= spot_path(spot) %>>
 <% end %>
 <input type="hidden" id="js-focus-area" data-focus=<%= @focus_area %>>
 <!-- end -->
