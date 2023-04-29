@@ -12,10 +12,16 @@ class TopController < ApplicationController
   end
 
   def word_search
-    @q = Spot.ransack({ combinator: "and", groupings: set_search_groupings("and") })
+    if params[:q]
+      @q = Spot.ransack({ combinator: "and", groupings: set_search_groupings("and") })
+    end
+
     @results = Spots::OrderedQuery.call(scope: @q.result(distinct: true), order_params: params).page(params[:page]).eager_load(:category).preload(:images)
-    @q = Spot.ransack(params[:q]["and"])
-    session[:q] = params[:q]["and"]
+
+    if params[:q]
+      @q = Spot.ransack(params[:q]["and"])
+      session[:q] = params[:q]["and"]
+    end
   end
 
   private
