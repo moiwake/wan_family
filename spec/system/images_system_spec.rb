@@ -20,58 +20,104 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
   describe "スポットに投稿されたすべての画像一覧ページ" do
     before { visit spot_images_path(spot) }
 
-    it "画像が詳細ページへのリンクとなっている" do
-      Image.all.each do |image|
-        image.files_blobs.each do |blob|
-          expect(find(".image-list-wrap")).to have_link(href: spot_image_path(spot, image, image_blob_id: blob.id))
+    describe "画像の表示" do
+      it "画像が詳細ページへのリンクとなっている" do
+        Image.all.each do |image|
+          image.files_blobs.each do |blob|
+            expect(find(".image-list-wrap")).to have_link(href: spot_image_path(spot, image, image_blob_id: blob.id))
+          end
         end
       end
     end
 
-    shared_examples "displays_images_in_the_specified_order" do
-      it "画像が指定した順序で表示される" do
-        ordered_filenames.each_with_index do |filename, i|
-          expect(page.all("img")[i][:src]).to include(filename)
+    describe "画像の表示順序" do
+      shared_examples "displays_images_in_the_specified_order" do
+        it "画像が指定した順序で表示される" do
+          ordered_filenames.each_with_index do |filename, i|
+            expect(page.all("img")[i][:src]).to include(filename)
+          end
         end
+      end
+
+      context "表示の順番を指定していないとき" do
+        let(:ordered_filenames) { filenames_desc }
+
+        it_behaves_like "displays_images_in_the_specified_order"
+      end
+
+      context "表示を新しい順にしたとき" do
+        let(:ordered_filenames) { filenames_desc }
+
+        before { click_link "新しい順" }
+
+        it_behaves_like "displays_images_in_the_specified_order"
+      end
+
+      context "表示を古い順にしたとき" do
+        let(:ordered_filenames) { filenames_asc }
+
+        before { click_link "古い順" }
+
+        it_behaves_like "displays_images_in_the_specified_order"
+      end
+
+      context "表示をいいねが多い順にしたとき" do
+        let(:ordered_filenames) { filenames_image_like }
+
+        before { click_link "いいねが多い順" }
+
+        it_behaves_like "displays_images_in_the_specified_order"
       end
     end
 
-    context "表示の順番を指定していないとき" do
-      let(:ordered_filenames) { filenames_desc }
-
-      it_behaves_like "displays_images_in_the_specified_order"
-    end
-
-    context "表示を新しい順にしたとき" do
-      let(:ordered_filenames) { filenames_desc }
-
-      before { click_link "新しい順" }
-
-      it_behaves_like "displays_images_in_the_specified_order"
-    end
-
-    context "表示を古い順にしたとき" do
-      let(:ordered_filenames) { filenames_asc }
-
-      before { click_link "古い順" }
-
-      it_behaves_like "displays_images_in_the_specified_order"
-    end
-
-    context "表示をいいねが多い順にしたとき" do
-      let(:ordered_filenames) { filenames_image_like }
-
+    describe "ページヘッダーの表示", js: true do
       before do
-        create_list(:image_like, 3, image: image_1, blob_id: most_liked_blob.id)
-        create_list(:image_like, 2, image: image_0, blob_id: second_liked_blob.id)
-        click_link "いいねが多い順"
+        create(:review, dog_score: 3, human_score: 4, spot: spot)
+        create(:review, dog_score: 2, human_score: 4, spot: spot)
+        create(:review, dog_score: 3, human_score: 3, spot: spot)
+        create_list(:favorite_spot, 2, spot: spot)
+        visit spot_images_path(spot)
       end
 
-      it_behaves_like "displays_images_in_the_specified_order"
+      it "ヘッダーに、スポットのデータが表示される" do
+        expect(page).to have_content(spot.name)
+        expect(page).to have_content(spot.address)
+        expect(page).to have_content(spot.category.name)
+        expect(page).to have_content(spot.allowed_area.area)
+        expect(page).to have_content(I18n.l spot.updated_at, format: :short)
+        expect(find(".favorite-count")).to have_content(spot.favorite_spots.size)
+        expect(find(".review-count")).to have_content(spot.reviews.size)
+        expect(all(".rating-score")[0]).to have_content(spot.reviews.average(:dog_score).round(1))
+        expect(all(".rating-score")[1]).to have_content(spot.reviews.average(:human_score).round(1))
+
+        within(all(".dog-rating")[0]) do
+          expect(all(".js-colored").length).to eq(2)
+          expect(all(".js-seven-tenths-color").length).to eq(1)
+          expect(all(".js-non-colored").length).to eq(2)
+        end
+
+        within(all(".human-rating")[0]) do
+          expect(all(".js-colored").length).to eq(3)
+          expect(all(".js-seven-tenths-color").length).to eq(1)
+          expect(all(".js-non-colored").length).to eq(1)
+        end
+      end
+
+      it "スポット更新ページへのリンクがある" do
+        expect(page).to have_link("スポットの情報を更新", href: edit_spot_path(spot))
+      end
+
+      it "スポット詳細ページへのリンクがある" do
+        expect(find(".header-tabs")).to have_link("トップ", href: spot_path(spot))
+      end
+
+      it "スポットに投稿されたレビュー一覧ページへのリンクがある" do
+        expect(find(".header-tabs")).to have_link("レビュー", href: spot_reviews_path(spot))
+      end
     end
   end
 
-  describe "画像詳細ページ", js: true do
+  describe "画像詳細", js: true do
     let(:displayed_filename) { displayed_file.filename.to_s }
 
     before { visit spot_images_path(spot) }
