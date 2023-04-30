@@ -59,6 +59,23 @@ RSpec.describe "UsersSystemSpecs", type: :system do
           end
         end
       end
+
+      describe "ページネーション" do
+        context "表示スポットが指定個数以上のとき" do
+          let(:default_per_page) { Kaminari.config.default_per_page }
+
+          before do
+            create_list(:favorite_spot, default_per_page + 1, user: user)
+            sign_in user
+            visit users_mypage_favorite_spot_index_path
+          end
+
+          it "ページ割りされる" do
+            expect(find(".spot-list-wrap").all(".list-content").length).to eq(default_per_page)
+            expect(page).to have_selector(".pagination")
+          end
+        end
+      end
     end
 
     describe "ユーザーデータの表示" do
@@ -322,6 +339,23 @@ RSpec.describe "UsersSystemSpecs", type: :system do
           end
         end
       end
+
+      describe "ページネーション" do
+        context "表示スポットが指定個数以上のとき" do
+          let(:default_per_page) { Kaminari.config.default_per_page }
+
+          before do
+            create_list(:spot_tag, default_per_page + 1, user: user)
+            sign_in user
+            visit users_mypage_spot_tag_index_path
+          end
+
+          it "ページ割りされる" do
+            expect(find(".spot-list-wrap").all(".list-content").length).to eq(default_per_page)
+            expect(page).to have_selector(".pagination")
+          end
+        end
+      end
     end
 
     describe "ユーザーデータの表示" do
@@ -494,6 +528,23 @@ RSpec.describe "UsersSystemSpecs", type: :system do
           it_behaves_like "displays_spots_in_the_specified_order"
         end
       end
+
+      describe "ページネーション" do
+        context "表示スポットが指定個数以上のとき" do
+          let(:default_per_page) { Kaminari.config.default_per_page }
+
+          before do
+            create_list(:spot_history, default_per_page + 1, user: user)
+            sign_in user
+            visit users_mypage_spot_index_path
+          end
+
+          it "ページ割りされる" do
+            expect(find(".spot-list-wrap").all(".list-content").length).to eq(default_per_page)
+            expect(page).to have_selector(".pagination")
+          end
+        end
+      end
     end
 
     describe "リンクの表示" do
@@ -530,24 +581,22 @@ RSpec.describe "UsersSystemSpecs", type: :system do
 
       describe "レビューの表示内容" do
         it "レビューのデータが表示される", js: true do
-          within(".review-list-wrap") do
-            reviews.each.with_index do |review, i|
-              expect(page).to have_content(review.user.name)
-              expect(all(".review-header")[i].find("img")[:src]).to include(review.user.human_avatar.blob.filename.to_s)
-              expect(page).to have_content(I18n.l review.visit_date, format: :short)
-              expect(page).to have_content(review.title)
-              expect(page).to have_content(review.comment)
-              expect(page).to have_content(review.dog_score)
-              expect(page).to have_content(review.human_score)
-              expect(page).to have_content(I18n.l review.created_at, format: :short)
+          reviews.each.with_index do |review, i|
+            expect(page).to have_content(review.user.name)
+            expect(all(".review-header")[i].find("img")[:src]).to include(review.user.human_avatar.blob.filename.to_s)
+            expect(page).to have_content(I18n.l review.visit_date, format: :short)
+            expect(page).to have_content(review.title)
+            expect(page).to have_content(review.comment)
+            expect(page).to have_content(review.dog_score)
+            expect(page).to have_content(review.human_score)
+            expect(page).to have_content(I18n.l review.created_at, format: :short)
 
-              within(all(".dog-rating")[i]) do
-                expect(all(".js-colored").length).to eq(review.dog_score)
-              end
+            within(all(".dog-rating")[i]) do
+              expect(all(".js-colored").length).to eq(review.dog_score)
+            end
 
-              within(all(".human-rating")[i]) do
-                expect(all(".js-colored").length).to eq(review.human_score)
-              end
+            within(all(".human-rating")[i]) do
+              expect(all(".js-colored").length).to eq(review.human_score)
             end
           end
         end
@@ -631,10 +680,9 @@ RSpec.describe "UsersSystemSpecs", type: :system do
           let(:files) { filenames.map { |filename| fixture_file_upload(Rails.root.join('spec', 'fixtures', 'images', filename), 'image/png') } }
           let(:filenames) { ["test1.png", "test2.png", "test3.png", "test4.png", "test5.png", "test6.png"] }
 
-          before do
-            visit users_mypage_review_index_path
-            resize_browser_size(300)
-          end
+          before { visit users_mypage_review_index_path }
+
+          include_context "resize_browser_size", 300, 1000
 
           it "要素の高さが指定の高さになる" do
             expect(all(".js-card")[0].style("height")["height"]).to eq(height)
@@ -643,6 +691,23 @@ RSpec.describe "UsersSystemSpecs", type: :system do
           it "全表示のアイコンをクリックすると、元の高さで表示される" do
             find(".fa-angles-down").click
             expect(all(".js-card")[0].style("height")["height"]).not_to eq(height)
+          end
+        end
+      end
+
+      describe "ページネーション" do
+        context "表示レビューが指定個数以上のとき" do
+          let(:default_per_page) { Kaminari.config.default_per_page }
+
+          before do
+            create_list(:review, default_per_page + 1, user: user)
+            sign_in user
+            visit users_mypage_review_index_path
+          end
+
+          it "ページ割りされる" do
+            expect(find(".review-list-wrap").all(".review-content").length).to eq(default_per_page)
+            expect(page).to have_selector(".pagination")
           end
         end
       end
@@ -729,6 +794,23 @@ RSpec.describe "UsersSystemSpecs", type: :system do
         end
 
         it_behaves_like "displays_images_in_the_specified_order"
+      end
+    end
+
+    describe "ページネーション" do
+      context "表示画像が指定個数以上のとき" do
+        let!(:per_page) { stub_const("Image::PER_PAGE", 3) }
+
+        before do
+          create(:image, :attached, user: user)
+          create(:image, :attached_1, user: user)
+          visit users_mypage_image_index_path
+        end
+
+        it "ページ割りされる" do
+          expect(find(".image-list-wrap").all("img").length).to eq(3)
+          expect(page).to have_selector(".pagination")
+        end
       end
     end
 

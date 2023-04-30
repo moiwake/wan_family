@@ -376,7 +376,7 @@ RSpec.describe "TopSystemSpecs", type: :system do
 
       shared_examples "displays_spots_in_the_specified_order" do
         it "スポットが指定した順序で表示される" do
-          sleep 0.1
+          sleep 0.5
           ordered_spots.each_with_index do |spot, i|
             expect(all(".list-content")[i]).to have_content(spot.name)
           end
@@ -415,6 +415,29 @@ RSpec.describe "TopSystemSpecs", type: :system do
         end
 
         it_behaves_like "displays_spots_in_the_specified_order"
+      end
+    end
+
+    describe "ページネーション" do
+      context "表示スポットが指定個数以上のとき" do
+        let!(:category) { create(:category) }
+        let(:default_per_page) { Kaminari.config.default_per_page }
+
+        before do
+          create_list(:spot, default_per_page + 1, category: category, prefecture: create(:prefecture, region: create(:region)))
+
+          visit root_path
+
+          within(".top-search-form-wrap") do
+            find("label[for='top_q_category_#{category.id}']").click
+            find(".search_btn").click
+          end
+        end
+
+        it "ページ割りされる" do
+          expect(find(".search-result-wrap").all(".list-content").length).to eq(default_per_page)
+          expect(page).to have_selector(".pagination")
+        end
       end
     end
   end

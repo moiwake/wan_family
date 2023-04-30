@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe "ImagesSystemSpecs", type: :system do
   let!(:user) { create(:user) }
   let!(:spot) { create(:spot) }
-  let!(:image_0) { create(:image, :attached, spot_id: spot.id) }
-  let!(:image_1) { create(:image, :attached_1, spot_id: spot.id) }
+  let!(:image_0) { create(:image, :attached, spot: spot) }
+  let!(:image_1) { create(:image, :attached_1, spot: spot) }
   let!(:filenames) { ActiveStorage::Blob.pluck(:filename) }
   let!(:filenames_desc) { filenames.reverse }
   let!(:filenames_asc) { filenames }
@@ -113,6 +113,19 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
 
       it "スポットに投稿されたレビュー一覧ページへのリンクがある" do
         expect(find(".header-tabs")).to have_link("レビュー", href: spot_reviews_path(spot))
+      end
+    end
+
+    describe "ページネーション" do
+      context "表示画像が指定個数以上のとき" do
+        let!(:per_page) { stub_const("Image::PER_PAGE", 3) }
+
+        before { visit spot_images_path(spot) }
+
+        it "ページ割りされる" do
+          expect(find(".image-list-wrap").all("img").length).to eq(3)
+          expect(page).to have_selector(".pagination")
+        end
       end
     end
   end

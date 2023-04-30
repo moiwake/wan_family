@@ -123,10 +123,9 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
         let(:files) { filenames.map { |filename| fixture_file_upload(Rails.root.join('spec', 'fixtures', 'images', filename), 'image/png') } }
         let(:filenames) { ["test1.png", "test2.png", "test3.png", "test4.png", "test5.png", "test6.png"] }
 
-        before do
-          visit spot_reviews_path(spot)
-          resize_browser_size(300)
-        end
+        before { visit spot_reviews_path(spot) }
+
+        include_context "resize_browser_size", 300, 1000
 
         it "要素の高さが指定の高さになる" do
           expect(all(".js-card")[0].style("height")["height"]).to eq(height)
@@ -174,6 +173,22 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
 
       it "スポットに投稿された画像一覧ページへのリンクがある" do
         expect(find(".header-tabs")).to have_link("画像", href: spot_images_path(spot))
+      end
+    end
+
+    describe "ページネーション" do
+      context "表示レビューが指定個数以上のとき" do
+        let(:default_per_page) { Kaminari.config.default_per_page }
+
+        before do
+          create_list(:review, default_per_page + 1, spot: spot)
+          visit spot_reviews_path(spot)
+        end
+
+        it "ページ割りされる" do
+          expect(find(".review-list-wrap").all(".review-content").length).to eq(default_per_page)
+          expect(page).to have_selector(".pagination")
+        end
       end
     end
 
