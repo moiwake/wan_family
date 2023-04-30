@@ -4,6 +4,13 @@ addEventListener("DOMContentLoaded", function () {
 
   searchFormOpenBtn.addEventListener("click", function () {
     headerSearch.classList.remove("js-header-search-hidden");
+
+    let burger = document.getElementsByClassName("js-trigger-burger")[0];
+    let menu = document.getElementById(burger.dataset.target);
+    if (menu.classList.contains("is-active")) {
+      menu.classList.remove("is-active");
+      burger.classList.remove("is-active");
+    }
   });
 
   let searchFormCloseBtn = headerSearch.getElementsByClassName("js-trigger-search-form-close-btn")[0];

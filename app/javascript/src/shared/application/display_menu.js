@@ -9,6 +9,11 @@ addEventListener("DOMContentLoaded", function () {
     } else {
       burger.classList.add("is-active");
       menu.classList.add("is-active");
+
+      let headerSearch = document.getElementsByClassName("js-target-header-search")[0];
+      if (!headerSearch.classList.contains("js-header-search-hidden")) {
+        headerSearch.classList.add("js-header-search-hidden");
+      }
     }
   });
 });
