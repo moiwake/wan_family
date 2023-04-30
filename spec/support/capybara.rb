@@ -34,3 +34,7 @@ end
 def resize_browser_size(width = 600, height = 600)
   Capybara.current_session.driver.browser.manage.window.resize_to(width, height)
 end
+
+def resize_browser_default_size
+  Capybara.current_session.driver.browser.manage.window.resize_to(1920 ,1080)
+end
