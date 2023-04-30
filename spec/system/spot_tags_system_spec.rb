@@ -14,8 +14,7 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
       end
 
       it "登録したタグ名が新しい順に３つまで表示される" do
-        spot_tags.each_with_index do |spot_tag, i|
-          break if i == 3
+        spot_tags.first(3).each_with_index do |spot_tag, i|
           expect(all(".header-created-tag")[i]).to have_content(spot_tag.name)
         end
 
