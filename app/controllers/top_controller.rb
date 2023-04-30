@@ -16,7 +16,10 @@ class TopController < ApplicationController
       @q = Spot.ransack({ combinator: "and", groupings: set_search_groupings("and") })
     end
 
-    @results = Spots::OrderedQuery.call(scope: @q.result(distinct: true), order_params: params).page(params[:page]).eager_load(:category).preload(:images)
+    @results = Spots::OrderedQuery.call(scope: @q.result(distinct: true), order_params: params)
+              .page(params[:page])
+              .eager_load(:category)
+              .preload(:images)
 
     if params[:q]
       @q = Spot.ransack(params[:q]["and"])

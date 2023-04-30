@@ -37,6 +37,7 @@
         <div class="box">レビューの投稿はありません。</div>
       <% end %>
     </section>
+    <%= paginated?(@reviews) %>
   </div>
 </div>
 <%= javascript_pack_tag "users/review_index" %>

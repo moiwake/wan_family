@@ -3,7 +3,7 @@ class ImagesController < ApplicationController
 
   def index
     @image_blobs = ImageBlobs::OrderedQuery.call(parent_record: @spot.images, order_params: params)
-                  .page(params[:page]).per(100)
+                  .page(params[:page]).per(Image::PER_PAGE)
                   .preload(attachments: :record)
   end
 

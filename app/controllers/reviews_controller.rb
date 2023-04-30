@@ -4,7 +4,9 @@ class ReviewsController < ApplicationController
   before_action :set_favorite_spot, :set_tags_user_put_on_spot, :set_review_helpfulness, only: [:index]
 
   def index
-    @reviews = Reviews::OrderedQuery.call(parent_record: @spot, order_params: params).page(params[:page]).load_all_associations
+    @reviews = Reviews::OrderedQuery.call(parent_record: @spot, order_params: params)
+              .page(params[:page])
+              .load_all_associations
   end
 
   def new
