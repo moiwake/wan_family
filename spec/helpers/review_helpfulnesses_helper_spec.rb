@@ -2,16 +2,18 @@ require 'rails_helper'
 
 RSpec.describe ReviewHelpfulnessHelper, type: :helper do
   let!(:user) { create(:user) }
-  let!(:review) { create(:review, user: user) }
+  let!(:review) { create(:review) }
 
   describe "#review_posted_by_another?" do
+    let!(:review_by_user) { create(:review, user: user) }
+
     context "引数に渡したReviewレコードのuser_idカラムと、ログインユーザーのidが異なるとき" do
       let!(:another_user) { create(:user) }
 
       before { allow(helper).to receive(:current_user).and_return(another_user) }
 
       it "trueを返す" do
-        expect(helper.review_posted_by_another?(review)).to eq(true)
+        expect(helper.review_posted_by_another?(review_by_user)).to eq(true)
       end
     end
 
@@ -19,7 +21,7 @@ RSpec.describe ReviewHelpfulnessHelper, type: :helper do
       before { allow(helper).to receive(:current_user).and_return(user) }
 
       it "falseを返す" do
-        expect(helper.review_posted_by_another?(review)).to eq(false)
+        expect(helper.review_posted_by_another?(review_by_user)).to eq(false)
       end
     end
   end
@@ -75,8 +77,7 @@ RSpec.describe ReviewHelpfulnessHelper, type: :helper do
       before { allow(helper).to receive(:current_user).and_return(user) }
 
       context "引数のReviewレコードをログインユーザー以外が作成していたとき" do
-        let!(:another_user) { create(:user) }
-        let!(:review_by_another) { create(:review, user: another_user, spot: spot) }
+        let!(:review_by_another) { create(:review, spot: spot) }
 
         context "引数のReviewHelpnessレコードが存在して、かつDBに保存済みであるとき" do
           let(:review_helpfulness) { create(:review_helpfulness, user: user, review: review_by_another) }
@@ -107,9 +108,11 @@ RSpec.describe ReviewHelpfulnessHelper, type: :helper do
         end
       end
 
-      context "引数のReviewレコードをログインユーザー以外が作成していたとき" do
+      context "引数のReviewレコードをログインユーザーが作成していたとき" do
+        let!(:review_by_user) { create(:review, user: user, spot: spot) }
+
         it "nilを返す" do
-          expect(helper.review_helpfulness_btn_path(review, nil)).to eq(nil)
+          expect(helper.review_helpfulness_btn_path(review_by_user, nil)).to eq(nil)
         end
       end
     end
