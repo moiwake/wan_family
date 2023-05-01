@@ -4,4 +4,5 @@ class ImageLike < ApplicationRecord
 
   validates :blob_id, presence: true
   validates :user, uniqueness: { scope: :blob_id }
+  validates_with ImageLikeUserIdValidator
 end
