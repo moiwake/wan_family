@@ -74,8 +74,16 @@ RSpec.describe ApplicationHelper, type: :helper do
     let(:image) { create(:image, :attached) }
     let(:image_blob) { image.files_blobs[0] }
 
-    it "引数に渡したBlobレコードに関連するImageレコードのidを返す" do
-      expect(helper.set_image_id(image_blob)).to eq(image.id)
+    context "引数にimage_idが渡されているとき" do
+      it "引数のimage_idをそのまま返す" do
+        expect(helper.set_image_id(image_id: image.id, image_blob: image_blob)).to eq(image.id)
+      end
+    end
+
+    context "引数にimage_idが渡されていない" do
+      it "引数に渡したBlobレコードに関連するImageレコードのidを返す" do
+        expect(helper.set_image_id(image_blob: image_blob)).to eq(image.id)
+      end
     end
   end
 
@@ -83,8 +91,16 @@ RSpec.describe ApplicationHelper, type: :helper do
     let(:image) { create(:image, :attached) }
     let(:image_blob) { image.files_blobs[0] }
 
-    it "引数に渡したBlobレコードに関連するSpotレコードのidを返す" do
-      expect(helper.set_spot_id(image_blob)).to eq(image.spot.id)
+    context "引数にspot_idが渡されているとき" do
+      it "引数のspot_idをそのまま返す" do
+        expect(helper.set_spot_id(spot_id: image.spot.id, image_blob: image_blob)).to eq(image.spot.id)
+      end
+    end
+
+    context "引数にimage_idが渡されていない" do
+      it "引数に渡したBlobレコードに関連するSpotレコードのidを返す" do
+        expect(helper.set_spot_id(image_blob: image_blob)).to eq(image.spot.id)
+      end
     end
   end
 end
