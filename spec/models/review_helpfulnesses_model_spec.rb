@@ -57,4 +57,17 @@ RSpec.describe ReviewHelpfulness, type: :model do
       it_behaves_like "the object is valid"
     end
   end
+
+  describe "review_helpfulness_user_id_validatorのバリデーション" do
+    let(:message) { "投稿者が自分のレビューに「役立った」を登録することはできません。" }
+
+    context "レコードのreview_idを持つReviewレコードのuser_idと、レコードのuser_idが同じとき" do
+      let!(:user) { create(:user) }
+      let!(:review) { create(:review, user: user) }
+      let!(:invalid_object) { build(:review_helpfulness, review: review, user: user) }
+      let(:attribute) { :user }
+
+      it_behaves_like "adds validation error messages"
+    end
+  end
 end

@@ -71,4 +71,17 @@ RSpec.describe ImageLike, type: :model do
       it_behaves_like "the object is valid"
     end
   end
+
+  describe "image_like_user_id_validatorのバリデーション" do
+    let(:message) { "投稿者が自分の画像に「いいね」を登録することはできません。" }
+
+    context "レコードのimage_idを持つImageレコードのuser_idと、レコードのuser_idが同じとき" do
+      let!(:user) { create(:user) }
+      let!(:image) { create(:image, :attached, user: user) }
+      let!(:invalid_object) { build(:image_like, image: image, user: user, blob_id: image.files_blobs[0].id) }
+      let(:attribute) { :user }
+
+      it_behaves_like "adds validation error messages"
+    end
+  end
 end
