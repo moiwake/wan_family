@@ -273,7 +273,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
         within(all(".review-content")[0]) do
           expect do
             find(".review-helpfulness-add-btn").click
-            expect(find(".review-helpfulness-btn-wrap")).to have_content(ordered_reviews[0].review_helpfulnesses.size)
+            expect(all(".review-helpfulness-btn-wrap")[0]).to have_content(ordered_reviews[0].review_helpfulnesses.size)
           end.to change { ReviewHelpfulness.count }.by(1)
 
           expect(ReviewHelpfulness.last.user_id).to eq(user.id)

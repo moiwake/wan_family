@@ -213,6 +213,7 @@ RSpec.describe "TopSystemSpecs", type: :system do
 
           it "画像を拡大表示できる", js: true do
             within(".image-like-list-wrap") do
+              sleep 0.1
               all("img")[0].click
               expect(page).to have_selector("#js-enlarged-image")
               expect(find("#js-enlarged-image")[:src]).to include(blobs.last.filename.to_s)
