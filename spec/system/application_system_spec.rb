@@ -71,7 +71,7 @@ RSpec.describe "ApplicationSystemSpec", type: :system do
           end
 
           it "マイページへのリンクがある" do
-            expect(page).to have_link(href: users_mypage_favorite_spot_index_path)
+            expect(page).to have_link(href: users_mypage_spot_favorite_index_path)
           end
 
           it "スポット登録ページへのリンクがある" do

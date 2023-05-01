@@ -1,6 +1,6 @@
 class SpotsController < ApplicationController
   before_action :authenticate_user!, :set_option_titles, except: [:show]
-  before_action :set_favorite_spot, :set_tags_user_put_on_spot, only: [:show]
+  before_action :set_spot_favorite, :set_tags_user_put_on_spot, only: [:show]
   before_action :delete_session, only: [:new, :edit]
   after_action  :delete_session, only: [:create, :update]
 
@@ -107,9 +107,9 @@ class SpotsController < ApplicationController
     @titles = OptionTitle.order_default.preload(:rule_options)
   end
 
-  def set_favorite_spot
+  def set_spot_favorite
     if current_user.present?
-      @favorite_spot = current_user.favorite_spots.find_by(spot_id: params[:id])
+      @spot_favorite = current_user.spot_favorites.find_by(spot_id: params[:id])
     end
   end
 

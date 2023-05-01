@@ -75,7 +75,7 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
         create(:review, dog_score: 3, human_score: 4, spot: spot)
         create(:review, dog_score: 2, human_score: 4, spot: spot)
         create(:review, dog_score: 3, human_score: 3, spot: spot)
-        create_list(:favorite_spot, 2, spot: spot)
+        create_list(:spot_favorite, 2, spot: spot)
         visit spot_images_path(spot)
       end
 
@@ -85,7 +85,7 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
         expect(page).to have_content(spot.category.name)
         expect(page).to have_content(spot.allowed_area.area)
         expect(page).to have_content(I18n.l spot.updated_at, format: :short)
-        expect(find(".favorite-count")).to have_content(spot.favorite_spots.size)
+        expect(find(".favorite-count")).to have_content(spot.spot_favorites.size)
         expect(find(".review-count")).to have_content(spot.reviews.size)
         expect(all(".rating-score")[0]).to have_content(spot.reviews.average(:dog_score).round(1))
         expect(all(".rating-score")[1]).to have_content(spot.reviews.average(:human_score).round(1))

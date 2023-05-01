@@ -12,7 +12,7 @@
           <div class="count-wrap">
             <div class=favorite-count>
               <i class="favorite-icon fa-solid fa-heart"></i>
-              <span><%= spot.favorite_spots.size %>人</span>
+              <span><%= spot.spot_favorites.size %>人</span>
             </div>
             <div class=review-count>
               <i class="review-icon fa-solid fa-comment-dots"></i>
@@ -43,7 +43,7 @@
               <i class="fa-solid fa-tag mark-spot-btn button"></i>
             <% end %>
           <% else %>
-            <%= render "favorite_spots/shared/add_or_remove_favorite_spot", spot: spot, favorite_spot: favorite_spot %>
+            <%= render "spot_favorites/shared/add_or_remove_spot_favorite", spot: spot, spot_favorite: spot_favorite %>
             <%= render "spot_tags/shared/spot_tag_post_button", spot: spot, tags_user_put_on_spot: tags_user_put_on_spot.decorate %>
           <% end %>
         </div>

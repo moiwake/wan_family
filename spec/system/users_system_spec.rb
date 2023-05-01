@@ -12,7 +12,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
         let(:ranked_blobs_index) { [3, 1, 0, 2] }
 
         before do
-          create(:favorite_spot, spot: spot, user: user)
+          create(:spot_favorite, spot: spot, user: user)
           create(:review, dog_score: 3, human_score: 4, spot: spot)
           create(:review, dog_score: 2, human_score: 3, spot: spot)
           create_list(:review_helpfulness, 1, review: helpful_review)
@@ -45,7 +45,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
 
         before do
           ordered_spots.each do |spot|
-            create(:favorite_spot, spot: spot, user: user)
+            create(:spot_favorite, spot: spot, user: user)
           end
 
           sign_in user
@@ -65,9 +65,9 @@ RSpec.describe "UsersSystemSpecs", type: :system do
           let(:default_per_page) { Kaminari.config.default_per_page }
 
           before do
-            create_list(:favorite_spot, default_per_page + 1, user: user)
+            create_list(:spot_favorite, default_per_page + 1, user: user)
             sign_in user
-            visit users_mypage_favorite_spot_index_path
+            visit users_mypage_spot_favorite_index_path
           end
 
           it "ページ割りされる" do
@@ -170,7 +170,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
   describe "タグづけしたスポット一覧ページ" do
     before do
       sign_in user
-      visit users_mypage_favorite_spot_index_path
+      visit users_mypage_spot_favorite_index_path
     end
 
     describe "タグづけしたスポットの表示" do
@@ -197,7 +197,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
         end
 
         it "お気に入りしたスポット一覧ページヘのリンクがある" do
-          expect(page).to have_link("お気に入りしたスポット", href: users_mypage_favorite_spot_index_path)
+          expect(page).to have_link("お気に入りしたスポット", href: users_mypage_spot_favorite_index_path)
         end
 
         it_behaves_like "displays_the_data_of_the_target_spot"
@@ -361,7 +361,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
     describe "ユーザーデータの表示" do
       before do
         sign_in user
-        visit users_mypage_favorite_spot_index_path
+        visit users_mypage_spot_favorite_index_path
         click_link "タグをつけたスポット"
       end
 
@@ -376,7 +376,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
 
         before do
           sign_in updated_profile_user
-          visit users_mypage_favorite_spot_index_path
+          visit users_mypage_spot_favorite_index_path
           click_link "タグをつけたスポット"
         end
 
@@ -401,7 +401,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
         create(:image, :attached, user: user)
 
         sign_in user
-        visit users_mypage_favorite_spot_index_path
+        visit users_mypage_spot_favorite_index_path
         click_link "タグをつけたスポット"
       end
 
@@ -421,7 +421,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
     describe "リンクの表示" do
       before do
         sign_in user
-        visit users_mypage_favorite_spot_index_path
+        visit users_mypage_spot_favorite_index_path
         click_link "タグをつけたスポット"
       end
 
@@ -458,7 +458,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
         let(:ranked_blobs_index) { [3, 1, 0, 2] }
 
         before do
-          create(:favorite_spot, spot: spot, user: user)
+          create(:spot_favorite, spot: spot, user: user)
           create(:review, dog_score: 3, human_score: 4, spot: spot)
           create(:review, dog_score: 2, human_score: 3, spot: spot)
           create_list(:review_helpfulness, 1, review: helpful_review)
@@ -520,8 +520,8 @@ RSpec.describe "UsersSystemSpecs", type: :system do
           let(:ordered_spots) { [spot_history_1.spot, spot_history_2.spot, spot_history_0.spot] }
 
           before do
-            create_list(:favorite_spot, 2, spot: spot_history_1.spot)
-            create_list(:favorite_spot, 1, spot: spot_history_2.spot)
+            create_list(:spot_favorite, 2, spot: spot_history_1.spot)
+            create_list(:spot_favorite, 1, spot: spot_history_2.spot)
             click_link "お気に入りが多い順"
           end
 
@@ -551,7 +551,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
       before { visit users_mypage_spot_index_path }
 
       it "マイページページヘのリンクがある" do
-        expect(page).to have_link("マイページへ戻る", href: users_mypage_favorite_spot_index_path)
+        expect(page).to have_link("マイページへ戻る", href: users_mypage_spot_favorite_index_path)
       end
 
       it "投稿レビュー一覧ページヘのリンクがある" do
@@ -720,7 +720,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
       end
 
       it "マイページページヘのリンクがある" do
-        expect(page).to have_link("マイページへ戻る", href: users_mypage_favorite_spot_index_path)
+        expect(page).to have_link("マイページへ戻る", href: users_mypage_spot_favorite_index_path)
       end
 
       it "登録・更新したスポット一覧ページヘのリンクがある" do
@@ -818,7 +818,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
       before { visit users_mypage_image_index_path }
 
       it "マイページページヘのリンクがある" do
-        expect(page).to have_link("マイページへ戻る", href: users_mypage_favorite_spot_index_path)
+        expect(page).to have_link("マイページへ戻る", href: users_mypage_spot_favorite_index_path)
       end
 
       it "登録・更新したスポット一覧ページヘのリンクがある" do
@@ -871,7 +871,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
       end
 
       it "マイページへのリンクがある" do
-        expect(page).to have_link("マイページへ戻る", href: users_mypage_favorite_spot_index_path)
+        expect(page).to have_link("マイページへ戻る", href: users_mypage_spot_favorite_index_path)
       end
     end
 
@@ -907,7 +907,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
       end
 
       it "マイページへのリンクがある" do
-        expect(page).to have_link("マイページへ戻る", href: users_mypage_favorite_spot_index_path)
+        expect(page).to have_link("マイページへ戻る", href: users_mypage_spot_favorite_index_path)
       end
     end
 

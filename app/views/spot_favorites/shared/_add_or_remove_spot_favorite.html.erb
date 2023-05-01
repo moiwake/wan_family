@@ -1,0 +1,11 @@
+<div class="favorite-spot-btn-wrap js-favorite-spot-post">
+  <% if favorite?(spot_favorite) %>
+    <%= link_to spot_spot_favorite_path(spot, spot_favorite), method: :delete, id: "remove-favorite", class: "mark-spot-btn button", remote: true do %>
+      <i class="fa-solid fa-heart" id="remove-favorite-btn"></i>
+    <% end %>
+  <% else %>
+    <%= link_to spot_spot_favorites_path(spot), method: :post, id: "add-favorite", class: "mark-spot-btn button", remote: true do %>
+      <i class="fa-regular fa-heart" id="add-favorite-btn"></i>
+    <% end %>
+  <% end %>
+</div>

@@ -52,7 +52,7 @@ shared_examples "displays_the_data_of_the_target_spot" do
     expect(page).to have_content(spot.name)
     expect(page).to have_content(spot.address)
     expect(page).to have_content(spot.category.name)
-    expect(find(".favorite-count")).to have_content(spot.favorite_spots.size)
+    expect(find(".favorite-count")).to have_content(spot.spot_favorites.size)
     expect(find(".review-count")).to have_content(spot.reviews.size)
     expect(all(".rating-score")[0]).to have_content(spot.reviews.average(:dog_score).round(1))
     expect(all(".rating-score")[1]).to have_content(spot.reviews.average(:human_score).round(1))

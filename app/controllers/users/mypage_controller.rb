@@ -1,8 +1,8 @@
 class Users::MypageController < ApplicationController
   before_action :authenticate_user!
 
-  def favorite_spot_index
-    @favorite_spots = Spots::FavoriteByUserQuery.call(user: current_user)
+  def spot_favorite_index
+    @spot_favorites = Spots::FavoriteByUserQuery.call(user: current_user)
                       .page(params[:page])
                       .preload(:category)
   end
@@ -42,7 +42,7 @@ class Users::MypageController < ApplicationController
 
     if @user.update(user_params)
       flash[:notice] = "プロフィールを変更しました。"
-      redirect_to users_mypage_favorite_spot_index_path
+      redirect_to users_mypage_spot_favorite_index_path
     else
       render "edit_profile"
     end

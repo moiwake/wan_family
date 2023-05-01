@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe CreatedInSpecificPeriodQuery, type: :model do
   let!(:scope) do
-    create_list(:favorite_spot, 3)
-    FavoriteSpot.all
+    create_list(:spot_favorite, 3)
+    SpotFavorite.all
   end
   let(:class_instance) { CreatedInSpecificPeriodQuery.new(arguments) }
   let(:arguments) { { scope: scope, date: "days", number: 6 } }

@@ -1,17 +1,17 @@
 require "rails_helper"
 require 'support/shared_examples/model_spec'
 
-RSpec.describe FavoriteSpot, type: :model do
-  let!(:favorite_spot) { create(:favorite_spot) }
+RSpec.describe SpotFavorite, type: :model do
+  let!(:spot_favorite) { create(:spot_favorite) }
 
   context "全カラムのデータが有効なとき" do
-    let(:valid_object) { favorite_spot }
+    let(:valid_object) { spot_favorite }
 
     it_behaves_like "the object is valid"
   end
 
   describe "presenceのバリデーション" do
-    let(:invalid_object) { build(:favorite_spot, attribute => nil) }
+    let(:invalid_object) { build(:spot_favorite, attribute => nil) }
     let(:message) { "を入力してください" }
 
     context "userカラム" do
@@ -36,19 +36,19 @@ RSpec.describe FavoriteSpot, type: :model do
 
     context "user_idカラムとspot_idカラムの組み合わせが重複しているとき" do
       let(:attribute) { :user }
-      let(:invalid_object) { build(:favorite_spot, user_id: favorite_spot.user_id, spot_id: favorite_spot.spot_id) }
+      let(:invalid_object) { build(:spot_favorite, user_id: spot_favorite.user_id, spot_id: spot_favorite.spot_id) }
 
       it_behaves_like "adds validation error messages"
     end
 
     context "user_idカラムのみが重複しているとき" do
-      let(:valid_object) { build(:favorite_spot, user_id: favorite_spot.user_id) }
+      let(:valid_object) { build(:spot_favorite, user_id: spot_favorite.user_id) }
 
       it_behaves_like "the object is valid"
     end
 
     context "spot_idカラムのみが重複しているとき" do
-      let(:valid_object) { build(:favorite_spot, spot_id: favorite_spot.spot_id) }
+      let(:valid_object) { build(:spot_favorite, spot_id: spot_favorite.spot_id) }
 
       it_behaves_like "the object is valid"
     end

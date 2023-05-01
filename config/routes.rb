@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     get   "mypage/spot_index",          to: "mypage#spot_index"
     get   "mypage/review_index",        to: "mypage#review_index"
     get   "mypage/image_index",         to: "mypage#image_index"
-    get   "mypage/favorite_spot_index", to: "mypage#favorite_spot_index"
+    get   "mypage/spot_favorite_index", to: "mypage#spot_favorite_index"
     get   "mypage/spot_tag_index",      to: "mypage#spot_tag_index"
   end
 
@@ -48,7 +48,7 @@ Rails.application.routes.draw do
       resources :image_likes, only: [:create, :destroy]
     end
 
-    resources :favorite_spots, only: [:create, :destroy]
+    resources :spot_favorites, only: [:create, :destroy]
     resources :spot_tags
   end
 end

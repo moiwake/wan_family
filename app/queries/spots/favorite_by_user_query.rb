@@ -28,7 +28,7 @@ module Spots
     end
 
     def favorites_created_by_user
-      user.favorite_spots
+      user.spot_favorites
     end
   end
 end

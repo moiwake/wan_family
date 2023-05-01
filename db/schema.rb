@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_04_065436) do
+ActiveRecord::Schema.define(version: 2023_05_01_042409) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -61,16 +61,6 @@ ActiveRecord::Schema.define(version: 2023_04_04_065436) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_categories_on_name", unique: true
-  end
-
-  create_table "favorite_spots", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "spot_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["spot_id"], name: "index_favorite_spots_on_spot_id"
-    t.index ["user_id", "spot_id"], name: "index_favorite_spots_on_user_id_and_spot_id", unique: true
-    t.index ["user_id"], name: "index_favorite_spots_on_user_id"
   end
 
   create_table "image_likes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -166,6 +156,16 @@ ActiveRecord::Schema.define(version: 2023_04_04_065436) do
     t.index ["spot_id"], name: "index_rules_on_spot_id"
   end
 
+  create_table "spot_favorites", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "spot_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["spot_id"], name: "index_spot_favorites_on_spot_id"
+    t.index ["user_id", "spot_id"], name: "index_spot_favorites_on_user_id_and_spot_id", unique: true
+    t.index ["user_id"], name: "index_spot_favorites_on_user_id"
+  end
+
   create_table "spot_histories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "spot_id", null: false
     t.bigint "user_id", null: false
@@ -223,8 +223,6 @@ ActiveRecord::Schema.define(version: 2023_04_04_065436) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "favorite_spots", "spots"
-  add_foreign_key "favorite_spots", "users"
   add_foreign_key "image_likes", "images"
   add_foreign_key "image_likes", "users"
   add_foreign_key "images", "reviews"
@@ -238,6 +236,8 @@ ActiveRecord::Schema.define(version: 2023_04_04_065436) do
   add_foreign_key "rule_options", "option_titles"
   add_foreign_key "rules", "rule_options"
   add_foreign_key "rules", "spots"
+  add_foreign_key "spot_favorites", "spots"
+  add_foreign_key "spot_favorites", "users"
   add_foreign_key "spot_histories", "spots"
   add_foreign_key "spot_histories", "users"
   add_foreign_key "spot_tags", "spots"

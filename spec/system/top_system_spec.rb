@@ -18,10 +18,10 @@ RSpec.describe "TopSystemSpecs", type: :system do
           let(:ranked_index) { ordered_index }
 
           before do
-            create_list(:favorite_spot, 11, created_at: Date.today.last_year, spot: spots.last)
+            create_list(:spot_favorite, 11, created_at: Date.today.last_year, spot: spots.last)
 
             ordered_index.each_with_index do |index, i|
-              create_list(:favorite_spot, (10 - i), spot: spots[index])
+              create_list(:spot_favorite, (10 - i), spot: spots[index])
             end
 
             ranked_index.each do |index|
@@ -50,10 +50,10 @@ RSpec.describe "TopSystemSpecs", type: :system do
           let(:ranked_index) { ordered_index.push(10) }
 
           before do
-            create_list(:favorite_spot, 10, created_at: Date.today.last_year, spot: spots.last)
+            create_list(:spot_favorite, 10, created_at: Date.today.last_year, spot: spots.last)
 
             ordered_index.each_with_index do |index, i|
-              create_list(:favorite_spot, (9 - i), spot: spots[index])
+              create_list(:spot_favorite, (9 - i), spot: spots[index])
             end
 
             ranked_index.each do |index|
@@ -106,7 +106,7 @@ RSpec.describe "TopSystemSpecs", type: :system do
 
         before do
           ranked_index.each_with_index do |index, i|
-            create_list(:favorite_spot, (10 - i), spot: spots[index])
+            create_list(:spot_favorite, (10 - i), spot: spots[index])
           end
 
           ranked_index.each do |index|
@@ -316,7 +316,7 @@ RSpec.describe "TopSystemSpecs", type: :system do
       let(:ranked_blobs_index) { [3, 1, 0, 2] }
 
       before do
-        create_list(:favorite_spot, 2, spot: spot)
+        create_list(:spot_favorite, 2, spot: spot)
         create(:review_helpfulness, review: helpful_review)
         create(:image, :attached_1, spot: spot, review: create(:review, dog_score: 2, human_score: 3, spot: spot))
         create(:image, :attached, spot: spot, review: helpful_review)
@@ -409,8 +409,8 @@ RSpec.describe "TopSystemSpecs", type: :system do
         let(:ordered_spots) { [spots[1], spots[2], spots[0]] }
 
         before do
-          create_list(:favorite_spot, 2, spot: spots[1])
-          create_list(:favorite_spot, 1, spot: spots[2])
+          create_list(:spot_favorite, 2, spot: spots[1])
+          create_list(:spot_favorite, 1, spot: spots[2])
           click_link "お気に入りが多い順"
         end
 

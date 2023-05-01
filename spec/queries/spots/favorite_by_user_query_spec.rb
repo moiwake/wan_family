@@ -7,13 +7,13 @@ RSpec.describe Spots::FavoriteByUserQuery, type: :model do
   let(:user) { create(:user) }
 
   describe "#call" do
-    let(:favorite_spots) { instance_double("spot") }
+    let(:spot_favorites) { instance_double("spot") }
 
     subject(:return_value) { Spots::FavoriteByUserQuery.call(arguments) }
 
     before do
       allow(Spots::FavoriteByUserQuery).to receive(:new).and_return(class_instance)
-      allow(class_instance).to receive(:set_spot).and_return(favorite_spots)
+      allow(class_instance).to receive(:set_spot).and_return(spot_favorites)
       subject
     end
 
@@ -26,7 +26,7 @@ RSpec.describe Spots::FavoriteByUserQuery, type: :model do
     end
 
     it "set_spotメソッドの返り値を返す" do
-      expect(return_value).to eq(favorite_spots)
+      expect(return_value).to eq(spot_favorites)
     end
   end
 
@@ -61,18 +61,18 @@ RSpec.describe Spots::FavoriteByUserQuery, type: :model do
   end
 
   describe "#order_favorites" do
-    let(:ordered_favorite_spots) { user.favorite_spots.order(created_at: :desc) }
+    let(:ordered_spot_favorites) { user.spot_favorites.order(created_at: :desc) }
     let(:another_user) { create(:user) }
 
     subject(:return_value) { class_instance.send(:order_favorites) }
 
     before do
-      create_list(:favorite_spot, 3, user: user)
-      create_list(:favorite_spot, 3, user: another_user)
+      create_list(:spot_favorite, 3, user: user)
+      create_list(:spot_favorite, 3, user: another_user)
     end
 
-    it "指定のユーザーが作成したFavoriteSpotレコードを、作成日の降順に並べ替えて返す" do
-      expect(return_value).to eq(ordered_favorite_spots)
+    it "指定のユーザーが作成したSpotFavoriteレコードを、作成日の降順に並べ替えて返す" do
+      expect(return_value).to eq(ordered_spot_favorites)
     end
   end
 end

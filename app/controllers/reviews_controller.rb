@@ -1,7 +1,7 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   before_action :set_spot
-  before_action :set_favorite_spot, :set_tags_user_put_on_spot, :set_review_helpfulness, only: [:index]
+  before_action :set_spot_favorite, :set_tags_user_put_on_spot, :set_review_helpfulness, only: [:index]
 
   def index
     @reviews = Reviews::OrderedQuery.call(parent_record: @spot, order_params: params)
@@ -67,9 +67,9 @@ class ReviewsController < ApplicationController
     end
   end
 
-  def set_favorite_spot
+  def set_spot_favorite
     if current_user.present?
-      @favorite_spot = current_user.favorite_spots.find_by(spot_id: @spot.id)
+      @spot_favorite = current_user.spot_favorites.find_by(spot_id: @spot.id)
     end
   end
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "FavoriteSpotsSystemSpecs", type: :system do
+RSpec.describe "SpotFavoritesSystemSpecs", type: :system do
   let!(:user) { create(:user) }
   let!(:spot) { create(:spot) }
 
@@ -16,15 +16,15 @@ RSpec.describe "FavoriteSpotsSystemSpecs", type: :system do
           expect do
             find("#add-favorite").click
             expect(page).to have_selector("#remove-favorite")
-          end.to change { FavoriteSpot.count }.by(1)
+          end.to change { SpotFavorite.count }.by(1)
 
-          expect(FavoriteSpot.last.user_id).to eq(user.id)
-          expect(FavoriteSpot.last.spot_id).to eq(spot.id)
+          expect(SpotFavorite.last.user_id).to eq(user.id)
+          expect(SpotFavorite.last.spot_id).to eq(spot.id)
         end
       end
 
       context "ログインユーザーがスポットをお気に入り登録しているとき" do
-        let!(:favorite_spot) { create(:favorite_spot, user: user, spot: spot) }
+        let!(:spot_favorite) { create(:spot_favorite, user: user, spot: spot) }
 
         before { visit spot_path(spot) }
 
@@ -32,7 +32,7 @@ RSpec.describe "FavoriteSpotsSystemSpecs", type: :system do
           expect do
             find("#remove-favorite").click
             expect(page).to have_selector("#add-favorite")
-          end.to change { FavoriteSpot.count }.by(-1)
+          end.to change { SpotFavorite.count }.by(-1)
         end
       end
     end

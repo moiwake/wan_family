@@ -6,7 +6,7 @@ RSpec.describe RankedForSpecificPeriodQuery, type: :model do
     Spot.all
   end
   let(:child_class_instance) { ChildClass.new(arguments) }
-  let(:arguments) { { scope: scope, parent_record: nil, like_class: "FavoriteSpot", date: "days", number: number } }
+  let(:arguments) { { scope: scope, parent_record: nil, like_class: "SpotFavorite", date: "days", number: number } }
   let!(:number) { stub_const("RankedForSpecificPeriodQuery::PERIOD_NUMBER", 1) }
   let!(:rank_num) { stub_const("RankedForSpecificPeriodQuery::RANKING_NUMBER", 2) }
 
@@ -64,11 +64,11 @@ RSpec.describe RankedForSpecificPeriodQuery, type: :model do
     subject(:return_value) { child_class_instance.send(:group_like_class_records) }
 
     context "set_grouped_like_class_recordsメソッドの返り値のレコード数が、ランキングの数以上のとき" do
-      let(:grouped_like_class_records) { FavoriteSpot.group(:spot_id) }
+      let(:grouped_like_class_records) { SpotFavorite.group(:spot_id) }
 
       before do
         allow(child_class_instance).to receive(:set_grouped_like_class_records).and_return(grouped_like_class_records)
-        create_list(:favorite_spot, 2, spot: scope[2])
+        create_list(:spot_favorite, 2, spot: scope[2])
       end
 
       it "set_grouped_like_class_recordsメソッドの返り値をそのまま返す" do
@@ -77,12 +77,12 @@ RSpec.describe RankedForSpecificPeriodQuery, type: :model do
     end
 
     context "set_grouped_like_class_recordsメソッドの返り値のレコード数が、ランキングの数未満のとき" do
-      let(:grouped_like_class_records) { FavoriteSpot.group(:spot_id) }
+      let(:grouped_like_class_records) { SpotFavorite.group(:spot_id) }
 
       before do
         allow(child_class_instance).to receive(:set_grouped_like_class_records).and_return(grouped_like_class_records)
         allow(child_class_instance).to receive(:fill_records_up_to_rank_num).and_return(grouped_like_class_records)
-        create(:favorite_spot, spot: scope[0])
+        create(:spot_favorite, spot: scope[0])
         subject
       end
 
@@ -94,13 +94,13 @@ RSpec.describe RankedForSpecificPeriodQuery, type: :model do
 
   describe "#fill_records_up_to_rank_num" do
     before do
-      allow(CreatedInSpecificPeriodQuery).to receive(:call).and_return(FavoriteSpot.all)
-      create(:favorite_spot, spot: scope[0])
+      allow(CreatedInSpecificPeriodQuery).to receive(:call).and_return(SpotFavorite.all)
+      create(:spot_favorite, spot: scope[0])
       child_class_instance.send(:fill_records_up_to_rank_num)
     end
 
     it "指定の引数を渡して、CreatedInSpecificPeriodQueryクラスを呼び出す" do
-      expect(CreatedInSpecificPeriodQuery).to have_received(:call).with(scope: FavoriteSpot.all, date: "days", number: (number + number + 1))
+      expect(CreatedInSpecificPeriodQuery).to have_received(:call).with(scope: SpotFavorite.all, date: "days", number: (number + number + 1))
     end
   end
 end

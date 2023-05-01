@@ -4,18 +4,18 @@ require 'support/shared_examples/request_spec'
 RSpec.describe "Mypage", type: :request do
   let!(:user) { create(:user, :updated_profile_user) }
 
-  describe "GET /favorite_spot_index" do
+  describe "GET /spot_favorite_index" do
     context "ログインしているとき" do
       before do
         sign_in user
-        get users_mypage_favorite_spot_index_path
+        get users_mypage_spot_favorite_index_path
       end
 
       it_behaves_like "returns http success"
     end
 
     context "ログインしていないとき" do
-      before { get users_mypage_favorite_spot_index_path }
+      before { get users_mypage_spot_favorite_index_path }
 
       it_behaves_like "redirects to login page"
     end
@@ -126,7 +126,7 @@ RSpec.describe "Mypage", type: :request do
 
     it "更新後にリダイレクトする" do
       subject
-      expect(response).to redirect_to(users_mypage_favorite_spot_index_path)
+      expect(response).to redirect_to(users_mypage_spot_favorite_index_path)
     end
   end
 end
