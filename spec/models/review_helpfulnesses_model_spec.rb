@@ -11,15 +11,13 @@ RSpec.describe ReviewHelpfulness, type: :model do
   end
 
   describe "presenceのバリデーション" do
-    let(:invalid_object) { build(:review_helpfulness, attribute => (type == :nil ? nil : "")) }
+    let(:invalid_object) { build(:review_helpfulness, attribute => nil) }
     let(:message) { "を入力してください" }
 
     context "user_idカラム" do
       let(:attribute) { :user }
 
       context "nilのとき" do
-        let(:type) { :nil }
-
         it_behaves_like "adds validation error messages"
       end
     end
@@ -28,8 +26,6 @@ RSpec.describe ReviewHelpfulness, type: :model do
       let(:attribute) { :review }
 
       context "nilのとき" do
-        let(:type) { :nil }
-
         it_behaves_like "adds validation error messages"
       end
     end

@@ -36,6 +36,14 @@ RSpec.describe Image, type: :model do
         it_behaves_like "adds validation error messages"
       end
     end
+
+    context "reviewカラム" do
+      let(:attribute) { :review }
+
+      context "nilのとき" do
+        it_behaves_like "adds validation error messages"
+      end
+    end
   end
 
   describe "content_typeのバリデーション" do

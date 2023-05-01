@@ -4,7 +4,7 @@ require 'support/shared_examples/model_spec'
 RSpec.describe ImageLike, type: :model do
   let!(:image) { create(:image, :attached) }
   let!(:blob) { image.files_blobs[0] }
-  let!(:image_like) { create(:image_like, image_id: image.id, blob_id: blob.id) }
+  let!(:image_like) { create(:image_like, image: image, blob_id: blob.id) }
 
   context "全カラムのデータが有効なとき" do
     let(:valid_object) { image_like }
@@ -13,15 +13,13 @@ RSpec.describe ImageLike, type: :model do
   end
 
   describe "presenceのバリデーション" do
-    let(:invalid_object) { build(:image_like, attribute => (type == :nil ? nil : "")) }
+    let(:invalid_object) { build(:image_like, attribute => nil) }
     let(:message) { "を入力してください" }
 
     context "user_idカラム" do
       let(:attribute) { :user }
 
       context "nilのとき" do
-        let(:type) { :nil }
-
         it_behaves_like "adds validation error messages"
       end
     end
@@ -30,8 +28,6 @@ RSpec.describe ImageLike, type: :model do
       let(:attribute) { :image }
 
       context "nilのとき" do
-        let(:type) { :nil }
-
         it_behaves_like "adds validation error messages"
       end
     end
@@ -40,8 +36,6 @@ RSpec.describe ImageLike, type: :model do
       let(:attribute) { :blob_id }
 
       context "nilのとき" do
-        let(:type) { :nil }
-
         it_behaves_like "adds validation error messages"
       end
     end
@@ -77,8 +71,8 @@ RSpec.describe ImageLike, type: :model do
 
     context "レコードのimage_idを持つImageレコードのuser_idと、レコードのuser_idが同じとき" do
       let!(:user) { create(:user) }
-      let!(:image) { create(:image, :attached, user: user) }
-      let!(:invalid_object) { build(:image_like, image: image, user: user, blob_id: image.files_blobs[0].id) }
+      let!(:image_by_user) { create(:image, :attached, user: user) }
+      let!(:invalid_object) { build(:image_like, image: image_by_user, user: user) }
       let(:attribute) { :user }
 
       it_behaves_like "adds validation error messages"

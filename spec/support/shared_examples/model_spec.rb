@@ -10,4 +10,3 @@ shared_examples "adds validation error messages" do
     expect(invalid_object.errors[attribute]).to include(message)
   end
 end
-
