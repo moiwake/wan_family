@@ -22,12 +22,12 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
           reviews.each.with_index do |review, i|
             expect(page).to have_content(review.user.name)
             expect(all(".review-header")[i].find("img")[:src]).to include(review.user.human_avatar.blob.filename.to_s)
-            expect(page).to have_content(I18n.l review.visit_date, format: :short)
+            expect(page).to have_content(I18n.l(review.visit_date, format: :short))
             expect(page).to have_content(review.title)
             expect(page).to have_content(review.comment)
             expect(page).to have_content(review.dog_score)
             expect(page).to have_content(review.human_score)
-            expect(page).to have_content(I18n.l review.created_at, format: :short)
+            expect(page).to have_content(I18n.l(review.created_at, format: :short))
 
             within(all(".dog-rating")[i]) do
               expect(all(".js-colored").length).to eq(review.dog_score)
@@ -144,7 +144,7 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
         expect(page).to have_content(spot.address)
         expect(page).to have_content(spot.category.name)
         expect(page).to have_content(spot.allowed_area.area)
-        expect(page).to have_content(I18n.l spot.updated_at, format: :short)
+        expect(page).to have_content(I18n.l(spot.updated_at, format: :short))
         expect(find(".favorite-count")).to have_content(spot.spot_favorites.size)
         expect(find(".review-count")).to have_content(spot.reviews.size)
         expect(all(".rating-score")[0]).to have_content(spot.reviews.average(:dog_score).round(1))

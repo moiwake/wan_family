@@ -10,7 +10,7 @@ module Spots
 
     def self.call(user:, tag_params: {})
       @spot = new(user: user, tag_params: tag_params).set_spot
-      return @spot
+      @spot
     end
 
     def set_spot
@@ -35,7 +35,7 @@ module Spots
         spot_tags = spot_tags.where(name: tag_params[:tag_name])
       end
 
-      return spot_tags
+      spot_tags
     end
   end
 end

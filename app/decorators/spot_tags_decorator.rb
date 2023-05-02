@@ -4,6 +4,6 @@ class SpotTagsDecorator < Draper::CollectionDecorator
   end
 
   def difference_of_max
-    (object.size) - SpotTag::MAX_DISPLAY_NUMBER
+    object.size - SpotTag::MAX_DISPLAY_NUMBER
   end
 end

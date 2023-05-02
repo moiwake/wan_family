@@ -30,7 +30,6 @@ shared_examples "displays_all_prefectures" do
   end
 end
 
-
 shared_examples "displays_all_option_titles" do
   it "すべての同伴ルールの選択肢のタイトルが表示される" do
     option_titles.each do |option_title|

@@ -8,9 +8,9 @@ RSpec.describe Spots::TaggedByUserQuery, type: :model do
   let(:tag_params) { {} }
 
   describe "#call" do
-    let(:spot_tags) { instance_double("spot") }
-
     subject(:return_value) { Spots::TaggedByUserQuery.call(arguments) }
+
+    let(:spot_tags) { instance_double("spot") }
 
     before do
       allow(Spots::TaggedByUserQuery).to receive(:new).and_return(class_instance)
@@ -32,10 +32,10 @@ RSpec.describe Spots::TaggedByUserQuery, type: :model do
   end
 
   describe "#set_spot" do
+    subject(:return_value) { class_instance.set_spot }
+
     let(:spot_ids) { [spots[0], spots[2], spots[1]] }
     let(:searched_spot) { spots.where(id: spot_ids).order([Arel.sql("field(spots.id, ?)"), spot_ids]) }
-
-    subject(:return_value) { class_instance.set_spot }
 
     before do
       allow(class_instance).to receive(:set_spot_ids).and_return(spot_ids)
@@ -62,9 +62,9 @@ RSpec.describe Spots::TaggedByUserQuery, type: :model do
   end
 
   describe "#order_tags" do
-    let(:another_user) { create(:user) }
-
     subject(:return_value) { class_instance.send(:order_tags) }
+
+    let(:another_user) { create(:user) }
 
     before do
       create_list(:spot_tag, 2, user: user, name: "tag_name1")

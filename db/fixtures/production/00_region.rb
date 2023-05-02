@@ -1,4 +1,4 @@
-region = [
+regions = [
   { name: "北海道", name_roma: "hokkaido" },
   { name: "東北", name_roma: "tohoku" },
   { name: "関東", name_roma: "kanto" },
@@ -10,7 +10,7 @@ region = [
   { name: "沖縄", name_roma: "okinawa" },
 ]
 
-region.each_with_index do |region, i|
+regions.each_with_index do |region, i|
   Region.seed do |s|
     s.id = i + 1
     s.name = region[:name]

@@ -84,7 +84,7 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
         expect(page).to have_content(spot.address)
         expect(page).to have_content(spot.category.name)
         expect(page).to have_content(spot.allowed_area.area)
-        expect(page).to have_content(I18n.l spot.updated_at, format: :short)
+        expect(page).to have_content(I18n.l(spot.updated_at, format: :short))
         expect(find(".favorite-count")).to have_content(spot.spot_favorites.size)
         expect(find(".review-count")).to have_content(spot.reviews.size)
         expect(all(".rating-score")[0]).to have_content(spot.reviews.average(:dog_score).round(1))

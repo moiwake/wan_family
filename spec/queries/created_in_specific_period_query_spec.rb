@@ -9,9 +9,9 @@ RSpec.describe CreatedInSpecificPeriodQuery, type: :model do
   let(:arguments) { { scope: scope, date: "days", number: 6 } }
 
   describe "#call" do
-    let(:searched_scope) { instance_double("scope") }
-
     subject(:return_value) { CreatedInSpecificPeriodQuery.call(arguments) }
+
+    let(:searched_scope) { instance_double("scope") }
 
     before do
       allow(CreatedInSpecificPeriodQuery).to receive(:new).and_return(class_instance)
@@ -33,9 +33,9 @@ RSpec.describe CreatedInSpecificPeriodQuery, type: :model do
   end
 
   describe "#for_specific_period" do
-    let(:from) { (Time.current - class_instance.number.send(class_instance.date)).at_beginning_of_day }
-
     subject(:return_value) { class_instance.for_specific_period }
+
+    let(:from) { (Time.current - class_instance.number.send(class_instance.date)).at_beginning_of_day }
 
     it "指定した時点から現在までに作成されたレコード群を返す" do
       expect(return_value.ids).to eq(scope.where(created_at: from...Time.current).ids)

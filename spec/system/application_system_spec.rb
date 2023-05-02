@@ -230,14 +230,14 @@ RSpec.describe "ApplicationSystemSpec", type: :system do
   end
 
   describe "フレンドリーフォワーディング" do
-    let!(:user) { create(:user) }
-
     subject do
       visit new_user_session_path
       fill_in "user[email]", with: user.email
       fill_in "user[password]", with: user.password
       click_button "ログイン"
     end
+
+    let!(:user) { create(:user) }
 
     context "GETリクエストかつ、Deviseのコントローラーからリクエストではない、かつAjaxリクエストではないとき" do
       before do

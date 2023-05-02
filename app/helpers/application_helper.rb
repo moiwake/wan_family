@@ -5,11 +5,11 @@ module ApplicationHelper
 
   def who_signed_in?
     if current_user.present?
-      return "user"
+      "user"
     elsif current_admin.present?
-      return "admin"
+      "admin"
     else
-      return "others"
+      "others"
     end
   end
 

@@ -15,7 +15,7 @@ module ImageBlobs
 
     def set_scope
       scope = search_image_blobs
-      return scope.present? ? scope : ActiveStorage::Blob.none
+      scope.present? ? scope : ActiveStorage::Blob.none
     end
   end
 end

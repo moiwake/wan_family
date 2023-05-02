@@ -6,16 +6,17 @@ RSpec.describe OrderedQueryBase, type: :model do
     Review.all
   end
   let(:child_class_instance) { ChildClass.new(arguments) }
+  let(:child_class) { Class.new(OrderedQueryBase) }
   let(:arguments) { { scope: scope, parent_record: parent_record, order_params: order_params, like_class: "ReviewHelpfulness" } }
   let(:parent_record) { nil }
   let(:order_params) { {} }
 
-  before(:all) { ChildClass = Class.new(OrderedQueryBase) }
+  before { stub_const("ChildClass", child_class) }
 
   describe "#call" do
-    let(:ordered_scope) { instance_double("scope") }
-
     subject(:return_value) { ChildClass.call(arguments) }
+
+    let(:ordered_scope) { instance_double("scope") }
 
     before do
       allow(ChildClass).to receive(:new).and_return(child_class_instance)

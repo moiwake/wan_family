@@ -2,9 +2,9 @@ class ImagesController < ApplicationController
   before_action :set_spot, :set_spot_favorite, :set_tags_user_put_on_spot, only: :index
 
   def index
-    @image_blobs = ImageBlobs::OrderedQuery.call(parent_record: @spot.images, order_params: params)
-                  .page(params[:page]).per(Image::PER_PAGE)
-                  .preload(attachments: :record)
+    @image_blobs = ImageBlobs::OrderedQuery.call(parent_record: @spot.images, order_params: params).
+      page(params[:page]).per(Image::PER_PAGE).
+      preload(attachments: :record)
   end
 
   def show

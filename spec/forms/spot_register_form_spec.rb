@@ -6,11 +6,11 @@ RSpec.describe SpotRegisterForm, type: :model do
   let!(:prefecture) { create(:prefecture, :real_prefecture) }
 
   describe "#spot_attributes=" do
+    subject(:return_value) { spot_register_form_instance.send(:merge_prefecture_id, spot_attributes) }
+
     let(:spot_attributes) { attributes_for(:spot, :real_spot, allowed_area_id: allowed_areas[0].id, category_id: categories[0].id).stringify_keys }
     let(:spot_register_form_instance) { SpotRegisterForm.new(attributes: { "spot_attributes" => spot_attributes }) }
     let(:spot) { spot_register_form_instance.spot }
-
-    subject(:return_value) { spot_register_form_instance.send(:merge_prefecture_id, spot_attributes) }
 
     before { allow(spot_register_form_instance).to receive(:merge_prefecture_id).and_return(spot_attributes.merge({ "prefecture_id" => prefecture.id })) }
 
@@ -83,7 +83,7 @@ RSpec.describe SpotRegisterForm, type: :model do
     end
 
     context "Ruleレコードの属性値が不正な場合" do
-      let(:spot_register_form_instance) { SpotRegisterForm.new(attributes: { spot_attributes: {}, rules_attributes: { "" => { "answer" => "" } } } ) }
+      let(:spot_register_form_instance) { SpotRegisterForm.new(attributes: { spot_attributes: {}, rules_attributes: { "" => { "answer" => "" } } }) }
 
       it "同伴ルールレコードのエラーメッセージがerrorsコレクションに追加される" do
         expect(spot_register_form_instance.errors[:base]).to include("#{Spot.human_attribute_name(:rules_answer)}を入力してください")
@@ -93,11 +93,11 @@ RSpec.describe SpotRegisterForm, type: :model do
   end
 
   describe "#merge_prefecture_id" do
+    subject(:return_value) { spot_register_form_instance.send(:merge_prefecture_id, attributes_missing_pref_id) }
+
     let(:attributes_missing_pref_id) { attributes_for(:spot, :real_spot, allowed_area_id: allowed_areas[0].id, category_id: categories[0].id).stringify_keys }
     let(:attributes_merged_pref_id) { attributes_missing_pref_id.merge({ "prefecture_id" => prefecture.id }) }
     let(:spot_register_form_instance) { SpotRegisterForm.new(attributes: { "spot_attributes" => attributes_missing_pref_id }) }
-
-    subject(:return_value) { spot_register_form_instance.send(:merge_prefecture_id, attributes_missing_pref_id) }
 
     context "パラメータに所在地のデータが存在するとき" do
       it "Spotレコードの属性値のハッシュに、prefecture_id属性を追加したハッシュを返す" do
@@ -114,4 +114,3 @@ RSpec.describe SpotRegisterForm, type: :model do
     end
   end
 end
-

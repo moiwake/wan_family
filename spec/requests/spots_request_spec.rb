@@ -61,7 +61,11 @@ RSpec.describe "Spots", type: :request do
 
   describe "POST" do
     let(:params) { { spot_attributes: spot_params, rules_attributes: rules_params } }
-    let(:spot_params) { attributes_for(:spot, :real_spot, allowed_area_id: allowed_areas[0].id, category_id: categories[0].id).stringify_keys.transform_values(&:to_s) }
+    let(:spot_params) do
+      attributes_for(
+        :spot, :real_spot, allowed_area_id: allowed_areas[0].id, category_id: categories[0].id
+      ).stringify_keys.transform_values(&:to_s)
+    end
     let(:rules_params) do
       {
         "#{rule_option_ids[0]}" => { "answer" => "0" },
@@ -98,11 +102,11 @@ RSpec.describe "Spots", type: :request do
           it_behaves_like "returns http success"
         end
 
-        context "ActionController::ParameterMissingのエラーが発生した場合"do
+        context "ActionController::ParameterMissingのエラーが発生した場合" do
           before do
-            allow_any_instance_of(SpotsController)
-            .to receive(:form_params)
-            .and_raise(ActionController::ParameterMissing, :spot_register_form)
+            allow_any_instance_of(SpotsController).
+              to receive(:form_params).
+              and_raise(ActionController::ParameterMissing, :spot_register_form)
 
             get new_confirm_spots_path
           end
@@ -245,7 +249,11 @@ RSpec.describe "Spots", type: :request do
 
   describe "PATCH" do
     let(:updated_params) { { spot_attributes: updated_spot_params, rules_attributes: updated_rules_params } }
-    let(:updated_spot_params) { attributes_for(:spot, address: "大阪府", allowed_area_id: allowed_areas[1].id, category_id: categories[1].id, prefecture_id: updated_prefecture_id).stringify_keys.transform_values(&:to_s) }
+    let(:updated_spot_params) do
+      attributes_for(
+        :spot, address: "大阪府", allowed_area_id: allowed_areas[1].id, category_id: categories[1].id, prefecture_id: updated_prefecture_id
+      ).stringify_keys.transform_values(&:to_s)
+    end
     let(:updated_rules_params) do
       {
         "#{rule_option_ids[0]}" => { "answer" => "0" },
@@ -280,16 +288,16 @@ RSpec.describe "Spots", type: :request do
         context "送信された同伴ルールのパラメータが不正なとき" do
           let(:invalid_rule_params) { { rule_option_ids[0] => { "answer" => nil } } }
 
-          before { patch edit_confirm_spot_path(spot), params: { spot_register_form: { spot_attributes:  updated_spot_params, rules_attributes: invalid_rule_params } } }
+          before { patch edit_confirm_spot_path(spot), params: { spot_register_form: { spot_attributes: updated_spot_params, rules_attributes: invalid_rule_params } } }
 
           it_behaves_like "returns http success"
         end
 
-        context "ActionController::ParameterMissingのエラーが発生した場合"do
+        context "ActionController::ParameterMissingのエラーが発生した場合" do
           before do
-            allow_any_instance_of(SpotsController)
-            .to receive(:form_params)
-            .and_raise(ActionController::ParameterMissing, :spot_register_form)
+            allow_any_instance_of(SpotsController).
+              to receive(:form_params).
+              and_raise(ActionController::ParameterMissing, :spot_register_form)
 
             get edit_confirm_spot_path(spot)
           end
@@ -450,4 +458,3 @@ RSpec.describe "Spots", type: :request do
     end
   end
 end
-

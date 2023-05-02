@@ -27,6 +27,6 @@ class User < ApplicationRecord
   validates :password, format: {
     with: PASSWORD_REGEX,
     message: 'は英字と数字の両方を含めて設定してください', if: :password_required?,
-    allow_blank: true
+    allow_blank: true,
   }
 end

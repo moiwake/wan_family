@@ -156,7 +156,7 @@ RSpec.describe User, type: :model do
 
         before do
           invalid_object.human_avatar.attach({ io: File.open('spec/fixtures/images/0byte.png'), filename: '0byte.png' })
-          invalid_object.human_avatar.blob.assign_attributes({byte_size: 6.megabytes})
+          invalid_object.human_avatar.blob.assign_attributes({ byte_size: 6.megabytes })
         end
 
         it_behaves_like "adds validation error messages"
@@ -181,7 +181,7 @@ RSpec.describe User, type: :model do
 
         before do
           invalid_object.dog_avatar.attach({ io: File.open('spec/fixtures/images/0byte.png'), filename: '0byte.png' })
-          invalid_object.dog_avatar.blob.assign_attributes({byte_size: 6.megabytes})
+          invalid_object.dog_avatar.blob.assign_attributes({ byte_size: 6.megabytes })
         end
 
         it_behaves_like "adds validation error messages"

@@ -76,4 +76,3 @@ RSpec.describe Rule, type: :model do
     end
   end
 end
-

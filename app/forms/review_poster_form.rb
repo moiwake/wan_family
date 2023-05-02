@@ -6,11 +6,11 @@ class ReviewPosterForm < FormBase
     super(attributes: attributes, record: review)
   end
 
-  def review_attributes= (attributes)
+  def review_attributes=(attributes)
     review.assign_attributes(attributes)
   end
 
-  def image_attributes= (attributes)
+  def image_attributes=(attributes)
     if review.new_record? || review.image.nil?
       build_image_record(attributes: attributes, user_id: review.user_id, spot_id: review.spot_id)
     else

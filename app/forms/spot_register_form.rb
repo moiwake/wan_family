@@ -6,11 +6,11 @@ class SpotRegisterForm < FormBase
     super(attributes: attributes, record: spot)
   end
 
-  def spot_attributes= (attributes)
+  def spot_attributes=(attributes)
     spot.assign_attributes(merge_prefecture_id(attributes))
   end
 
-  def rules_attributes= (attributes)
+  def rules_attributes=(attributes)
     attributes.each do |key, value|
       if spot.new_record?
         build_rule_records(rule_option_id: key, answer: value["answer"])
@@ -50,7 +50,7 @@ class SpotRegisterForm < FormBase
   def merge_prefecture_id(attributes)
     if attributes["address"].present?
       prefecture_id = Prefecture.find_by(name: attributes["address"].slice(0, 4).match(/.*[都道府県]/).to_s).id
-      attributes = attributes.merge({ "prefecture_id" => prefecture_id })
+      attributes.merge({ "prefecture_id" => prefecture_id })
     else
       attributes
     end

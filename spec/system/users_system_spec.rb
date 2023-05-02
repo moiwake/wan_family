@@ -260,7 +260,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
           end
 
           context "作成したタグが10個超のとき" do
-            let!(:first_created_tag) { create(:spot_tag, spot: spot, user:user, name: "最初のタグ", updated_at: Time.current.ago(2.days)) }
+            let!(:first_created_tag) { create(:spot_tag, spot: spot, user: user, name: "最初のタグ", updated_at: Time.current.ago(2.days)) }
             let!(:spot_tags) do
               create_list(:spot_tag, 10, spot: spot, user: user)
               create_list(:spot_tag, 10, spot: spot, user: user)
@@ -584,12 +584,12 @@ RSpec.describe "UsersSystemSpecs", type: :system do
           reviews.each.with_index do |review, i|
             expect(page).to have_content(review.user.name)
             expect(all(".review-header")[i].find("img")[:src]).to include(review.user.human_avatar.blob.filename.to_s)
-            expect(page).to have_content(I18n.l review.visit_date, format: :short)
+            expect(page).to have_content(I18n.l(review.visit_date, format: :short))
             expect(page).to have_content(review.title)
             expect(page).to have_content(review.comment)
             expect(page).to have_content(review.dog_score)
             expect(page).to have_content(review.human_score)
-            expect(page).to have_content(I18n.l review.created_at, format: :short)
+            expect(page).to have_content(I18n.l(review.created_at, format: :short))
 
             within(all(".dog-rating")[i]) do
               expect(all(".js-colored").length).to eq(review.dog_score)
@@ -1049,9 +1049,9 @@ RSpec.describe "UsersSystemSpecs", type: :system do
       before { fill_in "user[email]", with: user.email }
 
       it "入力したアドレスに、再設定用のメールが送信される" do
-        expect{
+        expect do
           click_button "パスワード再設定のメールを送信"
-        }.to change { ActionMailer::Base.deliveries.size }.by(1)
+        end.to change { ActionMailer::Base.deliveries.size }.by(1)
 
         expect(page).to have_content("パスワードの再設定について数分以内にメールでご連絡いたします。")
 

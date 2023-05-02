@@ -18,7 +18,7 @@ class RankedForSpecificPeriodQuery < OrderedQueryBase
       number: number
     ).set_ranked_scope_for_specific_period
 
-    return @scope
+    @scope
   end
 
   def set_ranked_scope_for_specific_period
@@ -37,11 +37,11 @@ class RankedForSpecificPeriodQuery < OrderedQueryBase
 
     @loop_limit = 0
     until @grouped_like_class_records.size.length >= RANKING_NUMBER || @loop_limit == 5
-      @loop_limit = @loop_limit + 1
+      @loop_limit += 1
       @grouped_like_class_records = fill_records_up_to_rank_num
     end
 
-    return @grouped_like_class_records
+    @grouped_like_class_records
   end
 
   def set_grouped_like_class_records
@@ -50,7 +50,7 @@ class RankedForSpecificPeriodQuery < OrderedQueryBase
 
   def fill_records_up_to_rank_num
     @number = number + (number + 1)
-    return set_grouped_like_class_records
+    set_grouped_like_class_records
   end
 
   def set_like_class_records

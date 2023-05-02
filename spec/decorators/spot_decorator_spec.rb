@@ -7,7 +7,7 @@ RSpec.describe SpotDecorator, type: :decorator do
     let(:attached_rules) { create_list(:rule, 2, spot_id: spot.id, answer: "1") }
     let(:not_attached_rules) { create_list(:rule, 2, spot_id: spot.id, answer: "0") }
 
-    it "スポットに関連するRuleレコードのうち、スポットに適用されると回答されたレコード群のみを返す"do
+    it "スポットに関連するRuleレコードのうち、スポットに適用されると回答されたレコード群のみを返す" do
       attached_rules.each do |attached_rule|
         expect(spot.decorate.get_attached_saved_rules.include?(attached_rule)).to eq(true)
       end
@@ -22,7 +22,7 @@ RSpec.describe SpotDecorator, type: :decorator do
     let(:attached_rules) { spot.rules.build([{ answer: "1" }, { answer: "1" }]) }
     let(:not_attached_rules) { spot.rules.build([{ answer: "0" }, { answer: "0" }]) }
 
-    it "スポットに関連するRuleレコードのうち、スポットに適用されると回答されたレコード群のみを返す"do
+    it "スポットに関連するRuleレコードのうち、スポットに適用されると回答されたレコード群のみを返す" do
       attached_rules.each do |attached_rule|
         expect(spot.decorate.get_attached_unsaved_rules.include?(attached_rule)).to eq(true)
       end

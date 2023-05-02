@@ -45,7 +45,7 @@ Rails.application.configure do
     :user_name => Rails.application.credentials.gmail[:gmail_address],
     :password => Rails.application.credentials.gmail[:gmail_app_password],
     :authentication => :plain,
-    :enable_starttls_auto => true
+    :enable_starttls_auto => true,
   }
 
   # Print deprecation notices to the Rails logger.

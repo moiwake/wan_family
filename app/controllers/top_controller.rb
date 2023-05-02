@@ -16,10 +16,10 @@ class TopController < ApplicationController
       @q = Spot.ransack({ combinator: "and", groupings: set_search_groupings("and") })
     end
 
-    @results = Spots::OrderedQuery.call(scope: @q.result(distinct: true), order_params: params)
-              .page(params[:page])
-              .eager_load(:category)
-              .preload(:images)
+    @results = Spots::OrderedQuery.call(scope: @q.result(distinct: true), order_params: params).
+      page(params[:page]).
+      eager_load(:category).
+      preload(:images)
 
     if params[:q]
       @q = Spot.ransack(params[:q]["and"])
@@ -36,12 +36,12 @@ class TopController < ApplicationController
     search_params.keys.each do |key|
       if key == "name_or_address_cont"
         keywords = search_params[key].split(/[\p{blank}\s]+/)
-        keywords.reduce(grouping_ary){ |ary, word| ary.push({ key => word }) }
+        keywords.reduce(grouping_ary) { |ary, word| ary.push({ key => word }) }
       else
         grouping_ary.push({ key => search_params[key] })
       end
     end
 
-    return @search_groupings = grouping_ary.uniq
+    @search_groupings = grouping_ary.uniq
   end
 end

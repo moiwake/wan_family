@@ -10,7 +10,7 @@ class OrderedQueryBase
 
   def self.call(scope: nil, parent_record: nil, order_params: {}, like_class: nil)
     @scope = new(scope: scope, parent_record: parent_record, order_params: order_params, like_class: like_class).set_ordered_scope
-    return @scope
+    @scope
   end
 
   def set_ordered_scope
@@ -25,9 +25,9 @@ class OrderedQueryBase
       scope.distinct
     else
       if parent_record && parent_record[0]
-        scope.where({"#{parent_record.model.name.downcase}_id" => parent_record.ids})
+        scope.where({ "#{parent_record.model.name.downcase}_id" => parent_record.ids })
       elsif parent_record
-        scope.where({"#{parent_record.class.name.downcase}_id" => parent_record.id})
+        scope.where({ "#{parent_record.class.name.downcase}_id" => parent_record.id })
       end
     end
   end
@@ -45,7 +45,7 @@ class OrderedQueryBase
   def order_asc_or_desc
     scope.order({
       order_params[:by] => order_params[:direction],
-      "id" => order_params[:direction]
+      "id" => order_params[:direction],
     })
   end
 
@@ -71,18 +71,18 @@ class OrderedQueryBase
   end
 
   def set_liked_scope_ids
-    @liked_scope_ids = order_like_class_records.pluck(:"#{like_class_foreign_key}")
+    @liked_scope_ids = order_like_class_records.pluck(:"#{set_like_class_foreign_key}")
   end
 
   def order_like_class_records
-    group_like_class_records.order("count(#{like_class_foreign_key}) desc")
+    group_like_class_records.order(Arel.sql("count(#{like_class_foreign_key}) desc"))
   end
 
   def group_like_class_records
     like_class.constantize.group(:"#{like_class_foreign_key}")
   end
 
-  def like_class_foreign_key
+  def set_like_class_foreign_key
     @like_class_foreign_key = "#{scope.model.name.demodulize.downcase}_id"
   end
 

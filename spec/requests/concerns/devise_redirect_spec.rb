@@ -1,21 +1,22 @@
 require 'rails_helper'
 
-class DummyController < DeviseController
-  include DeviseRedirect
-
-  attr_reader :resource, :scope_name
-
-  def initialize(resource: nil, scope_name: nil)
-    @resource = resource
-    @scope_name = scope_name
-  end
-end
-
 RSpec.describe "DeviseRedirect", :type => :request do
   let(:admin) { create(:admin) }
   let(:other) { double("other") }
 
   before do
+    dummy_controller = Class.new(DeviseController) do
+      include DeviseRedirect
+
+      attr_reader :resource, :scope_name
+
+      def initialize(resource: nil, scope_name: nil)
+        @resource = resource
+        @scope_name = scope_name
+      end
+      stub_const("DummyController", dummy_controller)
+    end
+
     def return_path(path)
       Rails.application.routes.url_helpers.send(path)
     end

@@ -6,11 +6,12 @@ RSpec.describe RankedForSpecificPeriodQuery, type: :model do
     Spot.all
   end
   let(:child_class_instance) { ChildClass.new(arguments) }
+  let(:child_class) { Class.new(RankedForSpecificPeriodQuery) }
   let(:arguments) { { scope: scope, parent_record: nil, like_class: "SpotFavorite", date: "days", number: number } }
   let!(:number) { stub_const("RankedForSpecificPeriodQuery::PERIOD_NUMBER", 1) }
   let!(:rank_num) { stub_const("RankedForSpecificPeriodQuery::RANKING_NUMBER", 2) }
 
-  before(:all) { ChildClass = Class.new(RankedForSpecificPeriodQuery) }
+  before { stub_const("ChildClass", child_class) }
 
   describe "#call" do
     let(:ranked_scope) { instance_double("scope") }
@@ -18,13 +19,13 @@ RSpec.describe RankedForSpecificPeriodQuery, type: :model do
     subject(:return_value) { ChildClass.call(arguments) }
 
     before do
-      allow(ChildClass).to receive(:new).and_return(child_class_instance)
+      allow(child_class).to receive(:new).and_return(child_class_instance)
       allow(child_class_instance).to receive(:set_ranked_scope_for_specific_period).and_return(ranked_scope)
       subject
     end
 
     it "引数を渡して、ChildClassをレシーバーにnewメソッドを呼び出す" do
-      expect(ChildClass).to have_received(:new).once.with(arguments)
+      expect(child_class).to have_received(:new).once.with(arguments)
     end
 
     it "ChildClassのインスタンスをレシーバーに、set_ranked_scope_for_specific_periodメソッドを呼び出す" do
@@ -100,7 +101,7 @@ RSpec.describe RankedForSpecificPeriodQuery, type: :model do
     end
 
     it "指定の引数を渡して、CreatedInSpecificPeriodQueryクラスを呼び出す" do
-      expect(CreatedInSpecificPeriodQuery).to have_received(:call).with(scope: SpotFavorite.all, date: "days", number: (number + number + 1))
+      expect(CreatedInSpecificPeriodQuery).to have_received(:call).with(scope: SpotFavorite.all, date: "days", number: (number + (number + 1))
     end
   end
 end

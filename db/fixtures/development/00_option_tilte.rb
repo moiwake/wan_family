@@ -6,4 +6,3 @@ option_titles.each_with_index do |t, i|
     s.name = t
   end
 end
-

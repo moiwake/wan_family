@@ -7,9 +7,9 @@ RSpec.describe Spots::FavoriteByUserQuery, type: :model do
   let(:user) { create(:user) }
 
   describe "#call" do
-    let(:spot_favorites) { instance_double("spot") }
-
     subject(:return_value) { Spots::FavoriteByUserQuery.call(arguments) }
+
+    let(:spot_favorites) { instance_double("spot") }
 
     before do
       allow(Spots::FavoriteByUserQuery).to receive(:new).and_return(class_instance)
@@ -31,10 +31,10 @@ RSpec.describe Spots::FavoriteByUserQuery, type: :model do
   end
 
   describe "#set_spot" do
+    subject(:return_value) { class_instance.set_spot }
+
     let(:spot_ids) { [spots[0], spots[2], spots[1]] }
     let(:searched_spot) { spots.where(id: spot_ids).order([Arel.sql("field(spots.id, ?)"), spot_ids]) }
-
-    subject(:return_value) { class_instance.set_spot }
 
     before do
       allow(class_instance).to receive(:set_spot_ids).and_return(spot_ids)
@@ -61,10 +61,10 @@ RSpec.describe Spots::FavoriteByUserQuery, type: :model do
   end
 
   describe "#order_favorites" do
+    subject(:return_value) { class_instance.send(:order_favorites) }
+
     let(:ordered_spot_favorites) { user.spot_favorites.order(created_at: :desc) }
     let(:another_user) { create(:user) }
-
-    subject(:return_value) { class_instance.send(:order_favorites) }
 
     before do
       create_list(:spot_favorite, 3, user: user)

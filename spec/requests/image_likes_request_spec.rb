@@ -10,9 +10,9 @@ RSpec.describe "ImageLikes", type: :request do
   before { sign_in user }
 
   describe "POST /create" do
-    let(:new_like_image) { ImageLike.last }
-
     subject { post spot_image_image_likes_path(spot, image), params: { image_blob_id: image_blob.id }, xhr: true }
+
+    let(:new_like_image) { ImageLike.last }
 
     it "画像にいいねを登録できる" do
       expect { subject }.to change { ImageLike.count }.by(1)
@@ -25,9 +25,9 @@ RSpec.describe "ImageLikes", type: :request do
   end
 
   describe "DELETE /destroy" do
-    let!(:image_like) { create(:image_like, user: user, image: image, blob_id: image_blob.id) }
-
     subject { delete spot_image_image_like_path(spot, image, image_like), params: { image_blob_id: image_blob.id }, xhr: true }
+
+    let!(:image_like) { create(:image_like, user: user, image: image, blob_id: image_blob.id) }
 
     it "画像のいいねを削除できる" do
       expect { subject }.to change { ImageLike.count }.by(-1)

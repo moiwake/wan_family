@@ -81,7 +81,14 @@ RSpec.describe ReviewHelpfulnessHelper, type: :helper do
 
         context "引数のReviewHelpnessレコードが存在して、かつDBに保存済みであるとき" do
           let(:review_helpfulness) { create(:review_helpfulness, user: user, review: review_by_another) }
-          let(:expected_hash) { { href: spot_review_review_helpfulness_path(spot, review_by_another, review_helpfulness), method: :delete, class: "review-helpfulness-remove-btn", remote: true } }
+          let(:expected_hash) do
+            {
+              href: spot_review_review_helpfulness_path(spot, review_by_another, review_helpfulness),
+              method: :delete,
+              class: "review-helpfulness-remove-btn",
+              remote: true,
+            }
+          end
 
           it "指定のハッシュを返す" do
             expect(helper.review_helpfulness_btn_path(review_by_another, review_helpfulness)).to eq(expected_hash)
@@ -89,7 +96,14 @@ RSpec.describe ReviewHelpfulnessHelper, type: :helper do
         end
 
         context "引数のReviewHelpnessレコードが存在しないとき" do
-          let(:expected_hash) { { href: spot_review_review_helpfulnesses_path(spot, review_by_another), method: :post, class: "review-helpfulness-add-btn", remote: true } }
+          let(:expected_hash) do
+            {
+              href: spot_review_review_helpfulnesses_path(spot, review_by_another),
+              method: :post,
+              class: "review-helpfulness-add-btn",
+              remote: true,
+            }
+          end
 
           it "指定のハッシュを返す" do
             expect(helper.review_helpfulness_btn_path(review_by_another, nil)).to eq(expected_hash)
@@ -98,7 +112,14 @@ RSpec.describe ReviewHelpfulnessHelper, type: :helper do
 
         context "引数のReviewHelpnessレコードがDBされていないとき" do
           let(:review_helpfulness) { create(:review_helpfulness, user: user, review: review_by_another) }
-          let(:expected_hash) { { href: spot_review_review_helpfulnesses_path(spot, review_by_another), method: :post, class: "review-helpfulness-add-btn", remote: true } }
+          let(:expected_hash) do
+            {
+              href: spot_review_review_helpfulnesses_path(spot, review_by_another),
+              method: :post,
+              class: "review-helpfulness-add-btn",
+              remote: true,
+            }
+          end
 
           before { review_helpfulness.destroy }
 

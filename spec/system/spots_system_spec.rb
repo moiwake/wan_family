@@ -106,7 +106,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
         let(:new_rules) { new_spot.rules }
 
         it "スポットを登録できる" do
-          expect { click_button "入力した内容で登録する"}.to change { Spot.count }.by(1)
+          expect { click_button "入力した内容で登録する" }.to change { Spot.count }.by(1)
           expect(new_spot.name).to eq(spot.name)
           expect(new_spot.latitude).to eq(spot.latitude)
           expect(new_spot.longitude).to eq(spot.longitude)
@@ -118,7 +118,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
         end
 
         it "スポットに紐づく同伴ルールを登録できる" do
-          expect { click_button "入力した内容で登録する"}.to change { Rule.count }.by(RuleOption.count)
+          expect { click_button "入力した内容で登録する" }.to change { Rule.count }.by(RuleOption.count)
           expect(new_rules.find_by(rule_option_id: rule_options[0].id).answer).to eq("1")
           expect(new_rules.find_by(rule_option_id: rule_options[1].id).answer).to eq("0")
         end
@@ -170,7 +170,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
         expect(page).to have_content(spot.address)
         expect(page).to have_content(spot.category.name)
         expect(page).to have_content(spot.allowed_area.area)
-        expect(page).to have_content(I18n.l spot.updated_at, format: :short)
+        expect(page).to have_content(I18n.l(spot.updated_at, format: :short))
         expect(find(".favorite-count")).to have_content(spot.spot_favorites.size)
         expect(find(".review-count")).to have_content(spot.reviews.size)
         expect(all(".rating-score")[0]).to have_content(spot.reviews.average(:dog_score).round(1))
@@ -245,12 +245,12 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
           within(all(".review-content")[i]) do
             expect(page).to have_content(review.user.name)
             expect(find(".review-header").find("img")[:src]).to include("noavatar-human")
-            expect(page).to have_content(I18n.l review.visit_date, format: :short)
+            expect(page).to have_content(I18n.l(review.visit_date, format: :short))
             expect(page).to have_content(review.title)
             expect(page).to have_content(review.comment)
             expect(page).to have_content(review.dog_score)
             expect(page).to have_content(review.human_score)
-            expect(page).to have_content(I18n.l review.created_at, format: :short)
+            expect(page).to have_content(I18n.l(review.created_at, format: :short))
 
             within(".dog-rating") do
               expect(all(".js-colored").length).to eq(review.dog_score)
@@ -449,7 +449,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
 
       describe "更新の完了" do
         it "スポットを更新できる" do
-          expect { click_button "更新を完了する"}.to change { Spot.count }.by(0)
+          expect { click_button "更新を完了する" }.to change { Spot.count }.by(0)
           spot.reload
           expect(spot.name).to eq(updated_spot.name)
           expect(spot.latitude).to eq(updated_spot.latitude)
@@ -462,7 +462,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
         end
 
         it "スポットに紐づく同伴ルールを更新できる" do
-          expect { click_button "更新を完了する"}.to change { Rule.count }.by(0)
+          expect { click_button "更新を完了する" }.to change { Rule.count }.by(0)
           spot.reload
           expect(spot.rules.find_by(rule_option_id: rule_options[1].id).answer).to eq("1")
           expect(spot.rules.find_by(rule_option_id: rule_options[0].id).answer).to eq("0")

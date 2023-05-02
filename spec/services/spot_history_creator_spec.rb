@@ -13,7 +13,7 @@ RSpec.describe SpotHistoryCreator, type: :model do
     end
 
     it "引数の値を渡してnewメソッドを呼び出す" do
-      expect(SpotHistoryCreator).to have_received(:new).once.with({ spot: spot, user: user, history: "履歴"})
+      expect(SpotHistoryCreator).to have_received(:new).once.with({ spot: spot, user: user, history: "履歴" })
     end
 
     it "SpotHistoryCreatorのインスタンスに対して、create_spot_historiesメソッドを呼び出す" do

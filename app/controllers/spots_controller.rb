@@ -16,16 +16,15 @@ class SpotsController < ApplicationController
       set_attached_rule_opt_ids(@spot_register_form.spot)
       render "new"
     end
-
   rescue ActionController::ParameterMissing
     redirect_to back_new_spots_path
   end
 
   def back_new
-		@spot_register_form = SpotRegisterForm.new(attributes: session[:params])
+    @spot_register_form = SpotRegisterForm.new(attributes: session[:params])
     set_attached_rule_opt_ids(@spot_register_form.spot)
-		render "new"
-	end
+    render "new"
+  end
 
   def create
     @spot_register_form = SpotRegisterForm.new(attributes: session[:params])
@@ -41,9 +40,9 @@ class SpotsController < ApplicationController
 
   def show
     @spot = Spot.find(params[:id])
-    @reviews = Reviews::RankedQuery.call(parent_record: @spot, rank_num: 3)
-              .eager_load(user: :human_avatar_attachment, image: :files_blobs)
-              .preload(:review_helpfulnesses)
+    @reviews = Reviews::RankedQuery.call(parent_record: @spot, rank_num: 3).
+      eager_load(user: :human_avatar_attachment, image: :files_blobs).
+      preload(:review_helpfulnesses)
   end
 
   def edit
@@ -61,17 +60,16 @@ class SpotsController < ApplicationController
       set_attached_rule_opt_ids(@spot_register_form.spot)
       render "edit"
     end
-
   rescue ActionController::ParameterMissing
     redirect_to back_edit_spot_path(@spot)
   end
 
   def back_edit
     @spot = Spot.find(params[:id])
-		@spot_register_form = SpotRegisterForm.new(attributes: session[:params])
+    @spot_register_form = SpotRegisterForm.new(attributes: session[:params])
     set_attached_rule_opt_ids(@spot_register_form.spot)
-		render "edit"
-	end
+    render "edit"
+  end
 
   def update
     @spot = Spot.find(params[:id])

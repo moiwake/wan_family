@@ -107,13 +107,13 @@ RSpec.describe "Mypage", type: :request do
   end
 
   describe "PATCH /update" do
+    subject { patch users_mypage_profile_path, params: { user: updated_params } }
+
     let(:updated_params) { { introduction: "updated introduction", human_avatar: updated_human_avatar, dog_avatar: updated_dog_avatar } }
     let(:updated_human_avatar) { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'images', 'test3.png'), 'image/png') }
     let(:updated_dog_avatar) { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'images', 'test4.png'), 'image/png') }
     let(:updated_human_avatar_filename) { updated_human_avatar.original_filename }
     let(:updated_dog_avatar_filename) { updated_dog_avatar.original_filename }
-
-    subject { patch users_mypage_profile_path, params: { user: updated_params } }
 
     before { sign_in user }
 

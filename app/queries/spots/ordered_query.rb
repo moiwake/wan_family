@@ -16,9 +16,9 @@ module Spots
     end
 
     def order_asc_or_desc
-      ordered_scope_ids = SpotHistory
-                          .order(order_params[:by] => order_params[:direction], "id" => order_params[:direction])
-                          .pluck(:spot_id)
+      ordered_scope_ids = SpotHistory.
+        order(order_params[:by] => order_params[:direction], "id" => order_params[:direction]).
+        pluck(:spot_id)
       order_scope_by_ids(ordered_scope_ids)
     end
 
@@ -28,4 +28,3 @@ module Spots
     end
   end
 end
-

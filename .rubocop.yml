@@ -21,3 +21,7 @@ AllCops:
 # 日本語のコメントOK
 Style/AsciiComments:
   Enabled: false
+
+Rails/RenderInline:
+  Exclude:
+    - 'spec/system/application_system_spec.rb'

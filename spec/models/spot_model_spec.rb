@@ -158,4 +158,3 @@ RSpec.describe Spot, type: :model do
     end
   end
 end
-

@@ -9,7 +9,7 @@ class Image < ApplicationRecord
 
   validates :files, presence: true, blob: {
     content_type: ['image/png', 'image/jpg', 'image/jpeg'],
-    size_range: 1..(5.megabytes)
+    size_range: 1..(5.megabytes),
   }
 
   PER_PAGE = 100

@@ -39,6 +39,6 @@ class FormBase
     raise ActiveRecord::RecordInvalid if check_and_add_errors
     record.save!
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
-    return false
+    false
   end
 end

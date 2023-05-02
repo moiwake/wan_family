@@ -18,4 +18,3 @@ RSpec.describe "Images", type: :request do
     it_behaves_like "returns http success"
   end
 end
-

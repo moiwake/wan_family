@@ -19,7 +19,7 @@ class Spot < ApplicationRecord
   belongs_to :prefecture
 
   validates :official_site, format: {
-    with:    /\A#{URI::regexp(%w(http https))}\z/,
-    message: "URLは「http:」もしくは「https:」から始めてください"
+    with: /\A#{URI.regexp(%w(http https))}\z/,
+    message: "URLは「http:」もしくは「https:」から始めてください",
   }, allow_blank: true
 end

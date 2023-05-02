@@ -88,9 +88,9 @@ RSpec.describe "Reviews", type: :request do
     end
 
     context "送信されたレビューのパラメータが不正なとき" do
-      let(:params) { { review_attributes: attributes_for(:review, :invalid) } }
-
       subject { post spot_reviews_path(spot.id), params: { review_poster_form: params } }
+
+      let(:params) { { review_attributes: attributes_for(:review, :invalid) } }
 
       it "Reviewレコードを保存できない" do
         expect { subject }.to change { Review.count }.by(0)
@@ -112,9 +112,9 @@ RSpec.describe "Reviews", type: :request do
     end
 
     context "送信されたイメージのパラメータが不正なとき" do
-      let(:params) { { image_attributes: attributes_for(:image, files: nil) } }
-
       subject { post spot_reviews_path(spot), params: { review_poster_form: params } }
+
+      let(:params) { { image_attributes: attributes_for(:image, files: nil) } }
 
       it "Reviewレコードを保存できない" do
         expect { subject }.to change { Review.count }.by(0)
@@ -174,9 +174,9 @@ RSpec.describe "Reviews", type: :request do
     end
 
     context "送信されたレビューのパラメータが不正なとき" do
-      let(:updated_params) { { review_attributes: attributes_for(:review, :invalid), image_attributes: updated_image_params } }
-
       subject { patch spot_review_path(review.spot, review), params: { review_poster_form: updated_params } }
+
+      let(:updated_params) { { review_attributes: attributes_for(:review, :invalid), image_attributes: updated_image_params } }
 
       it "Reviewレコードを更新できない" do
         review.reload
@@ -209,10 +209,10 @@ RSpec.describe "Reviews", type: :request do
     end
 
     context "送信されたイメージのパラメータが不正なとき" do
+      subject { patch spot_review_path(review.spot, review), params: { review_poster_form: params } }
+
       let(:added_file) { [fixture_file_upload(Rails.root.join('spec', 'fixtures', added_invalid_filename), 'text/txt')] }
       let(:added_invalid_filename) { 'test.txt' }
-
-      subject { patch spot_review_path(review.spot, review), params: { review_poster_form: params } }
 
       it "Reviewレコードを更新できない" do
         review.reload
@@ -258,4 +258,3 @@ RSpec.describe "Reviews", type: :request do
     it_behaves_like "returns 302 http status code"
   end
 end
-

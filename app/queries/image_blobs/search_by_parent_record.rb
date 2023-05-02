@@ -15,7 +15,7 @@ module ImageBlobs::SearchByParentRecord
 
   def set_blobs_associated_with_images
     parent_record.reduce(ActiveStorage::Blob.none) do |image_blobs, image|
-      image_blobs = image_blobs.or(image.files_blobs)
+      image_blobs.or(image.files_blobs)
     end
   end
 end

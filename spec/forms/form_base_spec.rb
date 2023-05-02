@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe FormBase, type: :model do
   let(:child_class_instance) { ChildClass.new }
 
-  before(:all) do
-    class ChildClass < FormBase
+  before do
+    child_class = Class.new(FormBase) do
       attr_accessor :spot
 
       def initialize(attributes: nil, spot: Spot.new)
@@ -12,6 +12,7 @@ RSpec.describe FormBase, type: :model do
         super(attributes: attributes, record: spot)
       end
     end
+    stub_const("ChildClass", child_class)
   end
 
   describe "#initialize" do

@@ -9,9 +9,9 @@ RSpec.describe "ReviewHelpfulnesses", type: :request do
   before { sign_in user }
 
   describe "POST /create" do
-    let(:new_review_helpfulness) { ReviewHelpfulness.last }
-
     subject { post spot_review_review_helpfulnesses_path(spot, review), xhr: true }
+
+    let(:new_review_helpfulness) { ReviewHelpfulness.last }
 
     it "画像にいいねを登録できる" do
       expect { subject }.to change { ReviewHelpfulness.count }.by(1)
@@ -23,9 +23,9 @@ RSpec.describe "ReviewHelpfulnesses", type: :request do
   end
 
   describe "DELETE /destroy" do
-    let!(:review_helpfulness) { create(:review_helpfulness, user: user, review: review) }
-
     subject { delete spot_review_review_helpfulness_path(spot, review, review_helpfulness), xhr: true }
+
+    let!(:review_helpfulness) { create(:review_helpfulness, user: user, review: review) }
 
     it "画像のいいねを削除できる" do
       expect { subject }.to change { ReviewHelpfulness.count }.by(-1)

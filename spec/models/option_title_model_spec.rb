@@ -50,4 +50,3 @@ RSpec.describe OptionTitle, type: :model do
     end
   end
 end
-

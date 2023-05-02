@@ -9,7 +9,7 @@ module Spots
 
     def self.call(user:)
       @spot = new(user: user).set_spot
-      return @spot
+      @spot
     end
 
     def set_spot
