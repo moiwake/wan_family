@@ -209,14 +209,15 @@ RSpec.describe "TopSystemSpecs", type: :system do
         end
 
         describe "画像の拡大表示" do
+          let(:targer_image_blob) { images.last.files_blobs.last}
+
           before { visit root_path }
 
           it "画像を拡大表示できる", js: true do
             within(".image-like-list-wrap") do
-              sleep 0.1
-              all("img")[0].click
+              find("#image_blob_#{targer_image_blob.id}").click
               expect(page).to have_selector("#js-enlarged-image")
-              expect(find("#js-enlarged-image")[:src]).to include(blobs.last.filename.to_s)
+              expect(find("#js-enlarged-image")[:src]).to include(targer_image_blob.filename.to_s)
             end
           end
         end

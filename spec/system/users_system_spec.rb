@@ -675,14 +675,11 @@ RSpec.describe "UsersSystemSpecs", type: :system do
       describe "レビューの表示サイズ", js: true do
         context "レビューを表示する要素の高さが600px超のとき" do
           let(:height) { "400px" }
-          let!(:review) { create(:review, user: login_user) }
-          let!(:image) { create(:image, files: files, review: review, user: login_user) }
-          let(:files) { filenames.map { |filename| fixture_file_upload(Rails.root.join('spec', 'fixtures', 'images', filename), 'image/png') } }
-          let(:filenames) { ["test1.png", "test2.png", "test3.png", "test4.png", "test5.png", "test6.png"] }
+          let!(:review) { create(:review, user: login_user, comment: "長いコメント" * 10) }
 
           before { visit users_mypage_review_index_path }
 
-          include_context "resize_browser_size", 300, 1000
+          include_context "resize_browser_size", 100, 1000
 
           it "要素の高さが指定の高さになる" do
             expect(all(".js-card")[0].style("height")["height"]).to eq(height)
@@ -975,7 +972,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
     describe "新規登録", js: true do
       before do
         visit root_path
-        resize_browser_size(1500)
+        resize_browser_size(width: 1500)
         click_link "新規登録"
         fill_in "user[name]", with: new_user.name
         fill_in "user[email]", with: new_user.email

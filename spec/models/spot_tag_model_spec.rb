@@ -69,7 +69,7 @@ RSpec.describe SpotTag, type: :model do
 
     describe "scope#get_tags_user_put_on_spot" do
       let!(:spot) { create(:spot) }
-      let(:spot_tags) { SpotTag.where(user_id: user.id, spot_id: spot.id).order(updated_at: :desc, created_at: :desc) }
+      let(:spot_tags) { SpotTag.where(user_id: user.id, spot_id: spot.id).order(updated_at: :desc, created_at: :desc, id: :desc) }
 
       before { create_list(:spot_tag, 2, user: user, spot: spot) }
 

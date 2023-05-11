@@ -5,16 +5,16 @@ RSpec.describe OrderedQueryBase, type: :model do
     create_list(:review, 3)
     Review.all
   end
-  let(:child_class_instance) { ChildClass.new(arguments) }
-  let(:child_class) { Class.new(OrderedQueryBase) }
-  let(:arguments) { { scope: scope, parent_record: parent_record, order_params: order_params, like_class: "ReviewHelpfulness" } }
   let(:parent_record) { nil }
   let(:order_params) { {} }
+  let(:like_class) { "ReviewHelpfulness" }
+  let(:child_class_instance) { ChildClass.new(scope: scope, parent_record: parent_record, order_params: order_params, like_class: like_class) }
+  let(:child_class) { Class.new(OrderedQueryBase) }
 
   before { stub_const("ChildClass", child_class) }
 
   describe "#call" do
-    subject(:return_value) { ChildClass.call(arguments) }
+    subject(:return_value) { ChildClass.call(scope: scope, parent_record: parent_record, order_params: order_params, like_class: like_class) }
 
     let(:ordered_scope) { instance_double("scope") }
 
@@ -25,7 +25,7 @@ RSpec.describe OrderedQueryBase, type: :model do
     end
 
     it "引数を渡して、ChildClassをレシーバーにnewメソッドを呼び出す" do
-      expect(ChildClass).to have_received(:new).once.with(arguments)
+      expect(ChildClass).to have_received(:new).once.with(scope: scope, parent_record: parent_record, order_params: order_params, like_class: like_class)
     end
 
     it "ChildClassのインスタンスをレシーバーに、set_ordered_scopeメソッドを呼び出す" do
@@ -133,7 +133,7 @@ RSpec.describe OrderedQueryBase, type: :model do
 
       context "scopeのレコードの属性にupdated_atカラムが含まれていれば" do
         let(:scope) { create(:image, :attached).files_blobs }
-        let(:arguments) { { scope: scope, parent_record: nil, order_params: order_params, like_class: "ImageLike" } }
+        let(:like_class) { "ImageLike" }
         let(:ordered_scope) { scope.order(created_at: :desc, id: :desc) }
 
         it "レシーバーのレコード群を、created_atカラム、idカラムの降順に並び替える" do

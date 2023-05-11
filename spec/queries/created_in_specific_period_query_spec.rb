@@ -5,11 +5,13 @@ RSpec.describe CreatedInSpecificPeriodQuery, type: :model do
     create_list(:spot_favorite, 3)
     SpotFavorite.all
   end
-  let(:class_instance) { CreatedInSpecificPeriodQuery.new(arguments) }
-  let(:arguments) { { scope: scope, date: "days", number: 6 } }
+  let!(:date) { "days" }
+  let!(:number) { 6 }
+  let(:class_instance) { CreatedInSpecificPeriodQuery.new(scope: scope, date: date, number: number) }
+
 
   describe "#call" do
-    subject(:return_value) { CreatedInSpecificPeriodQuery.call(arguments) }
+    subject(:return_value) { CreatedInSpecificPeriodQuery.call(scope: scope, date: date, number: number) }
 
     let(:searched_scope) { instance_double("scope") }
 
@@ -20,7 +22,7 @@ RSpec.describe CreatedInSpecificPeriodQuery, type: :model do
     end
 
     it "引数を渡して、CreatedInSpecificPeriodQueryクラスをレシーバーにnewメソッドを呼び出す" do
-      expect(CreatedInSpecificPeriodQuery).to have_received(:new).once.with(arguments)
+      expect(CreatedInSpecificPeriodQuery).to have_received(:new).once.with(scope: scope, date: date, number: number)
     end
 
     it "CreatedInSpecificPeriodQueryのインスタンスをレシーバーに、for_specific_periodメソッドを呼び出す" do
@@ -35,10 +37,11 @@ RSpec.describe CreatedInSpecificPeriodQuery, type: :model do
   describe "#for_specific_period" do
     subject(:return_value) { class_instance.for_specific_period }
 
-    let(:from) { (Time.current - class_instance.number.send(class_instance.date)).at_beginning_of_day }
+    let(:to) { Time.current + 1 }
+    let(:from) { (to - class_instance.number.send(class_instance.date)).at_beginning_of_day }
 
     it "指定した時点から現在までに作成されたレコード群を返す" do
-      expect(return_value.ids).to eq(scope.where(created_at: from...Time.current).ids)
+      expect(return_value.ids).to eq(scope.where(created_at: from...to).ids)
     end
   end
 end

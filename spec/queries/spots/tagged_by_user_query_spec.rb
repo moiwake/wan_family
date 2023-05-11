@@ -2,13 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Spots::TaggedByUserQuery, type: :model do
   let!(:spots) { Spot.all }
-  let(:class_instance) { Spots::TaggedByUserQuery.new(arguments) }
-  let(:arguments) { { user: user, tag_params: tag_params } }
   let(:user) { create(:user) }
   let(:tag_params) { {} }
+  let(:class_instance) { Spots::TaggedByUserQuery.new(user: user, tag_params: tag_params) }
 
   describe "#call" do
-    subject(:return_value) { Spots::TaggedByUserQuery.call(arguments) }
+    subject(:return_value) { Spots::TaggedByUserQuery.call(user: user, tag_params: tag_params) }
 
     let(:spot_tags) { instance_double("spot") }
 
@@ -19,7 +18,7 @@ RSpec.describe Spots::TaggedByUserQuery, type: :model do
     end
 
     it "引数を渡して、Spots::FavoriteByUserQueryをレシーバーにnewメソッドを呼び出す" do
-      expect(Spots::TaggedByUserQuery).to have_received(:new).once.with(arguments)
+      expect(Spots::TaggedByUserQuery).to have_received(:new).once.with(user: user, tag_params: tag_params)
     end
 
     it "Spots::FavoriteByUserQueryのインスタンスをレシーバーに、set_spotメソッドを呼び出す" do

@@ -14,8 +14,9 @@ RSpec.describe "DeviseRedirect", :type => :request do
         @resource = resource
         @scope_name = scope_name
       end
-      stub_const("DummyController", dummy_controller)
     end
+
+    stub_const("DummyController", dummy_controller)
 
     def return_path(path)
       Rails.application.routes.url_helpers.send(path)

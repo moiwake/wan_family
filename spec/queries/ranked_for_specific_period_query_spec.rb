@@ -5,10 +5,13 @@ RSpec.describe RankedForSpecificPeriodQuery, type: :model do
     create_list(:spot, 3)
     Spot.all
   end
-  let(:child_class_instance) { ChildClass.new(arguments) }
-  let(:child_class) { Class.new(RankedForSpecificPeriodQuery) }
-  let(:arguments) { { scope: scope, parent_record: nil, like_class: "SpotFavorite", date: "days", number: number } }
+  let(:parent_record) { nil }
+  let(:order_params) { {} }
+  let(:like_class) { "SpotFavorite" }
+  let(:date) { "days" }
   let!(:number) { stub_const("RankedForSpecificPeriodQuery::PERIOD_NUMBER", 1) }
+  let(:child_class_instance) { ChildClass.new(scope: scope, parent_record: parent_record, like_class: like_class, date: date, number: number) }
+  let(:child_class) { Class.new(RankedForSpecificPeriodQuery) }
   let!(:rank_num) { stub_const("RankedForSpecificPeriodQuery::RANKING_NUMBER", 2) }
 
   before { stub_const("ChildClass", child_class) }
@@ -16,7 +19,7 @@ RSpec.describe RankedForSpecificPeriodQuery, type: :model do
   describe "#call" do
     let(:ranked_scope) { instance_double("scope") }
 
-    subject(:return_value) { ChildClass.call(arguments) }
+    subject(:return_value) { ChildClass.call(scope: scope, parent_record: parent_record, like_class: like_class, date: date, number: number) }
 
     before do
       allow(child_class).to receive(:new).and_return(child_class_instance)
@@ -25,7 +28,7 @@ RSpec.describe RankedForSpecificPeriodQuery, type: :model do
     end
 
     it "引数を渡して、ChildClassをレシーバーにnewメソッドを呼び出す" do
-      expect(child_class).to have_received(:new).once.with(arguments)
+      expect(child_class).to have_received(:new).once.with(scope: scope, parent_record: parent_record, like_class: like_class, date: date, number: number)
     end
 
     it "ChildClassのインスタンスをレシーバーに、set_ranked_scope_for_specific_periodメソッドを呼び出す" do
@@ -101,7 +104,7 @@ RSpec.describe RankedForSpecificPeriodQuery, type: :model do
     end
 
     it "指定の引数を渡して、CreatedInSpecificPeriodQueryクラスを呼び出す" do
-      expect(CreatedInSpecificPeriodQuery).to have_received(:call).with(scope: SpotFavorite.all, date: "days", number: (number + (number + 1))
+      expect(CreatedInSpecificPeriodQuery).to have_received(:call).with(scope: SpotFavorite.all, date: "days", number: (number + (number + 1)))
     end
   end
 end

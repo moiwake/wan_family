@@ -118,14 +118,11 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
     describe "レビューの表示サイズ", js: true do
       context "レビューを表示する要素の高さが600px超のとき" do
         let(:height) { "400px" }
-        let!(:review) { create(:review, spot: spot) }
-        let!(:image) { create(:image, files: files, review: review, spot: spot) }
-        let(:files) { filenames.map { |filename| fixture_file_upload(Rails.root.join('spec', 'fixtures', 'images', filename), 'image/png') } }
-        let(:filenames) { ["test1.png", "test2.png", "test3.png", "test4.png", "test5.png", "test6.png"] }
+        let!(:review) { create(:review, spot: spot, comment: "長いコメント" * 10) }
 
         before { visit spot_reviews_path(spot) }
 
-        include_context "resize_browser_size", 300, 1000
+        include_context "resize_browser_size", 100, 1000
 
         it "要素の高さが指定の高さになる" do
           expect(all(".js-card")[0].style("height")["height"]).to eq(height)
