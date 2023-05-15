@@ -61,7 +61,7 @@ dummy_spots = [
   },
   {
     name: "ワンシネマ",
-    latiude: 35.168739,
+    latitude: 35.168739,
     longitude: 136.872940,
     address: "愛知県名古屋市中村区",
     official_site: "https://www.wancinema",
@@ -81,7 +81,7 @@ dummy_spots = [
   },
   {
     name: "ドッグロッジ",
-    lattude: 33.945057,
+    latitude: 33.945057,
     longitude: 133.281815,
     address: "愛媛県新居浜市滝の宮町",
     official_site: "https://www.",

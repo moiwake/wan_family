@@ -16,8 +16,9 @@ dummmy_filename_ary.each_with_index do |filenames, i|
   filenames.each do |filename|
     unless ActiveStorage::Blob.where(filename: "#{filename}.jpg").any?
       blob_ary << {
-        io: File.open(Rails.root.join("db/fixtures/development/images/#{i}/#{filename}.jpg")),
+        io: File.open(Rails.root.join("db/fixtures/production/images/#{i}/#{filename}.jpg")),
         filename: "#{filename}.jpg",
+        metadata: { identified: true, width: 1500, height: 1096, analyzed: true },
       }
     end
   end
