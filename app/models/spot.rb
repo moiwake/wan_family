@@ -22,4 +22,12 @@ class Spot < ApplicationRecord
     with: /\A#{URI.regexp(%w(http https))}\z/,
     message: "URLは「http:」もしくは「https:」から始めてください",
   }, allow_blank: true
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["address", "allowed_area_id", "category_id", "id", "latitude", "longitude", "name", "prefecture_id"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["allowed_area", "category", "prefecture"]
+  end
 end

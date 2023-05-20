@@ -22,6 +22,12 @@ AllCops:
 Style/AsciiComments:
   Enabled: false
 
+# render inlineの使用でエラーが出る
 Rails/RenderInline:
   Exclude:
     - 'spec/system/application_system_spec.rb'
+
+# ransackのメソッドを呼び出しているため、変更するとエラーになる
+Airbnb/OptArgParameters:
+  Exclude:
+    - 'app/models/spot.rb'
