@@ -71,7 +71,8 @@ class OrderedQueryBase
   end
 
   def set_liked_scope_ids
-    @liked_scope_ids = order_like_class_records.pluck(:"#{set_like_class_foreign_key}")
+    set_like_class_foreign_key
+    @liked_scope_ids = order_like_class_records.pluck(:"#{like_class_foreign_key}")
   end
 
   def order_like_class_records
