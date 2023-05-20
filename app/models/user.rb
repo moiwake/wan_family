@@ -23,7 +23,7 @@ class User < ApplicationRecord
     size_range: 1..(5.megabytes),
   }, on: :update
 
-  PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i.freeze
+  PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i
   validates :password, format: {
     with: PASSWORD_REGEX,
     message: 'は英字と数字の両方を含めて設定してください', if: :password_required?,

@@ -33,12 +33,14 @@ RSpec.describe "Top", type: :request do
 
     describe "詳細検索" do
       let(:search_params) do
-        { "and" => {
-          "name_or_address_cont" => name_or_address_word,
-          "category_id_matches_any" => category_ids,
-          "allowed_area_id_matches_any" => allowed_area_ids,
-          "prefecture_id_eq" => prefecture_id,
-        } }
+        {
+          "and" => {
+            "name_or_address_cont" => name_or_address_word,
+            "category_id_matches_any" => category_ids,
+            "allowed_area_id_matches_any" => allowed_area_ids,
+            "prefecture_id_eq" => prefecture_id,
+          },
+        }
       end
       let(:name_or_address_word) { "" }
       let(:category_ids) { [""] }
