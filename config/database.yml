@@ -27,6 +27,7 @@ development:
 test:
   <<: *default
   database: wan_family_test
+  host: <%= ENV.fetch("APP_DATABASE_HOST") { 'DB' } %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -50,6 +51,4 @@ test:
 #
 production:
   <<: *default
-  database: wan_family_production
-  username: wan_family
-  password: <%= ENV['WAN_FAMILY_DATABASE_PASSWORD'] %>
+  url: <%= ENV['JAWSDB_URL']&.sub('mysql://', 'mysql2://') %>
