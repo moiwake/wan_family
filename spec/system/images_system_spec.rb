@@ -165,7 +165,7 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
 
         shared_examples "enlarge_specified_image" do
           it "指定した画像が拡大表示される" do
-            sleep 0.2
+            sleep 1
             find("a[href$='#{displayed_file.id}']").click
             btn.click
 

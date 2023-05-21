@@ -9,13 +9,13 @@ class SpotTag < ApplicationRecord
 
   scope :get_tag_names_user_created, -> (user_id:) {
     where(user_id: user_id).
-      order(updated_at: :desc, created_at: :desc).
+      order(updated_at: :desc, created_at: :desc, id: :desc).
       pluck(:name).
       uniq
   }
 
   scope :get_tags_user_put_on_spot, -> (user_id:, spot_id:) {
     where(user_id: user_id, spot_id: spot_id).
-      order(updated_at: :desc, created_at: :desc)
+      order(updated_at: :desc, created_at: :desc, id: :desc)
   }
 end

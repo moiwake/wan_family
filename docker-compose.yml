@@ -10,6 +10,9 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     networks:
       - default
     ports:
@@ -30,7 +33,6 @@ services:
       APP_NAME: Wan Family
       WEB_PROTOCOL: http
       WEB_HOST: localhost:3000
-      CAPYBARA_SERVER_HOST: web
     depends_on:
       - mysql
     volumes:

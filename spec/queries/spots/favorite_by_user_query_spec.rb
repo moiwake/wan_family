@@ -62,7 +62,7 @@ RSpec.describe Spots::FavoriteByUserQuery, type: :model do
   describe "#order_favorites" do
     subject(:return_value) { class_instance.send(:order_favorites) }
 
-    let(:ordered_spot_favorites) { user.spot_favorites.order(created_at: :desc) }
+    let(:ordered_spot_favorites) { user.spot_favorites.order(created_at: :desc, id: :desc) }
     let(:another_user) { create(:user) }
 
     before do

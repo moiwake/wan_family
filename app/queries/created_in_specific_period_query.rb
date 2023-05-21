@@ -13,7 +13,7 @@ class CreatedInSpecificPeriodQuery
   end
 
   def for_specific_period
-    to = Time.current
+    to = Time.current + 1
     from = (to - number.send(date)).at_beginning_of_day
     scope.where(created_at: from...to)
   end

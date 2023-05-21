@@ -58,7 +58,7 @@ Rails.application.configure do
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
 
-  config.action_mailer.default_url_options = { host: ENV["CAPYBARA_SERVER_HOST"] }
+  config.action_mailer.default_url_options = { host: IPSocket.getaddress(Socket.gethostname) }
 
   config.active_job.queue_adapter = :inline
 end

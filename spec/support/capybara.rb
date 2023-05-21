@@ -2,8 +2,7 @@ require 'webdrivers/chromedriver'
 
 Capybara.default_driver = :rack_test
 Capybara.javascript_driver = :remote_chrome
-Capybara.server_host = "web"
-Capybara.server_port = 3001
+Capybara.server_host = IPSocket.getaddress(Socket.gethostname)
 Capybara.default_max_wait_time = 5
 Capybara.ignore_hidden_elements = true
 
@@ -20,7 +19,7 @@ Capybara.register_driver :remote_chrome do |app|
     ],
   }
 
-  # url = "http://chrome:4444/wd/hub"
+  url = "http://chrome:4444/wd/hub"
 
   driver_opts = {
     browser: :remote,

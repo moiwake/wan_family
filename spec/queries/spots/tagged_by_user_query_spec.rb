@@ -72,7 +72,7 @@ RSpec.describe Spots::TaggedByUserQuery, type: :model do
     end
 
     context "tag_paramsのハッシュに、tag_nameキーの値が存在するとき" do
-      let(:ordered_spot_tags) { user.spot_tags.where(name: "tag_name1").order(created_at: :desc) }
+      let(:ordered_spot_tags) { user.spot_tags.where(name: "tag_name1").order(created_at: :desc, id: :desc) }
       let(:tag_params) { { tag_name: "tag_name1" } }
 
       it "指定のユーザーが作成したSpotTagレコードのうち、nameカラムがtag_nameキーの値と一致するレコードを、作成日の降順に並べ替えて返す" do
@@ -81,7 +81,7 @@ RSpec.describe Spots::TaggedByUserQuery, type: :model do
     end
 
     context "tag_paramsのハッシュに、tag_nameキーの値が存在しないとき" do
-      let(:ordered_spot_tags) { user.spot_tags.order(created_at: :desc) }
+      let(:ordered_spot_tags) { user.spot_tags.order(created_at: :desc, id: :desc) }
       let(:tag_params) { { tag_name: "" } }
 
       it "指定のユーザーが作成したSpotTagレコードを、作成日の降順に並べ替えて返す" do

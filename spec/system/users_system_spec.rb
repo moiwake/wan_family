@@ -264,7 +264,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
             let!(:spot_tags) do
               create_list(:spot_tag, 10, spot: spot, user: user)
               create_list(:spot_tag, 10, spot: spot, user: user)
-              SpotTag.order(created_at: :desc)
+              SpotTag.order(updated_at: :desc, created_at: :desc, id: :desc)
             end
 
             before do

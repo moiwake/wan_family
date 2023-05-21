@@ -18,7 +18,7 @@ RSpec.describe "TopSystemSpecs", type: :system do
           let(:ranked_index) { ordered_index }
 
           before do
-            create_list(:spot_favorite, 11, created_at: Date.today.last_year, spot: spots.last)
+            create_list(:spot_favorite, 11, created_at: Time.current.last_year, spot: spots.last)
 
             ordered_index.each_with_index do |index, i|
               create_list(:spot_favorite, (10 - i), spot: spots[index])
@@ -209,15 +209,15 @@ RSpec.describe "TopSystemSpecs", type: :system do
         end
 
         describe "画像の拡大表示" do
-          let(:targer_image_blob) { images.last.files_blobs.last}
+          let(:target_image_blob) { images.last.files_blobs.last }
 
           before { visit root_path }
 
           it "画像を拡大表示できる", js: true do
             within(".image-like-list-wrap") do
-              find("#image_blob_#{targer_image_blob.id}").click
+              find("#image_blob_#{target_image_blob.id}").click
               expect(page).to have_selector("#js-enlarged-image")
-              expect(find("#js-enlarged-image")[:src]).to include(targer_image_blob.filename.to_s)
+              expect(find("#js-enlarged-image")[:src]).to include(target_image_blob.filename.to_s)
             end
           end
         end

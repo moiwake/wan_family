@@ -9,7 +9,6 @@ RSpec.describe CreatedInSpecificPeriodQuery, type: :model do
   let!(:number) { 6 }
   let(:class_instance) { CreatedInSpecificPeriodQuery.new(scope: scope, date: date, number: number) }
 
-
   describe "#call" do
     subject(:return_value) { CreatedInSpecificPeriodQuery.call(scope: scope, date: date, number: number) }
 
