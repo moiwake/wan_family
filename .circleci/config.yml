@@ -64,12 +64,9 @@ jobs:
       - run:
           name: Create and set up new apps if needed
           command: |
-            echo "$CREATED_APP_NAME"
             if [ "$HEROKU_APP_NAME" != "$CREATED_APP_NAME" ]; then \
               heroku apps:create $HEROKU_APP_NAME --addons=jawsdb:kitefin; \
               heroku config:set RAILS_MASTER_KEY=$RAILS_MASTER_KEY -a $HEROKU_APP_NAME; \
-              heroku buildpacks:set heroku/ruby -a $HEROKU_APP_NAME; \
-              heroku buildpacks:add --index 1 heroku/nodejs -a $HEROKU_APP_NAME; \
             fi
       - run:
           name: Deploy
