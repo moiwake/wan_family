@@ -48,14 +48,6 @@
   font-weight: 600;
 }
 
-#review_comment_input::-webkit-input-placeholder {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  white-space: pre-wrap;
-  padding: 5px;
-}
-
 .visit-date-input {
   border: 1px solid #bebebe;
   border-radius: 6px;

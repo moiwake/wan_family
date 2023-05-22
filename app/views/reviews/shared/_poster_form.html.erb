@@ -14,7 +14,8 @@
       </div>
       <div class="field">
         <%= rf.label :title, "コメント", class: "required" %>
-        <%= rf.text_field :comment, id: :review_comment_input, class: "textarea", placeholder: "行ってみた感想、ワンちゃんたちの様子、ワンちゃんたちを連れて行くときの注意点などをご記入ください。" %>
+        <span class="guide-comment">※感想、ワンちゃんたちの様子、ワンちゃんたちを連れて行くときの注意点など</span>
+        <%= rf.text_field :comment, id: :review_comment_input, class: "textarea" %>
       </div>
       <div class="field">
         <%= rf.label :visit_date, "訪問した日", class: "required" %>
