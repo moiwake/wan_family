@@ -37,7 +37,7 @@ RSpec.describe "ApplicationSystemSpec", type: :system do
 
     describe "ロゴ" do
       it "トップページへのリンクになっている" do
-        expect(page).to have_link("Wan Family", href: root_path)
+        expect(find(".navbar-logo")).to have_link(href: root_path)
       end
     end
 

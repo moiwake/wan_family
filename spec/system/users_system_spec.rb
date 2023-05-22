@@ -751,8 +751,10 @@ RSpec.describe "UsersSystemSpecs", type: :system do
 
       shared_examples "displays_images_in_the_specified_order" do
         it "画像が指定した順序で表示される" do
-          ordered_filenames.each_with_index do |filename, i|
-            expect(page.all("img")[i][:src]).to include(filename)
+          within(".image-list-wrap") do
+            ordered_filenames.each_with_index do |filename, i|
+              expect(page.all("img")[i][:src]).to include(filename)
+            end
           end
         end
       end
@@ -847,8 +849,8 @@ RSpec.describe "UsersSystemSpecs", type: :system do
         let!(:dog_avatar_filename) { login_user.dog_avatar.filename.to_s }
 
         it "ユーザー・ペット画像が表示される" do
-          expect(all("img")[0][:src]).to include(human_avatar_filename)
-          expect(all("img")[1][:src]).to include(dog_avatar_filename)
+          expect(all(".profile-image")[0].find("img")[:src]).to include(human_avatar_filename)
+          expect(all(".profile-image")[1].find("img")[:src]).to include(dog_avatar_filename)
         end
       end
 
@@ -862,8 +864,8 @@ RSpec.describe "UsersSystemSpecs", type: :system do
         end
 
         it "未登録用の画像が表示される" do
-          expect(all("img")[0][:src]).to include("noavatar-human")
-          expect(all("img")[1][:src]).to include("noavatar-dog")
+          expect(all(".profile-image")[0].find("img")[:src]).to include("noavatar-human")
+          expect(all(".profile-image")[1].find("img")[:src]).to include("noavatar-dog")
         end
       end
 
@@ -886,8 +888,11 @@ RSpec.describe "UsersSystemSpecs", type: :system do
       it "プロフィールを編集できる" do
         expect(page).to have_content("プロフィールを変更しました。")
         expect(login_user.reload.introduction).to eq("updated introduction")
-        expect(all("img")[0][:src]).to include(human_avatar_filename)
-        expect(all("img")[1][:src]).to include(dog_avatar_filename)
+
+        within(".user-media-head") do
+          expect(all("img")[0][:src]).to include(human_avatar_filename)
+          expect(all("img")[1][:src]).to include(dog_avatar_filename)
+        end
       end
     end
   end

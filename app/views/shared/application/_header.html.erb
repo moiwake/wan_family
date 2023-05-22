@@ -3,7 +3,9 @@
     <div class="container">
       <div class="navbar-brand">
         <div class="navbar-logo navbar-item">
-          <%= link_to "Wan Family", root_path, title: "WanFamily[ワン・ファミリー] -ワンちゃん・ペットとのお出かけメディア-" %>
+          <%= link_to root_path, title: "WanFamily[ワン・ファミリー] -ワンちゃん・ペットとのお出かけメディア-" do %>
+            <%= image_tag "wan-family-logo.png" %>
+          <% end %>
         </div>
         <%= render "shared/application/header_search_form", q: q, categories: categories, allowed_areas: allowed_areas, regions: regions %>
         <span class="icon is-small is-left search-form-open-btn js-trigger-search-form-open-btn">

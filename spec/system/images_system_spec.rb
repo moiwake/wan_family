@@ -33,8 +33,10 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
     describe "画像の表示順序" do
       shared_examples "displays_images_in_the_specified_order" do
         it "画像が指定した順序で表示される" do
-          ordered_filenames.each_with_index do |filename, i|
-            expect(page.all("img")[i][:src]).to include(filename)
+          within(".image-list-wrap") do
+            ordered_filenames.each_with_index do |filename, i|
+              expect(page.all("img")[i][:src]).to include(filename)
+            end
           end
         end
       end

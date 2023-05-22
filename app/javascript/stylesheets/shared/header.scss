@@ -167,8 +167,7 @@
 }
 
 // ヘッダーロゴ
-.navbar-logo {
-  font-weight: 600;
-  font-family: monospace;
-  font-size: larger;
+.navbar-logo img {
+  width: 80px;
+  max-height: fit-content;
 }
