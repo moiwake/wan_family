@@ -2,7 +2,7 @@
 <div class="main-contents-wrap">
   <%= render "top/shared/search_form", q: @q, categories: @categories, allowed_areas: @allowed_areas, regions: @regions %>
   <%= render "top/shared/popular_spot_list", ranked_spots: @ranked_spots %>
-  <%= render "top/shared/area_search_links", regions: @regions %>
+  <%= render "top/shared/area_search_links", regions: @regions, image_show: true %>
   <%= render "top/shared/map_search_links", regions: @regions %>
   <section class="image-like-list-wrap">
     <h2 class="main-title title is-4">いいねをたくさんもらった子たちをご紹介</h2>
