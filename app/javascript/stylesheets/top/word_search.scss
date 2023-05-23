@@ -38,22 +38,24 @@
 }
 
 // 左サイド検索リンク
-@media screen and (max-width: 900px) {
+.side-contents-wrap {
+  margin-left: 1rem;
+  width: 180px;
+} @media screen and (max-width: 900px) {
   .side-contents-wrap {
     display: none;
   }
 }
 
+.side-contents-wrap .title span {
+  font-size: 1rem;
+}
+
+// エリアから探す
 .area-search-wrap {
-  width: 180px;
-  margin-left: 1rem;
   padding: 1rem;
   background-color: beige;
   border-radius: 8px;
-}
-
-.area-search-wrap .title span {
-  font-size: 1rem;
 }
 
 .area-search-wrap li {
@@ -66,4 +68,38 @@
 
 .area-search-wrap img {
   display: none;
+}
+
+// マップで探す
+.map-links-wrap {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: beige;
+  border-radius: 8px;
+}
+
+.map-links-box {
+  position: relative;
+  width: 100%;
+}
+
+.map-links-box ul {
+  width: 100%;
+  padding: 1rem;
+}
+
+.map-link-btn {
+  width: 5rem;
+  margin: 5px;
+  z-index: 10;
+}
+
+.map-links-box-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  object-fit: cover;
+  height: -webkit-fill-available;
+  width: 100%;
 }

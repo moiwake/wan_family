@@ -1,6 +1,7 @@
 <div class="container search-result-container">
   <div class="side-contents-wrap">
-    <%= render "top/shared/area_search_links", regions: @regions %>
+    <%= render "top/shared/area_search_links", regions: @regions, image_show: false %>
+    <%= render "top/shared/map_search_links", regions: @regions %>
   </div>
   <div class="main-contents-wrap">
     <section class="search-result-wrap">
