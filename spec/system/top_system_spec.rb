@@ -311,7 +311,7 @@ RSpec.describe "TopSystemSpecs", type: :system do
   end
 
   describe "スポットのキーワード・詳細検索結果ページ", js: true do
-    describe "検索結果ページの表示" do
+    describe "検索結果の表示" do
       let!(:spot) { create(:spot) }
       let!(:helpful_review) { create(:review, dog_score: 3, human_score: 4, spot: spot) }
       let(:blobs) { ActiveStorage::Blob.all }
@@ -417,6 +417,45 @@ RSpec.describe "TopSystemSpecs", type: :system do
         end
 
         it_behaves_like "displays_spots_in_the_specified_order"
+      end
+    end
+
+    describe "エリア検索のリンクの表示" do
+      let!(:regions) { create_list(:region, 2) }
+
+      before do
+        create_list(:spot, 2, prefecture: create(:prefecture, region: regions[0]))
+        create(:spot, prefecture: create(:prefecture, region: regions[1]))
+
+        visit root_path
+
+        within(".top-search-form-wrap") do
+          find(".search_btn").click
+        end
+      end
+
+      it "全ての地方名と、そこに所在地があるスポットの件数が表示される" do
+        expect(all(".region-card")[0]).to have_link(regions[0].name, href: word_search_path(q: { and: { prefecture_id_matches_any: regions[0].prefectures.ids } }))
+        expect(all(".region-name")[0]).to have_content(2)
+        expect(all(".region-card")[1]).to have_link(regions[1].name, href: word_search_path(q: { and: { prefecture_id_matches_any: regions[1].prefectures.ids } }))
+        expect(all(".region-name")[1]).to have_content(1)
+      end
+    end
+
+    describe "マップ検索のリンクの表示" do
+      let!(:regions) { create_list(:region, 2) }
+
+      before do
+        visit root_path
+
+        within(".top-search-form-wrap") do
+          find(".search_btn").click
+        end
+      end
+
+      it "全ての地方名が表示される" do
+        expect(all(".map-link-btn")[0]).to have_link(regions[0].name, href: map_search_path(region: regions[0].name_roma))
+        expect(all(".map-link-btn")[1]).to have_link(regions[1].name, href: map_search_path(region: regions[1].name_roma))
       end
     end
 
