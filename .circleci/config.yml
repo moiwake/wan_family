@@ -1,9 +1,9 @@
 version: 2.1
-orbs:
-  build-tools: circleci/build-tools@2.6.3
-  jq: circleci/jq@1.9.1
-  node: circleci/node@5.1.0
-  ruby: circleci/ruby@1.1.2
+# orbs:
+#   build-tools: circleci/build-tools@2.6.3
+#   jq: circleci/jq@1.9.1
+#   node: circleci/node@5.1.0
+#   ruby: circleci/ruby@1.1.2
 
 jobs:
   test:
@@ -46,36 +46,14 @@ jobs:
           command: bundle exec rspec
 
   deploy:
-    working_directory: ~/wan_family
-    docker:
-      - image: sue445/heroku-cli
-    environment:
-      RAILS_ENV: production
+    machine:
+      image: circleci/classic:edge
     steps:
       - checkout
-      - build-tools/install-ci-tools
-      - jq/install
-      - run:
-          name: Identify who I am
-          command: echo 'export MY_EMAIL=`heroku auth:whoami | tail -n 1`' >> $BASH_ENV
-      - run:
-          name: Identify created heroku app name
-          command: echo 'export CREATED_APP_NAME=`heroku apps --json | jq -r "map(select(.owner.email == "\"$MY_EMAIL\"" and (.name | contains(\"$HEROKU_APP_NAME\")))) | .[].name"`' >> $BASH_ENV
-      - run:
-          name: Create and set up new apps if needed
-          command: |
-            if [ "$HEROKU_APP_NAME" != "$CREATED_APP_NAME" ]; then \
-              heroku apps:create $HEROKU_APP_NAME --addons=jawsdb:kitefin; \
-              heroku config:set RAILS_MASTER_KEY=$RAILS_MASTER_KEY -a $HEROKU_APP_NAME; \
-            fi
-      - run:
-          name: Deploy
-          command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD:master
-      # - run:
-      #     name: Set up Database
-      #     command: |
-      #       heroku run bin/rails db:migrate -a $HEROKU_APP_NAME
-      #       heroku run bin/rails db:seed_fu -a $HEROKU_APP_NAME
+      - add_ssh_keys:
+          fingerprints:
+            - 56:77:ae:f3:57:b1:f4:de:0c:b2:98:fb:dc:a5:0f:21
+      - run: ssh ${USER_NAME}@${HOST_NAME} 'cd /var/www/wan_family && git pull'
 
 workflows:
   version: 2.1
