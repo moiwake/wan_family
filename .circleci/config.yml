@@ -1,7 +1,6 @@
 version: 2.1
 orbs:
-#   build-tools: circleci/build-tools@2.6.3
-#   jq: circleci/jq@1.9.1
+  build-tools: circleci/build-tools@2.6.3
   node: circleci/node@5.1.0
   ruby: circleci/ruby@1.1.2
 
@@ -51,6 +50,7 @@ jobs:
     working_directory: ~/wan_family
     steps:
       - checkout
+      - build-tools/install-ci-tools
       - add_ssh_keys:
           fingerprints:
             - 7a:7a:27:66:80:8c:7b:8f:05:b4:4e:83:9a:d8:65:f7
