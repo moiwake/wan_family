@@ -22,5 +22,5 @@ dummmy_filename_ary.each_with_index do |filenames, i|
     end
   end
 
-  Image.all[i].files.attach(blob_ary)
+  Image.first(10)[i].files.attach(blob_ary)
 end

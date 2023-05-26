@@ -1,4 +1,4 @@
-Spot.count.times do |i|
+10.times do |i|
   User.seed do |s|
     s.id = i + 1
     s.name = "user0#{i + 1}"

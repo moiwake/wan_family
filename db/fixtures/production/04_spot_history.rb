@@ -1,4 +1,4 @@
-Spot.count.times do |i|
+10.times do |i|
   SpotHistory.seed do |s|
     s.id = i + 1
     s.user_id = i + 1

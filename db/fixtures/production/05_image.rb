@@ -1,4 +1,4 @@
-Review.count.times do |i|
+10.times do |i|
   Image.seed do |s|
     s.id = i + 1
     s.review_id = i + 1
