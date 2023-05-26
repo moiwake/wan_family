@@ -1,9 +1,9 @@
 version: 2.1
-# orbs:
+orbs:
 #   build-tools: circleci/build-tools@2.6.3
 #   jq: circleci/jq@1.9.1
-#   node: circleci/node@5.1.0
-#   ruby: circleci/ruby@1.1.2
+  # node: circleci/node@5.1.0
+  ruby: circleci/ruby@1.1.2
 
 jobs:
   test:
@@ -53,6 +53,9 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - 7a:7a:27:66:80:8c:7b:8f:05:b4:4e:83:9a:d8:65:f7
+      - run:
+          name: Bundle install
+          command: bundle install
       - run:
           name: Capistrano deploy
           command: bundle exec cap production deploy BRANCH=feature22/aws_deploy
