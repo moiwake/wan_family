@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_01_042409) do
+ActiveRecord::Schema.define(version: 2023_05_29_045916) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -85,6 +85,32 @@ ActiveRecord::Schema.define(version: 2023_05_01_042409) do
     t.index ["user_id"], name: "index_images_on_user_id"
   end
 
+  create_table "impressions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "impressionable_type"
+    t.integer "impressionable_id"
+    t.integer "user_id"
+    t.string "controller_name"
+    t.string "action_name"
+    t.string "view_name"
+    t.string "request_hash"
+    t.string "ip_address"
+    t.string "session_hash"
+    t.text "message"
+    t.text "referrer"
+    t.text "params"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["controller_name", "action_name", "ip_address"], name: "controlleraction_ip_index"
+    t.index ["controller_name", "action_name", "request_hash"], name: "controlleraction_request_index"
+    t.index ["controller_name", "action_name", "session_hash"], name: "controlleraction_session_index"
+    t.index ["impressionable_type", "impressionable_id", "ip_address"], name: "poly_ip_index"
+    t.index ["impressionable_type", "impressionable_id", "params"], name: "poly_params_request_index", length: { params: 255 }
+    t.index ["impressionable_type", "impressionable_id", "request_hash"], name: "poly_request_index"
+    t.index ["impressionable_type", "impressionable_id", "session_hash"], name: "poly_session_index"
+    t.index ["impressionable_type", "message", "impressionable_id"], name: "impressionable_type_message_index", length: { message: 255 }
+    t.index ["user_id"], name: "index_impressions_on_user_id"
+  end
+
   create_table "option_titles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -132,6 +158,7 @@ ActiveRecord::Schema.define(version: 2023_05_01_042409) do
     t.integer "dog_score", null: false
     t.string "title", null: false
     t.date "visit_date", null: false
+    t.integer "review_helpfulnesses_count", default: 0
     t.index ["spot_id"], name: "index_reviews_on_spot_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
@@ -198,6 +225,8 @@ ActiveRecord::Schema.define(version: 2023_05_01_042409) do
     t.bigint "allowed_area_id", null: false
     t.bigint "category_id", null: false
     t.bigint "prefecture_id", null: false
+    t.integer "impressions_count", default: 0
+    t.integer "spot_favorites_count", default: 0
     t.index ["address"], name: "index_spots_on_address", unique: true
     t.index ["allowed_area_id"], name: "index_spots_on_allowed_area_id"
     t.index ["category_id"], name: "index_spots_on_category_id"

@@ -14,6 +14,7 @@ gem 'bulma-rails'
 gem 'activestorage-validator'
 gem 'kaminari'
 gem 'aws-sdk-s3'
+gem 'impressionist'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.6'

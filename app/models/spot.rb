@@ -23,6 +23,8 @@ class Spot < ApplicationRecord
     message: "URLは「http:」もしくは「https:」から始めてください",
   }, allow_blank: true
 
+  is_impressionable counter_cache: true
+
   def self.ransackable_attributes(auth_object = nil)
     ["address", "allowed_area_id", "category_id", "id", "latitude", "longitude", "name", "prefecture_id"]
   end

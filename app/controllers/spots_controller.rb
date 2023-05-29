@@ -43,6 +43,7 @@ class SpotsController < ApplicationController
     @reviews = Reviews::RankedQuery.call(parent_record: @spot, rank_num: 3).
       eager_load(user: :human_avatar_attachment, image: :files_blobs).
       preload(:review_helpfulnesses)
+    impressionist(@spot, nil, unique: [:ip_address])
   end
 
   def edit

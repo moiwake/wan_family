@@ -35,7 +35,7 @@
   display: flex;
 }
 
-.favorite-count {
+.favorite-count, .review-count {
   margin-right: 5px;
 }
 
@@ -46,6 +46,11 @@
 .review-count .review-icon {
   transform: scale(-1, 1);
   color: #63dbd5;
+}
+
+.view-count .view-icon {
+  transform: scale(-1, 1);
+  color: #e1d753;
 }
 
 // ヘッダースポット詳細データ

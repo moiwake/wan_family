@@ -14,15 +14,15 @@
       <div class="count-wrap">
         <div class=favorite-count>
           <i class="favorite-icon fa-solid fa-heart"></i>
-          <span>
-            <%= spot.spot_favorites.size %>人
-          </span>
+          <span><%= spot.spot_favorites.size %>人</span>
         </div>
         <div class=review-count>
           <i class="review-icon fa-solid fa-comment-dots"></i>
-          <span>
-            <%= spot.reviews.size %>人
-          </span>
+          <span><%= spot.reviews.size %>人</span>
+        </div>
+        <div class=view-count>
+          <i class="view-icon fa-solid fa-eye"></i>
+          <span><%= spot.impressionist_count %>回</span>
         </div>
       </div>
       <% if spot.reviews.any? %>
