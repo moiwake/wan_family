@@ -1,15 +1,15 @@
 class OrderedQueryBase
-  attr_reader :scope, :parent_record, :order_params, :like_class, :like_class_foreign_key
+  attr_reader :scope, :parent_record, :order_params, :assessment_class, :assessment_class_foreign_key
 
-  def initialize(scope: nil, parent_record: nil, order_params: nil, like_class: nil)
+  def initialize(scope: nil, parent_record: nil, order_params: nil, assessment_class: nil)
     @scope = scope
     @parent_record = parent_record
     @order_params = order_params
-    @like_class = like_class
+    @assessment_class = assessment_class
   end
 
-  def self.call(scope: nil, parent_record: nil, order_params: {}, like_class: nil)
-    @scope = new(scope: scope, parent_record: parent_record, order_params: order_params, like_class: like_class).set_ordered_scope
+  def self.call(scope: nil, parent_record: nil, order_params: {}, assessment_class: nil)
+    @scope = new(scope: scope, parent_record: parent_record, order_params: order_params, assessment_class: assessment_class).set_ordered_scope
     @scope
   end
 
@@ -35,7 +35,7 @@ class OrderedQueryBase
   def order_scope
     if order_params[:by] == "created_at"
       order_asc_or_desc
-    elsif order_params[:by] == "likes_count"
+    elsif order_params[:by] == "assessment"
       order_by_likes
     else
       order_default
@@ -50,8 +50,15 @@ class OrderedQueryBase
   end
 
   def order_by_likes
-    ordered_scope_ids = set_scope_ids_in_likes_order
-    order_scope_by_ids(ordered_scope_ids)
+    @reflection = get_reflection_of_assessment_class
+
+    if @reflection
+      count_attr = @reflection.counter_cache_column
+      scope.order("#{count_attr}": :desc)
+    else
+      ordered_scope_ids = set_scope_ids_in_likes_order
+      order_scope_by_ids(ordered_scope_ids)
+    end
   end
 
   def order_default
@@ -60,6 +67,16 @@ class OrderedQueryBase
     else
       scope.order(created_at: :desc, id: :desc)
     end
+  end
+
+  def get_reflection_of_assessment_class
+    assessment_class.constantize.reflect_on_all_associations.select do |ref|
+      ref.plural_name == scope.model.table_name
+    end.first
+  end
+
+  def order_scope_by_ids(ordered_scope_ids)
+    scope.where(id: ordered_scope_ids).order([Arel.sql("field(#{scope.model.table_name}.id, ?)"), ordered_scope_ids])
   end
 
   def set_scope_ids_in_likes_order
@@ -71,23 +88,19 @@ class OrderedQueryBase
   end
 
   def set_liked_scope_ids
-    set_like_class_foreign_key
-    @liked_scope_ids = order_like_class_records.pluck(:"#{like_class_foreign_key}")
+    set_assessment_class_foreign_key
+    @liked_scope_ids = order_assessment_class_records.pluck(:"#{assessment_class_foreign_key}")
   end
 
-  def order_like_class_records
-    group_like_class_records.order(Arel.sql("count(#{like_class_foreign_key}) desc"))
+  def order_assessment_class_records
+    group_assessment_class_records.order(Arel.sql("count(#{assessment_class_foreign_key}) desc"))
   end
 
-  def group_like_class_records
-    like_class.constantize.group(:"#{like_class_foreign_key}")
+  def group_assessment_class_records
+    assessment_class.constantize.group(:"#{assessment_class_foreign_key}")
   end
 
-  def set_like_class_foreign_key
-    @like_class_foreign_key = "#{scope.model.name.demodulize.downcase}_id"
-  end
-
-  def order_scope_by_ids(ordered_scope_ids)
-    scope.where(id: ordered_scope_ids).order([Arel.sql("field(#{scope.model.table_name}.id, ?)"), ordered_scope_ids])
+  def set_assessment_class_foreign_key
+    @assessment_class_foreign_key = "#{scope.model.name.demodulize.downcase}_id"
   end
 end
