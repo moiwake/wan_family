@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Spots::OrderedQuery, type: :model do
   let(:scope) { Spot.all }
-  let(:ordered_query_instance) { Spots::OrderedQuery.new(scope: scope, parent_record: nil, order_params: order_params, like_class: "SpotFavorite") }
+  let(:ordered_query_instance) { Spots::OrderedQuery.new(scope: scope, parent_record: nil, order_params: order_params, assessment_class: "SpotFavorite") }
   let!(:spot1) { create(:spot) }
   let!(:spot3) { create(:spot) }
   let!(:spot2) { create(:spot) }

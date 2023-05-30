@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ImageBlobs::OrderedQuery, type: :model do
-  let(:ordered_query_instance) { ImageBlobs::OrderedQuery.new(scope: nil, parent_record: nil, order_params: {}, like_class: "ImageLike") }
+  let(:ordered_query_instance) { ImageBlobs::OrderedQuery.new(scope: nil, parent_record: nil, order_params: {}, assessment_class: "ImageLike") }
 
   describe "#call" do
     before do
@@ -11,7 +11,7 @@ RSpec.describe ImageBlobs::OrderedQuery, type: :model do
     end
 
     it "指定した引数を渡して、親クラスのcallメソッドを呼び出す" do
-      expect(OrderedQueryBase).to have_received(:call).once.with(scope: nil, parent_record: Image.all, order_params: {}, like_class: "ImageLike")
+      expect(OrderedQueryBase).to have_received(:call).once.with(scope: nil, parent_record: Image.all, order_params: {}, assessment_class: "ImageLike")
     end
   end
 

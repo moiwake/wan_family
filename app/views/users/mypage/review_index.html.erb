@@ -9,7 +9,7 @@
       <h2 class="title is-4 main-title">投稿したレビュー</h2>
       <div class="sort-links-wrap">
         <%= link_to "スポット名順", { by: "spot_name", direction: "asc" } %>
-        <%= render "shared/sort_link", likes_count_title: "役に立ったが多い順" %>
+        <%= render "shared/sort_link", assessment_title: "役に立ったが多い順" %>
       </div>
       <% if @reviews.present? %>
         <div class="review-list-wrap block">

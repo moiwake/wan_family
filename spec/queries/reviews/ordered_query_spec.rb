@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Reviews::OrderedQuery, type: :model do
   let(:scope) { Review.all }
-  let(:ordered_query_instance) { Reviews::OrderedQuery.new(scope: scope, parent_record: nil, order_params: order_params, like_class: "ReviewHelpfulness") }
+  let(:ordered_query_instance) { Reviews::OrderedQuery.new(scope: scope, parent_record: nil, order_params: order_params, assessment_class: "ReviewHelpfulness") }
 
   describe "#order_scope" do
     subject(:return_value) { ordered_query_instance.send(:order_scope) }

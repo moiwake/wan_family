@@ -1,10 +1,10 @@
 module Reviews
   class OrderedQuery < OrderedQueryBase
-    def initialize(scope:, parent_record:, order_params:, like_class:)
-      super(scope: scope, parent_record: parent_record, order_params: order_params, like_class: like_class)
+    def initialize(scope:, parent_record:, order_params:, assessment_class:)
+      super(scope: scope, parent_record: parent_record, order_params: order_params, assessment_class: assessment_class)
     end
 
-    def self.call(scope: nil, parent_record: nil, order_params: {}, like_class: "ReviewHelpfulness")
+    def self.call(scope: nil, parent_record: nil, order_params: {}, assessment_class: "ReviewHelpfulness")
       scope ||= Review.all
       super
     end
@@ -12,7 +12,7 @@ module Reviews
     def order_scope
       if order_params[:by] == "created_at"
         order_asc_or_desc
-      elsif order_params[:by] == "likes_count"
+      elsif order_params[:by] == "assessment"
         order_by_likes
       elsif order_params[:by] == "spot_name"
         order_by_spot_name

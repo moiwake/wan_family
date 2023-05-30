@@ -7,10 +7,10 @@ RSpec.describe RankedForSpecificPeriodQuery, type: :model do
   end
   let(:parent_record) { nil }
   let(:order_params) { {} }
-  let(:like_class) { "SpotFavorite" }
+  let(:assessment_class) { "SpotFavorite" }
   let(:date) { "days" }
   let!(:number) { stub_const("RankedForSpecificPeriodQuery::PERIOD_NUMBER", 1) }
-  let(:child_class_instance) { ChildClass.new(scope: scope, parent_record: parent_record, like_class: like_class, date: date, number: number) }
+  let(:child_class_instance) { ChildClass.new(scope: scope, parent_record: parent_record, assessment_class: assessment_class, date: date, number: number) }
   let(:child_class) { Class.new(RankedForSpecificPeriodQuery) }
   let!(:rank_num) { stub_const("RankedForSpecificPeriodQuery::RANKING_NUMBER", 2) }
 
@@ -19,7 +19,7 @@ RSpec.describe RankedForSpecificPeriodQuery, type: :model do
   describe "#call" do
     let(:ranked_scope) { instance_double("scope") }
 
-    subject(:return_value) { ChildClass.call(scope: scope, parent_record: parent_record, like_class: like_class, date: date, number: number) }
+    subject(:return_value) { ChildClass.call(scope: scope, parent_record: parent_record, assessment_class: assessment_class, date: date, number: number) }
 
     before do
       allow(child_class).to receive(:new).and_return(child_class_instance)
@@ -28,7 +28,7 @@ RSpec.describe RankedForSpecificPeriodQuery, type: :model do
     end
 
     it "引数を渡して、ChildClassをレシーバーにnewメソッドを呼び出す" do
-      expect(child_class).to have_received(:new).once.with(scope: scope, parent_record: parent_record, like_class: like_class, date: date, number: number)
+      expect(child_class).to have_received(:new).once.with(scope: scope, parent_record: parent_record, assessment_class: assessment_class, date: date, number: number)
     end
 
     it "ChildClassのインスタンスをレシーバーに、set_ranked_scope_for_specific_periodメソッドを呼び出す" do
@@ -64,28 +64,28 @@ RSpec.describe RankedForSpecificPeriodQuery, type: :model do
     end
   end
 
-  describe "#group_like_class_records" do
-    subject(:return_value) { child_class_instance.send(:group_like_class_records) }
+  describe "#group_assessment_class_records" do
+    subject(:return_value) { child_class_instance.send(:group_assessment_class_records) }
 
-    context "set_grouped_like_class_recordsメソッドの返り値のレコード数が、ランキングの数以上のとき" do
-      let(:grouped_like_class_records) { SpotFavorite.group(:spot_id) }
+    context "set_grouped_assessment_class_recordsメソッドの返り値のレコード数が、ランキングの数以上のとき" do
+      let(:grouped_assessment_class_records) { SpotFavorite.group(:spot_id) }
 
       before do
-        allow(child_class_instance).to receive(:set_grouped_like_class_records).and_return(grouped_like_class_records)
+        allow(child_class_instance).to receive(:set_grouped_assessment_class_records).and_return(grouped_assessment_class_records)
         create_list(:spot_favorite, 2, spot: scope[2])
       end
 
-      it "set_grouped_like_class_recordsメソッドの返り値をそのまま返す" do
-        expect(return_value.select(:spot_id)).to eq(grouped_like_class_records.select(:spot_id))
+      it "set_grouped_assessment_class_recordsメソッドの返り値をそのまま返す" do
+        expect(return_value.select(:spot_id)).to eq(grouped_assessment_class_records.select(:spot_id))
       end
     end
 
-    context "set_grouped_like_class_recordsメソッドの返り値のレコード数が、ランキングの数未満のとき" do
-      let(:grouped_like_class_records) { SpotFavorite.group(:spot_id) }
+    context "set_grouped_assessment_class_recordsメソッドの返り値のレコード数が、ランキングの数未満のとき" do
+      let(:grouped_assessment_class_records) { SpotFavorite.group(:spot_id) }
 
       before do
-        allow(child_class_instance).to receive(:set_grouped_like_class_records).and_return(grouped_like_class_records)
-        allow(child_class_instance).to receive(:fill_records_up_to_rank_num).and_return(grouped_like_class_records)
+        allow(child_class_instance).to receive(:set_grouped_assessment_class_records).and_return(grouped_assessment_class_records)
+        allow(child_class_instance).to receive(:fill_records_up_to_rank_num).and_return(grouped_assessment_class_records)
         create(:spot_favorite, spot: scope[0])
         subject
       end
