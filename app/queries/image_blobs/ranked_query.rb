@@ -1,15 +1,13 @@
 module ImageBlobs
-  class RankedQuery
-    RANK_NUMBER = 10
+  class RankedQuery < RankedQueryBase
+    include SearchByParentRecord
 
-    class << self
-      def call(scope: nil, parent_record: nil, rank_num: RANK_NUMBER)
-        limit_scope(ImageBlobs::OrderedQuery.call(scope: scope, parent_record: parent_record, order_params: { by: "likes_count" }), rank_num)
-      end
+    def initialize(scope:, parent_record:, order_params:, assessment_class:, rank_num:)
+      super(scope: scope, parent_record: parent_record, order_params: order_params, assessment_class: assessment_class, rank_num: rank_num)
+    end
 
-      def limit_scope(scope, rank_num)
-        scope.limit(rank_num)
-      end
+    def self.call(scope: nil, parent_record: Image.all, assessment_class: "ImageLike", rank_num: RANK_NUMBER)
+      super
     end
   end
 end
