@@ -4,8 +4,7 @@ module Spots
       super(scope: scope, parent_record: parent_record, order_params: order_params, assessment_class: assessment_class)
     end
 
-    def self.call(scope: nil, parent_record: nil, order_params: {}, assessment_class: "SpotFavorite")
-      scope ||= Spot.all
+    def self.call(scope: Spot.all, parent_record: nil, order_params: {}, assessment_class: "SpotFavorite")
       super
     end
 

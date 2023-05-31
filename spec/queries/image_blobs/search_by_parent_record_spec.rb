@@ -12,10 +12,36 @@ end
 
 RSpec.describe "ImageBlobs::SearchByParentRecord", :type => :model do
   let!(:images) { create_list(:image, 2, :attached) }
-  let(:included_class_inctance) { DummyClass.new(parent_record: parent_record) }
+
+  describe "#set_scope" do
+    subject(:return_value) { included_class_inctance.send(:set_scope) }
+
+    let(:included_class_inctance) { DummyClass.new }
+
+    before { allow(included_class_inctance).to receive(:search_image_blobs).and_return(searched_scope) }
+
+    context "Blobレコード群が存在するとき" do
+      let(:searched_scope) { instance_double("blobs") }
+
+      it "search_image_blobsメソッドの返り値のBlobレコード群を返す" do
+        expect(return_value).to eq(searched_scope)
+      end
+    end
+
+    context "Blobレコード群が存在しないとき" do
+      let(:searched_scope) { nil }
+
+      it "空のActiveRecord::Relationオブジェクトを返す" do
+        expect(return_value.any?).to eq(false)
+        expect(return_value.class.name).to eq("ActiveRecord::Relation")
+      end
+    end
+  end
 
   describe "#search_image_blobs" do
     subject(:return_value) { included_class_inctance.search_image_blobs }
+
+    let(:included_class_inctance) { DummyClass.new(parent_record: parent_record) }
 
     context "parent_recordが単一のImageクラスのオブジェクトのとき" do
       let(:parent_record) { images[0] }
