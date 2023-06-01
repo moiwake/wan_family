@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Spots::TaggedByUserQuery, type: :model do
-  let!(:spots) { Spot.all }
+  let(:spots) { Spot.all }
   let(:user) { create(:user) }
   let(:tag_params) { {} }
   let(:class_instance) { Spots::TaggedByUserQuery.new(user: user, tag_params: tag_params) }
@@ -33,10 +33,10 @@ RSpec.describe Spots::TaggedByUserQuery, type: :model do
   describe "#set_spot" do
     subject(:return_value) { class_instance.set_spot }
 
-    let(:spot_ids) { [spots[0], spots[2], spots[1]] }
-    let(:searched_spot) { spots.where(id: spot_ids).order([Arel.sql("field(spots.id, ?)"), spot_ids]) }
+    let(:spot_ids) { [spots[0].id, spots[2].id, spots[1].id] }
 
     before do
+      create_list(:spot, 3)
       allow(class_instance).to receive(:set_spot_ids).and_return(spot_ids)
       subject
     end
@@ -46,46 +46,50 @@ RSpec.describe Spots::TaggedByUserQuery, type: :model do
     end
 
     it "set_spot_idsメソッドの返り値と一致するidのSpotレコード群を順番通りに返す" do
-      expect(return_value).to eq(searched_spot)
+      expect(return_value.ids).to eq(spot_ids)
     end
   end
 
   describe "#set_spot_ids" do
     subject(:return_value) { class_instance.send(:set_spot_ids) }
 
-    before { allow(class_instance).to receive(:set_spot_ids).and_return(spots) }
+    let(:spot_tags) do
+      create_list(:spot_tag, 3)
+      SpotTag.all.reverse
+    end
+    let(:spot_ids) { spot_tags.pluck(:spot_id) }
+
+    before { allow(class_instance).to receive(:order_tags).and_return(spot_tags) }
 
     it "order_tagsメソッドの返り値のレコードから抽出した、spot_idの配列を返す" do
-      expect(return_value).to eq(spots.ids)
+      expect(return_value).to eq(spot_ids)
     end
   end
 
   describe "#order_tags" do
     subject(:return_value) { class_instance.send(:order_tags) }
 
+    let!(:name1_tags) { create_list(:spot_tag, 2, user: user, name: "name1") }
+    let!(:name2_tag) { create(:spot_tag, user: user, name: "name2") }
     let(:another_user) { create(:user) }
 
-    before do
-      create_list(:spot_tag, 2, user: user, name: "tag_name1")
-      create(:spot_tag, user: user, name: "tag_name2")
-      create_list(:spot_tag, 3, user: another_user)
-    end
+    before { create_list(:spot_tag, 3, user: another_user) }
 
     context "tag_paramsのハッシュに、tag_nameキーの値が存在するとき" do
-      let(:ordered_spot_tags) { user.spot_tags.where(name: "tag_name1").order(created_at: :desc, id: :desc) }
-      let(:tag_params) { { tag_name: "tag_name1" } }
+      let(:ordered_spot_tag_ids) { [name1_tags[1].id, name1_tags[0].id] }
+      let(:tag_params) { { tag_name: "name1" } }
 
       it "指定のユーザーが作成したSpotTagレコードのうち、nameカラムがtag_nameキーの値と一致するレコードを、作成日の降順に並べ替えて返す" do
-        expect(return_value).to eq(ordered_spot_tags)
+        expect(return_value.ids).to eq(ordered_spot_tag_ids)
       end
     end
 
     context "tag_paramsのハッシュに、tag_nameキーの値が存在しないとき" do
-      let(:ordered_spot_tags) { user.spot_tags.order(created_at: :desc, id: :desc) }
+      let(:ordered_spot_tag_ids) { [name2_tag.id, name1_tags[1].id, name1_tags[0].id] }
       let(:tag_params) { { tag_name: "" } }
 
       it "指定のユーザーが作成したSpotTagレコードを、作成日の降順に並べ替えて返す" do
-        expect(return_value).to eq(ordered_spot_tags)
+        expect(return_value.ids).to eq(ordered_spot_tag_ids)
       end
     end
   end
