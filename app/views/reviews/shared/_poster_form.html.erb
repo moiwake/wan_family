@@ -59,7 +59,7 @@
           <p>アップロード画像の削除</p>
         </div>
         <div class="image-delete-list-wrap">
-          <% resource.review.decorate.get_files_for_edit.each do |file| %>
+          <% resource.review.decorate.get_files_ordered_by_blob_creation_date.each do |file| %>
             <label for="file_id_<%= file.id %>_input" class="image-delete-wrap">
               <%= imf.check_box :file_ids, { multiple: true, checked: false, id: "file_id_#{file.id}_input"}, file.id, false %>
               <%= image_tag file.representation(resize_to_limit: [250, 250]) %>
