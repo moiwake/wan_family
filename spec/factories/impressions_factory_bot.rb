@@ -12,4 +12,3 @@ FactoryBot.define do
     association :impressionable, factory: :spot
   end
 end
-

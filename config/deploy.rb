@@ -8,7 +8,7 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bund
 
 set :ssh_options, {
   auth_methods: ['publickey'],
-  keys: ['~/.ssh/id_rsa_7a7a2766808c7b8f05b44e839ad865f7']
+  keys: ['~/.ssh/id_rsa_7a7a2766808c7b8f05b44e839ad865f7'],
 }
 
 set :keep_releases, 5
