@@ -7,7 +7,7 @@ RSpec.describe SpotTag, type: :model do
   context "全カラムのデータが有効なとき" do
     let(:valid_object) { spot_tag }
 
-    it_behaves_like "the object is valid"
+    it_behaves_like "有効なオブジェクトか"
   end
 
   describe "presenceのバリデーション" do
@@ -20,13 +20,13 @@ RSpec.describe SpotTag, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -36,7 +36,7 @@ RSpec.describe SpotTag, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -46,7 +46,7 @@ RSpec.describe SpotTag, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
   end
@@ -69,12 +69,13 @@ RSpec.describe SpotTag, type: :model do
 
     describe "scope#get_tags_user_put_on_spot" do
       let!(:spot) { create(:spot) }
-      let(:spot_tags) { SpotTag.where(user_id: user.id, spot_id: spot.id).order(updated_at: :desc, created_at: :desc, id: :desc) }
+      let(:spot_tags) { create_list(:spot_tag, 3, user: user, spot: spot) }
+      let(:spot_tag_ids) { [spot_tags[1].id, spot_tags[2].id, spot_tags[0].id] }
 
-      before { create_list(:spot_tag, 2, user: user, spot: spot) }
+      before { spot_tags[1].update(name: "updated_name") }
 
       it "更新日、でなければ作成日の降順に並び替えした、引数のuser_idとspot_idを持つSpotTagレコード群を返す" do
-        expect(SpotTag.get_tags_user_put_on_spot(user_id: user.id, spot_id: spot.id)).to eq(spot_tags)
+        expect(SpotTag.get_tags_user_put_on_spot(user_id: user.id, spot_id: spot.id).ids).to eq(spot_tag_ids)
       end
     end
   end

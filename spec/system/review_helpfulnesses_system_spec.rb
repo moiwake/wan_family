@@ -7,23 +7,23 @@ RSpec.describe "ReviewHelpfulnessesSystemSpecs", type: :system, js: true do
   let!(:review_helpfulnesses) { create_list(:review_helpfulness, 3, review: review) }
   let!(:current_like_count) { review.review_helpfulnesses.count }
 
-  describe "レビューのGood登録" do
+  describe "レビューの役立ったの登録" do
     before { visit spot_reviews_path(spot) }
 
-    it "レビューに登録されているGoodの総計を表示する" do
+    it "レビューに登録されている「役立った」の総計を表示する" do
       expect(page.all(".review-helpfulness-btn-wrap")[0]).to have_content(current_like_count)
     end
 
     context "ログインしているとき" do
       before { sign_in user }
 
-      context "ログインユーザーがレビューにGoodを登録していないとき" do
+      context "ログインユーザーがレビューに「役立った」を登録していないとき" do
         let!(:before_like_count) { ReviewHelpfulness.where(review_id: review.id).count }
         let(:new_like) { ReviewHelpfulness.last }
 
         before { visit spot_reviews_path(spot) }
 
-        it "レビューにGoodの登録ができる" do
+        it "レビューに「役立った」の登録ができる" do
           expect do
             find(".review-helpfulness-add-btn").click
             expect(all(".review-helpfulness-btn-wrap")[0]).to have_content(before_like_count + 1)
@@ -34,13 +34,13 @@ RSpec.describe "ReviewHelpfulnessesSystemSpecs", type: :system, js: true do
         end
       end
 
-      context "ログインユーザーがレビューにGoodを登録しているとき" do
+      context "ログインユーザーがレビューに「役立った」を登録しているとき" do
         let!(:review_helpfulness) { create(:review_helpfulness, user: user, review: review) }
         let!(:before_like_count) { ReviewHelpfulness.where(review_id: review.id).count }
 
         before { visit spot_reviews_path(spot) }
 
-        it "レビューのGoodの登録を削除できる" do
+        it "レビューの「役立った」の登録を削除できる" do
           expect do
             find(".review-helpfulness-remove-btn").click
             expect(all(".review-helpfulness-btn-wrap")[0]).to have_content(before_like_count - 1)
@@ -56,7 +56,7 @@ RSpec.describe "ReviewHelpfulnessesSystemSpecs", type: :system, js: true do
           visit spot_reviews_path(spot)
         end
 
-        it "Good登録のリンクが表示されない" do
+        it "「役立った」を登録するリンクが表示されない" do
           expect(find(".review-helpfulness-btn-wrap")).to have_link(href: "")
         end
       end

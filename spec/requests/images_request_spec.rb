@@ -9,12 +9,12 @@ RSpec.describe "Images", type: :request do
   describe "GET /index" do
     before { get spot_images_path(spot) }
 
-    it_behaves_like "returns http success"
+    it_behaves_like "HTTPリクエストの成功"
   end
 
   describe "GET /show" do
     before { get spot_image_path(spot, image), params: { image_blob_id: image_blob.id }, xhr: true }
 
-    it_behaves_like "returns http success"
+    it_behaves_like "HTTPリクエストの成功"
   end
 end

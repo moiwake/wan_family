@@ -7,7 +7,7 @@ RSpec.describe Spot, type: :model do
   context "全カラムのデータが有効なとき" do
     let(:valid_object) { spot }
 
-    it_behaves_like "the object is valid"
+    it_behaves_like "有効なオブジェクトか"
   end
 
   describe "presenceのバリデーション" do
@@ -20,13 +20,13 @@ RSpec.describe Spot, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -36,13 +36,13 @@ RSpec.describe Spot, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -52,13 +52,13 @@ RSpec.describe Spot, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -68,13 +68,13 @@ RSpec.describe Spot, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -84,7 +84,7 @@ RSpec.describe Spot, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -94,7 +94,7 @@ RSpec.describe Spot, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -104,7 +104,7 @@ RSpec.describe Spot, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
   end
@@ -116,35 +116,35 @@ RSpec.describe Spot, type: :model do
       let(:attribute) { :name }
       let(:invalid_object) { build(:spot, name: spot.name) }
 
-      it_behaves_like "adds validation error messages"
+      it_behaves_like "バリデーションエラーメッセージ"
     end
 
     context "latitudeカラムとlongitudeカラムの両データが重複しているとき" do
       let(:attribute) { :latitude }
       let(:invalid_object) { build(:spot, latitude: spot.latitude, longitude: spot.longitude) }
 
-      it_behaves_like "adds validation error messages"
+      it_behaves_like "バリデーションエラーメッセージ"
     end
 
     context "latitudeカラムのデータのみが重複しているとき" do
       let(:attribute) { :latitude }
       let(:valid_object) { build(:spot, latitude: spot.latitude) }
 
-      it_behaves_like "the object is valid"
+      it_behaves_like "有効なオブジェクトか"
     end
 
     context "longitudeカラムがのみ重複しているとき" do
       let(:attribute) { :longitude }
       let(:valid_object) { build(:spot, longitude: spot.longitude) }
 
-      it_behaves_like "the object is valid"
+      it_behaves_like "有効なオブジェクトか"
     end
 
     context "addressカラムが重複しているとき" do
       let(:attribute) { :address }
       let(:invalid_object) { build(:spot, address: spot.address) }
 
-      it_behaves_like "adds validation error messages"
+      it_behaves_like "バリデーションエラーメッセージ"
     end
   end
 
@@ -154,7 +154,7 @@ RSpec.describe Spot, type: :model do
       let(:attribute) { :official_site }
       let(:invalid_object) { build(:spot, official_site: "invalid/url") }
 
-      it_behaves_like "adds validation error messages"
+      it_behaves_like "バリデーションエラーメッセージ"
     end
   end
 end

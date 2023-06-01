@@ -29,7 +29,7 @@ RSpec.describe ReviewHelpfulnessHelper, type: :helper do
   describe "#review_helpful?" do
     let!(:review_helpfulness) { create(:review_helpfulness) }
 
-    context "引数に渡したReviewHelpfulnessのレコードが存在するとき" do
+    context "引数に渡したReviewHelpfulnessのレコードが存在する、かつDBに保存されているとき" do
       it "trueを返す" do
         expect(helper.review_helpful?(review_helpfulness)).to eq(true)
       end

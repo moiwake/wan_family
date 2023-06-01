@@ -22,13 +22,13 @@ RSpec.describe "Spots", type: :request do
           expect(session["params"].to_h).to eq({})
         end
 
-        it_behaves_like "returns http success"
+        it_behaves_like "HTTPリクエストの成功"
       end
 
       context "ログインしていないとき" do
         before { get new_spot_path }
 
-        it_behaves_like "redirects to login page"
+        it_behaves_like "ログイン画面へのリダイレクト"
       end
     end
 
@@ -38,7 +38,7 @@ RSpec.describe "Spots", type: :request do
         get spot_path(spot)
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
 
     describe "GET /edit" do
@@ -48,13 +48,13 @@ RSpec.describe "Spots", type: :request do
           get edit_spot_path(spot)
         end
 
-        it_behaves_like "returns http success"
+        it_behaves_like "HTTPリクエストの成功"
       end
 
       context "ログインしていないとき" do
         before { get edit_spot_path(spot) }
 
-        it_behaves_like "redirects to login page"
+        it_behaves_like "ログイン画面へのリダイレクト"
       end
     end
   end
@@ -87,19 +87,19 @@ RSpec.describe "Spots", type: :request do
             expect(session[:params]["rules_attributes"]).to eq(rules_params)
           end
 
-          it_behaves_like "returns http success"
+          it_behaves_like "HTTPリクエストの成功"
         end
 
         context "送信されたスポットのパラメータが不正なとき" do
           before { post new_confirm_spots_path, params: { spot_register_form: { spot_attributes: attributes_for(:spot, :invalid_spot) } } }
 
-          it_behaves_like "returns http success"
+          it_behaves_like "HTTPリクエストの成功"
         end
 
         context "送信された同伴ルールのパラメータが不正なとき" do
           before { post new_confirm_spots_path, params: { spot_register_form: { spot_attributes: spot_params, rules_attributes: { nil => {} } } } }
 
-          it_behaves_like "returns http success"
+          it_behaves_like "HTTPリクエストの成功"
         end
 
         context "ActionController::ParameterMissingのエラーが発生した場合" do
@@ -120,7 +120,7 @@ RSpec.describe "Spots", type: :request do
       context "ログインしていないとき" do
         before { post new_confirm_spots_path, params: { spot_register_form: params } }
 
-        it_behaves_like "redirects to login page"
+        it_behaves_like "ログイン画面へのリダイレクト"
       end
     end
 
@@ -137,7 +137,7 @@ RSpec.describe "Spots", type: :request do
           expect(session[:params]["rules_attributes"]).to eq(rules_params)
         end
 
-        it_behaves_like "returns http success"
+        it_behaves_like "HTTPリクエストの成功"
       end
 
       context "ログインしていないとき" do
@@ -146,7 +146,7 @@ RSpec.describe "Spots", type: :request do
           post back_new_spots_path
         end
 
-        it_behaves_like "redirects to login page"
+        it_behaves_like "ログイン画面へのリダイレクト"
       end
     end
 
@@ -158,6 +158,7 @@ RSpec.describe "Spots", type: :request do
       context "セッションに保存されたデータが妥当な場合" do
         let(:new_spot) { Spot.last }
         let(:new_rules) { new_spot.rules }
+        let(:new_spot_history) { SpotHistory.last }
 
         before { post new_confirm_spots_path, params: { spot_register_form: params } }
 
@@ -185,9 +186,9 @@ RSpec.describe "Spots", type: :request do
 
         it "SpotHistoryレコードが保存される" do
           expect { subject }.to change { SpotHistory.count }.by(1)
-          expect(SpotHistory.last.history).to eq("新規登録")
-          expect(SpotHistory.last.user_id).to eq(user.id)
-          expect(SpotHistory.last.spot_id).to eq(new_spot.id)
+          expect(new_spot_history.history).to eq("新規登録")
+          expect(new_spot_history.user_id).to eq(user.id)
+          expect(new_spot_history.spot_id).to eq(new_spot.id)
         end
 
         it "登録後、登録したスポットの詳細ページにリダイレクトする" do
@@ -211,7 +212,7 @@ RSpec.describe "Spots", type: :request do
           expect { subject }.to change { SpotHistory.count }.by(0)
         end
 
-        it_behaves_like "returns http success"
+        it_behaves_like "HTTPリクエストの成功"
       end
 
       context "セッションに保存された同伴ルールのデータが不正な場合" do
@@ -231,7 +232,7 @@ RSpec.describe "Spots", type: :request do
           expect { subject }.to change { SpotHistory.count }.by(0)
         end
 
-        it_behaves_like "returns http success"
+        it_behaves_like "HTTPリクエストの成功"
       end
 
       context "create処理がすべて終わったとき" do
@@ -276,13 +277,13 @@ RSpec.describe "Spots", type: :request do
             expect(session[:params]["rules_attributes"]).to eq(updated_rules_params)
           end
 
-          it_behaves_like "returns http success"
+          it_behaves_like "HTTPリクエストの成功"
         end
 
         context "送信されたスポットのパラメータが不正なとき" do
           before { patch edit_confirm_spot_path(spot), params: { spot_register_form: { spot_attributes: attributes_for(:spot, :invalid_spot) } } }
 
-          it_behaves_like "returns http success"
+          it_behaves_like "HTTPリクエストの成功"
         end
 
         context "送信された同伴ルールのパラメータが不正なとき" do
@@ -290,7 +291,7 @@ RSpec.describe "Spots", type: :request do
 
           before { patch edit_confirm_spot_path(spot), params: { spot_register_form: { spot_attributes: updated_spot_params, rules_attributes: invalid_rule_params } } }
 
-          it_behaves_like "returns http success"
+          it_behaves_like "HTTPリクエストの成功"
         end
 
         context "ActionController::ParameterMissingのエラーが発生した場合" do
@@ -311,7 +312,7 @@ RSpec.describe "Spots", type: :request do
       context "ログインしていないとき" do
         before { patch edit_confirm_spot_path(spot), params: { spot_register_form: updated_params } }
 
-        it_behaves_like "redirects to login page"
+        it_behaves_like "ログイン画面へのリダイレクト"
       end
     end
 
@@ -323,7 +324,12 @@ RSpec.describe "Spots", type: :request do
           patch back_edit_spot_path(spot)
         end
 
-        it_behaves_like "returns http success"
+        it "セッションに、入力画面で送信したデータが保存されている" do
+          expect(session[:params]["spot_attributes"]).to eq(updated_spot_params)
+          expect(session[:params]["rules_attributes"]).to eq(updated_rules_params)
+        end
+
+        it_behaves_like "HTTPリクエストの成功"
       end
 
       context "ログインしていないとき" do
@@ -332,11 +338,13 @@ RSpec.describe "Spots", type: :request do
           patch back_edit_spot_path(spot)
         end
 
-        it_behaves_like "redirects to login page"
+        it_behaves_like "ログイン画面へのリダイレクト"
       end
     end
 
     describe "PATCH /update" do
+      let(:new_spot_history) { SpotHistory.last }
+
       subject { patch spot_path(spot) }
 
       before { sign_in user }
@@ -346,31 +354,33 @@ RSpec.describe "Spots", type: :request do
 
         it "Spotレコードを更新できる" do
           expect { subject }.to change { Spot.count }.by(0)
-          expect(spot.reload.name).to eq(updated_spot_params["name"])
-          expect(spot.reload.latitude).to eq(updated_spot_params["latitude"].to_f)
-          expect(spot.reload.longitude).to eq(updated_spot_params["longitude"].to_f)
-          expect(spot.reload.address).to eq(updated_spot_params["address"])
-          expect(spot.reload.official_site).to eq(updated_spot_params["official_site"])
-          expect(spot.reload.allowed_area_id).to eq(updated_spot_params["allowed_area_id"].to_i)
-          expect(spot.reload.category_id).to eq(updated_spot_params["category_id"].to_i)
-          expect(spot.reload.prefecture_id).to eq(updated_prefecture_id)
+          spot.reload
+          expect(spot.name).to eq(updated_spot_params["name"])
+          expect(spot.latitude).to eq(updated_spot_params["latitude"].to_f)
+          expect(spot.longitude).to eq(updated_spot_params["longitude"].to_f)
+          expect(spot.address).to eq(updated_spot_params["address"])
+          expect(spot.official_site).to eq(updated_spot_params["official_site"])
+          expect(spot.allowed_area_id).to eq(updated_spot_params["allowed_area_id"].to_i)
+          expect(spot.category_id).to eq(updated_spot_params["category_id"].to_i)
+          expect(spot.prefecture_id).to eq(updated_prefecture_id)
         end
 
         it "全てのRuleレコードを更新できる" do
           subject
-          expect(spot.reload.rules.count).to eq(rule_option_ids.length)
+          spot.reload
+          expect(spot.rules.count).to eq(rule_option_ids.length)
 
           updated_rules_params.each.with_index do |(rule_opt_param, answer_param), i|
-            expect(spot.reload.rules[i].rule_option_id).to eq(rule_opt_param.to_i)
-            expect(spot.reload.rules[i].answer).to eq(answer_param["answer"])
+            expect(spot.rules[i].rule_option_id).to eq(rule_opt_param.to_i)
+            expect(spot.rules[i].answer).to eq(answer_param["answer"])
           end
         end
 
         it "SpotHistoryレコードが保存される" do
           expect { subject }.to change { SpotHistory.count }.by(1)
-          expect(SpotHistory.last.history).to eq("更新")
-          expect(SpotHistory.last.user_id).to eq(user.id)
-          expect(SpotHistory.last.spot_id).to eq(spot.id)
+          expect(new_spot_history.history).to eq("更新")
+          expect(new_spot_history.user_id).to eq(user.id)
+          expect(new_spot_history.spot_id).to eq(spot.id)
         end
 
         it "更新後、更新したスポットの詳細ページにリダイレクトする" do
@@ -395,8 +405,8 @@ RSpec.describe "Spots", type: :request do
         end
 
         it "Ruleレコードを更新できない" do
-          spot.reload
           subject
+          spot.reload
 
           spot.rules.each_with_index do |rule, i|
             expect(rule.saved_change_to_rule_option_id?).to eq(false)
@@ -408,7 +418,7 @@ RSpec.describe "Spots", type: :request do
           expect { subject }.to change { SpotHistory.count }.by(0)
         end
 
-        it_behaves_like "returns http success"
+        it_behaves_like "HTTPリクエストの成功"
       end
 
       context "セッションに保存されたスポットのデータが不正な場合" do
@@ -417,8 +427,8 @@ RSpec.describe "Spots", type: :request do
         before { post new_confirm_spots_path, params: { spot_register_form: { spot_attributes: updated_spot_params, rules_attributes: invalid_rule_params } } }
 
         it "Spotレコードを更新できない" do
-          spot.reload
           expect { subject }.to change { Spot.count }.by(0)
+          spot.reload
           expect(spot.saved_change_to_name?).to eq(false)
           expect(spot.saved_change_to_latitude?).to eq(false)
           expect(spot.saved_change_to_longitude?).to eq(false)
@@ -429,8 +439,8 @@ RSpec.describe "Spots", type: :request do
         end
 
         it "Ruleレコードを更新できない" do
-          spot.reload
           subject
+          spot.reload
 
           spot.rules.each_with_index do |rule, i|
             expect(rule.saved_change_to_rule_option_id?).to eq(false)
@@ -442,7 +452,7 @@ RSpec.describe "Spots", type: :request do
           expect { subject }.to change { SpotHistory.count }.by(0)
         end
 
-        it_behaves_like "returns http success"
+        it_behaves_like "HTTPリクエストの成功"
       end
 
       context "update処理がすべて終わったとき" do

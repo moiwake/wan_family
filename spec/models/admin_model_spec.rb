@@ -7,7 +7,7 @@ RSpec.describe Admin, type: :model do
   context "全カラムのデータが有効なとき" do
     let(:valid_object) { admin }
 
-    it_behaves_like "the object is valid"
+    it_behaves_like "有効なオブジェクトか"
   end
 
   describe "presenceのバリデーション" do
@@ -20,13 +20,13 @@ RSpec.describe Admin, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -36,13 +36,13 @@ RSpec.describe Admin, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
   end
@@ -54,7 +54,7 @@ RSpec.describe Admin, type: :model do
       let(:attribute) { :email }
       let(:invalid_object) { build(:admin, email: admin.email) }
 
-      it_behaves_like "adds validation error messages"
+      it_behaves_like "バリデーションエラーメッセージ"
     end
   end
 
@@ -65,21 +65,21 @@ RSpec.describe Admin, type: :model do
       let(:invalid_object) { build(:admin, password: "ab012") }
       let(:message) { "は6文字以上で入力してください" }
 
-      it_behaves_like "adds validation error messages"
+      it_behaves_like "バリデーションエラーメッセージ"
     end
 
     context "英字のみのとき" do
       let(:invalid_object) { build(:admin, password: "abcdef") }
       let(:message) { "は英字と数字の両方を含めて設定してください" }
 
-      it_behaves_like "adds validation error messages"
+      it_behaves_like "バリデーションエラーメッセージ"
     end
 
     context "数字のみのとき" do
       let(:invalid_object) { build(:admin, password: "012345") }
       let(:message) { "は英字と数字の両方を含めて設定してください" }
 
-      it_behaves_like "adds validation error messages"
+      it_behaves_like "バリデーションエラーメッセージ"
     end
   end
 end

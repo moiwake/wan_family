@@ -7,7 +7,7 @@ RSpec.describe Review, type: :model do
   context "全カラムのデータが有効なとき" do
     let(:valid_object) { review }
 
-    it_behaves_like "the object is valid"
+    it_behaves_like "有効なオブジェクトか"
   end
 
   describe "presenceのバリデーション" do
@@ -20,13 +20,13 @@ RSpec.describe Review, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -36,13 +36,13 @@ RSpec.describe Review, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -52,13 +52,13 @@ RSpec.describe Review, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -68,13 +68,13 @@ RSpec.describe Review, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -84,7 +84,7 @@ RSpec.describe Review, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -94,7 +94,7 @@ RSpec.describe Review, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -104,7 +104,7 @@ RSpec.describe Review, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
   end
@@ -127,7 +127,7 @@ RSpec.describe Review, type: :model do
     describe "scope#load_active_storage_associations" do
       subject(:return_value) { Review.all.load_active_storage_associations }
 
-      it "関連するActiveStorageクラスのモデルのテーブルをロードする" do
+      it "関連するActiveStorageのテーブルをロードする" do
         expect(return_value.last.association(:image).loaded?).to eq(true)
         expect(return_value.last.image.association(:files_attachments).loaded?).to eq(true)
         expect(return_value.last.image.files[0].association(:blob).loaded?).to eq(true)

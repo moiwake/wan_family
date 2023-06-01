@@ -7,7 +7,7 @@ RSpec.describe RuleOption, type: :model do
   context "全カラムのデータが有効なとき" do
     let(:valid_object) { rule_option }
 
-    it_behaves_like "the object is valid"
+    it_behaves_like "有効なオブジェクトか"
   end
 
   describe "presenceのバリデーション" do
@@ -20,13 +20,13 @@ RSpec.describe RuleOption, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -36,7 +36,7 @@ RSpec.describe RuleOption, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
   end
@@ -48,7 +48,7 @@ RSpec.describe RuleOption, type: :model do
       let(:attribute) { :name }
       let(:invalid_object) { build(:rule_option, name: rule_option.name) }
 
-      it_behaves_like "adds validation error messages"
+      it_behaves_like "バリデーションエラーメッセージ"
     end
   end
 end

@@ -12,13 +12,13 @@ RSpec.describe "SpotFavorites", type: :request do
 
     let(:new_spot_favorite) { SpotFavorite.last }
 
-    it "お気に入りスポットの登録ができる" do
+    it "スポットにお気に入り登録ができる" do
       expect { subject }.to change { SpotFavorite.count }.by(1)
       expect(new_spot_favorite.user_id).to eq(user.id)
       expect(new_spot_favorite.spot_id).to eq(spot.id)
     end
 
-    it_behaves_like "returns http success"
+    it_behaves_like "HTTPリクエストの成功"
   end
 
   describe "DELETE /destroy" do
@@ -26,10 +26,10 @@ RSpec.describe "SpotFavorites", type: :request do
 
     let!(:spot_favorite) { create(:spot_favorite, user_id: user.id, spot_id: spot.id) }
 
-    it "お気に入りスポットの登録を削除できる" do
+    it "スポットのお気に入り登録を削除できる" do
       expect { subject }.to change { SpotFavorite.count }.by(-1)
     end
 
-    it_behaves_like "returns http success"
+    it_behaves_like "HTTPリクエストの成功"
   end
 end

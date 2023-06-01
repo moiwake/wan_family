@@ -5,13 +5,13 @@ RSpec.describe "Top", type: :request do
   describe "GET /index" do
     before { get root_path }
 
-    it_behaves_like "returns http success"
+    it_behaves_like "HTTPリクエストの成功"
   end
 
   describe "GET /map_search" do
     before { get map_search_path }
 
-    it_behaves_like "returns http success"
+    it_behaves_like "HTTPリクエストの成功"
   end
 
   describe "GET /word_search" do
@@ -137,7 +137,7 @@ RSpec.describe "Top", type: :request do
         end
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
 
     describe "エリア検索" do
@@ -148,7 +148,7 @@ RSpec.describe "Top", type: :request do
         expect(controller.instance_variable_get("@results").ids).to match_array([spot_1.id, spot_2.id])
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
   end
 end

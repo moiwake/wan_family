@@ -3,7 +3,10 @@ require 'rails_helper'
 RSpec.describe ApplicationHelper, type: :helper do
   describe "#paginated?" do
     context "引数に渡したレコード群がページネーションのメソッドを利用できるとき" do
-      let(:records) { create_list(:spot, 2)[0].class.all.page(params[:page]) }
+      let(:records) do
+        create_list(:spot, 2)
+        Spot.all.page(params[:page])
+      end
 
       before do
         allow(helper).to receive(:paginate).with(records)

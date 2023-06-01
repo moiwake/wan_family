@@ -185,10 +185,10 @@ RSpec.describe "ApplicationSystemSpec", type: :system do
           expect(find("option[value='#{spot.prefecture.id}']", visible: false).selected?).to eq(false)
         end
 
-        it_behaves_like "displays_all_categories"
-        it_behaves_like "displays_all_allowed_areas"
-        it_behaves_like "displays_all_regions"
-        it_behaves_like "displays_all_prefectures"
+        it_behaves_like "カテゴリー名の表示"
+        it_behaves_like "同伴可能エリアの表示"
+        it_behaves_like "地方名の表示"
+        it_behaves_like "県名の表示"
       end
 
       describe "ウィンドウサイズ" do

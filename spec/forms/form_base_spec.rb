@@ -17,26 +17,32 @@ RSpec.describe FormBase, type: :model do
 
   describe "#initialize" do
     context "引数が渡されていないとき" do
+      let(:default_attributes_value) { {} }
+
       it "変数attributesにdefault_attributesメソッドの返り値が代入される" do
-        expect(child_class_instance.attributes).to eq(child_class_instance.send(:default_attributes))
+        expect(child_class_instance.attributes).to eq(default_attributes_value)
       end
     end
   end
 
   describe "#invalid?" do
-    before { allow(child_class_instance).to receive(:check_and_add_errors) }
+    before do
+      allow(child_class_instance).to receive(:check_and_add_errors)
+      child_class_instance.invalid?
+    end
 
     it "check_and_add_errorメソッドを呼び出す" do
-      child_class_instance.invalid?
       expect(child_class_instance).to have_received(:check_and_add_errors).once
     end
   end
 
   describe "#save" do
-    before { allow(child_class_instance).to receive(:persist) }
+    before do
+      allow(child_class_instance).to receive(:persist)
+      child_class_instance.save
+    end
 
     it "persistメソッドを呼び出す" do
-      child_class_instance.save
       expect(child_class_instance).to have_received(:persist).once
     end
   end
@@ -61,10 +67,12 @@ RSpec.describe FormBase, type: :model do
     end
 
     context "レコードの属性値が不正なとき" do
-      before { allow(child_class_instance).to receive(:add_errors) }
+      before do
+        allow(child_class_instance).to receive(:add_errors)
+        subject
+      end
 
       it "add_errorsメソッドを呼び出す" do
-        subject
         expect(child_class_instance).to have_received(:add_errors).once
       end
     end

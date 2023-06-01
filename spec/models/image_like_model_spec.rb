@@ -9,7 +9,7 @@ RSpec.describe ImageLike, type: :model do
   context "全カラムのデータが有効なとき" do
     let(:valid_object) { image_like }
 
-    it_behaves_like "the object is valid"
+    it_behaves_like "有効なオブジェクトか"
   end
 
   describe "presenceのバリデーション" do
@@ -20,7 +20,7 @@ RSpec.describe ImageLike, type: :model do
       let(:attribute) { :user }
 
       context "nilのとき" do
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -28,7 +28,7 @@ RSpec.describe ImageLike, type: :model do
       let(:attribute) { :image }
 
       context "nilのとき" do
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -36,7 +36,7 @@ RSpec.describe ImageLike, type: :model do
       let(:attribute) { :blob_id }
 
       context "nilのとき" do
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
   end
@@ -48,21 +48,21 @@ RSpec.describe ImageLike, type: :model do
       let(:attribute) { :user }
       let(:invalid_object) { build(:image_like, user_id: image_like.user_id, blob_id: image_like.blob_id) }
 
-      it_behaves_like "adds validation error messages"
+      it_behaves_like "バリデーションエラーメッセージ"
     end
 
     context "user_idカラムのみが重複しているとき" do
       let!(:another_blob) { image.files_blobs[1] }
       let(:valid_object) { build(:image_like, user_id: image_like.user_id, blob_id: another_blob.id) }
 
-      it_behaves_like "the object is valid"
+      it_behaves_like "有効なオブジェクトか"
     end
 
     context "blob_idカラムのみが重複しているとき" do
       let!(:another_user) { create(:user) }
       let(:valid_object) { build(:image_like, user_id: another_user.id, blob_id: image_like.blob_id) }
 
-      it_behaves_like "the object is valid"
+      it_behaves_like "有効なオブジェクトか"
     end
   end
 
@@ -75,7 +75,7 @@ RSpec.describe ImageLike, type: :model do
       let!(:invalid_object) { build(:image_like, image: image_by_user, user: user) }
       let(:attribute) { :user }
 
-      it_behaves_like "adds validation error messages"
+      it_behaves_like "バリデーションエラーメッセージ"
     end
   end
 end

@@ -11,13 +11,13 @@ RSpec.describe "Mypage", type: :request do
         get users_mypage_spot_favorite_index_path
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
 
     context "ログインしていないとき" do
       before { get users_mypage_spot_favorite_index_path }
 
-      it_behaves_like "redirects to login page"
+      it_behaves_like "ログイン画面へのリダイレクト"
     end
   end
 
@@ -28,13 +28,13 @@ RSpec.describe "Mypage", type: :request do
         get users_mypage_spot_tag_index_path
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
 
     context "ログインしていないとき" do
       before { get users_mypage_spot_tag_index_path }
 
-      it_behaves_like "redirects to login page"
+      it_behaves_like "ログイン画面へのリダイレクト"
     end
   end
 
@@ -45,13 +45,13 @@ RSpec.describe "Mypage", type: :request do
         get users_mypage_spot_index_path
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
 
     context "ログインしていないとき" do
       before { get users_mypage_spot_index_path }
 
-      it_behaves_like "redirects to login page"
+      it_behaves_like "ログイン画面へのリダイレクト"
     end
   end
 
@@ -62,13 +62,13 @@ RSpec.describe "Mypage", type: :request do
         get users_mypage_review_index_path
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
 
     context "ログインしていないとき" do
       before { get users_mypage_review_index_path }
 
-      it_behaves_like "redirects to login page"
+      it_behaves_like "ログイン画面へのリダイレクト"
     end
   end
 
@@ -79,34 +79,34 @@ RSpec.describe "Mypage", type: :request do
         get users_mypage_image_index_path
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
 
     context "ログインしていないとき" do
       before { get users_mypage_image_index_path }
 
-      it_behaves_like "redirects to login page"
+      it_behaves_like "ログイン画面へのリダイレクト"
     end
   end
 
-  describe "GET /edit" do
+  describe "GET /edit_profile" do
     context "ログインしているとき" do
       before do
         sign_in user
         get users_mypage_profile_edit_path
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
 
     context "ログインしていないとき" do
       before { get users_mypage_profile_edit_path }
 
-      it_behaves_like "redirects to login page"
+      it_behaves_like "ログイン画面へのリダイレクト"
     end
   end
 
-  describe "PATCH /update" do
+  describe "PATCH /update_profile" do
     subject { patch users_mypage_profile_path, params: { user: updated_params } }
 
     let(:updated_params) { { introduction: "updated introduction", human_avatar: updated_human_avatar, dog_avatar: updated_dog_avatar } }

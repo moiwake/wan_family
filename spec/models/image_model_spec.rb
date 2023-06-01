@@ -8,7 +8,7 @@ RSpec.describe Image, type: :model do
   context "全カラムのデータが有効なとき" do
     let!(:valid_object) { image }
 
-    it_behaves_like "the object is valid"
+    it_behaves_like "有効なオブジェクトか"
   end
 
   describe "presenceのバリデーション" do
@@ -17,7 +17,7 @@ RSpec.describe Image, type: :model do
 
     context "filesカラム" do
       context "nilのとき" do
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -25,7 +25,7 @@ RSpec.describe Image, type: :model do
       let(:attribute) { :user }
 
       context "nilのとき" do
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -33,7 +33,7 @@ RSpec.describe Image, type: :model do
       let(:attribute) { :spot }
 
       context "nilのとき" do
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -41,7 +41,7 @@ RSpec.describe Image, type: :model do
       let(:attribute) { :review }
 
       context "nilのとき" do
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
   end
@@ -53,7 +53,7 @@ RSpec.describe Image, type: :model do
     context "filesカラムに不正な形式のファイルを添付したとき" do
       before { invalid_object.files.attach({ io: File.open('spec/fixtures/test.txt'), filename: 'test.txt' }) }
 
-      it_behaves_like "adds validation error messages"
+      it_behaves_like "バリデーションエラーメッセージ"
     end
   end
 
@@ -65,7 +65,7 @@ RSpec.describe Image, type: :model do
 
       before { invalid_object.files.attach({ io: File.open('spec/fixtures/images/0byte.png'), filename: '0byte.png' }) }
 
-      it_behaves_like "adds validation error messages"
+      it_behaves_like "バリデーションエラーメッセージ"
     end
 
     context "filesカラムに5メガバイト以上のファイルを添付したとき" do
@@ -73,7 +73,7 @@ RSpec.describe Image, type: :model do
 
       before { invalid_object.files.blobs << ActiveStorage::Blob.new(content_type: "image/png", byte_size: 6.megabytes) }
 
-      it_behaves_like "adds validation error messages"
+      it_behaves_like "バリデーションエラーメッセージ"
     end
   end
 end

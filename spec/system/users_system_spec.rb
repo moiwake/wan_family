@@ -33,10 +33,10 @@ RSpec.describe "UsersSystemSpecs", type: :system do
           expect(page).to have_link("タグをつけたスポット", href: users_mypage_spot_tag_index_path)
         end
 
-        it_behaves_like "displays_the_data_of_the_target_spot"
-        it_behaves_like "displays_the_most_helpful_reviews_posted_on_the_target_spot"
-        it_behaves_like "displays_the_top_5_liked_images_posted_on_the_target_spot"
-        it_behaves_like "displays_small_image_on_the_display_of_large_image_when_mouse_hovers_over_it"
+        it_behaves_like "対象スポットのデータの表示"
+        it_behaves_like "対象のスポットのレビューの表示"
+        it_behaves_like "対象のスポットの画像の表示"
+        it_behaves_like "マウスオーバーによる大きい画像の表示"
       end
 
       describe "スポットの表示順序" do
@@ -200,10 +200,10 @@ RSpec.describe "UsersSystemSpecs", type: :system do
           expect(page).to have_link("お気に入りしたスポット", href: users_mypage_spot_favorite_index_path)
         end
 
-        it_behaves_like "displays_the_data_of_the_target_spot"
-        it_behaves_like "displays_the_most_helpful_reviews_posted_on_the_target_spot"
-        it_behaves_like "displays_the_top_5_liked_images_posted_on_the_target_spot"
-        it_behaves_like "displays_small_image_on_the_display_of_large_image_when_mouse_hovers_over_it"
+        it_behaves_like "対象スポットのデータの表示"
+        it_behaves_like "対象のスポットのレビューの表示"
+        it_behaves_like "対象のスポットの画像の表示"
+        it_behaves_like "マウスオーバーによる大きい画像の表示"
       end
 
       describe "スポットの表示順序" do
@@ -473,10 +473,10 @@ RSpec.describe "UsersSystemSpecs", type: :system do
           visit users_mypage_spot_index_path
         end
 
-        it_behaves_like "displays_the_data_of_the_target_spot"
-        it_behaves_like "displays_the_most_helpful_reviews_posted_on_the_target_spot"
-        it_behaves_like "displays_the_top_5_liked_images_posted_on_the_target_spot"
-        it_behaves_like "displays_small_image_on_the_display_of_large_image_when_mouse_hovers_over_it"
+        it_behaves_like "対象スポットのデータの表示"
+        it_behaves_like "対象のスポットのレビューの表示"
+        it_behaves_like "対象のスポットの画像の表示"
+        it_behaves_like "マウスオーバーによる大きい画像の表示"
       end
 
       describe "スポットの表示順序" do
@@ -486,7 +486,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
 
         before { visit users_mypage_spot_index_path }
 
-        shared_examples "displays_spots_in_the_specified_order" do
+        shared_examples "スポットの表示順序" do
           it "スポットが指定した順序で表示される" do
             ordered_spots.each_with_index do |spot, i|
               expect(all(".list-content")[i]).to have_content(spot.name)
@@ -497,7 +497,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
         context "表示の順番を指定していないとき" do
           let(:ordered_spots) { [spot_history_2.spot, spot_history_1.spot, spot_history_0.spot] }
 
-          it_behaves_like "displays_spots_in_the_specified_order"
+          it_behaves_like "スポットの表示順序"
         end
 
         context "表示を新しい順にしたとき" do
@@ -505,7 +505,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
 
           before { click_link "新しい順" }
 
-          it_behaves_like "displays_spots_in_the_specified_order"
+          it_behaves_like "スポットの表示順序"
         end
 
         context "表示を古い順にしたとき" do
@@ -513,7 +513,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
 
           before { click_link "古い順" }
 
-          it_behaves_like "displays_spots_in_the_specified_order"
+          it_behaves_like "スポットの表示順序"
         end
 
         context "表示をお気に入りが多い順にしたとき" do
@@ -525,7 +525,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
             click_link "お気に入りが多い順"
           end
 
-          it_behaves_like "displays_spots_in_the_specified_order"
+          it_behaves_like "スポットの表示順序"
         end
       end
 
@@ -621,7 +621,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
       end
 
       describe "レビューの表示順序" do
-        shared_examples "displays_reviews_in_the_specified_order" do
+        shared_examples "レビューの表示順序" do
           it "レビューが指定した順序で表示される" do
             ordered_reviews.each_with_index do |review, i|
               expect(all(".review-content")[i]).to have_content(review.title)
@@ -632,7 +632,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
         context "表示の順番を指定していないとき" do
           let(:ordered_reviews) { Review.all.reverse }
 
-          it_behaves_like "displays_reviews_in_the_specified_order"
+          it_behaves_like "レビューの表示順序"
         end
 
         context "表示をスポットの名前順にしたとき" do
@@ -640,7 +640,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
 
           before { click_link "スポット名順" }
 
-          it_behaves_like "displays_reviews_in_the_specified_order"
+          it_behaves_like "レビューの表示順序"
         end
 
         context "表示を新しい順にしたとき" do
@@ -648,7 +648,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
 
           before { click_link "新しい順" }
 
-          it_behaves_like "displays_reviews_in_the_specified_order"
+          it_behaves_like "レビューの表示順序"
         end
 
         context "表示を古い順にしたとき" do
@@ -656,7 +656,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
 
           before { click_link "古い順" }
 
-          it_behaves_like "displays_reviews_in_the_specified_order"
+          it_behaves_like "レビューの表示順序"
         end
 
         context "表示を役に立ったが多い順にしたとき" do
@@ -668,7 +668,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
             click_link "役に立ったが多い順"
           end
 
-          it_behaves_like "displays_reviews_in_the_specified_order"
+          it_behaves_like "レビューの表示順序"
         end
       end
 
@@ -749,7 +749,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
         end
       end
 
-      shared_examples "displays_images_in_the_specified_order" do
+      shared_examples "画像の表示順序" do
         it "画像が指定した順序で表示される" do
           within(".image-list-wrap") do
             ordered_filenames.each_with_index do |filename, i|
@@ -762,7 +762,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
       context "表示の順番を指定していないとき" do
         let(:ordered_filenames) { filenames.reverse }
 
-        it_behaves_like "displays_images_in_the_specified_order"
+        it_behaves_like "画像の表示順序"
       end
 
       context "表示を新しい順にしたとき" do
@@ -770,7 +770,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
 
         before { click_link "新しい順" }
 
-        it_behaves_like "displays_images_in_the_specified_order"
+        it_behaves_like "画像の表示順序"
       end
 
       context "表示を古い順にしたとき" do
@@ -778,7 +778,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
 
         before { click_link "古い順" }
 
-        it_behaves_like "displays_images_in_the_specified_order"
+        it_behaves_like "画像の表示順序"
       end
 
       context "表示をいいねが多い順にしたとき" do
@@ -792,7 +792,7 @@ RSpec.describe "UsersSystemSpecs", type: :system do
           click_link "いいねが多い順"
         end
 
-        it_behaves_like "displays_images_in_the_specified_order"
+        it_behaves_like "画像の表示順序"
       end
     end
 

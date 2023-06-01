@@ -39,7 +39,7 @@ RSpec.describe CreatedInSpecificPeriodQuery, type: :model do
     let(:to) { Time.current + 1 }
     let(:from) { (to - class_instance.number.send(class_instance.date)).at_beginning_of_day }
 
-    it "指定した時点から現在までに作成されたレコード群を返す" do
+    it "指定した期間に作成されたレコード群を返す" do
       expect(return_value.ids).to eq(scope.where(created_at: from...to).ids)
     end
   end

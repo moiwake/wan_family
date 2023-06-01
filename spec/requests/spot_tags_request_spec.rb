@@ -10,13 +10,13 @@ RSpec.describe "SpotTags", type: :request do
   describe "GET /index" do
     subject { get spot_spot_tags_path(spot), xhr: true }
 
-    it_behaves_like "returns http success"
+    it_behaves_like "HTTPリクエストの成功"
   end
 
   describe "GET /new" do
     subject { get new_spot_spot_tag_path(spot), xhr: true }
 
-    it_behaves_like "returns http success"
+    it_behaves_like "HTTPリクエストの成功"
   end
 
   describe "POST /create" do
@@ -32,7 +32,7 @@ RSpec.describe "SpotTags", type: :request do
         expect(new_spot_tag.spot_id).to eq(spot.id)
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
 
     context "パラメータの値が不正なとき" do
@@ -42,14 +42,14 @@ RSpec.describe "SpotTags", type: :request do
         expect { subject }.to change { SpotTag.count }.by(0)
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
   end
 
   describe "GET /edit" do
     subject { get edit_spot_spot_tag_path(spot, spot_tag), xhr: true }
 
-    it_behaves_like "returns http success"
+    it_behaves_like "HTTPリクエストの成功"
   end
 
   describe "PATCH /update" do
@@ -64,7 +64,7 @@ RSpec.describe "SpotTags", type: :request do
         expect(spot_tag.reload.memo).to eq(updated_params[:memo])
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
 
     context "パラメータの値が不正なとき" do
@@ -78,7 +78,7 @@ RSpec.describe "SpotTags", type: :request do
         expect(spot_tag.saved_change_to_memo?).to eq(false)
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
   end
 
@@ -89,6 +89,6 @@ RSpec.describe "SpotTags", type: :request do
       expect { subject }.to change { SpotTag.count }.by(-1)
     end
 
-    it_behaves_like "returns http success"
+    it_behaves_like "HTTPリクエストの成功"
   end
 end

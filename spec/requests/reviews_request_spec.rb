@@ -10,7 +10,7 @@ RSpec.describe "Reviews", type: :request do
   describe "GET /index" do
     before { get spot_reviews_path(spot) }
 
-    it_behaves_like "returns http success"
+    it_behaves_like "HTTPリクエストの成功"
   end
 
   describe "GET /new" do
@@ -20,13 +20,13 @@ RSpec.describe "Reviews", type: :request do
         get new_spot_review_path(spot)
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
 
     context "ログインしていないとき" do
       before { get new_spot_review_path(spot) }
 
-      it_behaves_like "redirects to login page"
+      it_behaves_like "ログイン画面へのリダイレクト"
     end
   end
 
@@ -37,13 +37,13 @@ RSpec.describe "Reviews", type: :request do
         get edit_spot_review_path(spot, review)
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
 
     context "ログインしていないとき" do
       before { get edit_spot_review_path(spot, review) }
 
-      it_behaves_like "redirects to login page"
+      it_behaves_like "ログイン画面へのリダイレクト"
     end
   end
 
@@ -53,6 +53,7 @@ RSpec.describe "Reviews", type: :request do
     let(:image_params) { attributes_for(:image, files: files) }
     let(:files) { filenames.map { |filename| fixture_file_upload(Rails.root.join('spec', 'fixtures', 'images', filename), 'image/png') } }
     let(:filenames) { ["test1.png", "test2.png"] }
+    let(:new_review) { Review.last }
 
     before { sign_in user }
 
@@ -61,11 +62,11 @@ RSpec.describe "Reviews", type: :request do
 
       it "新しいReviewレコードを保存できる" do
         expect { subject }.to change { Review.count }.by(1)
-        expect(Review.last.title).to eq(review_params[:title])
-        expect(Review.last.comment).to eq(review_params[:comment])
-        expect(Review.last.dog_score).to eq(review_params[:dog_score])
-        expect(Review.last.human_score).to eq(review_params[:human_score])
-        expect(Review.last.visit_date.to_s).to eq(review_params[:visit_date])
+        expect(new_review.title).to eq(review_params[:title])
+        expect(new_review.comment).to eq(review_params[:comment])
+        expect(new_review.dog_score).to eq(review_params[:dog_score])
+        expect(new_review.human_score).to eq(review_params[:human_score])
+        expect(new_review.visit_date.to_s).to eq(review_params[:visit_date])
       end
 
       it "新しいImageレコードを保存できる" do
@@ -84,7 +85,7 @@ RSpec.describe "Reviews", type: :request do
         expect(response).to redirect_to(spot_reviews_path(spot))
       end
 
-      it_behaves_like "returns 302 http status code"
+      it_behaves_like "HTTPステータスコード302"
     end
 
     context "送信されたレビューのパラメータが不正なとき" do
@@ -108,7 +109,7 @@ RSpec.describe "Reviews", type: :request do
         expect(response.body).to include("#{Review.human_attribute_name(:human_score)}を入力してください")
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
 
     context "送信されたイメージのパラメータが不正なとき" do
@@ -129,7 +130,7 @@ RSpec.describe "Reviews", type: :request do
         expect(response.body).to include("#{Image.human_attribute_name(:files)}を入力してください")
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
   end
 
@@ -148,11 +149,12 @@ RSpec.describe "Reviews", type: :request do
 
       it "Reviewレコードを更新できる" do
         expect { subject }.to change { Review.count }.by(0)
-        expect(review.reload.title).to eq(updated_review_params[:title])
-        expect(review.reload.comment).to eq(updated_review_params[:comment])
-        expect(review.reload.dog_score).to eq(updated_review_params[:dog_score])
-        expect(review.reload.human_score).to eq(updated_review_params[:human_score])
-        expect(review.reload.visit_date.to_s).to eq(updated_review_params[:visit_date])
+        review.reload
+        expect(review.title).to eq(updated_review_params[:title])
+        expect(review.comment).to eq(updated_review_params[:comment])
+        expect(review.dog_score).to eq(updated_review_params[:dog_score])
+        expect(review.human_score).to eq(updated_review_params[:human_score])
+        expect(review.visit_date.to_s).to eq(updated_review_params[:visit_date])
       end
 
       it "Imageレコードに関連するBlobレコードを追加できる" do
@@ -170,7 +172,7 @@ RSpec.describe "Reviews", type: :request do
         expect(response).to redirect_to(users_mypage_review_index_path)
       end
 
-      it_behaves_like "returns 302 http status code"
+      it_behaves_like "HTTPステータスコード302"
     end
 
     context "送信されたレビューのパラメータが不正なとき" do
@@ -179,8 +181,8 @@ RSpec.describe "Reviews", type: :request do
       let(:updated_params) { { review_attributes: attributes_for(:review, :invalid), image_attributes: updated_image_params } }
 
       it "Reviewレコードを更新できない" do
-        review.reload
         subject
+        review.reload
         expect(review.saved_change_to_title?).to eq(false)
         expect(review.saved_change_to_comment?).to eq(false)
         expect(review.saved_change_to_dog_score?).to eq(false)
@@ -205,7 +207,7 @@ RSpec.describe "Reviews", type: :request do
         expect(response.body).to include("#{Review.human_attribute_name(:human_score)}を入力してください")
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
 
     context "送信されたイメージのパラメータが不正なとき" do
@@ -215,8 +217,8 @@ RSpec.describe "Reviews", type: :request do
       let(:added_invalid_filename) { 'test.txt' }
 
       it "Reviewレコードを更新できない" do
-        review.reload
         subject
+        review.reload
         expect(review.saved_change_to_title?).to eq(false)
         expect(review.saved_change_to_comment?).to eq(false)
         expect(review.saved_change_to_dog_score?).to eq(false)
@@ -228,12 +230,17 @@ RSpec.describe "Reviews", type: :request do
         expect(image.reload.files.blobs.pluck(:filename).include?(added_invalid_filename)).to eq(false)
       end
 
+      it "Imageレコードに関連するBlobレコードを削除できない" do
+        subject
+        expect(image.reload.files.pluck(:id).include?(removed_file_id)).to eq(true)
+      end
+
       it "バリデーションエラーが表示される" do
         subject
         expect(response.body).to include("#{Image.human_attribute_name(:files)}のファイル形式が不正です。")
       end
 
-      it_behaves_like "returns http success"
+      it_behaves_like "HTTPリクエストの成功"
     end
   end
 
@@ -255,6 +262,6 @@ RSpec.describe "Reviews", type: :request do
       expect(response).to redirect_to(users_mypage_review_index_path)
     end
 
-    it_behaves_like "returns 302 http status code"
+    it_behaves_like "HTTPステータスコード302"
   end
 end

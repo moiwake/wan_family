@@ -21,7 +21,7 @@ RSpec.describe "ImageLikes", type: :request do
       expect(new_like_image.blob_id).to eq(image_blob.id)
     end
 
-    it_behaves_like "returns http success"
+    it_behaves_like "HTTPリクエストの成功"
   end
 
   describe "DELETE /destroy" do
@@ -33,6 +33,6 @@ RSpec.describe "ImageLikes", type: :request do
       expect { subject }.to change { ImageLike.count }.by(-1)
     end
 
-    it_behaves_like "returns http success"
+    it_behaves_like "HTTPリクエストの成功"
   end
 end

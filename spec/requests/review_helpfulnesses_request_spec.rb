@@ -13,13 +13,13 @@ RSpec.describe "ReviewHelpfulnesses", type: :request do
 
     let(:new_review_helpfulness) { ReviewHelpfulness.last }
 
-    it "画像にいいねを登録できる" do
+    it "レビューに役立ったを登録できる" do
       expect { subject }.to change { ReviewHelpfulness.count }.by(1)
       expect(new_review_helpfulness.user_id).to eq(user.id)
       expect(new_review_helpfulness.review_id).to eq(review.id)
     end
 
-    it_behaves_like "returns http success"
+    it_behaves_like "HTTPリクエストの成功"
   end
 
   describe "DELETE /destroy" do
@@ -27,10 +27,10 @@ RSpec.describe "ReviewHelpfulnesses", type: :request do
 
     let!(:review_helpfulness) { create(:review_helpfulness, user: user, review: review) }
 
-    it "画像のいいねを削除できる" do
+    it "レビューの役立ったを削除できる" do
       expect { subject }.to change { ReviewHelpfulness.count }.by(-1)
     end
 
-    it_behaves_like "returns http success"
+    it_behaves_like "HTTPリクエストの成功"
   end
 end

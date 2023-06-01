@@ -27,7 +27,7 @@ RSpec.describe ReviewPosterForm, type: :model do
 
     context "Reviewレコードが未保存のとき" do
       let(:review_poster_form_instance) { ReviewPosterForm.new(attributes: { "image_attributes" => image_attributes }, review: review) }
-      let(:review) { build(:review, user_id: user.id, spot_id: spot.id) }
+      let(:review) { build(:review, user: user, spot: spot) }
       let(:filenames) { ["test1.png", "test2.png"] }
 
       it "Imageレコードを作成し、属性値にパラメータと指定の値を設定する" do
@@ -42,7 +42,7 @@ RSpec.describe ReviewPosterForm, type: :model do
 
     context "Reviewレコードに関連するImageレコードがnilのとき" do
       let(:review_poster_form_instance) { ReviewPosterForm.new(attributes: { "image_attributes" => image_attributes }, review: review) }
-      let!(:review) { create(:review, user_id: user.id, spot_id: spot.id) }
+      let!(:review) { create(:review, user: user, spot: spot) }
       let(:filenames) { ["test1.png", "test2.png"] }
 
       it "Imageレコードを作成し、属性値にパラメータと指定の値を設定する" do
@@ -58,7 +58,7 @@ RSpec.describe ReviewPosterForm, type: :model do
 
     context "Reviewレコードが保存済み、かつReviewレコードに関連するImageレコードが存在するとき" do
       let(:review_poster_form_instance) { ReviewPosterForm.new(attributes: { "image_attributes" => image_attributes }, review: review) }
-      let!(:review) { create(:review, user_id: user.id, spot_id: spot.id) }
+      let!(:review) { create(:review, user: user, spot: spot) }
       let(:filenames) { ["test3.png"] }
 
       it "Imageレコードの属性値に、パラメータの値を設定する" do

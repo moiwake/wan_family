@@ -7,7 +7,7 @@ RSpec.describe Rule, type: :model do
   context "全カラムのデータが有効なとき" do
     let(:valid_object) { rule }
 
-    it_behaves_like "the object is valid"
+    it_behaves_like "有効なオブジェクトか"
   end
 
   describe "presenceのバリデーション" do
@@ -20,7 +20,7 @@ RSpec.describe Rule, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -30,7 +30,7 @@ RSpec.describe Rule, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -40,13 +40,13 @@ RSpec.describe Rule, type: :model do
       context "nilのとき" do
         let(:type) { :nil }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
 
       context "空文字のとき" do
         let(:type) { :empty }
 
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
   end
@@ -58,21 +58,21 @@ RSpec.describe Rule, type: :model do
       let(:attribute) { :spot }
       let(:invalid_object) { build(:rule, spot: rule.spot, rule_option: rule.rule_option) }
 
-      it_behaves_like "adds validation error messages"
+      it_behaves_like "バリデーションエラーメッセージ"
     end
 
     context "spotカラムのデータのみが重複しているとき" do
       let(:attribute) { :spot }
       let(:valid_object) { build(:rule, spot: rule.spot) }
 
-      it_behaves_like "the object is valid"
+      it_behaves_like "有効なオブジェクトか"
     end
 
     context "rule_optionカラムがのみ重複しているとき" do
       let(:attribute) { :rule_option }
       let(:valid_object) { build(:rule, rule_option: rule.rule_option) }
 
-      it_behaves_like "the object is valid"
+      it_behaves_like "有効なオブジェクトか"
     end
   end
 end

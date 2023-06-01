@@ -24,7 +24,7 @@ RSpec.describe SpotHistoryCreator, type: :model do
   describe "#create_spot_histories" do
     let(:spot_history) { spot_history_creator_instance.create_spot_histories }
 
-    it "あるスポットに紐付いた登録履歴のレコードを作成、保存する" do
+    it "スポットに紐付いた登録履歴のレコードを作成、保存する" do
       expect(spot_history.spot_id).to eq(spot.id)
       expect(spot_history.user_id).to eq(user.id)
       expect(spot_history.history).to eq("履歴")

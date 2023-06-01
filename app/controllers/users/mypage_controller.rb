@@ -32,7 +32,6 @@ class Users::MypageController < ApplicationController
       preload(attachments: :record)
   end
 
-  # profile
   def edit_profile
     @user = current_user
   end
