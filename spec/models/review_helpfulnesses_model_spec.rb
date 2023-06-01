@@ -7,7 +7,7 @@ RSpec.describe ReviewHelpfulness, type: :model do
   context "全カラムのデータが有効なとき" do
     let(:valid_object) { review_helpfulness }
 
-    it_behaves_like "the object is valid"
+    it_behaves_like "有効なオブジェクトか"
   end
 
   describe "presenceのバリデーション" do
@@ -18,7 +18,7 @@ RSpec.describe ReviewHelpfulness, type: :model do
       let(:attribute) { :user }
 
       context "nilのとき" do
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
 
@@ -26,7 +26,7 @@ RSpec.describe ReviewHelpfulness, type: :model do
       let(:attribute) { :review }
 
       context "nilのとき" do
-        it_behaves_like "adds validation error messages"
+        it_behaves_like "バリデーションエラーメッセージ"
       end
     end
   end
@@ -38,19 +38,19 @@ RSpec.describe ReviewHelpfulness, type: :model do
       let(:attribute) { :user }
       let(:invalid_object) { build(:review_helpfulness, user_id: review_helpfulness.user_id, review_id: review_helpfulness.review_id) }
 
-      it_behaves_like "adds validation error messages"
+      it_behaves_like "バリデーションエラーメッセージ"
     end
 
     context "user_idカラムのみが重複しているとき" do
       let(:valid_object) { build(:review_helpfulness, user_id: review_helpfulness.user_id) }
 
-      it_behaves_like "the object is valid"
+      it_behaves_like "有効なオブジェクトか"
     end
 
     context "review_idカラムのみが重複しているとき" do
       let(:valid_object) { build(:review_helpfulness, review_id: review_helpfulness.review_id) }
 
-      it_behaves_like "the object is valid"
+      it_behaves_like "有効なオブジェクトか"
     end
   end
 
@@ -63,7 +63,27 @@ RSpec.describe ReviewHelpfulness, type: :model do
       let!(:invalid_object) { build(:review_helpfulness, review: review, user: user) }
       let(:attribute) { :user }
 
-      it_behaves_like "adds validation error messages"
+      it_behaves_like "バリデーションエラーメッセージ"
+    end
+  end
+
+  describe "Reviewモデルに対するcounter_cacheオプション" do
+    context "レコードが保存されたとき" do
+      let(:review_helpfulness) { build(:review_helpfulness, review: review) }
+      let(:review) { create(:review) }
+
+      it "関連するReviewレコードのreview_helphulnesses_countカラムの値が1つ増える" do
+        expect { review_helpfulness.save }.to change { review.review_helpfulnesses_count }.by(1)
+      end
+    end
+
+    context "レコードが削除されたとき" do
+      let(:review_helpfulness) { create(:review_helpfulness, review: review) }
+      let(:review) { create(:review) }
+
+      it "関連するReviewレコードのreview_helphulnesses_countカラムの値が1つ減る" do
+        expect { review_helpfulness.destroy }.to change { review.review_helpfulnesses_count }.by(-1)
+      end
     end
   end
 end

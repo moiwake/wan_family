@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "ImagesSystemSpecs", type: :system do
   let!(:user) { create(:user) }
-  let!(:spot) { create(:spot) }
+  let!(:spot) { create(:spot, impressions_count: 2) }
   let!(:image_0) { create(:image, :attached, spot: spot) }
   let!(:image_1) { create(:image, :attached_1, spot: spot) }
   let!(:filenames) { ActiveStorage::Blob.pluck(:filename) }
@@ -31,7 +31,7 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
     end
 
     describe "画像の表示順序" do
-      shared_examples "displays_images_in_the_specified_order" do
+      shared_examples "画像の表示順序" do
         it "画像が指定した順序で表示される" do
           within(".image-list-wrap") do
             ordered_filenames.each_with_index do |filename, i|
@@ -44,7 +44,7 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
       context "表示の順番を指定していないとき" do
         let(:ordered_filenames) { filenames_desc }
 
-        it_behaves_like "displays_images_in_the_specified_order"
+        it_behaves_like "画像の表示順序"
       end
 
       context "表示を新しい順にしたとき" do
@@ -52,7 +52,7 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
 
         before { click_link "新しい順" }
 
-        it_behaves_like "displays_images_in_the_specified_order"
+        it_behaves_like "画像の表示順序"
       end
 
       context "表示を古い順にしたとき" do
@@ -60,7 +60,7 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
 
         before { click_link "古い順" }
 
-        it_behaves_like "displays_images_in_the_specified_order"
+        it_behaves_like "画像の表示順序"
       end
 
       context "表示をいいねが多い順にしたとき" do
@@ -68,54 +68,13 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
 
         before { click_link "いいねが多い順" }
 
-        it_behaves_like "displays_images_in_the_specified_order"
+        it_behaves_like "画像の表示順序"
       end
     end
 
-    describe "ページヘッダーの表示", js: true do
-      before do
-        create(:review, dog_score: 3, human_score: 4, spot: spot)
-        create(:review, dog_score: 2, human_score: 4, spot: spot)
-        create(:review, dog_score: 3, human_score: 3, spot: spot)
-        create_list(:spot_favorite, 2, spot: spot)
-        visit spot_images_path(spot)
-      end
-
-      it "ヘッダーに、スポットのデータが表示される" do
-        expect(page).to have_content(spot.name)
-        expect(page).to have_content(spot.address)
-        expect(page).to have_content(spot.category.name)
-        expect(page).to have_content(spot.allowed_area.area)
-        expect(page).to have_content(I18n.l(spot.updated_at, format: :short))
-        expect(find(".favorite-count")).to have_content(spot.spot_favorites.size)
-        expect(find(".review-count")).to have_content(spot.reviews.size)
-        expect(all(".rating-score")[0]).to have_content(spot.reviews.average(:dog_score).round(1))
-        expect(all(".rating-score")[1]).to have_content(spot.reviews.average(:human_score).round(1))
-
-        within(all(".dog-rating")[0]) do
-          expect(all(".js-colored").length).to eq(2)
-          expect(all(".js-seven-tenths-color").length).to eq(1)
-          expect(all(".js-non-colored").length).to eq(2)
-        end
-
-        within(all(".human-rating")[0]) do
-          expect(all(".js-colored").length).to eq(3)
-          expect(all(".js-seven-tenths-color").length).to eq(1)
-          expect(all(".js-non-colored").length).to eq(1)
-        end
-      end
-
-      it "スポット更新ページへのリンクがある" do
-        expect(page).to have_link("スポットの情報を更新", href: edit_spot_path(spot))
-      end
-
-      it "スポット詳細ページへのリンクがある" do
-        expect(find(".header-tabs")).to have_link("トップ", href: spot_path(spot))
-      end
-
-      it "スポットに投稿されたレビュー一覧ページへのリンクがある" do
-        expect(find(".header-tabs")).to have_link("レビュー", href: spot_reviews_path(spot))
-      end
+    describe "ページヘッダーの表示" do
+      include_context "ページヘッダーの表示", "spot_images_path"
+      include_context "画像一覧ページのページヘッダーのタブ"
     end
 
     describe "ページネーション" do
@@ -165,7 +124,7 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
         let(:prev_btn) { find(".prev-image-btn") }
         let(:next_btn) { find(".next-image-btn") }
 
-        shared_examples "enlarge_specified_image" do
+        shared_examples "指定画像の拡大" do
           it "指定した画像が拡大表示される" do
             sleep 1
             find("a[href$='#{displayed_file.id}']").click
@@ -187,14 +146,14 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
             let(:filename) { filenames_desc[prev_file_index] }
             let(:btn) { prev_btn }
 
-            it_behaves_like "enlarge_specified_image"
+            it_behaves_like "指定画像の拡大"
           end
 
           context "１つ先の画像を表示するアイコンをクリックしたとき" do
             let(:filename) { filenames_desc[next_file_index] }
             let(:btn) { next_btn }
 
-            it_behaves_like "enlarge_specified_image"
+            it_behaves_like "指定画像の拡大"
           end
         end
 
@@ -208,14 +167,14 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
             let(:filename) { filenames_asc[prev_file_index] }
             let(:btn) { prev_btn }
 
-            it_behaves_like "enlarge_specified_image"
+            it_behaves_like "指定画像の拡大"
           end
 
           context "１つ先の画像を表示するアイコンをクリックしたとき" do
             let(:filename) { filenames_asc[next_file_index] }
             let(:btn) { next_btn }
 
-            it_behaves_like "enlarge_specified_image"
+            it_behaves_like "指定画像の拡大"
           end
         end
 
@@ -229,14 +188,14 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
             let(:filename) { filenames_image_like[prev_file_index] }
             let(:btn) { prev_btn }
 
-            it_behaves_like "enlarge_specified_image"
+            it_behaves_like "指定画像の拡大"
           end
 
           context "１つ先の画像を表示するアイコンをクリックしたとき" do
             let(:filename) { filenames_image_like[next_file_index] }
             let(:btn) { next_btn }
 
-            it_behaves_like "enlarge_specified_image"
+            it_behaves_like "指定画像の拡大"
           end
         end
       end

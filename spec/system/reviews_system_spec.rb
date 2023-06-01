@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "ReviewsSystemSpecs", type: :system do
   let!(:user) { create(:user) }
-  let!(:spot) { create(:spot) }
+  let!(:spot) { create(:spot, impressions_count: 2) }
 
   describe "スポットに投稿されたレビュー一覧ページ" do
     let(:reviews) { Review.all.reverse }
@@ -72,7 +72,7 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
     end
 
     describe "レビューの表示順序" do
-      shared_examples "displays_reviews_in_the_specified_order" do
+      shared_examples "レビューの表示順序" do
         it "レビューが指定した順序で表示される" do
           ordered_reviews.each_with_index do |review, i|
             expect(all(".review-content")[i]).to have_content(review.title)
@@ -83,7 +83,7 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
       context "表示の順番を指定していないとき" do
         let(:ordered_reviews) { Review.all.reverse }
 
-        it_behaves_like "displays_reviews_in_the_specified_order"
+        it_behaves_like "レビューの表示順序"
       end
 
       context "表示を新しい順にしたとき" do
@@ -91,7 +91,7 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
 
         before { click_link "新しい順" }
 
-        it_behaves_like "displays_reviews_in_the_specified_order"
+        it_behaves_like "レビューの表示順序"
       end
 
       context "表示を古い順にしたとき" do
@@ -99,7 +99,7 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
 
         before { click_link "古い順" }
 
-        it_behaves_like "displays_reviews_in_the_specified_order"
+        it_behaves_like "レビューの表示順序"
       end
 
       context "表示を役に立ったが多い順にしたとき" do
@@ -111,7 +111,7 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
           click_link "役に立ったが多い順"
         end
 
-        it_behaves_like "displays_reviews_in_the_specified_order"
+        it_behaves_like "レビューの表示順序"
       end
     end
 
@@ -135,42 +135,9 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
       end
     end
 
-    describe "ページヘッダーの表示", js: true do
-      it "ヘッダーに、スポットのデータが表示される" do
-        expect(page).to have_content(spot.name)
-        expect(page).to have_content(spot.address)
-        expect(page).to have_content(spot.category.name)
-        expect(page).to have_content(spot.allowed_area.area)
-        expect(page).to have_content(I18n.l(spot.updated_at, format: :short))
-        expect(find(".favorite-count")).to have_content(spot.spot_favorites.size)
-        expect(find(".review-count")).to have_content(spot.reviews.size)
-        expect(all(".rating-score")[0]).to have_content(spot.reviews.average(:dog_score).round(1))
-        expect(all(".rating-score")[1]).to have_content(spot.reviews.average(:human_score).round(1))
-
-        within(all(".dog-rating")[0]) do
-          expect(all(".js-colored").length).to eq(2)
-          expect(all(".js-seven-tenths-color").length).to eq(1)
-          expect(all(".js-non-colored").length).to eq(2)
-        end
-
-        within(all(".human-rating")[0]) do
-          expect(all(".js-colored").length).to eq(3)
-          expect(all(".js-seven-tenths-color").length).to eq(1)
-          expect(all(".js-non-colored").length).to eq(1)
-        end
-      end
-
-      it "スポット更新ページへのリンクがある" do
-        expect(page).to have_link("スポットの情報を更新", href: edit_spot_path(spot))
-      end
-
-      it "スポット詳細ページへのリンクがある" do
-        expect(find(".header-tabs")).to have_link("トップ", href: spot_path(spot))
-      end
-
-      it "スポットに投稿された画像一覧ページへのリンクがある" do
-        expect(find(".header-tabs")).to have_link("画像", href: spot_images_path(spot))
-      end
+    describe "ページヘッダーの表示" do
+      include_context "レビュー一覧ページのページヘッダーのタブ"
+      include_context "ページヘッダーの表示", "spot_reviews_path"
     end
 
     describe "ページネーション" do
@@ -332,13 +299,14 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
 
       it "レビューを更新できる" do
         expect { click_button "投稿する" }.to change { Review.count }.by(0)
-        expect(review.reload.title).to eq(updated_review.title)
-        expect(review.reload.comment).to eq(updated_review.comment)
-        expect(review.reload.visit_date).to eq(updated_review.visit_date)
-        expect(review.reload.dog_score).to eq(updated_review.dog_score)
-        expect(review.reload.human_score).to eq(updated_review.human_score)
-        expect(review.reload.user_id).to eq(updated_review.user_id)
-        expect(review.reload.spot_id).to eq(updated_review.spot_id)
+        review.reload
+        expect(review.title).to eq(updated_review.title)
+        expect(review.comment).to eq(updated_review.comment)
+        expect(review.visit_date).to eq(updated_review.visit_date)
+        expect(review.dog_score).to eq(updated_review.dog_score)
+        expect(review.human_score).to eq(updated_review.human_score)
+        expect(review.user_id).to eq(updated_review.user_id)
+        expect(review.spot_id).to eq(updated_review.spot_id)
       end
 
       it "投稿画像を追加できる" do

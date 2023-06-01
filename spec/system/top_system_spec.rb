@@ -18,10 +18,8 @@ RSpec.describe "TopSystemSpecs", type: :system do
           let(:ranked_index) { ordered_index }
 
           before do
-            create_list(:spot_favorite, 11, created_at: Time.current.last_year, spot: spots.last)
-
             ordered_index.each_with_index do |index, i|
-              create_list(:spot_favorite, (10 - i), spot: spots[index])
+              create_list(:impression, (10 - i), impressionable_id: spots[index].id)
             end
 
             ranked_index.each do |index|
@@ -50,10 +48,8 @@ RSpec.describe "TopSystemSpecs", type: :system do
           let(:ranked_index) { ordered_index.push(10) }
 
           before do
-            create_list(:spot_favorite, 10, created_at: Date.today.last_year, spot: spots.last)
-
             ordered_index.each_with_index do |index, i|
-              create_list(:spot_favorite, (9 - i), spot: spots[index])
+              create_list(:impression, (10 - i), impressionable_id: spots[index].id)
             end
 
             ranked_index.each do |index|
@@ -87,10 +83,10 @@ RSpec.describe "TopSystemSpecs", type: :system do
 
         before { visit root_path }
 
-        it_behaves_like "displays_all_categories"
-        it_behaves_like "displays_all_allowed_areas"
-        it_behaves_like "displays_all_regions"
-        it_behaves_like "displays_all_prefectures"
+        it_behaves_like "カテゴリー名の表示"
+        it_behaves_like "同伴可能エリアの表示"
+        it_behaves_like "地方名の表示"
+        it_behaves_like "県名の表示"
       end
 
       describe "みんなのお気に入り" do
@@ -355,10 +351,10 @@ RSpec.describe "TopSystemSpecs", type: :system do
         expect(find(".search-result-title").find("span")).to have_content("（1件）")
       end
 
-      it_behaves_like "displays_the_data_of_the_target_spot"
-      it_behaves_like "displays_the_most_helpful_reviews_posted_on_the_target_spot"
-      it_behaves_like "displays_the_top_5_liked_images_posted_on_the_target_spot"
-      it_behaves_like "displays_small_image_on_the_display_of_large_image_when_mouse_hovers_over_it"
+      it_behaves_like "対象スポットのデータの表示"
+      it_behaves_like "対象のスポットのレビューの表示"
+      it_behaves_like "対象のスポットの画像の表示"
+      it_behaves_like "マウスオーバーによる大きい画像の表示"
     end
 
     describe "スポットの表示順序" do
@@ -376,7 +372,7 @@ RSpec.describe "TopSystemSpecs", type: :system do
         end
       end
 
-      shared_examples "displays_spots_in_the_specified_order" do
+      shared_examples "スポットの表示順序" do
         it "スポットが指定した順序で表示される" do
           sleep 0.5
           ordered_spots.each_with_index do |spot, i|
@@ -388,7 +384,7 @@ RSpec.describe "TopSystemSpecs", type: :system do
       context "表示の順番を指定していないとき" do
         let(:ordered_spots) { spots.reverse }
 
-        it_behaves_like "displays_spots_in_the_specified_order"
+        it_behaves_like "スポットの表示順序"
       end
 
       context "表示を新しい順にしたとき" do
@@ -396,7 +392,7 @@ RSpec.describe "TopSystemSpecs", type: :system do
 
         before { click_link "新しい順" }
 
-        it_behaves_like "displays_spots_in_the_specified_order"
+        it_behaves_like "スポットの表示順序"
       end
 
       context "表示を古い順にしたとき" do
@@ -404,7 +400,7 @@ RSpec.describe "TopSystemSpecs", type: :system do
 
         before { click_link "古い順" }
 
-        it_behaves_like "displays_spots_in_the_specified_order"
+        it_behaves_like "スポットの表示順序"
       end
 
       context "表示をお気に入りが多い順にしたとき" do
@@ -416,7 +412,7 @@ RSpec.describe "TopSystemSpecs", type: :system do
           click_link "お気に入りが多い順"
         end
 
-        it_behaves_like "displays_spots_in_the_specified_order"
+        it_behaves_like "スポットの表示順序"
       end
     end
 

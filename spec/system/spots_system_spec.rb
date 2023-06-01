@@ -40,10 +40,10 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
           expect(find(".page-link-wrap")).to have_link("TOP", href: root_path)
         end
 
-        it_behaves_like "displays_all_categories"
-        it_behaves_like "displays_all_allowed_areas"
-        it_behaves_like "displays_all_option_titles"
-        it_behaves_like "displays_all_rule_options"
+        it_behaves_like "カテゴリー名の表示"
+        it_behaves_like "同伴可能エリアの表示"
+        it_behaves_like "ルール選択肢のタイトルの表示"
+        it_behaves_like "ルール選択肢の表示"
       end
 
       describe "登録内容の入力" do
@@ -145,10 +145,10 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
           expect(page).to have_unchecked_field(rule_options[1].name)
         end
 
-        it_behaves_like "displays_all_categories"
-        it_behaves_like "displays_all_allowed_areas"
-        it_behaves_like "displays_all_option_titles"
-        it_behaves_like "displays_all_rule_options"
+        it_behaves_like "カテゴリー名の表示"
+        it_behaves_like "同伴可能エリアの表示"
+        it_behaves_like "ルール選択肢のタイトルの表示"
+        it_behaves_like "ルール選択肢の表示"
       end
     end
   end
@@ -156,54 +156,12 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
   describe "スポット詳細ページ" do
     let!(:spot) { create(:spot) }
 
-    describe "ページヘッダーの表示", js: true do
-      before do
-        create(:review, dog_score: 3, human_score: 4, spot: spot)
-        create(:review, dog_score: 2, human_score: 4, spot: spot)
-        create(:review, dog_score: 3, human_score: 3, spot: spot)
-        create_list(:spot_favorite, 2, spot: spot)
-        visit spot_path(spot)
-      end
-
-      it "ヘッダーに、スポットのデータが表示される" do
-        expect(page).to have_content(spot.name)
-        expect(page).to have_content(spot.address)
-        expect(page).to have_content(spot.category.name)
-        expect(page).to have_content(spot.allowed_area.area)
-        expect(page).to have_content(I18n.l(spot.updated_at, format: :short))
-        expect(find(".favorite-count")).to have_content(spot.spot_favorites.size)
-        expect(find(".review-count")).to have_content(spot.reviews.size)
-        expect(all(".rating-score")[0]).to have_content(spot.reviews.average(:dog_score).round(1))
-        expect(all(".rating-score")[1]).to have_content(spot.reviews.average(:human_score).round(1))
-
-        within(all(".dog-rating")[0]) do
-          expect(all(".js-colored").length).to eq(2)
-          expect(all(".js-seven-tenths-color").length).to eq(1)
-          expect(all(".js-non-colored").length).to eq(2)
-        end
-
-        within(all(".human-rating")[0]) do
-          expect(all(".js-colored").length).to eq(3)
-          expect(all(".js-seven-tenths-color").length).to eq(1)
-          expect(all(".js-non-colored").length).to eq(1)
-        end
-      end
-
-      it "スポット更新ページへのリンクがある" do
-        expect(page).to have_link("スポットの情報を更新", href: edit_spot_path(spot))
-      end
-
-      it "スポットに投稿された画像一覧ページへのリンクがある" do
-        expect(find(".header-tabs")).to have_link("画像", href: spot_images_path(spot))
-      end
-
-      it "スポットに投稿されたレビュー一覧ページへのリンクがある" do
-        expect(find(".header-tabs")).to have_link("レビュー", href: spot_reviews_path(spot))
-        expect(find(".article-link")).to have_link("レビューをもっと見る", href: spot_reviews_path(spot))
-      end
+    describe "ページヘッダーの表示" do
+      include_context "スポット詳細ページのページヘッダーのタブ"
+      include_context "ページヘッダーの表示", "spot_path"
     end
 
-    describe "スポットの投稿画像", js: true do
+    describe "スポットの投稿画像" do
       let!(:image_0) { create(:image, :attached, spot: spot) }
       let!(:image_1) { create(:image, :attached_1, spot: spot) }
       let(:ordered_filenames) { [image_1.files_blobs[0].filename, image_0.files_blobs[0].filename] }
@@ -223,13 +181,13 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
         expect(find(".small-image").all("img").length).to eq(10)
       end
 
-      it "小画像をマウスオーバーすると、大画像のディスプレイに表示される" do
+      it "小画像をマウスオーバーすると、大画像のディスプレイに表示される", js: true do
         find(".small-image").all("img")[0].hover
         expect(find(".large-image").find("img")[:src]).to eq(find(".small-image").all("img")[0][:src])
       end
     end
 
-    describe "スポットの投稿レビュー", js: true do
+    describe "スポットの投稿レビュー" do
       let!(:reviews) { create_list(:review, 3, :with_image, spot: spot) }
       let(:ordered_reviews) { [reviews[2], reviews[1], reviews[0]] }
 
@@ -240,7 +198,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
         visit spot_path(spot)
       end
 
-      it "スポットに投稿されたレビューが役立ったが多い順に上限数だけ表示される" do
+      it "スポットに投稿されたレビューが役立ったが多い順に上限数だけ表示される", js: true do
         ordered_reviews.each.with_index do |review, i|
           within(all(".review-content")[i]) do
             expect(page).to have_content(review.user.name)
@@ -269,7 +227,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
         end
       end
 
-      it "レビューに役立ったを登録できる" do
+      it "レビューに役立ったを登録できる", js: true do
         within(all(".review-content")[0]) do
           expect do
             find(".review-helpfulness-add-btn").click
@@ -281,12 +239,16 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
         end
       end
 
-      it "レビューの画像を拡大表示できる" do
+      it "レビューの画像を拡大表示できる", js: true do
         within(all(".review-images-wrap")[0]) do
           all("img")[0].click
           expect(page).to have_selector("#js-enlarged-image")
           expect(find("#js-enlarged-image")[:src]).to include(ordered_reviews[0].image.files_blobs[0].filename.to_s)
         end
+      end
+
+      it "スポットに投稿されたレビュー一覧ページへのリンクがある" do
+        expect(find(".article-link")).to have_link("レビューをもっと見る", href: spot_reviews_path(spot))
       end
     end
 
@@ -377,10 +339,10 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
           expect(find(".page-link-wrap")).to have_link("スポットのページへ戻る", href: spot_path(spot))
         end
 
-        it_behaves_like "displays_all_categories"
-        it_behaves_like "displays_all_allowed_areas"
-        it_behaves_like "displays_all_option_titles"
-        it_behaves_like "displays_all_rule_options"
+        it_behaves_like "カテゴリー名の表示"
+        it_behaves_like "同伴可能エリアの表示"
+        it_behaves_like "ルール選択肢のタイトルの表示"
+        it_behaves_like "ルール選択肢の表示"
       end
 
       describe "更新内容の入力", js: true do
@@ -420,10 +382,10 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
             expect(page).to have_checked_field(rule_options[1].name)
           end
 
-          it_behaves_like "displays_all_categories"
-          it_behaves_like "displays_all_allowed_areas"
-          it_behaves_like "displays_all_option_titles"
-          it_behaves_like "displays_all_rule_options"
+          it_behaves_like "カテゴリー名の表示"
+          it_behaves_like "同伴可能エリアの表示"
+          it_behaves_like "ルール選択肢のタイトルの表示"
+          it_behaves_like "ルール選択肢の表示"
         end
       end
     end
@@ -488,15 +450,15 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
           expect(page).to have_unchecked_field(rule_options[0].name)
         end
 
-        it_behaves_like "displays_all_categories"
-        it_behaves_like "displays_all_allowed_areas"
-        it_behaves_like "displays_all_option_titles"
-        it_behaves_like "displays_all_rule_options"
+        it_behaves_like "カテゴリー名の表示"
+        it_behaves_like "同伴可能エリアの表示"
+        it_behaves_like "ルール選択肢のタイトルの表示"
+        it_behaves_like "ルール選択肢の表示"
       end
     end
   end
 
-  describe "スポットの検索", js: true do
+  describe "スポットの住所検索", js: true do
     let!(:spot) { create(:spot, :real_spot) }
 
     before do
@@ -520,7 +482,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
     end
 
     context "結果が出ない場所の検索" do
-      shared_examples "display_alert" do
+      shared_examples "アラートの表示" do
         it "アラートが表示される" do
           fill_in "spot_search_input", with: search_spot_name
           click_button "search_button"
@@ -533,21 +495,21 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
         let(:search_spot_name) { "non_existent_spot" }
         let(:alert_message) { "該当するスポットがありませんでした。" }
 
-        it_behaves_like "display_alert"
+        it_behaves_like "アラートの表示"
       end
 
       context "空文字で検索したとき" do
         let(:search_spot_name) { "" }
         let(:alert_message) { "検索ワードを入力してください。" }
 
-        it_behaves_like "display_alert"
+        it_behaves_like "アラートの表示"
       end
 
       context "マップに存在するが、特定ができない場所を検索したとき" do
         let(:search_spot_name) { "東京" }
         let(:alert_message) { "スポットを特定できませんでした。検索ワードを変更してください。" }
 
-        it_behaves_like "display_alert"
+        it_behaves_like "アラートの表示"
       end
 
       context "2度目の検索で検索結果が出ない場合" do
