@@ -47,7 +47,7 @@ jobs:
 
   deploy:
     machine:
-      image: circleci/classic:edge
+      image: ubuntu-2004:2023.04.2
     steps:
       - checkout
       - add_ssh_keys:
