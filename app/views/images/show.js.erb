@@ -15,7 +15,8 @@ var targetListItem = document.getElementById("image_blob_" + image.dataset.image
 var prevBtn = document.getElementsByClassName("js-prev-icon")[0];
 var nextBtn = document.getElementsByClassName("js-next-icon")[0];
 
-var listItems = document.getElementsByClassName("js-image-link-list-item");
+var imageList = targetListItem.closest("ul");
+var listItems = imageList.getElementsByClassName("js-image-link-list-item");
 var firstImage = listItems[0].querySelector("img");
 var lastImage = listItems[listItems.length - 1].querySelector("img");
 
