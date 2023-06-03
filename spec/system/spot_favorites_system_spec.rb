@@ -5,10 +5,10 @@ RSpec.describe "SpotFavoritesSystemSpecs", type: :system do
   let!(:spot) { create(:spot) }
 
   describe "スポットのお気に入り登録", js: true do
-    context "ログインしているとき" do
+    shared_examples "ログインしているときのスポットのお気に入り登録" do
       before do
         sign_in user
-        visit spot_path(spot)
+        visit send(path, target_spot)
       end
 
       context "ログインユーザーがスポットをお気に入り登録していないとき" do
@@ -26,7 +26,7 @@ RSpec.describe "SpotFavoritesSystemSpecs", type: :system do
       context "ログインユーザーがスポットをお気に入り登録しているとき" do
         let!(:spot_favorite) { create(:spot_favorite, user: user, spot: spot) }
 
-        before { visit spot_path(spot) }
+        before { visit send(path, target_spot) }
 
         it "スポットのお気に入り登録を削除できる" do
           expect do
@@ -37,8 +37,8 @@ RSpec.describe "SpotFavoritesSystemSpecs", type: :system do
       end
     end
 
-    context "ログインしていないとき" do
-      before { visit spot_path(spot) }
+    shared_examples "ログインしていないときのスポットのお気に入り登録" do
+      before { visit send(path, target_spot) }
 
       it "ログインページへのリンクが表示される" do
         expect(find(".mark-spot-btns-wrap")).to have_link(href: new_user_session_path)
@@ -48,6 +48,30 @@ RSpec.describe "SpotFavoritesSystemSpecs", type: :system do
         find('.mark-spot-btns-wrap').hover
         expect(page).to have_content("ログインが\n必要です")
       end
+    end
+
+    context "スポット詳細ページで実行するとき" do
+      let(:path) { "spot_path" }
+      let(:target_spot) { spot }
+
+      it_behaves_like "ログインしているときのスポットのお気に入り登録"
+      it_behaves_like "ログインしていないときのスポットのお気に入り登録"
+    end
+
+    context "スポットのレビュー一覧ページで実行するとき" do
+      let(:path) { "spot_reviews_path" }
+      let(:target_spot) { spot }
+
+      it_behaves_like "ログインしているときのスポットのお気に入り登録"
+      it_behaves_like "ログインしていないときのスポットのお気に入り登録"
+    end
+
+    context "スポットの画像一覧ページで実行するとき" do
+      let(:path) { "spot_images_path" }
+      let(:target_spot) { spot }
+
+      it_behaves_like "ログインしているときのスポットのお気に入り登録"
+      it_behaves_like "ログインしていないときのスポットのお気に入り登録"
     end
   end
 end

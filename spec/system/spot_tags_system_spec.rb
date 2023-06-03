@@ -4,13 +4,13 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
   let!(:user) { create(:user) }
   let!(:spot) { create(:spot) }
 
-  describe "スポット詳細ページのタグ表示" do
+  shared_examples "スポット詳細ページのタグ表示" do
     context "ログインしているとき" do
       let!(:spot_tags) { create_list(:spot_tag, 4, user: user, spot: spot).reverse }
 
       before do
         sign_in user
-        visit spot_path(spot)
+        visit send(path, target_spot)
       end
 
       it "登録したタグ名が新しい順に３つまで表示される" do
@@ -29,7 +29,7 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
     end
 
     context "ログインしていないとき" do
-      before { visit spot_path(spot) }
+      before { visit send(path, target_spot) }
 
       it "ログインページへのリンクが表示される" do
         expect(find(".mark-spot-btns-wrap")).to have_link(href: new_user_session_path)
@@ -42,12 +42,12 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
     end
   end
 
-  describe "登録タグの一覧表示" do
+  shared_examples "登録タグの一覧表示" do
     let!(:spot_tags) { create_list(:spot_tag, 3, user: user, spot: spot).reverse }
 
     before do
       sign_in user
-      visit spot_path(spot)
+      visit send(path, target_spot)
       find("#open-tag-list").click
     end
 
@@ -67,7 +67,7 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
     end
   end
 
-  describe "タグ登録フォームの表示" do
+  shared_examples "タグ登録フォームの表示" do
     let!(:another_spot) { create(:spot) }
     let!(:spot_tags) { create_list(:spot_tag, 5, user: user, spot: spot) }
     let!(:another_spot_tags) { create_list(:spot_tag, 6, user: user, spot: another_spot) }
@@ -76,7 +76,7 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
 
     before do
       sign_in user
-      visit spot_path(spot)
+      visit send(path, target_spot)
       find("#open-tag-list").click
       find(".new-tag-link").click
     end
@@ -115,7 +115,7 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
     end
   end
 
-  describe "タグ編集フォームの表示" do
+  shared_examples "タグ編集フォームの表示" do
     let!(:another_spot) { create(:spot) }
     let!(:spot_tags) { create_list(:spot_tag, 5, user: user, spot: spot).reverse }
     let!(:another_spot_tags) { create_list(:spot_tag, 6, user: user, spot: another_spot) }
@@ -125,7 +125,7 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
 
     before do
       sign_in user
-      visit spot_path(spot)
+      visit send(path, target_spot)
       find("#open-tag-list").click
       all(".tag-edit-btn")[0].click
     end
@@ -165,13 +165,13 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
     end
   end
 
-  describe "スポットタグの登録" do
+  shared_examples "スポットタグの登録" do
     let(:spot_tag) { build(:spot_tag) }
     let(:new_spot_tag) { SpotTag.last }
 
     before do
       sign_in user
-      visit spot_path(spot)
+      visit send(path, target_spot)
       find("#open-tag-list").click
       find(".new-tag-link").click
       fill_in "tag-name-input", with: spot_tag.name
@@ -193,13 +193,13 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
     end
   end
 
-  describe "スポットタグの更新" do
+  shared_examples "スポットタグの更新" do
     let!(:spot_tag) { create(:spot_tag, user: user, spot: spot) }
     let(:updated_spot_tag) { build(:spot_tag) }
 
     before do
       sign_in user
-      visit spot_path(spot)
+      visit send(path, target_spot)
       find("#open-tag-list").click
       all(".tag-edit-btn")[0].click
       fill_in "tag-name-input", with: updated_spot_tag.name
@@ -220,12 +220,12 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
     end
   end
 
-  describe "スポットタグの削除" do
+  shared_examples "スポットタグの削除" do
     let!(:spot_tag) { create(:spot_tag, user: user, spot: spot) }
 
     before do
       sign_in user
-      visit spot_path(spot)
+      visit send(path, target_spot)
       find("#open-tag-list").click
     end
 
@@ -236,5 +236,44 @@ RSpec.describe "SpotTagsSystemSpecs", type: :system, js: true do
         expect(find(".tag-list-wrap")).not_to have_content(spot_tag.name)
       end.to change { SpotTag.count }.by(-1)
     end
+  end
+
+  context "スポット詳細ページで実行するとき" do
+    let(:path) { "spot_path" }
+    let(:target_spot) { spot }
+
+    it_behaves_like "スポット詳細ページのタグ表示"
+    it_behaves_like "登録タグの一覧表示"
+    it_behaves_like "タグ登録フォームの表示"
+    it_behaves_like "タグ編集フォームの表示"
+    it_behaves_like "スポットタグの登録"
+    it_behaves_like "スポットタグの更新"
+    it_behaves_like "スポットタグの削除"
+  end
+
+  context "スポットのレビュー一覧ページで実行するとき" do
+    let(:path) { "spot_reviews_path" }
+    let(:target_spot) { spot }
+
+    it_behaves_like "スポット詳細ページのタグ表示"
+    it_behaves_like "登録タグの一覧表示"
+    it_behaves_like "タグ登録フォームの表示"
+    it_behaves_like "タグ編集フォームの表示"
+    it_behaves_like "スポットタグの登録"
+    it_behaves_like "スポットタグの更新"
+    it_behaves_like "スポットタグの削除"
+  end
+
+  context "スポットの画像一覧ページで実行するとき" do
+    let(:path) { "spot_images_path" }
+    let(:target_spot) { spot }
+
+    it_behaves_like "スポット詳細ページのタグ表示"
+    it_behaves_like "登録タグの一覧表示"
+    it_behaves_like "タグ登録フォームの表示"
+    it_behaves_like "タグ編集フォームの表示"
+    it_behaves_like "スポットタグの登録"
+    it_behaves_like "スポットタグの更新"
+    it_behaves_like "スポットタグの削除"
   end
 end

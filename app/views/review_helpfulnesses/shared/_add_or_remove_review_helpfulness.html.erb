@@ -2,5 +2,5 @@
   <%= link_to("", review_helpfulness_btn_path(review, review_helpfulness)) do %>
     <i class="fa-solid fa-thumbs-up review-helpfulness-icon"></i>
   <% end %>
-  <span><%= review.review_helpfulnesses.size %></span>
+  <span><%= review.reload.review_helpfulnesses_count %></span>
 </div>
