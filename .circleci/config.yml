@@ -1,6 +1,5 @@
 version: 2.1
 orbs:
-  build-tools: circleci/build-tools@2.6.3
   node: circleci/node@5.1.0
   ruby: circleci/ruby@1.1.2
 
@@ -54,7 +53,6 @@ jobs:
           install-yarn: true
           node-version: '16.13'
       - ruby/install-deps
-      # - build-tools/install-ci-tools
       - add_ssh_keys:
           fingerprints:
             - 7a:7a:27:66:80:8c:7b:8f:05:b4:4e:83:9a:d8:65:f7
@@ -69,11 +67,10 @@ workflows:
   version: 2.1
   test_and_deploy:
     jobs:
-      # - test
-      - deploy
-      # - deploy:
-      #     requires:
-      #       - test
+      - test
+      - deploy:
+          requires:
+            - test
           # filters:
           #   branches:
           #     only: master
