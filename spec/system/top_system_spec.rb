@@ -83,10 +83,10 @@ RSpec.describe "TopSystemSpecs", type: :system do
 
         before { visit root_path }
 
-        it_behaves_like "カテゴリー名の表示"
-        it_behaves_like "同伴可能エリアの表示"
-        it_behaves_like "地方名の表示"
-        it_behaves_like "県名の表示"
+        include_examples "カテゴリー名の表示"
+        include_examples "同伴可能エリアの表示"
+        include_examples "地方名の表示"
+        include_examples "県名の表示"
       end
 
       describe "みんなのお気に入り" do
@@ -351,10 +351,10 @@ RSpec.describe "TopSystemSpecs", type: :system do
         expect(find(".search-result-title").find("span")).to have_content("（1件）")
       end
 
-      it_behaves_like "対象スポットのデータの表示"
-      it_behaves_like "対象のスポットのレビューの表示"
-      it_behaves_like "対象のスポットの画像の表示"
-      it_behaves_like "マウスオーバーによる大きい画像の表示"
+      include_examples "対象スポットのデータの表示"
+      include_examples "対象のスポットのレビューの表示"
+      include_examples "対象のスポットの画像の表示"
+      include_examples "マウスオーバーによる大きい画像の表示"
     end
 
     describe "スポットの表示順序" do

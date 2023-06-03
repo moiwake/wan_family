@@ -33,10 +33,10 @@ RSpec.describe "UsersSystemSpecs", type: :system do
           expect(page).to have_link("タグをつけたスポット", href: users_mypage_spot_tag_index_path)
         end
 
-        it_behaves_like "対象スポットのデータの表示"
-        it_behaves_like "対象のスポットのレビューの表示"
-        it_behaves_like "対象のスポットの画像の表示"
-        it_behaves_like "マウスオーバーによる大きい画像の表示"
+        include_examples "対象スポットのデータの表示"
+        include_examples "対象のスポットのレビューの表示"
+        include_examples "対象のスポットの画像の表示"
+        include_examples "マウスオーバーによる大きい画像の表示"
       end
 
       describe "スポットの表示順序" do
@@ -200,10 +200,10 @@ RSpec.describe "UsersSystemSpecs", type: :system do
           expect(page).to have_link("お気に入りしたスポット", href: users_mypage_spot_favorite_index_path)
         end
 
-        it_behaves_like "対象スポットのデータの表示"
-        it_behaves_like "対象のスポットのレビューの表示"
-        it_behaves_like "対象のスポットの画像の表示"
-        it_behaves_like "マウスオーバーによる大きい画像の表示"
+        include_examples "対象スポットのデータの表示"
+        include_examples "対象のスポットのレビューの表示"
+        include_examples "対象のスポットの画像の表示"
+        include_examples "マウスオーバーによる大きい画像の表示"
       end
 
       describe "スポットの表示順序" do
@@ -473,10 +473,10 @@ RSpec.describe "UsersSystemSpecs", type: :system do
           visit users_mypage_spot_index_path
         end
 
-        it_behaves_like "対象スポットのデータの表示"
-        it_behaves_like "対象のスポットのレビューの表示"
-        it_behaves_like "対象のスポットの画像の表示"
-        it_behaves_like "マウスオーバーによる大きい画像の表示"
+        include_examples "対象スポットのデータの表示"
+        include_examples "対象のスポットのレビューの表示"
+        include_examples "対象のスポットの画像の表示"
+        include_examples "マウスオーバーによる大きい画像の表示"
       end
 
       describe "スポットの表示順序" do

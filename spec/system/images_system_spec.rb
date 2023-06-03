@@ -75,7 +75,9 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
     end
 
     describe "ページヘッダーの表示" do
-      it_behaves_like "ページヘッダーの表示", "spot_images_path"
+      let(:path) { "spot_images_path" }
+
+      it_behaves_like "ページヘッダーの表示"
       it_behaves_like "画像一覧ページのページヘッダーのタブ"
     end
 
@@ -211,7 +213,6 @@ RSpec.describe "ImagesSystemSpecs", type: :system do
             visit send(path, target_spot)
             click_link order if order
             sleep 0.1
-            binding.pry
             find("a[href$='#{displayed_file.id}']").click
             btn.click
 

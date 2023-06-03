@@ -40,10 +40,10 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
           expect(find(".page-link-wrap")).to have_link("TOP", href: root_path)
         end
 
-        it_behaves_like "カテゴリー名の表示"
-        it_behaves_like "同伴可能エリアの表示"
-        it_behaves_like "ルール選択肢のタイトルの表示"
-        it_behaves_like "ルール選択肢の表示"
+        include_examples "カテゴリー名の表示"
+        include_examples "同伴可能エリアの表示"
+        include_examples "ルール選択肢のタイトルの表示"
+        include_examples "ルール選択肢の表示"
       end
 
       describe "登録内容の入力" do
@@ -145,20 +145,21 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
           expect(page).to have_unchecked_field(rule_options[1].name)
         end
 
-        it_behaves_like "カテゴリー名の表示"
-        it_behaves_like "同伴可能エリアの表示"
-        it_behaves_like "ルール選択肢のタイトルの表示"
-        it_behaves_like "ルール選択肢の表示"
+        include_examples "カテゴリー名の表示"
+        include_examples "同伴可能エリアの表示"
+        include_examples "ルール選択肢のタイトルの表示"
+        include_examples "ルール選択肢の表示"
       end
     end
   end
 
   describe "スポット詳細ページ" do
     let!(:spot) { create(:spot) }
+    let(:path) { "spot_path" }
 
     describe "ページヘッダーの表示" do
-      include_context "スポット詳細ページのページヘッダーのタブ"
-      include_context "ページヘッダーの表示", "spot_path"
+      it_behaves_like "スポット詳細ページのページヘッダーのタブ"
+      it_behaves_like "ページヘッダーの表示"
     end
 
     describe "スポットの投稿画像" do
@@ -231,7 +232,7 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
         within(all(".review-content")[0]) do
           expect do
             find(".review-helpfulness-add-btn").click
-            expect(all(".review-helpfulness-btn-wrap")[0]).to have_content(ordered_reviews[0].review_helpfulnesses.size)
+            expect(all(".review-helpfulness-btn-wrap")[0]).to have_content(ordered_reviews[0].reload.review_helpfulnesses_count)
           end.to change { ReviewHelpfulness.count }.by(1)
 
           expect(ReviewHelpfulness.last.user_id).to eq(user.id)
@@ -339,10 +340,10 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
           expect(find(".page-link-wrap")).to have_link("スポットのページへ戻る", href: spot_path(spot))
         end
 
-        it_behaves_like "カテゴリー名の表示"
-        it_behaves_like "同伴可能エリアの表示"
-        it_behaves_like "ルール選択肢のタイトルの表示"
-        it_behaves_like "ルール選択肢の表示"
+        include_examples "カテゴリー名の表示"
+        include_examples "同伴可能エリアの表示"
+        include_examples "ルール選択肢のタイトルの表示"
+        include_examples "ルール選択肢の表示"
       end
 
       describe "更新内容の入力", js: true do
@@ -382,10 +383,10 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
             expect(page).to have_checked_field(rule_options[1].name)
           end
 
-          it_behaves_like "カテゴリー名の表示"
-          it_behaves_like "同伴可能エリアの表示"
-          it_behaves_like "ルール選択肢のタイトルの表示"
-          it_behaves_like "ルール選択肢の表示"
+          include_examples "カテゴリー名の表示"
+          include_examples "同伴可能エリアの表示"
+          include_examples "ルール選択肢のタイトルの表示"
+          include_examples "ルール選択肢の表示"
         end
       end
     end
@@ -450,10 +451,10 @@ RSpec.describe "SpotsSystemSpecs", type: :system do
           expect(page).to have_unchecked_field(rule_options[0].name)
         end
 
-        it_behaves_like "カテゴリー名の表示"
-        it_behaves_like "同伴可能エリアの表示"
-        it_behaves_like "ルール選択肢のタイトルの表示"
-        it_behaves_like "ルール選択肢の表示"
+        include_examples "カテゴリー名の表示"
+        include_examples "同伴可能エリアの表示"
+        include_examples "ルール選択肢のタイトルの表示"
+        include_examples "ルール選択肢の表示"
       end
     end
   end

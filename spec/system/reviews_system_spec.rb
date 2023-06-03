@@ -136,8 +136,10 @@ RSpec.describe "ReviewsSystemSpecs", type: :system do
     end
 
     describe "ページヘッダーの表示" do
-      include_context "レビュー一覧ページのページヘッダーのタブ"
-      include_context "ページヘッダーの表示", "spot_reviews_path"
+      let(:path) { "spot_reviews_path" }
+
+      it_behaves_like "レビュー一覧ページのページヘッダーのタブ"
+      it_behaves_like "ページヘッダーの表示"
     end
 
     describe "ページネーション" do
