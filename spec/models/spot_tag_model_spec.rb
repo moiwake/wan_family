@@ -72,7 +72,7 @@ RSpec.describe SpotTag, type: :model do
       let(:spot_tags) { create_list(:spot_tag, 3, user: user, spot: spot) }
       let(:spot_tag_ids) { [spot_tags[1].id, spot_tags[2].id, spot_tags[0].id] }
 
-      before { spot_tags[1].update(name: "updated_name") }
+      before { spot_tags[1].update(updated_at: (Time.current + 1)) }
 
       it "更新日、でなければ作成日の降順に並び替えした、引数のuser_idとspot_idを持つSpotTagレコード群を返す" do
         expect(SpotTag.get_tags_user_put_on_spot(user_id: user.id, spot_id: spot.id).ids).to eq(spot_tag_ids)

@@ -144,7 +144,7 @@ RSpec.describe OrderedQueryBase, type: :model do
       context "scopeのレコードの属性にupdated_atカラムが含まれていれば" do
         let(:ordered_scope_ids) { [scope[1].id, scope[2].id, scope[0].id] }
 
-        before { scope[1].update(title: "updated_title") }
+        before { scope[1].update(updated_at: (Time.current + 1)) }
 
         it "scopeのレコード群を、updated_atカラム、created_atカラム、idカラムの降順に並び替える" do
           expect(return_value.ids).to eq(ordered_scope_ids)
