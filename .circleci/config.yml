@@ -65,11 +65,10 @@ workflows:
   version: 2.1
   test_and_deploy:
     jobs:
-      # - test
-      - deploy
-      # - deploy:
-      #     requires:
-      #       - test
+      - test
+      - deploy:
+          requires:
+            - test
           # filters:
           #   branches:
           #     only: master
