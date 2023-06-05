@@ -9,7 +9,6 @@ gem 'rails_admin', '~> 3.0.0'
 gem 'draper'
 gem 'seed-fu'
 gem 'ransack'
-gem 'active_hash'
 gem 'bulma-rails'
 gem 'activestorage-validator'
 gem 'kaminari'
@@ -50,6 +49,7 @@ group :development, :test do
   gem 'rubocop-airbnb'
   gem 'rspec-rails'
   gem 'factory_bot_rails'
+  gem 'rails-erd'
 end
 
 group :development do
