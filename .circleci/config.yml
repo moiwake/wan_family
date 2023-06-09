@@ -46,8 +46,8 @@ jobs:
   deploy:
     docker:
       - image: cimg/ruby:3.1.4-node
-      - environment:
-          PRIVATE_KEY_PATH: $PRIVATE_KEY_PATH
+    environment:
+      PRIVATE_KEY_PATH: $PRIVATE_KEY_PATH
     working_directory: ~/wan_family
     steps:
       - checkout
