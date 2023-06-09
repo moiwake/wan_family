@@ -52,7 +52,7 @@
       </div>
     </div>
     <ul id="js-preview-image-list" class="js-preview-display field"></ul>
-    <% if resource.review.image %>
+    <% if form_image_saved?(resource) %>
       <div class="image-delete-checkbox">
         <div class="image-delete-title">
           <i class="fa-solid fa-trash"></i>

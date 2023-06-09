@@ -49,7 +49,7 @@ RSpec.describe ImageLikeHelper, type: :helper do
     end
   end
 
-  describe "#image_liked?" do
+  describe "#count_image_blob_likes?" do
     before { create_list(:image_like, 3, image_id: image.id, blob_id: image_blob.id) }
 
     it "引数に渡したBlobレコードのidと、blob_idカラムの値が同じImageLikeレコードの数を返す" do
