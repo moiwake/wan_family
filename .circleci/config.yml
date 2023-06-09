@@ -60,7 +60,7 @@ jobs:
           command:
             touch ~/.ssh/$PRIVATE_KEY_PATH
             eval 'ssh-agent'
-            echo $PRIVATE_KEY | base64 -d >> ~/.ssh/$PRIVATE_KEY_PATH
+            echo $SSH_PRIVATE_KEY | base64 -d >> ~/.ssh/$PRIVATE_KEY_PATH
             chmod 600 ~/.ssh/$PRIVATE_KEY_PATH
             ssh-add ~/.ssh/$PRIVATE_KEY_PATH
       - add_ssh_keys:
