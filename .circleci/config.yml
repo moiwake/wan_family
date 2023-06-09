@@ -46,6 +46,8 @@ jobs:
   deploy:
     docker:
       - image: cimg/ruby:3.1.4-node
+      - environment:
+          PRIVATE_KEY_PATH: $PRIVATE_KEY_PATH
     working_directory: ~/wan_family
     steps:
       - checkout
@@ -53,12 +55,17 @@ jobs:
           install-yarn: true
           node-version: '16.13'
       - ruby/install-deps
+      - run:
+          name: SSH add keys
+          command: |
+            touch ~/.ssh/$PRIVATE_KEY_PATH
+            eval 'ssh-agent'
+            echo $PRIVATE_KEY | base64 -d >> ~/.ssh/$PRIVATE_KEY_PATH
+            chmod 600 ~/.ssh/$PRIVATE_KEY_PATH
+            ssh-add ~/.ssh/$PRIVATE_KEY_PATH
       - add_ssh_keys:
           fingerprints:
-            - 7a:7a:27:66:80:8c:7b:8f:05:b4:4e:83:9a:d8:65:f7
-      - run:
-          name: Bundle install
-          command: bundle install
+            - $FINGERPRINTS
       - run:
           name: Capistrano deploy
           command: bundle exec cap production deploy BRANCH=feature22/aws_deploy
