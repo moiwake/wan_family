@@ -20,6 +20,8 @@
 .search-links-wrap a {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 100%;
   font-size: 20px;
 } @media screen and (max-width: 1024px) {
   .search-links-wrap a {
