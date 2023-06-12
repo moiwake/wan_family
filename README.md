@@ -82,6 +82,7 @@ https://github.com/moiwake/wan_family/assets/96972283/2ee41adc-30fb-4a60-b558-42
 - スポットの詳細表示
 - スポットに投稿された画像一覧ページ
 - スポットに投稿されたレビュー一覧ページ
+![spot_info](https://github.com/moiwake/wan_family/assets/96972283/53e3c153-73d5-450d-9bd7-76ea01289d65)
 
 ### スポットをマーキングする
 - スポットのお気に入り登録(Ajax)
