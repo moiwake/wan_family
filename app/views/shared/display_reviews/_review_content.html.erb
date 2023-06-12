@@ -6,7 +6,7 @@
       <%= render "shared/display_reviews/review_rating", dog_score: review.dog_score, human_score: review.human_score %>
     </div>
     <div class="review-comment block">
-      <%= review.comment %>
+      <%= safe_join(review.comment.split("\n"),tag(:br)) %>
     </div>
     <% if review.image %>
       <figure class="review-images-wrap">
