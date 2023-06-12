@@ -1,7 +1,7 @@
 <section class="spot-list-wrap js-spot-list">
   <% if spots.present? %>
     <% spots.each do |spot| %>
-      <%= link_to spot_path(spot.id), class: "list-content card block" do %>
+      <%= link_to spot_path(spot.id), class: "list-content card block", 'data-turbolinks': false do %>
         <div class="spot-images js-spot-images">
           <div class="large-image js-large-image"><img src="" alt=""></div>
           <div class="small-image js-small-image">

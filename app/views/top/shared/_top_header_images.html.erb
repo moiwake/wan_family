@@ -1,6 +1,6 @@
 <% spots.each_with_index do |spot, i| %>
   <div class="top-content column">
-    <%= link_to spot_path(spot) do %>
+    <%= link_to spot_path(spot), 'data-turbolinks': false do %>
       <%= render "shared/display_images/limited_ranked_image_blobs", parent_record: spot.images, limit: 1, width: width, height: height %>
       <div class="ribbon"><%= i + add_number %>位</div>
       <div class="top-spot-name-wrap title is-6">

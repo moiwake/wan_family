@@ -3,7 +3,7 @@
   <ul>
     <% ranked_spots.each do |spot| %>
       <li class="popular-spot-list-item">
-        <%= link_to spot_path(spot.id) do %>
+        <%= link_to spot_path(spot.id), 'data-turbolinks': false do %>
           <%= render "shared/display_images/limited_ranked_image_blobs", parent_record: spot.images, limit: 1, width: 250, height:250 %>
           <div class="popular-spot-name title is-6"><%= spot.name %></div>
           <div class="breadcrumb is-small" aria-label="breadcrumbs">

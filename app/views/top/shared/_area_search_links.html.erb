@@ -3,7 +3,7 @@
   <ul>
     <% regions.each_with_index do |region, i| %>
       <li class="region-card card">
-        <%= link_to word_search_path(q: { and: { prefecture_id_matches_any: region.prefectures.ids } }) do %>
+        <%= link_to word_search_path(q: { and: { prefecture_id_matches_any: region.prefectures.ids } }), 'data-turbolinks': false do %>
             <%= image_tag "region/#{i}.jpg" if image_show %>
             <p class="region-name"><%= region.name %><span>（<%= region.decorate.spot_total %>件）</span></p>
         <% end %>

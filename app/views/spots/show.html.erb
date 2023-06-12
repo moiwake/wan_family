@@ -17,7 +17,7 @@
         <%= render "shared/display_reviews/review_list", reviews: @reviews %>
         <% if @spot.reviews.any? %>
           <div class="article-link">
-            <%= link_to spot_reviews_path(@spot) do %>
+            <%= link_to spot_reviews_path(@spot), 'data-turbolinks': false do %>
               <span>レビューをもっと見る</span>
               <i class="fa-solid fa-chevron-right article-link-icon"></i>
             <% end %>

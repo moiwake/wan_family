@@ -8,7 +8,7 @@
   </div>
   <div class="right-contents-wrap">
     <div class="new-review-btn">
-      <%= link_to "レビューを投稿する", new_spot_review_path(@spot), class: "button" %>
+      <%= link_to "レビューを投稿する", new_spot_review_path(@spot), class: "button", 'data-turbolinks': false %>
     </div>
     <%= render "spots/shared/search_links", spot: @spot %>
   </div>

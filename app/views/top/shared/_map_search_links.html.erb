@@ -3,7 +3,7 @@
   <div class="map-links-box">
     <ul>
       <% @regions.each do |region| %>
-        <li class="map-link-btn button"><%= link_to region.name, map_search_path(region: region.name_roma) %></li>
+        <li class="map-link-btn button"><%= link_to region.name, map_search_path(region: region.name_roma), 'data-turbolinks': false %></li>
       <% end %>
     </ul>
     <%= image_tag "map.jpg", class: "map-links-box-background" %>

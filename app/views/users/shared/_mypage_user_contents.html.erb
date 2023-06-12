@@ -12,21 +12,21 @@
   </div>
   <ul class="user-media-body">
     <li>
-      <%= link_to "プロフィール編集", users_mypage_profile_edit_path %>
+      <%= link_to "プロフィール編集", users_mypage_profile_edit_path, 'data-turbolinks': false %>
     </li>
     <li>
-      <%= link_to "アカウント設定", edit_user_registration_path %>
+      <%= link_to "アカウント設定", edit_user_registration_path, 'data-turbolinks': false %>
     </li>
     <li>
-      <%= link_to "登録・更新したスポット", users_mypage_spot_index_path %>
+      <%= link_to "登録・更新したスポット", users_mypage_spot_index_path, 'data-turbolinks': false %>
       <span class="count"><%= current_user.spots.size %></span>
     </li>
     <li>
-      <%= link_to "投稿したレビュー", users_mypage_review_index_path %>
+      <%= link_to "投稿したレビュー", users_mypage_review_index_path, 'data-turbolinks': false %>
       <span class="count"><%= current_user.reviews.size %></span>
     </li>
     <li>
-      <%= link_to "投稿した画像", users_mypage_image_index_path %>
+      <%= link_to "投稿した画像", users_mypage_image_index_path, 'data-turbolinks': false %>
       <span class="count"><%= current_user.decorate.total_of_images_posted_by_user %></span>
     </li>
   </ul>
