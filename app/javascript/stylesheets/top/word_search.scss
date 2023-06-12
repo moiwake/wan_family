@@ -60,10 +60,16 @@
 
 .area-search-wrap li {
   margin-bottom: 0.5rem;
-  padding: 0.5rem;
+  height: 35px;
   font-size: 15px;
+}
+
+.area-search-wrap a {
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .area-search-wrap img {
