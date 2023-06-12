@@ -2,8 +2,7 @@
  Wan-family（ワン・ファミリー）は、ペットと一緒に遊びに行けるスポットを、検索・保存・共有できるサイトです。<br>
  ユーザー自身でスポットの登録ができ、レビュー・写真の投稿もできます。<br>
  レスポンシブ対応をしているので、スマホからもご覧いただけます。<br>
-
-https://github.com/moiwake/wan_family/assets/96972283/a12f8067-89c5-4c4c-9f67-b89af65c3f27
+![wan-family-app com_ (2)](https://github.com/moiwake/wan_family/assets/96972283/71765c04-e899-4ee9-90a9-67155c19aaa0)
 
 ## こだわりのポイント
 このアプリのテーマは、飼い主とペットが一緒に楽しい思い出を作れる場所を見つけることです。<br>
@@ -61,7 +60,7 @@ http://wan-family-app.com
 - masterブランチへのpushは、RspecとRubocopが成功した場合に、EC2への自動デプロイが実行されます。
 
 # ER図
-[ER図.pdf](https://github.com/moiwake/wan_family/files/11645124/ER.pdf)
+![ER図](https://github.com/moiwake/wan_family/assets/96972283/18450039-544f-42d7-a56c-a3ff80d75eff)
 
 # 機能一覧
 ## 基本機能
