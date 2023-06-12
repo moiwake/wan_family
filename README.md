@@ -55,7 +55,8 @@ http://wan-family-app.com
 - GitHub
 
 # インフラ構成図
-![インフラ構成図（Wan-family）](https://github.com/moiwake/wan_family/assets/96972283/82d317f7-6066-4645-90a8-f60adb7515ea)
+![インフラ構成図（Wan-Family）](https://github.com/moiwake/wan_family/assets/96972283/f0609ae8-a26e-41aa-b42a-eb1436b056cf)
+
 ## CircleCi CI/CD
 - Githubへのpush時に、RspecとRubocopが自動で実行されます。
 - masterブランチへのpushは、RspecとRubocopが成功した場合に、EC2への自動デプロイが実行されます。
