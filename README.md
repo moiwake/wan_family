@@ -1,8 +1,9 @@
 # Wan-Family
+![wan-family-app com_ (2)](https://github.com/moiwake/wan_family/assets/96972283/71765c04-e899-4ee9-90a9-67155c19aaa0)
+
  Wan-family（ワン・ファミリー）は、ペットと一緒に遊びに行けるスポットを、検索・保存・共有できるサイトです。<br>
  ユーザー自身でスポットの登録ができ、レビュー・写真の投稿もできます。<br>
- レスポンシブ対応をしているので、スマホからもご覧いただけます。<br>
-![wan-family-app com_ (2)](https://github.com/moiwake/wan_family/assets/96972283/71765c04-e899-4ee9-90a9-67155c19aaa0)
+ レスポンシブ対応をしているので、スマホからもご覧いただけます。
 
 ## こだわりのポイント
 このアプリのテーマは、飼い主とペットが一緒に楽しい思い出を作れる場所を見つけることです。<br>
@@ -13,7 +14,7 @@
 また、お出かけは計画しているときから楽しい気持ちでしたいもの。<br>
 そこで、計画を立てるときに便利な機能を実装しています。<br>
 - スポットのお気に入り機能（登録したスポットを一覧で見られる）<br>
-- スポットに任意の名前のタグを付けられる機能（登録したタグごとにスポットを一覧で見られる）
+- スポットに任意の名前のタグを付けられる機能（登録したタグごとにスポットを一覧で見られる）<br>
 - 外部サイトの検索リンクを設置
 
 ## URL
@@ -66,19 +67,22 @@ http://wan-family-app.com
 ## 基本機能
 ### スポットを登録・更新する
 - 施設名検索による住所の自動入力(Google Maps API)
+
+https://github.com/moiwake/wan_family/assets/96972283/31ad8646-6569-4257-b646-241cabe7eb18
+
 ### スポットを検索する
 - キーワード検索(ransack)
 - エリア検索(ransack)
 - マップ検索(Google Maps API)
 
-https://github.com/moiwake/wan_family/assets/96972283/2d1cb2b7-b0bf-49d1-b338-d09e4a149c04
+https://github.com/moiwake/wan_family/assets/96972283/349c0630-883e-4bbb-bccc-cd116496b142
 
 ### スポットをマーキングする
 - スポットのお気に入り登録(Ajax)
   - ランキング機能
 - スポットへのタグ付け(Ajax)
 
-https://github.com/moiwake/wan_family/assets/96972283/83e88b30-26af-490d-86e5-f73a63cbf552
+https://github.com/moiwake/wan_family/assets/96972283/c1bad1fb-a741-48a9-9166-d8b48a411cc0
 
 ### レビュー・画像を投稿する
 - レビュー投稿
@@ -87,7 +91,7 @@ https://github.com/moiwake/wan_family/assets/96972283/83e88b30-26af-490d-86e5-f7
   - 画像のいいね投稿(Ajax)
     - ランキング機能
 
-https://github.com/moiwake/wan_family/assets/96972283/d8c62d8f-5f10-4841-8988-d0973d349fe2
+https://github.com/moiwake/wan_family/assets/96972283/a9bc783b-624e-4f97-ab8c-3ab875d775ec
 
 ### マイページ
 - お気に入りしたスポット一覧表示
@@ -95,6 +99,9 @@ https://github.com/moiwake/wan_family/assets/96972283/d8c62d8f-5f10-4841-8988-d0
 - 登録・更新したスポット一覧表示
 - 投稿したレビュー一覧表示
 - 投稿した画像一覧表示
+
+https://github.com/moiwake/wan_family/assets/96972283/b8fd8fec-0e5a-4df5-8bdd-5beaa07d48e9
+
 ### その他
 - スポット詳細ページの閲覧数によるランキング機能(impressionist)
 - ページネーション機能(kaminari)
