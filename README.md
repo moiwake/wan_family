@@ -76,7 +76,7 @@ https://github.com/moiwake/wan_family/assets/96972283/31ad8646-6569-4257-b646-24
 - エリア検索(ransack)
 - マップ検索(Google Maps API)
 
-https://github.com/moiwake/wan_family/assets/96972283/349c0630-883e-4bbb-bccc-cd116496b142
+https://github.com/moiwake/wan_family/assets/96972283/2ee41adc-30fb-4a60-b558-42d37db03b3d
 
 ### スポットをマーキングする
 - スポットのお気に入り登録(Ajax)
