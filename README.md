@@ -1,7 +1,7 @@
 # Wan-Family
 ![wan-family-app com_ (2)](https://github.com/moiwake/wan_family/assets/96972283/71765c04-e899-4ee9-90a9-67155c19aaa0)
 
- Wan-family（ワン・ファミリー）は、ペットと一緒に遊びに行けるスポットを、検索・保存・共有できるサイトです。<br>
+ Wan-Family（ワン・ファミリー）は、ペットと一緒に遊びに行けるスポットを、検索・保存・共有できるサイトです。<br>
  ユーザー自身でスポットの登録ができ、レビュー・写真の投稿もできます。<br>
  レスポンシブ対応をしているので、スマホからもご覧いただけます。
 
@@ -24,8 +24,8 @@ http://wan-family-app.com
 スポットのお気に入り・タグの登録、レビュー・画像の評価はログインが必要になります。
 
 ### テスト用アカウント
-メールアドレス： test01@email.com<br>
-パスワード : test01
+メールアドレス： user01@email.com<br>
+パスワード : user01
 
 # 使用技術
 ## フロントエンド
@@ -46,8 +46,7 @@ http://wan-family-app.com
 - AWS
   - VPC
   - EC2
-  - RDS
-  - Route53 
+  - Route53
   - S3
 ## テスト
 - RSpec
@@ -73,10 +72,16 @@ https://github.com/moiwake/wan_family/assets/96972283/31ad8646-6569-4257-b646-24
 
 ### スポットを検索する
 - キーワード検索(ransack)
+- 詳細条件検索(ransack)
 - エリア検索(ransack)
 - マップ検索(Google Maps API)
 
 https://github.com/moiwake/wan_family/assets/96972283/2ee41adc-30fb-4a60-b558-42d37db03b3d
+
+### スポットの詳細情報を見る
+- スポットの詳細表示
+- スポットに投稿された画像一覧ページ
+- スポットに投稿されたレビュー一覧ページ
 
 ### スポットをマーキングする
 - スポットのお気に入り登録(Ajax)
@@ -106,10 +111,13 @@ https://github.com/moiwake/wan_family/assets/96972283/b8fd8fec-0e5a-4df5-8bdd-5b
 ### その他
 - スポット詳細ページの閲覧数によるランキング機能(impressionist)
 - ページネーション機能(kaminari)
+- スポット・レビュー・画像を作成日（もしくは更新日）の降順・昇順、好評が多い順に並べ替えて表示する機能
+- 画像の拡大表示機能(Ajax)
 ## 認証機能(devise)
 - ユーザー登録
-- ログイン
-- パスワードの再設定
+- プロフィール登録
+- ログイン・ログアウト
+- パスワードの再設定（メール送信）
 ## 管理者機能(rails-admin)
 - レコード管理
 
@@ -117,12 +125,12 @@ https://github.com/moiwake/wan_family/assets/96972283/b8fd8fec-0e5a-4df5-8bdd-5b
 ## RSpec
 ### 単体テスト
 - model
-- forms
-- queries
-- services
-- presenters
-- decorators
-- helpers
+- form
+- query
+- service
+- presenter
+- decorator
+- helper
 ### 機能テスト
 - request
 ### 統合テスト
@@ -133,6 +141,7 @@ https://github.com/moiwake/wan_family/assets/96972283/b8fd8fec-0e5a-4df5-8bdd-5b
 - Visual Studio Code
 - Draw.io
 - Fontawesome
+- お名前.com
 
 # 今後の実装したい機能
 - 現在地や指定地点の周辺にあるスポットを検索できる機能
