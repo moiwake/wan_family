@@ -1,5 +1,5 @@
 # Wan-Family
-![wan-family-app com_ (2)](https://github.com/moiwake/wan_family/assets/96972283/71765c04-e899-4ee9-90a9-67155c19aaa0)
+![top](https://github.com/moiwake/wan_family/assets/96972283/a3d31b53-71c0-4ccc-8932-b56e9a01f5bd)
 
  Wan-Family（ワン・ファミリー）は、ペットと一緒に遊びに行けるスポットを、検索・保存・共有できるサイトです。<br>
  ユーザー自身でスポットの登録ができ、レビュー・写真の投稿もできます。<br>
