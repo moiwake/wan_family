@@ -18,14 +18,9 @@
 - 外部サイトの検索リンクを設置
 
 ## URL
-http://wan-family-app.com
+https://wan-family-app.com
 
-スポットの検索や、スポットの詳細情報・レビュー・写真の閲覧は、ログインせずに利用できます。<br>
-スポットのお気に入り・タグの登録、レビュー・画像の評価はログインが必要になります。
-
-### テスト用アカウント
-メールアドレス： user01@email.com<br>
-パスワード : user01
+ヘッダーのゲスト用リンクからログインできます。
 
 # 使用技術
 ## フロントエンド
@@ -47,6 +42,8 @@ http://wan-family-app.com
   - VPC
   - EC2
   - Route53
+  - AWS Certificate Manager
+  - Elastic Load Balancing
   - S3
 ## テスト
 - RSpec
@@ -54,7 +51,7 @@ http://wan-family-app.com
 - GitHub
 
 # インフラ構成図
-![インフラ構成図（Wan-Family）](https://github.com/moiwake/wan_family/assets/96972283/f0609ae8-a26e-41aa-b42a-eb1436b056cf)
+![インフラ構成図（Wan-family）](https://github.com/moiwake/wan_family/assets/96972283/422b3e22-9385-478f-97d2-ea479634080a)
 
 ## CircleCi CI/CD
 - Githubへのpush時に、RspecとRubocopが自動で実行されます。
@@ -117,7 +114,7 @@ https://github.com/moiwake/wan_family/assets/96972283/b8fd8fec-0e5a-4df5-8bdd-5b
 ## 認証機能(devise)
 - ユーザー登録
 - プロフィール登録
-- ログイン・ログアウト
+- ログイン（ゲストログイン機能あり）・ログアウト
 - パスワードの再設定（メール送信）
 ## 管理者機能(rails-admin)
 - レコード管理
