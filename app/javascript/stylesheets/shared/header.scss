@@ -15,10 +15,16 @@
   margin-left: auto;
 }
 
+.guest-login-link i {
+  margin-right: 3px;
+  margin-bottom: 2px;
+}
+
 .header-username {
   color: #ffffff;
   text-shadow: 1px 1px 3px #8a6363;
   font-size: 17px;
+  margin-right: 5px
 }
 
 .navbar-burger {
@@ -88,12 +94,14 @@
 
 .search-form-open-btn {
   color: #a5a59f;
-  position: absolute;
-  right: 80px;
 } @media screen and (min-width: 600px) {
   .search-form-open-btn {
     display: none;
   }
+}
+
+.search-form-open-btn i {
+  transform: scale(1.2);
 }
 
 @media screen and (min-width: 600px) {

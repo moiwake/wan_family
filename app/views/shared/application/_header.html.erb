@@ -8,11 +8,11 @@
           <% end %>
         </div>
         <%= render "shared/application/header_search_form", q: q, categories: categories, allowed_areas: allowed_areas, regions: regions %>
-        <span class="icon is-small is-left search-form-open-btn js-trigger-search-form-open-btn">
-          <i class="fas fa-search"></i>
-        </span>
         <div class="right-navbar-items">
           <span class="navbar-item header-username"><%= current_user.name if current_user %></span>
+          <span class="navbar-item search-form-open-btn js-trigger-search-form-open-btn">
+            <i class="fas fa-search"></i>
+          </span>
           <span class="navbar-burger burger js-trigger-burger" data-target="navbarMenuHeroC">
             <span></span>
             <span></span>

@@ -6,12 +6,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   before_action :ensure_normal_user, only: :destroy
 
-  def ensure_normal_user
-    if resource.email == 'guest@example.com'
-      redirect_to root_path, alert: 'ゲストユーザーは削除できません。'
-    end
-  end
-
   # GET /resource/sign_up
   # def new
   #   super
@@ -46,7 +40,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  # protected
+  protected
+
+  def ensure_normal_user
+    if resource.email == 'guest@example.com'
+      redirect_to root_path, alert: 'ゲストユーザーは削除できません。'
+    end
+  end
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_sign_up_params

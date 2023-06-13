@@ -62,5 +62,10 @@
 
 .account-help-links-wrap a {
   margin-bottom: 10px;
-  display: inline-block;
+}
+
+.account-help-links-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
