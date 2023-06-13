@@ -188,4 +188,22 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe "#guest" do
+    context "ゲストユーザー用のメールアドレスが登録されたUserレコードが存在するとき" do
+      let!(:guest_user) { create(:user, email: "guest@example.com") }
+
+      it "ゲストユーザーのUserレコードを返す" do
+        expect(User.guest).to eq(guest_user)
+      end
+    end
+
+    context "ゲストユーザー用のメールアドレスが登録されたUserレコードが存在するとき" do
+      let(:guest_user_email) { "guest@example.com" }
+
+      it "ゲストユーザーのUserレコードを作成して返す" do
+        expect(User.guest.email).to eq(guest_user_email)
+      end
+    end
+  end
 end

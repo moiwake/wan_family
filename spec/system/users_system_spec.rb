@@ -932,24 +932,38 @@ RSpec.describe "UsersSystemSpecs", type: :system do
       end
     end
 
-    describe "アカウントの削除", js: true do
+    describe "アカウントの削除" do
       before { click_link "アカウントの削除" }
 
-      context "confirmダイアログでOKをクリックすると" do
-        it "アカウントを削除できて、ホーム画面に遷移する" do
-          expect do
-            expect(page.accept_confirm).to eq("本当に削除しますか？")
-            expect(page).to have_content("アカウントを削除しました。またのご利用をお待ちしております。")
-            expect(current_path).to eq(root_path)
-          end.to change { User.count }.by(-1)
+      context "ゲストユーザー以外がログインしているとき", js: true do
+        context "confirmダイアログでOKをクリックすると" do
+          it "アカウントを削除できて、ホーム画面に遷移する" do
+            expect do
+              expect(page.accept_confirm).to eq("本当に削除しますか？")
+              expect(page).to have_content("アカウントを削除しました。またのご利用をお待ちしております。")
+              expect(current_path).to eq(root_path)
+            end.to change { User.count }.by(-1)
+          end
+        end
+
+        context "confirmダイアログでキャンセルをクリックすると" do
+          it "アカウントは削除されない" do
+            expect do
+              expect(page.dismiss_confirm).to eq("本当に削除しますか？")
+            end.to change { User.count }.by(0)
+          end
         end
       end
 
-      context "confirmダイアログでキャンセルをクリックすると" do
-        it "アカウントは削除されない" do
-          expect do
-            expect(page.dismiss_confirm).to eq("本当に削除しますか？")
-          end.to change { User.count }.by(0)
+      context "ゲストユーザーがログインしているとき" do
+        let!(:user) { User.guest }
+
+        it "ゲストユーザーのアカウントは削除されない" do
+          expect(user.persisted?).to eq(true)
+        end
+
+        it "アラートが表示される" do
+          expect(page).to have_content("ゲストユーザーは削除できません。")
         end
       end
     end

@@ -41,12 +41,30 @@ RSpec.describe "ApplicationSystemSpec", type: :system do
       end
     end
 
+    describe "ログインユーザー名" do
+      let!(:user) { create(:user) }
+
+      before do
+        sign_in user
+        visit current_path
+      end
+
+      it "ログインユーザー名が表示される" do
+        expect(page).to have_content(user.name)
+      end
+    end
+
     describe "メニューリンク" do
       let!(:user) { create(:user) }
       let!(:admin) { create(:admin) }
 
       describe "ログイン状況" do
         context "ログインしていないとき" do
+          it "ゲストユーザーのログインリンクからログインできる" do
+            click_link "ゲストログイン"
+            expect(page).to have_content("ゲストユーザー")
+          end
+
           it "ユーザー新規登録ページへのリンクがある" do
             expect(page).to have_link(href: new_user_registration_path)
           end
