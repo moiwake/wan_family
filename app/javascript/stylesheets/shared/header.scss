@@ -10,24 +10,21 @@
   align-items: center;
 }
 
-.navbar-item:hover {
-  color: #574a4a !important;
-}
-
 .right-navbar-items {
   display: flex;
   margin-left: auto;
 }
 
 .header-username {
-  color: #7a7a7a;
+  color: #ffffff;
+  text-shadow: 1px 1px 3px #8a6363;
   font-size: 17px;
 }
 
 .navbar-burger {
   width: 70px;
   height: 70px;
-  color: #6e4a4a;
+  color: #5a543b;
   margin-left: 0;
 }
 
@@ -43,6 +40,10 @@
     background-color: #fffff6;
     width: 100%;
   }
+}
+
+.header-search-wrap .navbar-item:hover {
+  color: #574a4a !important;
 }
 
 @media screen and (max-width: 600px) {
