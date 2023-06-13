@@ -29,4 +29,11 @@ class User < ApplicationRecord
     message: 'は英字と数字の両方を含めて設定してください', if: :password_required?,
     allow_blank: true,
   }
+
+  def self.guest
+    find_or_create_by!(email: 'guest@example.com') do |user|
+      user.password = SecureRandom.hex
+      user.name = "ゲストユーザー"
+    end
+  end
 end

@@ -11,11 +11,14 @@
         <span class="icon is-small is-left search-form-open-btn js-trigger-search-form-open-btn">
           <i class="fas fa-search"></i>
         </span>
-        <span class="navbar-burger burger js-trigger-burger" data-target="navbarMenuHeroC">
-          <span></span>
-          <span></span>
-          <span></span>
-        </span>
+        <div class="right-navbar-items">
+          <span class="navbar-item header-username"><%= current_user.name if current_user %></span>
+          <span class="navbar-burger burger js-trigger-burger" data-target="navbarMenuHeroC">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </div>
       </div>
       <div id="navbarMenuHeroC" class="navbar-menu">
         <div class="navbar-end">
