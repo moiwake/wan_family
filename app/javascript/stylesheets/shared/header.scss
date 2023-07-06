@@ -96,7 +96,7 @@
   color: #a5a59f;
 } @media screen and (min-width: 600px) {
   .search-form-open-btn {
-    display: none;
+    display: none !important;
   }
 }
 
